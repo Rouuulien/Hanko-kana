@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hanko · kana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+/* VOICE: friendly dojo coach — Daru the daruma talks, short and warm, in French
+   IDEA: an eki stamp-rally trail: each lesson is a hanko to press, Daru paints his second eye at the end
+   PICTURE: Daru beside the next lesson's kana, huge on a vermilion field; a zigzag stamp trail below
+   COLOUR and TYPE: vermilion + sumi ink + a little gold on white; Zen Maru Gothic for kana and titles, Outfit for text
+   LAYOUT: top bar, hero, figures, segmented nav (Parcours / Tableau / Mots); quiz in one calm column with Daru reacting */
+:root{color-scheme:light dark;--bg:light-dark(#fbfaf8,#141317);--card:light-dark(#fff,#1e1c22);--ink:light-dark(#1d1b20,#f2eee8);--mut:light-dark(#6b6670,#a8a2ab);--line:light-dark(#e8e3de,#34303a);--ac:light-dark(#e3402a,#ff6249);--hero:light-dark(#e3402a,#a92f1b);--gold:#f2b33d;--ok:light-dark(#1f7a4b,#5cc98a);--bad:light-dark(#b3261e,#ff8a80);--sh:0 18px 40px -26px rgba(40,10,0,.5)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Outfit,system-ui,sans-serif;overflow-x:clip}
+[lang=ja]{font-family:"Zen Maru Gothic","Hiragino Maru Gothic ProN",sans-serif}
+h1,h2,h3{font-family:"Zen Maru Gothic",Outfit,sans-serif;line-height:1.1;margin:0;text-wrap:balance}
+h1{font-size:clamp(32px,5vw,48px);font-weight:900}h2{font-size:22px}h3{font-size:19px}
+.band{padding:clamp(22px,4vw,52px) max(5vw,16px)}
+.wrap{max-width:1100px;margin:0 auto}.narrow{max-width:640px}
+.mut{color:var(--mut)}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--ac) 60%,transparent);outline-offset:2px}
+.btn{min-height:50px;padding:0 26px;border-radius:999px;border:0;background:var(--ink);color:var(--bg);font-weight:600;font-size:16px;box-shadow:0 4px 0 color-mix(in srgb,var(--ink) 55%,#000);transition:transform .08s,box-shadow .08s}
+.btn:active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 color-mix(in srgb,var(--ink) 55%,#000)}
+.btn.wh{background:#fff;color:#b8301d;box-shadow:0 4px 0 #8f2515}.btn.ac{background:var(--ac);color:#fff;box-shadow:0 4px 0 color-mix(in srgb,var(--ac) 60%,#000)}
+.btn.gh{background:transparent;color:var(--ink);border:2px solid var(--line);box-shadow:none}
+.btn.danger{background:var(--bad);color:#fff;box-shadow:none}.btn:disabled{opacity:.4;cursor:default}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px max(5vw,16px);background:var(--bg);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.brand{display:flex;align-items:center;gap:10px;font:900 22px "Zen Maru Gothic",sans-serif}
+.tstats{display:flex;align-items:center;gap:10px}
+.pill{display:flex;align-items:center;gap:6px;min-height:38px;padding:0 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-weight:600;white-space:nowrap}
+.pill svg{width:18px;height:18px}
+.ic{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);display:grid;place-items:center}
+/* hero */
+.hero{background:var(--hero);color:#fff;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;border:40px solid rgba(255,255,255,.07)}
+.hero-g{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(20px,4vw,48px);align-items:center;position:relative;z-index:1}
+.kick{margin:0 0 6px;font-weight:500;opacity:.9}
+.big-k{font:900 clamp(58px,10vw,120px)/1 "Zen Maru Gothic",sans-serif;letter-spacing:.06em;margin:14px 0 22px;overflow-wrap:anywhere;text-shadow:0 6px 0 rgba(0,0,0,.12)}
+.rev{background:var(--card);color:var(--ink);border-radius:26px;padding:22px;display:grid;gap:6px;box-shadow:var(--sh)}
+.rev-n{font:900 clamp(52px,8vw,72px)/1 "Zen Maru Gothic",sans-serif;color:var(--ac)}.rev p{margin:0}.rev .btn{margin-top:10px;justify-self:start}
+/* mascot */
+.mascot{display:flex;align-items:flex-end;gap:12px}
+.daru{flex:none;overflow:visible}.daru.bob{animation:bob 3s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-4px) rotate(-2deg)}}
+.bubble{position:relative;background:var(--card);color:var(--ink);border-radius:20px 20px 20px 6px;padding:12px 16px;font-size:16px;box-shadow:var(--sh);max-width:46ch;margin-bottom:22px}
+.bubble b{color:var(--ac)}.bubble .w{font-size:22px;font-weight:700}
+.hero .mascot{margin-bottom:6px}
+/* figures + nav */
+.figs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.fig1{border:1px solid var(--line);background:var(--card);border-radius:18px;padding:14px 16px}
+.fig1 b{display:block;font:900 28px/1.1 "Zen Maru Gothic",sans-serif;white-space:nowrap}.fig1 span{color:var(--mut);font-size:14px}
+.seg{display:flex;gap:4px;padding:4px;border-radius:999px;background:var(--card);border:1px solid var(--line);width:max-content;max-width:100%;margin:0 auto 8px}
+.seg button{min-height:44px;padding:0 20px;border-radius:999px;border:0;background:none;font-weight:600;color:var(--mut)}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+/* trail */
+.unit{margin:26px auto 0;max-width:560px}
+.uhead{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:20px;background:var(--card);border:1px solid var(--line)}
+.uhead.full{background:color-mix(in srgb,var(--ac) 10%,var(--card));border-color:color-mix(in srgb,var(--ac) 30%,var(--line))}
+.uhead .ub{flex:1}.ubar{height:8px;border-radius:4px;background:var(--line);margin-top:8px;overflow:hidden}.ubar i{display:block;height:100%;background:var(--ac)}
+.trail{display:grid;justify-items:center;gap:14px;padding:22px 0 6px}
+.stp{width:132px;background:none;border:0;padding:0;display:flex;flex-direction:column;align-items:center;gap:6px;transform:translateX(var(--x));position:relative}
+.sk{width:74px;height:74px;border-radius:50%;display:grid;place-items:center;font:900 28px "Zen Maru Gothic",sans-serif;background:var(--card);color:var(--ac);border:3px solid var(--ac);box-shadow:0 5px 0 color-mix(in srgb,var(--ac) 35%,var(--line));transition:transform .15s}
+.stp:not(:disabled):hover .sk{transform:rotate(-6deg) scale(1.05)}
+.stp.done .sk{background:var(--ac);color:#fff;box-shadow:0 5px 0 color-mix(in srgb,var(--ac) 60%,#000)}
+.stp.lock{cursor:default}.stp.lock .sk{border:3px dashed var(--line);color:var(--mut);background:transparent;box-shadow:none}
+.stp.cur .sk{width:86px;height:86px;font-size:32px;animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 5px 0 color-mix(in srgb,var(--ac) 35%,var(--line)),0 0 0 0 color-mix(in srgb,var(--ac) 40%,transparent)}70%{box-shadow:0 5px 0 color-mix(in srgb,var(--ac) 35%,var(--line)),0 0 0 16px transparent}}
+.stp.test .sk{border-radius:20px;border-color:var(--gold);color:#b7861d}.stp.test.done .sk{background:var(--gold);color:#5a3d00;box-shadow:0 5px 0 #b7861d}
+.sl{font-size:14px;color:var(--mut);text-align:center;line-height:1.2}.stp.cur .sl{color:var(--ink);font-weight:600}
+.go{position:absolute;top:-30px;background:var(--ink);color:var(--bg);font-size:13px;font-weight:700;padding:4px 10px;border-radius:8px;white-space:nowrap}
+.go::after{content:"";position:absolute;left:50%;bottom:-5px;margin-left:-5px;border:5px solid transparent;border-bottom:0;border-top-color:var(--ink)}
+/* sheet */
+.sheet{max-width:640px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:20px}
+.tabs{display:flex;gap:6px;margin:12px 0 16px}.tabs button{min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:none}
+.tabs button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.g5,.g3{display:grid;gap:6px}.g5{grid-template-columns:repeat(5,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cell{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:6px 2px;display:grid;place-items:center;min-height:58px}
+.cell span{font-size:24px;line-height:1.1}.cell small{font-size:13px;color:var(--mut)}.cell.nil{border:0;background:none}
+.b1{background:color-mix(in srgb,var(--ac) 12%,var(--card))}.b2{background:color-mix(in srgb,var(--ac) 26%,var(--card))}
+.b3{background:color-mix(in srgb,var(--ac) 42%,var(--card))}.b4{background:color-mix(in srgb,var(--ac) 62%,var(--card))}
+.b5{background:color-mix(in srgb,var(--ac) 82%,var(--card))}.b6{background:var(--ac)}
+.b4,.b5,.b6{color:#fff;border-color:transparent}.b4 small,.b5 small,.b6 small{color:rgba(255,255,255,.88)}
+.sub{font-size:14px;color:var(--mut);margin:16px 0 8px}
+.leg{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mut);margin-top:14px}.leg i{width:56px;height:10px;border-radius:5px;background:linear-gradient(90deg,var(--card),var(--ac));border:1px solid var(--line)}
+/* words */
+.words{max-width:760px;margin:0 auto}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:14px}
+.wd{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:12px 14px;text-align:left;display:grid;gap:2px}
+.wd .j{font-size:24px;font-weight:700}.wd .r{color:var(--ac);font-weight:600}.wd .f{color:var(--mut);font-size:14px}
+.wd.locked{opacity:.55;border-style:dashed}.wd.locked .r,.wd.locked .f{visibility:hidden}
+.foot{font-size:13px;color:var(--mut);text-align:center;padding:24px 16px 32px}
+/* quiz */
+.qtop{display:flex;align-items:center;gap:14px;padding:14px max(5vw,16px);max-width:720px;margin:0 auto}
+.bar{flex:1;height:14px;border-radius:7px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;background:var(--ac);border-radius:7px;transition:width .3s;box-shadow:inset 0 -4px 0 rgba(0,0,0,.12)}
+.combo{font-weight:700;color:var(--ac);white-space:nowrap;font-size:15px}
+.qz{max-width:640px;margin:0 auto;padding:4px max(5vw,16px) 40px}
+.ask{color:var(--mut);font-size:17px;text-align:center;margin:8px 0 0}
+.prompt{min-height:200px;display:grid;place-items:center}
+.pk{font:900 clamp(96px,22vw,140px)/1 "Zen Maru Gothic",sans-serif}
+.pr{font:700 clamp(52px,12vw,72px)/1 Outfit,sans-serif;letter-spacing:.02em}
+.ear{width:120px;height:120px;border-radius:50%;border:0;background:var(--ac);color:#fff;display:grid;place-items:center;box-shadow:0 6px 0 color-mix(in srgb,var(--ac) 60%,#000)}.ear svg{width:52px;height:52px}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.opt{position:relative;min-height:78px;border-radius:18px;border:2px solid var(--line);background:var(--card);font-size:24px;font-weight:600;box-shadow:0 4px 0 var(--line);transition:transform .08s}
+.opt:active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
+.opt.ka{font-size:36px}.opt kbd{position:absolute;top:8px;left:10px;font:13px Outfit,sans-serif;color:var(--mut)}
+.opt:not(:disabled):hover{border-color:var(--ac)}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,var(--card));box-shadow:0 4px 0 var(--ok)}
+.opt.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,var(--card));box-shadow:0 4px 0 var(--bad);animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.opt:disabled{cursor:default}
+.tf{display:grid;gap:12px}.tf input{font:600 26px Outfit,sans-serif;text-align:center;padding:14px;border-radius:16px;border:2px solid var(--line);background:var(--card);color:var(--ink);width:100%}
+.tf input.ok{border-color:var(--ok)}.tf input.bad{border-color:var(--bad)}
+.fb{position:sticky;bottom:0;margin-top:20px;display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:20px;flex-wrap:wrap;box-shadow:var(--sh)}
+.fb .daru{margin-bottom:-4px}.fb .msg{flex:1 1 200px}
+.fb.ok{background:color-mix(in srgb,var(--ok) 14%,var(--bg));border:2px solid var(--ok)}.fb.bad{background:color-mix(in srgb,var(--bad) 10%,var(--bg));border:2px solid var(--bad)}
+.fb b{display:block;font-size:18px}.fb .note{display:block;font-size:15px;color:var(--mut)}
+.x{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-size:22px;line-height:1}
+/* cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:26px 20px;text-align:center;display:grid;justify-items:center;gap:6px;box-shadow:var(--sh)}
+.card .pk{font-size:clamp(110px,26vw,170px)}.card .ro{font:700 34px Outfit,sans-serif;color:var(--ac)}
+.say{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:none}.say svg{width:20px;height:20px}
+.hint{margin:4px 0 0;color:var(--mut);max-width:44ch}
+.card-m{margin-top:16px}.card-m .bubble{margin-bottom:18px}
+.cnav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px}
+.dots{display:flex;gap:6px;justify-content:center;margin:14px 0 0;flex-wrap:wrap}.dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}.dots i.on{background:var(--ac)}
+.link{background:none;border:0;color:var(--mut);min-height:44px;padding:0 4px;text-decoration:underline;text-underline-offset:3px}
+/* results */
+.res{text-align:center;display:grid;justify-items:center;gap:10px}
+.stamp{width:140px;height:140px;color:var(--ac);transform:rotate(-8deg)}.stamp.off{color:var(--mut)}
+.stamp.on{animation:press .5s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes press{from{transform:scale(1.7) rotate(-24deg);opacity:0}to{transform:scale(1) rotate(-8deg);opacity:1}}
+.lead{font-size:18px;color:var(--mut);margin:0}
+.mrow{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.mk{min-width:64px;padding:8px;border-radius:12px;border:1px solid var(--line);background:var(--card);display:grid}.mk span{font-size:28px}.mk small{font-size:13px;color:var(--mut)}
+.acts{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:16px}
+.res .mascot{text-align:left;margin-top:8px}
+/* settings */
+.set{display:grid;gap:12px}.set h2{margin-top:16px}
+.back{justify-self:start;background:none;border:0;color:var(--mut);min-height:44px;padding:0}
+.tg{display:flex;gap:14px;align-items:flex-start;padding:14px;border:1px solid var(--line);border-radius:16px;background:var(--card);cursor:pointer}
+.tg input{width:22px;height:22px;margin-top:2px;accent-color:var(--ac)}.tg small{display:block;color:var(--mut);font-size:14px}
+textarea{width:100%;font:14px/1.4 ui-monospace,monospace;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+#imp{display:grid;gap:10px}#imp .btn,.set>.btn{justify-self:start}
+/* rafale */
+.rset{max-width:640px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:22px;display:grid;gap:14px}
+.og{display:grid;gap:6px}.og>span{font-size:14px;color:var(--mut);font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chips button{min-height:42px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:none;font-weight:500}
+.chips button[aria-pressed=true]{background:var(--ac);color:#fff;border-color:var(--ac)}
+.rset .btn{justify-self:start}.rbest{font-size:15px;color:var(--mut);margin:0}.rbest b{color:var(--ink)}
+.rz{position:fixed;inset:0;z-index:20;background:#17151b;color:#f2eee8;display:flex;flex-direction:column;height:100dvh;overflow:hidden}
+.rz-top{display:flex;align-items:center;gap:12px;padding:10px 16px;max-width:640px;width:100%;margin:0 auto}
+.x.snd{display:grid;place-items:center;flex:none}.x.snd svg{width:20px;height:20px}
+.rz-top .x{background:#24212a;border-color:#34303a;color:#f2eee8}.rz-tag{flex:1;font-size:14px;color:#a8a2ab}
+.stage{flex:1;display:grid;place-items:center;padding:8px 16px;min-height:0}
+.deck{position:relative;width:min(76vw,340px,44vh*1.25);aspect-ratio:5/4}
+.cd{position:absolute;inset:0;border-radius:24px;background:#fffdf9;color:#1d1b20}
+.cd.b1{transform:rotate(-3deg) translateY(7px);background:#d8d0c9}.cd.b2{transform:rotate(3.5deg) translateY(12px);background:#b9afa6}
+.cd.front{display:grid;place-items:center;box-shadow:0 26px 50px -22px rgba(0,0,0,.9),0 0 46px -12px rgba(255,98,73,.45)}
+.cd.front.in{animation:cin .22s ease-out}@keyframes cin{from{transform:translateY(-16px) scale(.95);opacity:.2}}
+.cd.front.bad{animation:shake .3s;box-shadow:0 0 0 4px #ff6249,0 26px 50px -22px rgba(0,0,0,.9)}
+.ck{font:900 clamp(72px,min(24vw,16vh),124px)/1 "Zen Maru Gothic",sans-serif;padding:0 14px;text-align:center}
+.ck.w{font-size:clamp(34px,min(10vw,8vh),58px);letter-spacing:.02em}
+.ck i{font-style:normal}.ck i.dn{color:#1f7a4b}.ck i.cur{text-decoration:underline 5px #e3402a;text-underline-offset:12px}
+.reveal{position:absolute;bottom:12px;left:0;right:0;text-align:center;font:700 20px Outfit,sans-serif;color:#b3261e}
+.mean{position:absolute;top:12px;left:0;right:0;text-align:center;font-size:15px;color:#6b6670}
+.hintline{text-align:center;min-height:22px;font-size:15px;color:#a8a2ab;margin:0 16px 4px}
+.rbar{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,190px) minmax(0,1fr);align-items:center;gap:14px;padding:6px 16px 12px;max-width:640px;width:100%;margin:0 auto}
+.rbar .t{justify-self:end;font:500 24px Outfit,sans-serif;font-variant-numeric:tabular-nums}
+.rbar .c{font:500 24px Outfit,sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap}.rbar .c small{font-size:16px;color:#a8a2ab}
+.typed{height:58px;background:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;font:600 26px Outfit,sans-serif;letter-spacing:.08em;color:#fff}
+.typed::after{content:"";width:2px;height:28px;background:#ff6249;margin-left:3px;animation:blink 1s steps(1) infinite}
+.typed.err{animation:shake .25s;box-shadow:0 0 0 2px #ff6249}@keyframes blink{50%{opacity:0}}
+.kb{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));max-width:640px;width:100%;margin:0 auto;padding:0 8px 10px}
+.kb button{height:clamp(44px,7.4vh,62px);border:1px solid #34303a;margin:0 -1px -1px 0;background:#24212a;color:#f2eee8;font:600 21px Outfit,sans-serif;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.kb button.fn{background:#2f2b36;color:#ff8f7f;font-size:22px}
+.kb button.hit,.kb button:active{background:#e3402a;color:#fff}
+.big-n{font:900 clamp(60px,13vw,92px)/1 "Zen Maru Gothic",sans-serif;color:var(--ac);font-variant-numeric:tabular-nums}
+.rfigs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%}
+@media (prefers-reduced-motion:reduce){.cd.front.in,.cd.front.bad,.typed.err,.typed::after{animation:none}}
+@media (prefers-reduced-motion:reduce){.stamp.on,.daru.bob,.stp.cur .sk,.opt.bad{animation:none}.bar i,.sk,.btn,.opt{transition:none}}
+@media(max-width:760px){.hero-g{grid-template-columns:minmax(0,1fr)}.figs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.hide{display:none}.opt kbd{display:none}.prompt{min-height:160px}.stp{transform:translateX(calc(var(--x)*.7))}.bubble{font-size:15px}.seg button{padding:0 14px}}
+</style></head><body><div id="app"></div>
+<script>
+{
+const app=document.getElementById('app');
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const H2K=s=>[...s].map(c=>{const n=c.charCodeAt(0);return n>=0x3041&&n<=0x3096?String.fromCharCode(n+0x60):c}).join('');
+const K2H=s=>[...s].map(c=>{const n=c.charCodeAt(0);return n>=0x30A1&&n<=0x30F6?String.fromCharCode(n-0x60):c}).join('');
+const SPK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+const GEAR='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>';
+const FLAME='<svg viewBox="0 0 24 24"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-6 0 2 1 3 2 3 0-4-1-6 1-9z" fill="#f28c28"/><path d="M12 13c1 2 3 3 3 5a3 3 0 0 1-6 0c0-1.5 1-2.5 1.5-3 .3 1 .8 1.3 1.5 1.3 0-1.3-.4-2.3 0-3.3z" fill="#ffd36b"/></svg>';
+const COIN='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#f2b33d"/><circle cx="12" cy="12" r="7" fill="none" stroke="#b7861d" stroke-width="1.6"/><path d="M12 8v8M9 12h6" stroke="#8a5f00" stroke-width="2" stroke-linecap="round"/></svg>';
+
+/* ---------- Daru, la mascotte (daruma original) ---------- */
+function daru(mood,size,both){const s=size||72,ink='#1d1b20';
+  const eyes=mood==='happy'?`<path d="M33 47q5-7 10 0M57 47q5-7 10 0" stroke="${ink}" stroke-width="3.6" fill="none" stroke-linecap="round"/>`
+   :mood==='oops'?`<circle cx="38" cy="47" r="4.2" fill="${ink}"/><circle cx="62" cy="47" r="4.2" fill="${ink}"/>`
+   :`<circle cx="38" cy="47" r="6" fill="#fff" stroke="${ink}" stroke-width="2"/><circle cx="38" cy="47" r="3.6" fill="${ink}"/><circle cx="62" cy="47" r="6" fill="#fff" stroke="${ink}" stroke-width="2"/>${both?`<circle cx="62" cy="47" r="3.6" fill="${ink}"/>`:''}`;
+  const brows=mood==='oops'?`<path d="M29 38q8 0 14-4M71 38q-8 0-14-4" stroke="${ink}" stroke-width="4" fill="none" stroke-linecap="round"/>`:`<path d="M29 37q7-8 15-3M71 37q-7-8-15-3" stroke="${ink}" stroke-width="4" fill="none" stroke-linecap="round"/>`;
+  const mouth=mood==='oops'?`<ellipse cx="50" cy="61" rx="3.5" ry="4" fill="${ink}"/>`:mood==='happy'?`<path d="M43 58q7 8 14 0z" fill="${ink}"/>`:`<path d="M45 59q5 4 10 0" stroke="${ink}" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+  return`<svg class="daru ${mood==='idle'?'bob':''}" viewBox="0 0 100 112" width="${s}" height="${Math.round(s*1.12)}" aria-hidden="true">
+  <ellipse cx="50" cy="106" rx="30" ry="5" fill="rgba(0,0,0,.18)"/>
+  <path d="M50 5C23 5 9 29 9 60c0 28 17 44 41 44s41-16 41-44C91 29 77 5 50 5z" fill="#e3402a"/>
+  <path d="M50 104c-24 0-41-16-41-44 0 0 6 30 41 33s41-33 41-33c0 28-17 44-41 44z" fill="#b8301d"/>
+  <ellipse cx="30" cy="26" rx="7" ry="12" transform="rotate(30 30 26)" fill="#fff" opacity=".22"/>
+  <ellipse cx="50" cy="50" rx="27" ry="22" fill="#fff7ef"/>
+  <circle cx="31" cy="57" r="4.5" fill="#f7a8a0" opacity=".8"/><circle cx="69" cy="57" r="4.5" fill="#f7a8a0" opacity=".8"/>
+  ${brows}${eyes}${mouth}
+  <path d="M28 82q22 12 44 0" stroke="#f2b33d" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <text x="50" y="99" text-anchor="middle" font-size="13" font-weight="900" fill="#f2b33d" font-family="Zen Maru Gothic">福</text></svg>`}
+const mascot=(mood,html,size)=>`<div class="mascot">${daru(mood,size||76,allDone())}<div class="bubble">${html}</div></div>`;
+
+/* ---------- données ---------- */
+const ROWS=[['a','あいうえお','a i u e o'],['ka','かきくけこ','ka ki ku ke ko'],['sa','さしすせそ','sa shi su se so'],['ta','たちつてと','ta chi tsu te to'],['na','なにぬねの','na ni nu ne no'],['ha','はひふへほ','ha hi fu he ho'],['ma','まみむめも','ma mi mu me mo'],['ya','やゆよ','ya yu yo'],['ra','らりるれろ','ra ri ru re ro'],['wa','わをん','wa wo n']];
+const DAK=[['ga','がぎぐげご','ga gi gu ge go'],['za','ざじずぜぞ','za ji zu ze zo'],['da','だぢづでど','da ji zu de do'],['ba','ばびぶべぼ','ba bi bu be bo'],['pa','ぱぴぷぺぽ','pa pi pu pe po']];
+const YB=[['き','ky'],['し','sh'],['ち','ch'],['に','ny'],['ひ','hy'],['み','my'],['り','ry'],['ぎ','gy'],['じ','j'],['び','by'],['ぴ','py']];
+const YS=[['ゃ','a'],['ゅ','u'],['ょ','o']];
+const YG=[[0,1,2],[3,4,5,6],[7,8],[9,10]];
+const ALT={shi:['si'],chi:['ti'],tsu:['tu'],fu:['hu'],ji:['zi','di'],zu:['du'],wo:['o'],n:['nn']};
+const RN='Le r japonais : un seul battement de langue, entre r, l et d.';
+const NOTE_P={'ふ':'Entre « fou » et « hou » : on souffle sans serrer les lèvres.','ら':RN,'り':RN,'る':RN,'れ':RN,'ろ':RN,'ん':'Son nasal, il ne commence jamais un mot.','ぢ':'Rare : on écrit presque toujours じ pour ce son.','づ':'Rare : on écrit presque toujours ず pour ce son.'};
+const NOTE_S={'は':'Se lit « wa » quand c’est la particule de thème.','へ':'Se lit « é » quand c’est la particule de direction.','を':'Sert presque uniquement de particule, prononcé « o ».','ぬ':'Proche de め, mais finit par une petite boucle.','め':'Proche de ぬ, sans boucle finale.','ね':'Famille れ / わ / ね : seul ね finit par une boucle.','れ':'Famille れ / わ / ね : れ finit par une petite queue.','わ':'Famille れ / わ / ね : わ finit par une courbe ronde.','る':'Comme ろ, avec une boucle en bas.','ろ':'Comme る, sans boucle.','さ':'Miroir de ち.','ち':'Miroir de さ.','き':'Comme さ avec un trait horizontal en plus.','シ':'À ne pas confondre avec ツ : les traits de シ viennent de la gauche et le dernier monte.','ツ':'À ne pas confondre avec シ : points alignés en haut, dernier trait qui descend.','ン':'À ne pas confondre avec ソ : le dernier trait monte vers la droite.','ソ':'À ne pas confondre avec ン : le dernier trait descend vers la gauche.','ヲ':'Très rare en katakana.'};
+const fr=r=>r==='n'?r:r.replace(/^g([ie])/,'gu$1').replace(/^sh/,'§').replace(/^ch/,'tch').replace(/^j/,'dj').replace('§','ch').replace(/u$/,'ou').replace(/e$/,'é').replace(/^wo$/,'o');
+const WORDS=`あい|amour;あお|bleu;あか|rouge;あさ|matin;いえ|maison;いぬ|chien;うえ|dessus;うみ|mer;えき|gare;おかね|argent;かお|visage;かさ|parapluie;かわ|rivière;き|arbre;くち|bouche;くも|nuage;くるま|voiture;こえ|voix;ここ|ici;さかな|poisson;さくら|cerisier;しお|sel;すし|sushi;せかい|monde;そら|ciel;たこ|poulpe;たまご|œuf;ちず|carte, plan;つき|lune;て|main;とり|oiseau;なつ|été;なまえ|nom;にく|viande;ぬの|tissu;ねこ|chat;のり|algue nori;はな|fleur;はし|baguettes;ひと|personne;ふね|bateau;ふゆ|hiver;へや|chambre;ほし|étoile;まち|ville;みみ|oreille;むし|insecte;め|œil;もり|forêt;やま|montagne;ゆき|neige;よる|nuit;りんご|pomme;るす|absence;れきし|histoire;ろく|six;わたし|moi, je;ほんをよむ|lire un livre;にほん|Japon;みせ|magasin;かがみ|miroir;ぎんこう|banque;かぐ|meubles;げんき|en forme;ごはん|riz, repas;ひざ|genou;かじ|incendie;みず|eau;かぜ|vent;かぞく|famille;だいがく|université;はなぢ|saignement de nez;つづく|continuer;でんわ|téléphone;まど|fenêtre;ばら|rose;くび|cou;ぶた|cochon;かべ|mur;ぼうし|chapeau;かんぱい|santé !;えんぴつ|crayon;てんぷら|tempura;さんぽ|promenade;きゃく|client, invité;きゅう|neuf;きょう|aujourd’hui;しゃしん|photo;しゅくだい|devoirs;しょうゆ|sauce soja;おちゃ|thé;ちゅうい|attention;ちょうちょ|papillon;こんにゃく|konjac;ぎゅうにゅう|lait;ひゃく|cent;みゃく|pouls;みょうじ|nom de famille;りゅう|dragon;りょこう|voyage;ぎゃく|inverse;ぎょうざ|gyoza;じゃま|gêne;じゅぎょう|cours;じょうず|doué;さんびゃく|trois cents;びょういん|hôpital;ぴょんぴょん|en sautillant;アイス|glace;カメラ|appareil photo;ケーキ|gâteau;コーヒー|café;ホテル|hôtel;タクシー|taxi;テレビ|télé;パン|pain;ピアノ|piano;メニュー|menu;ラーメン|ramen;レストラン|restaurant;トイレ|toilettes;バス|bus;ビール|bière;スキー|ski;ノート|cahier;ワイン|vin;ミルク|lait;ネクタイ|cravate;シャツ|chemise;ジュース|jus;チーズ|fromage;ゲーム|jeu vidéo;ペン|stylo;ドア|porte;ギター|guitare;ニュース|actualités;チョコレート|chocolat;シュークリーム|chou à la crème;メロン|melon;ゼロ|zéro;ズボン|pantalon;ボタン|bouton;ヨーグルト|yaourt;ナイフ|couteau;ハンバーガー|hamburger;フランス|France;パリ|Paris;エレベーター|ascenseur;オレンジ|orange;サラダ|salade;セーター|pull;デザート|dessert;ガイド|guide;ダンス|danse;ゴルフ|golf;プール|piscine;ピザ|pizza;ポスト|boîte aux lettres;キャベツ|chou;ジャム|confiture;ジョギング|jogging;ソース|sauce;ユーロ|euro;ムース|mousse;ホーム|quai de gare;ヒーター|radiateur;ロンドン|Londres;キウイ|kiwi;ルール|règle;モデル|mannequin;ハム|jambon;エアコン|climatisation;ベンチ|banc;ボール|ballon;ミュージアム|musée`.split(';').map(x=>{const[j,f]=x.split('|');return{j,f}});
+
+const ITEMS={},UNITS=[],LES={},SL={h:[],k:[]};
+const mk=(s,ch,r,al)=>{const c=s==='k'?H2K(ch):ch;ITEMS[c]={c,r,al:al||ALT[r]||[],s};return c};
+const rowName=id=>id==='a'?'Voyelles':id==='wa'?'W et N':'Ligne '+id[0].toUpperCase();
+for(const s of['h','k']){
+  const nm=s==='h'?'Hiragana':'Katakana';
+  const row=(id,ks,rs)=>{const R=rs.split(' ');return{id:s+'-'+id,t:rowName(id),items:[...ks].map((k,i)=>mk(s,k,R[i]))}};
+  const us=[
+    {id:s+'1',t:nm+' · les bases',lessons:ROWS.map(r=>row(...r))},
+    {id:s+'2',t:nm+' · sons voisés',lessons:DAK.map(r=>row(...r))},
+    {id:s+'3',t:nm+' · combinaisons',lessons:YG.map((g,gi)=>({id:s+'-y'+gi,t:g.map(i=>YB[i][1]+'a').join(' · '),items:g.flatMap(i=>YS.map(([sm,v])=>{const b=YB[i][1],al=b==='sh'?['sy'+v]:b==='ch'?['ty'+v,'cy'+v]:b==='j'?['zy'+v,'jy'+v]:[];return mk(s,YB[i][0]+sm,b+v,al)}))}))}
+  ];
+  for(const u of us){u.s=s;for(const l of u.lessons){l.u=u;l.s=s;l.idx=SL[s].length;SL[s].push(l);LES[l.id]=l}UNITS.push(u)}
+}
+const UN=Object.fromEntries(UNITS.map(u=>[u.id,u]));
+const unitItems=u=>u.lessons.flatMap(l=>l.items);
+const TOTAL=Object.keys(ITEMS).length;
+/* mots : découpage en kana, romaji */
+function toks(w){const ch=[...w],o=[];for(let i=0;i<ch.length;){const two=ch[i]+(ch[i+1]||'');if(ITEMS[two]){o.push(two);i+=2}else{if(ch[i]!=='ー')o.push(ch[i]);i++}}return o}
+function romaji(w){const ch=[...w];let o='';for(let i=0;i<ch.length;){const two=ch[i]+(ch[i+1]||'');if(ITEMS[two]){o+=ITEMS[two].r;i+=2;continue}const c=ch[i];o+=c==='ー'?o.slice(-1):c==='を'?' o ':ITEMS[c]?ITEMS[c].r:c;i++}return o.replace(/\s+/g,' ').trim()}
+for(const w of WORDS){w.t=toks(w.j);w.r=romaji(w.j);w.s=ITEMS[w.t[0]].s}
+const canRead=(w,extra)=>w.t.every(c=>S.learned[c]||(extra&&extra.has(c)));
+const wordsWith=c=>WORDS.filter(w=>w.t.includes(c));
+const wordHTML=w=>`<span class="w" lang="ja">${w.j}</span> · ${w.r} · « ${w.f} »`;
+
+/* ---------- état ---------- */
+const KEY='hanko-kana-v1';
+const fresh=()=>({learned:{},done:{},tests:{},xp:0,streak:0,last:'',today:'',todayXp:0,unlock:false,ear:true,tab:'h',page:'path',rsc:'h',rct:'kana',rdu:60,rfmt:'deck',best:{},snd:true});
+let S=fresh();try{const v=JSON.parse(localStorage.getItem(KEY));if(v&&typeof v.learned==='object')S=Object.assign(fresh(),v)}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const ld=(off=0)=>{const d=new Date();d.setDate(d.getDate()+off);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const streak=()=>(S.last===ld()||S.last===ld(-1))?S.streak:0;
+const todayXp=()=>S.today===ld()?S.todayXp:0;
+function addXp(n){const t=ld();if(S.today!==t){S.today=t;S.todayXp=0}S.todayXp+=n;S.xp+=n;if(S.last!==t){S.streak=S.last===ld(-1)?S.streak+1:1;S.last=t}save()}
+const IV=[0,4*36e5,864e5,3*864e5,7*864e5,16*864e5,35*864e5];
+function grade(c,ok){const L=S.learned[c];if(!L)return;L.box=ok?Math.min(6,L.box+1):1;L.due=Date.now()+IV[L.box]}
+const dueList=()=>{const n=Date.now();return Object.entries(S.learned).filter(([,L])=>L.due<=n).sort((a,b)=>a[1].due-b[1].due).map(([c])=>c)};
+function nextDue(){const now=Date.now();let m=Infinity;for(const L of Object.values(S.learned))if(L.due>now&&L.due<m)m=L.due;if(m===Infinity)return Object.keys(S.learned).length?'':'Termine une leçon pour lancer tes révisions.';const h=(m-now)/36e5;return'Prochaine révision '+(h<1?'dans moins d’une heure':h<24?'dans '+Math.round(h)+' h':'dans '+Math.round(h/24)+' j')+'.'}
+const unlocked=l=>{if(S.unlock)return true;if(l.idx>0)return!!S.done[SL[l.s][l.idx-1].id];return l.s==='h'||UNITS[0].lessons.every(x=>S.done[x.id])};
+const testOpen=u=>S.unlock||u.lessons.every(l=>S.done[l.id]);
+const nextLesson=()=>{for(const u of UNITS)for(const l of u.lessons)if(!S.done[l.id]&&unlocked(l))return l;return null};
+const allDone=()=>UNITS.every(u=>u.lessons.every(l=>S.done[l.id]));
+
+/* ---------- voix ---------- */
+let tts=false,jv=null;
+function loadV(){try{jv=speechSynthesis.getVoices().find(v=>/^ja/i.test(v.lang))||null;tts=!!jv}catch(e){tts=false}}
+if('speechSynthesis'in window){loadV();try{speechSynthesis.onvoiceschanged=()=>{const was=tts;loadV();if(was!==tts&&view==='home')render()}}catch(e){}}
+function say(t){if(!tts)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='ja-JP';u.voice=jv;u.rate=.8;speechSynthesis.speak(u)}catch(e){}}
+const earOK=()=>tts&&S.ear!==false;
+/* ---------- sons (synthétisés, Web Audio) ---------- */
+let AC=null;
+function ac(){if(S.snd===false)return null;try{if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();return AC}catch(e){return null}}
+function tone(f,t0,d,type,vol){const a=ac();if(!a)return;const t=a.currentTime+t0,o=a.createOscillator(),g=a.createGain();o.type=type||'triangle';o.frequency.setValueAtTime(f,t);
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol||.16,t+.012);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+d+.03)}
+const SFX={
+  ok(){tone(880,0,.12);tone(1318.5,.07,.24)},
+  bad(){tone(220,0,.16,'square',.05);tone(165,.09,.24,'square',.045)},
+  combo(){[1046.5,1318.5,1568,2093].forEach((f,i)=>tone(f,i*.055,.2,'triangle',.13))},
+  card(){tone(1046.5,0,.08,'triangle',.11);tone(1568,.045,.13,'triangle',.09)},
+  tick(){tone(1760,0,.05,'sine',.06)},
+  done(){[523.25,659.25,783.99,1046.5].forEach((f,i)=>tone(f,i*.09,.45,'triangle',.14));tone(1568,.42,.7,'sine',.1)}};
+const sfx=n=>{try{SFX[n]()}catch(e){}};
+const muteBtn=()=>`<button class="x snd" data-act="mute" aria-label="${S.snd===false?'Activer':'Couper'} les sons" title="${S.snd===false?'Activer':'Couper'} les sons">${S.snd===false?'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path d="m16 9 5 6m0-6-5 6"/></svg>':SPK.replace('<svg ','<svg width="20" height="20" ')}</button>`;
+
+/* ---------- sessions ---------- */
+let view='home',ses=null,armed=false,lastView='',homeTip=null;
+function pickType(box){const r=Math.random(),e=earOK()?'ear':'k2r';if(box>=3)return r<.55?'type':r<.8?'r2k':e;return r<.45?'k2r':r<.85?'r2k':e}
+function opts(c){const it=ITEMS[c],P=Object.values(ITEMS).filter(x=>x.s===it.s&&x.c!==c&&x.r!==it.r);
+  const pref=P.filter(x=>ses.set.has(x.c)||S.learned[x.c]);const src=shuffle(pref.length>=3?pref:P);
+  const seen=new Set(),out=[];for(const x of src){if(seen.has(x.r))continue;seen.add(x.r);out.push(x.c);if(out.length===3)break}
+  return shuffle([c,...out])}
+const sample=(a,n)=>shuffle(a).slice(0,n);
+function initQuiz(queue){Object.assign(ses,{queue,i:0,ok:0,n:0,xp:0,combo:0,best:0,miss:new Set(),graded:new Set(),ans:null});view='quiz'}
+function startLesson(id){const L=LES[id];ses={kind:'lesson',id,items:L.items,set:new Set(L.items),ci:0,cw:{}};view='cards';render()}
+function lessonQueue(){const N=ses.items,s=ITEMS[N[0]].s,cap=Math.min(N.length,6);
+  const rev=sample(Object.keys(S.learned).filter(c=>!ses.set.has(c)&&ITEMS[c].s===s),3);
+  const p1=shuffle(N).map(c=>({c,type:'k2r'}));
+  const p2=sample(N,N.length>6?cap:N.length).map(c=>({c,type:earOK()&&Math.random()<.35?'ear':'r2k'}));
+  const p3=shuffle([...sample(N,cap).map(c=>({c,type:'type'})),...rev.map(c=>({c,type:pickType(S.learned[c].box),rev:true}))]);
+  return[...p1,...p2,...p3]}
+function startTest(uid){const u=UN[uid],all=unitItems(u);ses={kind:'test',id:uid,set:new Set(all)};initQuiz(sample(all,15).map(c=>({c,type:pickType(S.learned[c]?S.learned[c].box:2)})));render()}
+function startReview(practice){const cs=practice?sample(Object.keys(S.learned),15):dueList().slice(0,20);if(!cs.length)return;ses={kind:practice?'practice':'review',set:new Set(cs)};initQuiz(shuffle(cs).map(c=>({c,type:pickType(S.learned[c].box)})));render()}
+const cur=()=>ses.queue[ses.i];
+function settle(ok,extra){const Q=cur(),it=ITEMS[Q.c];
+  if(ok){ses.combo++;ses.best=Math.max(ses.best,ses.combo)}else ses.combo=0;
+  let msg=ok?pick(['Bien vu !','Exact !','Parfait.','Oui, c’est ça !','Sugoi !']):'Pas tout à fait.';
+  if(ok&&ses.combo>=3&&ses.combo%3===0)msg=`Série de ${ses.combo} ! Daru est fier.`;
+  let tip='';if(!ok){const h=K2H(Q.c);tip=NOTE_S[Q.c]||NOTE_P[h]||(()=>{const w=wordsWith(Q.c).filter(w=>canRead(w,ses.set));return w.length?`Retiens-le avec ${wordHTML(pick(w))}`:''})()}
+  ses.ans=Object.assign({ok,msg,tip},extra);sfx(!ok?'bad':ses.combo>=3&&ses.combo%3===0?'combo':'ok');
+  if(!Q.retry){ses.n++;if(ok){ses.ok++;ses.xp+=2}else ses.miss.add(Q.c);
+    const g=ses.kind==='review'||ses.kind==='test'||(ses.kind==='lesson'&&Q.rev);if(g&&!ses.graded.has(Q.c)){ses.graded.add(Q.c);grade(Q.c,ok);save()}}
+  if(!ok)ses.queue.push({c:Q.c,type:Q.type==='type'?'k2r':Q.type,retry:true});render()}
+function answer(i){if(ses.ans)return;const Q=cur();settle(Q.o[i]===Q.c,{i})}
+function answerTyped(v){if(ses.ans)return;const it=ITEMS[cur().c],n=v.trim().toLowerCase().replace(/\s+/g,'');if(!n)return;settle(n===it.r||it.al.includes(n),{v})}
+function next(){if(!ses||!ses.ans)return;ses.ans=null;ses.i++;if(ses.i>=ses.queue.length)return finish();render()}
+function finish(){const sc=ses.n?ses.ok/ses.n:1;let pass=true;
+  if(ses.kind==='lesson'){const before=new Set(WORDS.filter(w=>canRead(w)).map(w=>w.j));S.done[ses.id]=true;for(const c of ses.items)if(!S.learned[c])S.learned[c]={box:1,due:Date.now()+IV[1]};ses.xp+=10;ses.newWords=WORDS.filter(w=>!before.has(w.j)&&canRead(w))}
+  if(ses.kind==='test'){pass=sc>=.8;S.tests[ses.id]=Math.max(S.tests[ses.id]||0,Math.round(sc*100));if(pass)ses.xp+=20}
+  ses.score=sc;ses.pass=pass;sfx(pass?'done':'bad');addXp(ses.xp);view='res';homeTip=null;render()}
+
+/* ---------- vues ---------- */
+const top=()=>`<header class="top"><div class="brand"><svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="10" fill="var(--ac)"/><text x="20" y="28" text-anchor="middle" font-size="22" fill="#fff" font-family="Zen Maru Gothic" font-weight="900">か</text></svg><span>Hanko</span></div>
+<div class="tstats"><span class="pill" title="Jours de suite">${FLAME}${streak()}<span class="hide">&nbsp;j</span></span><span class="pill" title="XP aujourd’hui">${COIN}${todayXp()}<span class="hide">&nbsp;XP</span></span><button class="ic" data-act="settings" aria-label="Réglages">${GEAR}</button></div></header>`;
+
+function tipHome(nx,due){if(homeTip)return homeTip;const nl=Object.keys(S.learned).length;let t;
+  if(!nl)t=`Salut, moi c’est <b>Daru</b> ! Je n’ai qu’un œil peint : je peindrai le second quand tu connaîtras tous les kana. On commence par les 5 voyelles ?`;
+  else if(allDone())t=`Mes deux yeux sont peints, tu connais tous les kana ! Continue les révisions pour les garder.`;
+  else if(due)t=`<b>${due} kana</b> attendent leur révision. C’est maintenant que ta mémoire en profite le plus.`;
+  else{const r=WORDS.filter(w=>canRead(w));t=r.length?`Avec ce que tu sais déjà, tu peux lire ${wordHTML(pick(r))}`:`Encore un peu et tu pourras lire tes premiers mots japonais. ${nx?'Prochaine étape : '+nx.t+'.':''}`}
+  return homeTip=t}
+
+function homeV(){const nx=nextLesson(),due=dueList().length,nl=Object.keys(S.learned).length,ms=Object.values(S.learned).filter(L=>L.box>=4).length;
+  const rw=WORDS.filter(w=>canRead(w)).length,pg=S.page||'path';
+  return top()+`<section class="hero band"><div class="wrap hero-g">
+  <div>${mascot('idle',tipHome(nx,due))}<p class="kick">${nx?'Prochaine leçon · '+nx.u.t:'Parcours terminé'}</p><h1>${nx?nx.t:'Tous les kana sont vus !'}</h1>
+  <div class="big-k" lang="ja">${nx?nx.items.slice(0,5).join(' '):'かな カナ'}</div>
+  ${nx?`<button class="btn wh" data-act="lesson" data-id="${nx.id}">Commencer la leçon</button>`:''}</div>
+  <div class="rev"><div class="rev-n">${due}</div><b>${due?'kana à réviser maintenant':'Rien à réviser pour l’instant'}</b><p class="mut">${due?'Une courte session suffit : réviser à temps fixe la mémoire.':nextDue()}</p>
+  ${due?`<button class="btn ac" data-act="review">Réviser</button>`:nl?`<button class="btn gh" data-act="practice">Entraînement libre</button>`:''}</div>
+  </div></section>
+  <section class="band" style="padding-bottom:8px"><div class="wrap figs">
+  <div class="fig1"><b>${nl} / ${TOTAL}</b><span>kana vus</span></div><div class="fig1"><b>${ms}</b><span>kana maîtrisés</span></div>
+  <div class="fig1"><b>${rw} / ${WORDS.length}</b><span>mots lisibles</span></div><div class="fig1"><b>${S.xp}</b><span>XP au total</span></div></div></section>
+  <section class="band" style="padding-top:16px"><div class="wrap"><nav class="seg" aria-label="Sections"><button data-act="page" data-id="path" aria-pressed="${pg==='path'}">Parcours</button><button data-act="page" data-id="sheet" aria-pressed="${pg==='sheet'}">Tableau</button><button data-act="page" data-id="words" aria-pressed="${pg==='words'}">Mots</button><button data-act="page" data-id="rush" aria-pressed="${pg==='rush'}">Rafale</button></nav>
+  ${pg==='sheet'?sheetV():pg==='words'?wordsV():pg==='rush'?rushSetupV():UNITS.map(u=>unitV(u,nx)).join('')}</div></section>
+  <p class="foot">Progression enregistrée dans ce navigateur. Pour la garder ailleurs : Réglages → Sauvegarde.</p>`}
+
+const XS=[0,52,72,52,0,-52,-72,-52];
+function unitV(u,nx){const d=u.lessons.filter(l=>S.done[l.id]).length,best=S.tests[u.id],to=testOpen(u),n=u.lessons.length;let k=0;
+  const node=(cls,act,id,dis,glyph,label,isCur)=>`<button class="stp ${cls}" style="--x:${XS[k++%8]}px" data-act="${act}" data-id="${id}" ${dis?'disabled':''}>${isCur?'<span class="go">Commencer</span>':''}<span class="sk" lang="ja">${glyph}</span><span class="sl">${label}</span></button>`;
+  return`<div class="unit"><div class="uhead ${best>=80?'full':''}"><div class="ub"><h3>${u.t}</h3><div class="ubar"><i style="width:${Math.round(d/n*100)}%"></i></div></div><span class="mut">${d} / ${n}</span></div><div class="trail">
+  ${u.lessons.map(l=>{const st=S.done[l.id]?'done':unlocked(l)?'open':'lock',c=nx&&nx.id===l.id;return node(st+(c?' cur':''),'lesson',l.id,st==='lock',l.items[0],l.t,c)}).join('')}
+  ${node('test '+(best>=80?'done':to?'open':'lock'),'test',u.id,!to,'試',best!=null?'Test · '+best+' %':'Test d’unité',false)}</div></div>`}
+
+function sheetV(){const s=S.tab||'h',us=UNITS.filter(u=>u.s===s);
+  const cell=c=>{if(!c)return'<span class="cell nil"></span>';const L=S.learned[c],b=L?L.box:0;return`<button class="cell b${b}" data-act="say" data-t="${c}" aria-label="${ITEMS[c].r}"><span lang="ja">${c}</span><small>${ITEMS[c].r}</small></button>`};
+  const base=us[0].lessons.flatMap(l=>{const it=l.items;if(l.id.endsWith('-ya'))return[it[0],null,it[1],null,it[2]];if(l.id.endsWith('-wa'))return[it[0],null,null,null,it[1],it[2],null,null,null,null];return it});
+  return`<div class="sheet"><h2>Tableau des kana</h2><p class="mut" style="margin:4px 0 0">Plus la case est rouge, mieux tu maîtrises le kana. Touche-le pour l’entendre${tts?'':' (voix japonaise indisponible ici)'}.</p>
+  <div class="tabs"><button data-act="tab" data-id="h" aria-pressed="${s==='h'}">Hiragana</button><button data-act="tab" data-id="k" aria-pressed="${s==='k'}">Katakana</button></div>
+  <div class="g5">${base.map(cell).join('')}</div><p class="sub">Sons voisés</p><div class="g5">${unitItems(us[1]).map(cell).join('')}</div>
+  <p class="sub">Combinaisons</p><div class="g3">${unitItems(us[2]).map(cell).join('')}</div>
+  <div class="leg">Nouveau <i></i> Maîtrisé</div></div>`}
+
+function wordsV(){const r=WORDS.filter(w=>canRead(w)),l=WORDS.filter(w=>!canRead(w));
+  const card=(w,ok)=>`<button class="wd ${ok?'':'locked'}" data-act="say" data-t="${w.j}"><span class="j" lang="ja">${w.j}</span><span class="r">${w.r}</span><span class="f">${w.f}</span></button>`;
+  return`<div class="words">${mascot('happy',r.length?`Tu peux lire <b>${r.length} mots</b>. Les autres se dévoileront au fil des leçons.`:`Aucun mot lisible pour l’instant. Après les voyelles, tu liras déjà <span class="w" lang="ja">あい</span> !`,64)}
+  <div class="wgrid">${r.map(w=>card(w,true)).join('')}${l.map(w=>card(w,false)).join('')}</div></div>`}
+
+function cardsV(){const L=LES[ses.id],n=L.items.length,c=L.items[ses.ci],it=ITEMS[c],h=K2H(c),last=ses.ci===n-1,ch=[...c];
+  const tips=[];
+  if(ch.length>1)tips.push(`<span lang="ja">${ch[0]}</span> (${ITEMS[ch[0]].r}) + petit <span lang="ja">${ch[1]}</span> → ${it.r}`);
+  if(fr(it.r)!==it.r)tips.push(`Se prononce « ${fr(it.r)} » en français.`);
+  if(NOTE_P[h])tips.push(NOTE_P[h]);if(NOTE_S[c])tips.push(NOTE_S[c]);
+  if(it.s==='k')tips.push(`En hiragana : <span lang="ja">${h}</span>`);
+  if(!(c in ses.cw)){const ws=wordsWith(c),soon=ws.filter(w=>canRead(w,ses.set));ses.cw[c]=soon.length?{w:pick(soon),now:true}:ws.length?{w:pick(ws),now:false}:null}
+  const cw=ses.cw[c];
+  const say2=cw?`On retrouve <b lang="ja">${c}</b> dans ${wordHTML(cw.w)}${cw.now?'<br>Tu pourras le lire dès la fin de cette leçon.':''}`:`Pas de mot facile avec <b lang="ja">${c}</b> pour l’instant, mais il reviendra vite.`;
+  return`<div class="qtop"><button class="x" data-act="quit" aria-label="Quitter">×</button><div class="bar"><i style="width:${Math.round((ses.ci+1)/n*30)}%"></i></div></div>
+  <div class="qz"><p class="ask">${L.u.t} · ${L.t} — découverte</p><div class="card" style="margin-top:14px">
+  <div class="pk" lang="ja">${c}</div><div class="ro">${it.r}</div>
+  ${tts?`<button class="say" data-act="say" data-t="${c}">${SPK} Écouter</button>`:''}
+  ${tips.map(t=>`<p class="hint">${t}</p>`).join('')}</div>
+  <div class="card-m">${mascot('idle',say2,60)}</div>
+  <div class="dots">${L.items.map((_,i)=>`<i class="${i<=ses.ci?'on':''}"></i>`).join('')}</div>
+  <div class="cnav"><button class="btn gh" data-act="prev" ${ses.ci?'':'disabled'}>Précédent</button><button class="btn ac" data-act="${last?'go':'cnext'}">${last?'Passer au quiz':'Suivant'}</button></div>
+  ${!last?`<p style="text-align:center;margin:10px 0 0"><button class="link" data-act="go">Je connais déjà, aller au quiz</button></p>`:''}</div>`}
+
+function quizV(){const Q=cur(),it=ITEMS[Q.c],A=ses.ans;if(Q.type!=='type'&&!Q.o)Q.o=opts(Q.c);
+  const base=ses.kind==='lesson'?30:0,pct=base+Math.round((ses.i+(A?1:0))/ses.queue.length*(100-base));
+  const ask={k2r:'Comment se lit ce kana ?',r2k:'Quel kana se lit ainsi ?',ear:'Quel kana entends-tu ?',type:'Écris sa lecture en romaji'}[Q.type];
+  const pr=Q.type==='r2k'?`<div class="pr">${it.r}</div>`:Q.type==='ear'?`<button class="ear" data-act="say" data-t="${it.c}" aria-label="Réécouter">${SPK}</button>`:`<div class="pk" lang="ja">${it.c}</div>`;
+  const body=Q.type==='type'
+    ?`<form id="tf" class="tf"><input id="ti" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" placeholder="ex. ka" aria-label="Lecture en romaji" ${A?`disabled value="${esc(A.v)}" class="${A.ok?'ok':'bad'}"`:''}>${A?'':'<button class="btn ac">Valider</button>'}</form>`
+    :`<div class="opts">${Q.o.map((c,i)=>{const cls=A?(c===Q.c?'ok':i===A.i?'bad':''):'';return`<button class="opt ${Q.type==='k2r'?'ro':'ka'} ${cls}" data-act="opt" data-i="${i}" ${A?'disabled':''}><kbd>${i+1}</kbd>${Q.type==='k2r'?ITEMS[c].r:`<span lang="ja">${c}</span>`}</button>`}).join('')}</div>`;
+  const note=A&&!A.ok?`Réponse : <span lang="ja">${it.c}</span> = ${it.r}${it.al.length&&Q.type==='type'?' (ou '+it.al.join(', ')+')':''}${A.tip?'<br>'+A.tip:''}`:A&&Q.type==='ear'?`<span lang="ja">${it.c}</span> = ${it.r}`:'';
+  const fb=A?`<div class="fb ${A.ok?'ok':'bad'}">${daru(A.ok?'happy':'oops',48,allDone())}<div class="msg"><b>${A.msg}</b>${note?`<span class="note">${note}</span>`:''}</div><button class="btn ${A.ok?'ac':''}" data-act="next" id="nb">Continuer</button></div>`:'';
+  return`<div class="qtop"><button class="x" data-act="quit" aria-label="Quitter">×</button><div class="bar"><i style="width:${pct}%"></i></div>${ses.combo>=2?`<span class="combo">×${ses.combo}</span>`:''}${muteBtn()}</div>
+  <div class="qz"><p class="ask">${ask}</p><div class="prompt">${pr}</div>${body}${fb}</div>`}
+
+function resV(){const pc=Math.round(ses.score*100),k=ses.kind,miss=[...ses.miss],nl=k==='lesson'?nextLesson():null,nw=ses.newWords||[];
+  const title=k==='lesson'?'Leçon terminée':k==='test'?(ses.pass?'Tampon obtenu !':'Encore un effort'):k==='review'?'Révision terminée':'Entraînement terminé';
+  const sub=k==='test'&&!ses.pass?`Il faut 80 % pour valider le test. Tu as ${pc} %.`:`${pc} % du premier coup · meilleure série ×${ses.best} · +${ses.xp} XP`;
+  let talk;
+  if(nw.length)talk=`Nouveau ! Tu peux maintenant lire :<br>${nw.slice(0,4).map(wordHTML).join('<br>')}${nw.length>4?`<br>…et ${nw.length-4} autres dans l’onglet Mots.`:''}`;
+  else if(k==='lesson'){const ws=ses.items.flatMap(wordsWith).filter((w,i,a)=>a.indexOf(w)===i);talk=ws.length?`Ces kana apparaissent dans ${wordHTML(pick(ws))}<br>Encore quelques leçons et tu pourras le lire.`:`Ces kana sont rares dans les mots courants, mais tu les croiseras.`}
+  else talk=ses.pass?(miss.length?'Revois les kana ci-dessus, ils reviendront bientôt dans tes révisions.':'Sans faute, bravo !'):'Pas grave : refais un tour des leçons de l’unité et retente le test.';
+  if(allDone()&&k==='lesson'&&!nl)talk='Tu as vu tous les kana : je peins enfin mon second œil !';
+  return top()+`<section class="band"><div class="wrap narrow res">
+  <div class="stamp ${ses.pass?'on':'off'}"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" stroke-width="6"/><circle cx="60" cy="60" r="43" fill="none" stroke="currentColor" stroke-width="2"/><text x="60" y="78" text-anchor="middle" font-size="52" fill="currentColor" font-family="Zen Maru Gothic" font-weight="900">${ses.pass?'済':'再'}</text></svg></div>
+  <h1>${title}</h1><p class="lead">${sub}</p>
+  ${miss.length?`<h2 style="margin-top:14px">À retravailler</h2><div class="mrow">${miss.map(c=>`<button class="mk" data-act="say" data-t="${c}"><span lang="ja">${c}</span><small>${ITEMS[c].r}</small></button>`).join('')}</div>`:''}
+  ${mascot(ses.pass?'happy':'oops',talk,70)}
+  <div class="acts">${nl?`<button class="btn ac" data-act="lesson" data-id="${nl.id}">Leçon suivante</button>`:''}${k==='test'&&!ses.pass?`<button class="btn ac" data-act="test" data-id="${ses.id}">Retenter</button>`:''}<button class="btn gh" data-act="home">Retour au parcours</button></div></div></section>`}
+
+function setV(){return top()+`<section class="band"><div class="wrap narrow set"><button class="back" data-act="home">← Parcours</button><h1>Réglages</h1>
+  <label class="tg"><input type="checkbox" data-act="tog" data-k="unlock" ${S.unlock?'checked':''}><span>Tout débloquer<small>Accède à n’importe quelle leçon, sans suivre l’ordre.</small></span></label>
+  <label class="tg"><input type="checkbox" data-act="tog" data-k="ear" ${S.ear!==false?'checked':''} ${tts?'':'disabled'}><span>Exercices d’écoute<small>${tts?'Utilise la voix japonaise de ton appareil.':'Aucune voix japonaise trouvée sur cet appareil.'}</small></span></label>
+  <label class="tg"><input type="checkbox" data-act="tog" data-k="snd" ${S.snd!==false?'checked':''}><span>Sons du jeu<small>Petits sons de bonne réponse, d’erreur, de série et de fin de leçon.</small></span></label>
+  <h2>Sauvegarde</h2><p class="mut" style="margin:0">Ta progression reste dans ce navigateur. Copie ce code pour la garder ou la transférer sur un autre appareil.</p>
+  <textarea id="exp" readonly rows="3">${esc(JSON.stringify(S))}</textarea><button class="btn gh" data-act="copy">Copier le code</button>
+  <form id="imp"><textarea id="impt" rows="3" placeholder="Colle ici un code de sauvegarde" aria-label="Code de sauvegarde"></textarea><button class="btn gh">Importer</button><p id="impm" class="mut" style="margin:0"></p></form>
+  <h2>Remise à zéro</h2><button class="btn danger" data-act="reset">${armed?'Confirmer : tout effacer':'Effacer ma progression'}</button></div></section>`}
+
+/* ---------- Rafale : paquet de cartes à taper ---------- */
+const unitK=c=>({j:c,t:[{c,r:ITEMS[c].r,al:ITEMS[c].al}]});
+function unitW(w){const ch=[...w.j],t=[];for(let i=0;i<ch.length;){const two=ch[i]+(ch[i+1]||'');if(ITEMS[two]){t.push({c:two,r:ITEMS[two].r,al:ITEMS[two].al});i+=2;continue}const c=ch[i];
+  if(c==='ー'){const v=((t[t.length-1]||{r:''}).r.match(/[aiueo]$/)||['-'])[0];t.push({c,r:v,al:['-']})}else t.push({c,r:ITEMS[c].r,al:ITEMS[c].al});i++}return{j:w.j,f:w.f,t}}
+function rushPool(sc,ct){if(ct==='words')return WORDS.filter(w=>canRead(w)&&(sc==='b'||w.s===sc)).map(unitW);return Object.keys(S.learned).filter(c=>sc==='b'||ITEMS[c].s===sc).map(unitK)}
+const rkey=()=>(S.rfmt||'deck')+'-'+S.rsc+'-'+S.rct+(S.rfmt==='time'?'-'+S.rdu:'');
+const fmtT=ms=>{const s=Math.floor(ms/1000);return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')};
+let rs=null;
+function rushSetupV(){const pool=rushPool(S.rsc,S.rct),b=S.best[rkey()],deck=S.rfmt!=='time',kind=S.rct==='words'?'mots':'kana';
+  const grp=(lab,k,opts)=>`<div class="og"><span>${lab}</span><div class="chips">${opts.map(([v,t])=>`<button data-act="rset" data-k="${k}" data-v="${v}" aria-pressed="${String(S[k]||'deck')===String(v)}">${t}</button>`).join('')}</div></div>`;
+  const ok=pool.length>=5;
+  const talk=!ok?`Il me faut au moins 5 ${S.rct==='words'?'mots lisibles':'kana appris'} dans cette sélection. Fais encore une leçon et reviens !`
+    :deck?`Ton paquet de <b>${pool.length} ${kind}</b> défile une fois. Tape la lecture, sans valider : le chrono s’arrête à la dernière carte.`
+    :`Les ${kind} défilent sans fin pendant ${S.rdu} s. Tape-en le plus possible !`;
+  const best=!b?'Pas encore de record pour ces réglages.':deck?`Ton record : <b>${fmtT(b.ms)}</b> pour ${b.n} cartes, ${b.acc} % de précision`:`Ton record : <b>${b.kpm} kana/min</b>, ${b.acc} % de précision`;
+  return`<div class="rset">${mascot('idle',talk,64)}
+  ${grp('Format','rfmt',[['deck','Paquet complet'],['time','Contre la montre']])}${grp('Écriture','rsc',[['h','Hiragana'],['k','Katakana'],['b','Les deux']])}${grp('Contenu','rct',[['kana','Kana seuls'],['words','Mots']])}${deck?'':grp('Durée','rdu',[[30,'30 s'],[60,'1 min'],[120,'2 min']])}
+  <p class="rbest">${best}</p><button class="btn ac" data-act="rstart" ${ok?'':'disabled'}>Lancer la rafale</button></div>`}
+function rFill(){while(rs.q.length<rs.u+10){let n,g=0;do{n=pick(rs.pool)}while(rs.q.length&&n.j===rs.q[rs.q.length-1].j&&g++<5);rs.q.push(n)}}
+function startRush(){const pool=rushPool(S.rsc,S.rct);if(pool.length<5)return;const fmt=S.rfmt==='time'?'time':'deck';
+  rs={fmt,pool,dur:+S.rdu,q:fmt==='deck'?shuffle(pool):[],u:0,k:0,typed:'',res:[],wrong:false,start:0,ok:0,err:0,miss:new Map(),afterN:false,tid:0,ck:'',ckU:-1};
+  if(fmt==='time')rFill();view='rush';render()}
+function stopRush(){if(rs&&rs.tid){clearInterval(rs.tid);rs.tid=0}}
+const curTok=()=>rs.q[rs.u].t[rs.k];
+function rClock(){if(!rs.start)return fmtT(rs.fmt==='time'?rs.dur*1000:0);const e=Date.now()-rs.start;return rs.fmt==='time'?fmtT(Math.max(0,rs.dur*1000-e)+999):fmtT(e)}
+function rStart(){if(rs.start)return;rs.start=Date.now();rs.tid=setInterval(()=>{const el=document.getElementById('rt');if(el)el.textContent=rClock();if(rs.fmt==='time'&&Date.now()-rs.start>=rs.dur*1000)endRush()},200)}
+function rPaint(){const U=rs.q[rs.u],T=U.t[rs.k],key=rs.u+'|'+rs.k+'|'+rs.wrong,cf=document.getElementById('cf');if(!cf)return;
+  if(key!==rs.ck){const multi=U.t.length>1;
+    cf.outerHTML=`<div class="cd front ${rs.ckU!==rs.u?'in':''} ${rs.wrong?'bad':''}" id="cf">${U.f&&rs.wrong?`<span class="mean">« ${U.f} »</span>`:''}<div class="ck ${multi?'w':''}" lang="ja">${U.t.map((t,k)=>`<i class="${k<rs.k?'dn':k===rs.k&&multi?'cur':''}">${t.c}</i>`).join('')}</div>${rs.wrong?`<span class="reveal"><span lang="ja">${T.c}</span> = ${T.r}</span>`:''}</div>`;
+    rs.ck=key;rs.ckU=rs.u}
+  document.getElementById('ty').textContent=rs.typed;
+  const left=rs.q.length-rs.u;document.getElementById('rc').innerHTML=rs.fmt==='deck'?`${left}<small>/${rs.q.length}</small>`:`${rs.ok}<small> kana</small>`;
+  if(rs.fmt==='deck'){document.getElementById('b1').hidden=left<2;document.getElementById('b2').hidden=left<3}
+  document.getElementById('rh').textContent=!rs.start?'Le chrono démarre à ta première lettre.':rs.wrong?'Tape la bonne lecture pour continuer.':''}
+function flash(sel,cls,ms){const e=document.querySelector(sel);if(!e)return;e.classList.remove(cls);void e.offsetWidth;e.classList.add(cls);if(ms)setTimeout(()=>e.classList.remove(cls),ms)}
+function rMiss(){const T=curTok();if(!rs.wrong){rs.err++;rs.res[rs.u]=false;rs.miss.set(T.c,T.r)}rs.wrong=true}
+function rKey(k){if(!rs||view!=='rush')return;
+  if(k==='back'){rs.typed=rs.typed.slice(0,-1);return rPaint()}
+  if(k==='clear'){rs.typed='';return rPaint()}
+  if(k==='skip'){rStart();if(!rs.wrong)sfx('bad');rMiss();rs.typed='';return rPaint()}
+  if(k==='restart'){stopRush();return startRush()}
+  if(!/^[a-z-]$/.test(k))return;
+  flash(`.kb [data-k="${k}"]`,'hit',120);rStart();
+  const T=curTok(),v=rs.typed+k,c=[T.r,...T.al];
+  if(rs.afterN&&v==='n'&&!T.r.startsWith('n')){rs.afterN=false;return}
+  rs.afterN=false;
+  if(c.includes(v)){if(!rs.wrong)rs.ok++;rs.afterN=T.r==='n';rs.wrong=false;rs.k++;rs.typed='';
+    if(rs.k>=rs.q[rs.u].t.length){sfx(rs.res[rs.u]===false?'tick':'card');if(rs.res[rs.u]!==false)rs.res[rs.u]=true;rs.u++;rs.k=0;}else sfx('tick');if(rs.k===0){
+      if(rs.fmt==='time')rFill();else if(rs.u>=rs.q.length)return endRush()}
+    return rPaint()}
+  if(c.some(x=>x.startsWith(v))){rs.typed=v;return rPaint()}
+  rMiss();rs.typed='';sfx('bad');rPaint();flash('#ty','err')}
+function endRush(){if(!rs||view!=='rush')return;stopRush();const tot=rs.ok+rs.err,ms=rs.start?Date.now()-rs.start:0;
+  rs.ms=rs.fmt==='deck'?ms:rs.dur*1000;rs.kpm=rs.ms?Math.round(rs.ok/(rs.ms/60000)):0;rs.acc=tot?Math.round(rs.ok/tot*100):0;
+  const k=rkey(),b=S.best[k];
+  if(rs.fmt==='deck'){rs.record=!!rs.ok&&(!b||b.n!==rs.q.length||rs.ms<b.ms);if(rs.record)S.best[k]={ms:rs.ms,n:rs.q.length,acc:rs.acc}}
+  else{rs.record=!!rs.ok&&(!b||rs.kpm>b.kpm);if(rs.record)S.best[k]={kpm:rs.kpm,acc:rs.acc}}
+  rs.prev=b;if(rs.ok)sfx('done');if(rs.ok)addXp(rs.ok);else save();view='rushres';render()}
+const KB=[...'azertyuiop',...'qsdfghjklm',['restart','↻','Recommencer'],...'wxcvbn',['skip','→','Passer'],['back','←','Effacer une lettre'],['clear','«','Tout effacer']];
+function rushV(){return`<div class="rz"><div class="rz-top"><button class="x" data-act="rquit" aria-label="Quitter">×</button><span class="rz-tag">${rs.fmt==='deck'?'Paquet complet':'Contre la montre · '+rs.dur+' s'} · ${S.rct==='words'?'mots':'kana'}</span>${muteBtn()}${daru('idle',36,allDone())}</div>
+  <div class="stage"><div class="deck"><div class="cd b2" id="b2"></div><div class="cd b1" id="b1"></div><div class="cd front" id="cf"></div></div></div>
+  <p class="hintline" id="rh"></p>
+  <div class="rbar"><span class="t" id="rt">${rClock()}</span><div class="typed" id="ty" aria-live="polite"></div><span class="c" id="rc"></span></div>
+  <div class="kb">${KB.map(k=>typeof k==='string'?`<button data-act="rk" data-k="${k}">${k.toUpperCase()}</button>`:`<button class="fn" data-act="rk" data-k="${k[0]}" aria-label="${k[2]}" title="${k[2]}">${k[1]}</button>`).join('')}</div></div>`}
+function rushResV(){const m=[...rs.miss],deck=rs.fmt==='deck';
+  const talk=!rs.ok?'Le chrono n’a pas vraiment tourné… On en refait une ?'
+    :rs.record?`Nouveau record ! ${rs.prev?(deck?`Avant : ${fmtT(rs.prev.ms)}.`:`Avant : ${rs.prev.kpm} kana/min.`):'Premier score enregistré.'}`
+    :rs.kpm<15?'Bon début : la vitesse vient avec les révisions.':rs.kpm<30?'Ça commence à filer, continue !':rs.kpm<50?'Très rapide, tu lis presque sans réfléchir.':'Vitesse de ninja. Daru est impressionné.';
+  return top()+`<section class="band"><div class="wrap narrow res"><p class="lead">Rafale · ${deck?'paquet de '+rs.q.length+' cartes':rs.dur+' s'} · ${S.rct==='words'?'mots':'kana'}</p>
+  <div class="big-n">${deck?fmtT(rs.ms):rs.kpm}</div><p class="lead" style="margin-top:-4px">${deck?'pour finir le paquet':'kana par minute'}</p>
+  <div class="rfigs"><div class="fig1"><b>${deck?rs.kpm:rs.ok}</b><span>${deck?'kana/min':'kana justes'}</span></div><div class="fig1"><b>${rs.acc} %</b><span>précision</span></div><div class="fig1"><b>${rs.err}</b><span>erreurs</span></div></div>
+  ${m.length?`<h2 style="margin-top:14px">À retravailler</h2><div class="mrow">${m.map(([c,r])=>`<button class="mk" data-act="say" data-t="${c}"><span lang="ja">${c}</span><small>${r}</small></button>`).join('')}</div>`:''}
+  ${mascot(rs.record&&rs.ok?'happy':'idle',talk,70)}
+  <div class="acts"><button class="btn ac" data-act="rstart">Rejouer</button><button class="btn gh" data-act="home">Retour</button></div></div></section>`}
+
+function render(){app.innerHTML={home:homeV,cards:cardsV,quiz:quizV,res:resV,set:setV,rush:rushV,rushres:rushResV}[view]();
+  if(view==='rush')rPaint();
+  if(view!==lastView){window.scrollTo(0,0);lastView=view}
+  if(view==='cards')say(LES[ses.id].items[ses.ci]);
+  if(view==='quiz'){const Q=cur();if(ses.ans){const b=document.getElementById('nb');b&&b.focus({preventScroll:true})}else if(Q.type==='type'){const i=document.getElementById('ti');i&&i.focus({preventScroll:true})}else if(Q.type==='ear')say(Q.c)}}
+
+/* ---------- événements ---------- */
+app.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.disabled)return;const a=b.dataset.act,id=b.dataset.id;
+  if(a!=='reset')armed=false;
+  switch(a){
+    case'lesson':startLesson(id);break;case'test':startTest(id);break;case'review':startReview(false);break;case'practice':startReview(true);break;
+    case'say':say(b.dataset.t);break;case'tab':S.tab=id;save();render();break;case'page':S.page=id;save();render();break;
+    case'cnext':ses.ci++;render();break;case'prev':ses.ci--;render();break;case'go':initQuiz(lessonQueue());render();break;
+    case'opt':answer(+b.dataset.i);break;case'next':next();break;
+    case'rset':{const k=b.dataset.k;S[k]=k==='rdu'?+b.dataset.v:b.dataset.v;save();render();break}
+    case'rstart':startRush();break;case'mute':S.snd=S.snd===false;save();if(S.snd)sfx('ok');{const n=document.createElement('div');n.innerHTML=muteBtn();b.replaceWith(n.firstChild)}break;case'rk':rKey(b.dataset.k);break;
+    case'rquit':stopRush();rs=null;view='home';render();break;
+    case'quit':case'home':stopRush();ses=null;view='home';render();break;case'settings':view='set';render();break;
+    case'tog':S[b.dataset.k]=b.checked;save();break;
+    case'copy':{const t=document.getElementById('exp');try{navigator.clipboard.writeText(t.value).then(()=>{b.textContent='Copié'},()=>t.select())}catch(err){t.select()}break}
+    case'reset':if(!armed){armed=true;render()}else{armed=false;S=fresh();homeTip=null;save();view='home';render()}break;
+  }});
+app.addEventListener('submit',e=>{e.preventDefault();if(e.target.id==='tf')answerTyped(document.getElementById('ti').value);
+  if(e.target.id==='imp'){const m=document.getElementById('impm');try{const v=JSON.parse(document.getElementById('impt').value);if(!v||typeof v.learned!=='object')throw 0;S=Object.assign(fresh(),v);homeTip=null;save();render();document.getElementById('impm').textContent='Progression importée.'}catch(err){m.textContent='Ce code n’est pas valide.'}}});
+document.addEventListener('keydown',e=>{if(view==='rush'){if(e.metaKey||e.ctrlKey||e.altKey)return;const k=e.key;const m=/^[a-zA-Z-]$/.test(k)?k.toLowerCase():k==='Backspace'?'back':k==='Escape'?'clear':k==='ArrowRight'?'skip':null;if(m){e.preventDefault();rKey(m)}return}if(view!=='quiz'||!ses)return;if(e.target.tagName==='BUTTON'||e.target.tagName==='INPUT')return;
+  if(ses.ans){if(e.key==='Enter'){e.preventDefault();next()}return}if(cur().type!=='type'&&/^[1-4]$/.test(e.key))answer(+e.key-1)});
+render();
+}
+</script></body></html>
