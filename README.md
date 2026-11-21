@@ -15,7 +15,7 @@ Petit jeu pour apprendre les hiragana et katakana, avec Daru le daruma comme gui
 
 L'appli est faite de fichiers statiques : pas de build, pas de dépendance à installer.
 
-- **En ligne** : *Settings → Pages → Deploy from a branch → `main` / (root)*. Le jeu est alors sur `https://rouuulien.github.io/hanko-kana/`.
+- **En ligne** : *Settings → Pages → Deploy from a branch → `main` / (root)*. Le jeu est alors sur `https://rouuulien.github.io/Hanko-kana/`.
 - **L'installer sur iPhone** : ouvre l'adresse dans Safari → Partager → « Sur l'écran d'accueil ». Sur Android : menu de Chrome → « Installer l'application ».
 - **En local** : `python3 -m http.server` dans le dossier, puis `http://localhost:8000`.
 
@@ -27,8 +27,8 @@ Mise en place, une seule fois :
 
 1. **Base de données** : Supabase → *SQL Editor* → coller le contenu de `supabase/schema.sql` → *Run*.
 2. **Adresses autorisées** : *Authentication → URL Configuration* :
-   - *Site URL* : `https://rouuulien.github.io/hanko-kana/`
-   - *Redirect URLs* : ajouter `https://rouuulien.github.io/hanko-kana/**`
+   - *Site URL* : `https://rouuulien.github.io/Hanko-kana/`
+   - *Redirect URLs* : ajouter `https://rouuulien.github.io/Hanko-kana/**`
 3. **E-mail avec code** : *Authentication → Emails → Magic Link*. Remplacer le contenu par :
    - Sujet : `Ton code de connexion Hanko`
    - Corps :
