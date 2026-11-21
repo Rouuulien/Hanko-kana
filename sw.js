@@ -2,8 +2,8 @@
    Pages HTML : réseau d'abord (pour recevoir les mises à jour), cache si hors ligne.
    Le reste (icônes, polices, bibliothèque Supabase) : cache d'abord.
    Les appels à Supabase ne sont jamais mis en cache. */
-const V = 'hanko-v1';
-const SHELL = ['./', './index.html', './confidentialite.html', './manifest.webmanifest',
+const V = 'hanko-v2';
+const SHELL = ['./', './index.html', './confidentialite.html', './manifest.webmanifest', './data/kana-strokes.json',
   './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png', './icons/favicon-32.png'];
 
 self.addEventListener('install', e => {

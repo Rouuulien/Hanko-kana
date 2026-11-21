@@ -9,6 +9,7 @@ Petit jeu pour apprendre les hiragana et katakana, avec Daru le daruma comme gui
 - **Tableau** : grille des kana colorée selon ta maîtrise, touche un kana pour l'entendre.
 - **Mots** : environ 175 mots courants qui se débloquent quand tu connais tous leurs kana.
 - **Rafale** : mode vitesse en cartes avec clavier AZERTY intégré, en paquet complet ou contre la montre.
+- **Écriture** : ordre des traits animé et tracé guidé dans les fiches, exercices « dessine ce kana » dans les quiz, et mode **Pinceau** (on reçoit le son, on dessine le kana ; reconnaissance du tracé, de l'ordre et du sens des traits).
 - **Sons**, série de jours, XP.
 
 ## Lancer le jeu
@@ -64,3 +65,7 @@ Dans `index.html` :
 
 Autres fichiers : `manifest.webmanifest` et `sw.js` (appli installable et hors ligne), `icons/`, `confidentialite.html`, `supabase/schema.sql`.
 - sections *sessions*, *Rafale*, *sons*, *vues*, *événements*
+
+## Crédits
+
+Les formes et l'ordre des traits des kana proviennent de [KanjiVG](https://kanjivg.tagaini.net) © Ulrich Apel, sous licence CC BY-SA 3.0. Le fichier dérivé `data/kana-strokes.json` est distribué sous la même licence (voir `data/`).
