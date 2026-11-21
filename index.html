@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#e3402a"><meta name="description" content="Apprends les hiragana et katakana avec Daru : leçons, révisions espacées, mots et mode Rafale.">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icons/favicon-32.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Hanko"><meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Hanko · kana</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
@@ -26,7 +29,7 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 .btn.wh{background:#fff;color:#b8301d;box-shadow:0 4px 0 #8f2515}.btn.ac{background:var(--ac);color:#fff;box-shadow:0 4px 0 color-mix(in srgb,var(--ac) 60%,#000)}
 .btn.gh{background:transparent;color:var(--ink);border:2px solid var(--line);box-shadow:none}
 .btn.danger{background:var(--bad);color:#fff;box-shadow:none}.btn:disabled{opacity:.4;cursor:default}
-.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px max(5vw,16px);background:var(--bg);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:calc(10px + env(safe-area-inset-top)) max(5vw,16px,env(safe-area-inset-right)) 10px max(5vw,16px,env(safe-area-inset-left));background:var(--bg);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
 .brand{display:flex;align-items:center;gap:10px;font:900 22px "Zen Maru Gothic",sans-serif}
 .tstats{display:flex;align-items:center;gap:10px}
 .pill{display:flex;align-items:center;gap:6px;min-height:38px;padding:0 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-weight:600;white-space:nowrap}
@@ -90,9 +93,10 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 .wd{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:12px 14px;text-align:left;display:grid;gap:2px}
 .wd .j{font-size:24px;font-weight:700}.wd .r{color:var(--ac);font-weight:600}.wd .f{color:var(--mut);font-size:14px}
 .wd.locked{opacity:.55;border-style:dashed}.wd.locked .r,.wd.locked .f{visibility:hidden}
+.lg{display:grid;gap:10px}.lg .btn{justify-self:start}.foot a,.foot .link{font-size:13px}
 .foot{font-size:13px;color:var(--mut);text-align:center;padding:24px 16px 32px}
 /* quiz */
-.qtop{display:flex;align-items:center;gap:14px;padding:14px max(5vw,16px);max-width:720px;margin:0 auto}
+.qtop{display:flex;align-items:center;gap:14px;padding:calc(14px + env(safe-area-inset-top)) max(5vw,16px) 14px;max-width:720px;margin:0 auto}
 .bar{flex:1;height:14px;border-radius:7px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;background:var(--ac);border-radius:7px;transition:width .3s;box-shadow:inset 0 -4px 0 rgba(0,0,0,.12)}
 .combo{font-weight:700;color:var(--ac);white-space:nowrap;font-size:15px}
 .qz{max-width:640px;margin:0 auto;padding:4px max(5vw,16px) 40px}
@@ -150,7 +154,7 @@ textarea{width:100%;font:14px/1.4 ui-monospace,monospace;padding:12px;border-rad
 .chips button[aria-pressed=true]{background:var(--ac);color:#fff;border-color:var(--ac)}
 .rset .btn{justify-self:start}.rbest{font-size:15px;color:var(--mut);margin:0}.rbest b{color:var(--ink)}
 .rz{position:fixed;inset:0;z-index:20;background:#17151b;color:#f2eee8;display:flex;flex-direction:column;height:100dvh;overflow:hidden}
-.rz-top{display:flex;align-items:center;gap:12px;padding:10px 16px;max-width:640px;width:100%;margin:0 auto}
+.rz-top{display:flex;align-items:center;gap:12px;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;max-width:640px;width:100%;margin:0 auto}
 .x.snd{display:grid;place-items:center;flex:none}.x.snd svg{width:20px;height:20px}
 .rz-top .x{background:#24212a;border-color:#34303a;color:#f2eee8}.rz-tag{flex:1;font-size:14px;color:#a8a2ab}
 .stage{flex:1;display:grid;place-items:center;padding:8px 16px;min-height:0}
@@ -172,7 +176,7 @@ textarea{width:100%;font:14px/1.4 ui-monospace,monospace;padding:12px;border-rad
 .typed{height:58px;background:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;font:600 26px Outfit,sans-serif;letter-spacing:.08em;color:#fff}
 .typed::after{content:"";width:2px;height:28px;background:#ff6249;margin-left:3px;animation:blink 1s steps(1) infinite}
 .typed.err{animation:shake .25s;box-shadow:0 0 0 2px #ff6249}@keyframes blink{50%{opacity:0}}
-.kb{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));max-width:640px;width:100%;margin:0 auto;padding:0 8px 10px}
+.kb{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));max-width:640px;width:100%;margin:0 auto;padding:0 8px calc(10px + env(safe-area-inset-bottom))}
 .kb button{height:clamp(44px,7.4vh,62px);border:1px solid #34303a;margin:0 -1px -1px 0;background:#24212a;color:#f2eee8;font:600 21px Outfit,sans-serif;touch-action:manipulation;user-select:none;-webkit-user-select:none}
 .kb button.fn{background:#2f2b36;color:#ff8f7f;font-size:22px}
 .kb button.hit,.kb button:active{background:#e3402a;color:#fff}
@@ -259,30 +263,76 @@ let S=fresh();try{const v=JSON.parse(localStorage.getItem(KEY));if(v&&typeof v.l
 const saveLocal=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const save=()=>{S.at=Date.now();saveLocal();cloudSoon()};
 /* ---------- sauvegarde sur le compte Claude (capacité db) ---------- */
-const cloud={st:'local',ref:null,ready:false,busy:false,dirty:false,t:0,last:0};
+const cloud={mode:null,st:'local',api:null,ready:false,busy:false,dirty:false,t:0,last:0,sb:null,uid:null,email:'',step:'',msg:''};
+const SB_URL='https://hxnptpndukqivjewwxnj.supabase.co',SB_KEY='sb_publishable_jRnM6-6jhF_T0BZHPMjnhg_rGkdS-u0';
 function merge(a,b){const n=(a.at||0)>=(b.at||0)?a:b,o=n===a?b:a,r=Object.assign(fresh(),o,n);
   r.learned=Object.assign({},o.learned);for(const[c,L]of Object.entries(n.learned||{})){const p=r.learned[c];if(!p||L.box>=p.box)r.learned[c]=L}
   r.done=Object.assign({},o.done,n.done);r.tests=Object.assign({},o.tests);for(const[k,v]of Object.entries(n.tests||{}))r.tests[k]=Math.max(v,r.tests[k]||0);
   r.best=Object.assign({},o.best);for(const[k,v]of Object.entries(n.best||{})){const p=r.best[k];if(!p||(v.ms!=null?(p.n!==v.n||v.ms<p.ms):v.kpm>p.kpm))r.best[k]=v}
   r.xp=Math.max(a.xp||0,b.xp||0);r.at=Math.max(a.at||0,b.at||0);return r}
-function cloudSoon(){if(!cloud.ready)return;clearTimeout(cloud.t);cloud.t=setTimeout(cloudPush,1200)}
-async function cloudPush(){if(!cloud.ref)return;if(cloud.busy){cloud.dirty=true;return}cloud.busy=true;cloud.st='sync';
-  try{await cloud.ref.set({v:1,at:S.at||Date.now(),data:JSON.stringify(S)});cloud.st='ok';cloud.last=Date.now()}catch(e){cloud.st=e&&e.code==='revoked'?'local':'err'}
+function cloudSoon(){if(!cloud.ready||!cloud.api)return;clearTimeout(cloud.t);cloud.t=setTimeout(cloudPush,1200)}
+async function cloudPush(){if(!cloud.api)return;if(cloud.busy){cloud.dirty=true;return}cloud.busy=true;cloud.st='sync';paintCloud();
+  try{await cloud.api.put(S);cloud.st='ok';cloud.last=Date.now()}catch(e){cloud.st=e&&e.code==='revoked'?'local':'err'}
   cloud.busy=false;if(cloud.dirty){cloud.dirty=false;cloudPush()}else paintCloud()}
-async function cloudPull(){if(!cloud.ref)return;let snap;try{snap=await cloud.ref.get()}catch(e){cloud.st='err';paintCloud();return}
-  if(snap.exists){let rem=null;try{rem=JSON.parse(snap.data().data)}catch(e){}
-    if(rem&&typeof rem.learned==='object'){const m=merge(S,rem),same=JSON.stringify(m)===JSON.stringify(rem);S=m;saveLocal();homeTip=null;
-      if(['home','set','res','rushres'].includes(view))render();cloud.ready=true;if(!same)return cloudPush()}}
+async function cloudPull(){const api=cloud.api;if(!api)return;let rem;try{rem=await api.get()}catch(e){cloud.st='err';paintCloud();return}
+  if(api!==cloud.api)return;
+  if(rem&&typeof rem.learned==='object'){const m=merge(S,rem),same=JSON.stringify(m)===JSON.stringify(rem);S=m;saveLocal();homeTip=null;
+    if(['home','set','res','rushres'].includes(view))render();cloud.ready=true;if(!same)return cloudPush()}
   else if(Object.keys(S.learned).length||S.xp){cloud.ready=true;return cloudPush()}
   cloud.ready=true;cloud.st='ok';cloud.last=Date.now();paintCloud()}
-async function cloudInit(){if(!window.claude||typeof window.claude.use!=='function')return;
-  const to=setTimeout(()=>{if(!cloud.ready&&cloud.ref){cloud.st='err';paintCloud()}},10000);
-  try{const[db,user]=await Promise.all([claude.use('db'),claude.use('user')]);if(!db||!user)return clearTimeout(to);
-    const id=await user.id();if(!id)return clearTimeout(to);
-    cloud.ref=db.doc('data/users/'+id+'/progress');cloud.st='sync';paintCloud();await cloudPull()}catch(e){cloud.st='local'}clearTimeout(to);paintCloud()}
-document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&cloud.ref&&!cloud.busy)cloudPull()});
-const cloudText=()=>({ok:`Sauvegardée automatiquement sur ton compte Claude${cloud.last?' · synchro à '+new Date(cloud.last).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}):''}.`,sync:'Synchronisation avec ton compte Claude…',err:'Compte Claude injoignable pour l’instant : ta progression est gardée sur cet appareil et sera synchronisée dès que possible.',local:'Enregistrée seulement dans ce navigateur (sauvegarde sur le compte indisponible ici).'})[cloud.st];
+async function cloudInit(){
+  if(window.claude&&typeof window.claude.use==='function'){cloud.mode='claude';
+    const to=setTimeout(()=>{if(!cloud.ready&&cloud.api){cloud.st='err';paintCloud()}},10000);
+    try{const[db,user]=await Promise.all([claude.use('db'),claude.use('user')]);if(!db||!user)return clearTimeout(to);
+      const id=await user.id();if(!id)return clearTimeout(to);const ref=db.doc('data/users/'+id+'/progress');
+      cloud.api={get:async()=>{const s=await ref.get();if(!s.exists)return null;try{return JSON.parse(s.data().data)}catch(e){return null}},put:st=>ref.set({v:1,at:st.at||Date.now(),data:JSON.stringify(st)})};
+      cloud.st='sync';paintCloud();await cloudPull()}catch(e){cloud.st='local'}clearTimeout(to);paintCloud();return}
+  cloud.mode='sb';cloud.st='anon';if(view==='home')render();
+  if('serviceWorker'in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+  try{if(!window.supabase)await new Promise((ok,ko)=>{const sc=document.createElement('script');sc.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';sc.onload=ok;sc.onerror=ko;document.head.appendChild(sc)});
+    cloud.sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'implicit'}});
+    cloud.sb.auth.onAuthStateChange((ev,ses)=>{setTimeout(()=>sbSession(ses),0)});
+    const r=await cloud.sb.auth.getSession();sbSession(r.data&&r.data.session)}
+  catch(e){cloud.st='off';paintCloud();if(view==='set')render()}}
+function sbSession(ses){const uid=ses&&ses.user?ses.user.id:null;if(uid===cloud.uid&&cloud.api!==undefined&&(uid?cloud.api:true))return;
+  cloud.uid=uid;cloud.ready=false;
+  if(!uid){cloud.api=null;cloud.st='anon';paintCloud();if(view==='set'||view==='home')render();return}
+  cloud.email=ses.user.email||cloud.email;cloud.step='';cloud.msg='';const sb=cloud.sb;
+  cloud.api={get:async()=>{const{data,error}=await sb.from('progress').select('data').eq('user_id',uid).maybeSingle();if(error)throw error;return data?data.data:null},
+    put:async st=>{const{error}=await sb.from('progress').upsert({user_id:uid,data:st,updated_at:new Date().toISOString()});if(error)throw error}};
+  cloud.st='sync';paintCloud();if(view==='set'||view==='home')render();cloudPull()}
+async function sbLogin(form){const sb=cloud.sb;if(!sb)return;const btn=form.querySelector('button.btn');btn&&(btn.disabled=true);
+  if(cloud.step!=='code'){const email=form.querySelector('#lmail').value.trim();if(!email)return;cloud.email=email;
+    const{error}=await sb.auth.signInWithOtp({email,options:{shouldCreateUser:true,emailRedirectTo:location.origin+location.pathname}});
+    if(error){cloud.msg=/rate|seconds/i.test(error.message)?'Patiente une minute avant de redemander un code.':'Envoi impossible : vérifie l’adresse e-mail.'}
+    else{cloud.step='code';cloud.msg='Regarde ta boîte mail (et les indésirables). Tu peux aussi simplement cliquer sur le lien reçu.'}}
+  else{const token=form.querySelector('#lcode').value.replace(/\s/g,'');if(!token)return;
+    const{error}=await sb.auth.verifyOtp({email:cloud.email,token,type:'email'});
+    if(error)cloud.msg='Code invalide ou expiré. Redemande un code si besoin.'}
+  render()}
+let armedDel=false;
+async function sbDelete(){const sb=cloud.sb;if(!sb)return;const{error}=await sb.rpc('delete_user');
+  if(error){cloud.msg='Suppression impossible pour le moment. Réessaie plus tard.';return render()}
+  await sb.auth.signOut();S=fresh();saveLocal();homeTip=null;cloud.msg='Ton compte et ta progression en ligne ont été supprimés.';render()}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&cloud.api&&!cloud.busy)cloudPull()});
+const syncAt=()=>cloud.last?' · synchro à '+new Date(cloud.last).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}):'';
+const cloudText=()=>({ok:cloud.mode==='sb'?`Sauvegardée sur ton compte (${cloud.email})${syncAt()}.`:`Sauvegardée automatiquement sur ton compte Claude${syncAt()}.`,
+  sync:'Synchronisation en cours…',
+  err:'Serveur injoignable pour l’instant : ta progression est gardée sur cet appareil et sera synchronisée dès que possible.',
+  anon:'Progression enregistrée sur cet appareil uniquement. Crée un compte gratuit dans Réglages pour la sauvegarder en ligne.',
+  off:'Hors ligne : progression gardée sur cet appareil.',
+  local:'Enregistrée seulement dans ce navigateur.'})[cloud.st];
 function paintCloud(){for(const e of document.querySelectorAll('[data-cloud]'))e.textContent=cloudText()}
+function accountV(){if(cloud.mode!=='sb')return'';const msg=cloud.msg?`<p class="mut" style="margin:0">${esc(cloud.msg)}</p>`:'';
+  if(cloud.st==='off')return`<h2>Compte</h2><p class="mut" style="margin:0">Connexion impossible hors ligne. Reviens quand tu as du réseau pour créer ton compte ou te connecter.</p>`;
+  if(cloud.uid)return`<h2>Compte</h2><p style="margin:0">Connecté avec <b>${esc(cloud.email)}</b>.</p>${msg}
+    <div class="acts" style="justify-content:flex-start;margin:0"><button class="btn gh" data-act="logout">Se déconnecter</button><button class="btn danger" data-act="delacc">${armedDel?'Confirmer : tout supprimer':'Supprimer mon compte'}</button></div>
+    <p class="mut" style="margin:0">La suppression efface définitivement ton compte et ta progression en ligne.</p>`;
+  return`<h2>Compte</h2><p class="mut" style="margin:0">Crée un compte gratuit pour sauvegarder ta progression et la retrouver sur tous tes appareils. Pas de mot de passe : tu reçois un code par e-mail.</p>
+    <form id="login" class="lg">${cloud.step==='code'
+      ?`<p style="margin:0">Code envoyé à <b>${esc(cloud.email)}</b>.</p><input id="lcode" class="rin" inputmode="numeric" autocomplete="one-time-code" placeholder="Code reçu par e-mail" maxlength="10" aria-label="Code reçu par e-mail"><button class="btn ac">Valider le code</button><button type="button" class="link" data-act="lreset">Changer d’adresse e-mail</button>`
+      :`<input id="lmail" class="rin" type="email" autocomplete="email" placeholder="ton@email.fr" required aria-label="Adresse e-mail" value="${esc(cloud.email)}"><button class="btn ac">Recevoir mon code</button>`}${msg}</form>
+    <p class="mut" style="margin:0;font-size:14px">En créant un compte, tu acceptes la <a href="confidentialite.html">politique de confidentialité</a>.</p>`}
 const ld=(off=0)=>{const d=new Date();d.setDate(d.getDate()+off);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
 const streak=()=>(S.last===ld()||S.last===ld(-1))?S.streak:0;
 const todayXp=()=>S.today===ld()?S.todayXp:0;
@@ -378,7 +428,7 @@ function homeV(){const nx=nextLesson(),due=dueList().length,nl=Object.keys(S.lea
   <div class="fig1"><b>${rw} / ${WORDS.length}</b><span>mots lisibles</span></div><div class="fig1"><b>${S.xp}</b><span>XP au total</span></div></div></section>
   <section class="band" style="padding-top:16px"><div class="wrap"><nav class="seg" aria-label="Sections"><button data-act="page" data-id="path" aria-pressed="${pg==='path'}">Parcours</button><button data-act="page" data-id="sheet" aria-pressed="${pg==='sheet'}">Tableau</button><button data-act="page" data-id="words" aria-pressed="${pg==='words'}">Mots</button><button data-act="page" data-id="rush" aria-pressed="${pg==='rush'}">Rafale</button></nav>
   ${pg==='sheet'?sheetV():pg==='words'?wordsV():pg==='rush'?rushSetupV():UNITS.map(u=>unitV(u,nx)).join('')}</div></section>
-  <p class="foot" data-cloud>${cloudText()}</p>`}
+  <p class="foot"><span data-cloud>${cloudText()}</span>${cloud.mode==='sb'?` <button class="link" data-act="settings">${cloud.uid?'Réglages':'Créer un compte'}</button> · <a href="confidentialite.html" style="color:inherit">Confidentialité</a>`:''}</p>`}
 
 const XS=[0,52,72,52,0,-52,-72,-52];
 function unitV(u,nx){const d=u.lessons.filter(l=>S.done[l.id]).length,best=S.tests[u.id],to=testOpen(u),n=u.lessons.length;let k=0;
@@ -451,7 +501,7 @@ function setV(){return top()+`<section class="band"><div class="wrap narrow set"
   <label class="tg"><input type="checkbox" data-act="tog" data-k="unlock" ${S.unlock?'checked':''}><span>Tout débloquer<small>Accède à n’importe quelle leçon, sans suivre l’ordre.</small></span></label>
   <label class="tg"><input type="checkbox" data-act="tog" data-k="ear" ${S.ear!==false?'checked':''} ${tts?'':'disabled'}><span>Exercices d’écoute<small>${tts?'Utilise la voix japonaise de ton appareil.':'Aucune voix japonaise trouvée sur cet appareil.'}</small></span></label>
   <label class="tg"><input type="checkbox" data-act="tog" data-k="snd" ${S.snd!==false?'checked':''}><span>Sons du jeu<small>Petits sons de bonne réponse, d’erreur, de série et de fin de leçon.</small></span></label>
-  <h2>Sauvegarde</h2><p style="margin:0;font-weight:500" data-cloud>${cloudText()}</p><p class="mut" style="margin:0">Code de secours : copie-le pour garder une copie manuelle ou transférer ta progression hors de Claude (par exemple vers la version GitHub Pages).</p>
+  ${accountV()}<h2>Sauvegarde</h2><p style="margin:0;font-weight:500" data-cloud>${cloudText()}</p><p class="mut" style="margin:0">Code de secours : copie-le pour garder une copie manuelle ou transférer ta progression hors de Claude (par exemple vers la version GitHub Pages).</p>
   <textarea id="exp" readonly rows="3">${esc(JSON.stringify(S))}</textarea><button class="btn gh" data-act="copy">Copier le code</button>
   <form id="imp"><textarea id="impt" rows="3" placeholder="Colle ici un code de sauvegarde" aria-label="Code de sauvegarde"></textarea><button class="btn gh">Importer</button><p id="impm" class="mut" style="margin:0"></p></form>
   <h2>Remise à zéro</h2><button class="btn danger" data-act="reset">${armed?'Confirmer : tout effacer':'Effacer ma progression'}</button></div></section>`}
@@ -539,21 +589,21 @@ function render(){app.innerHTML={home:homeV,cards:cardsV,quiz:quizV,res:resV,set
 
 /* ---------- événements ---------- */
 app.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.disabled)return;const a=b.dataset.act,id=b.dataset.id;
-  if(a!=='reset')armed=false;
+  if(a!=='reset')armed=false;if(a!=='delacc')armedDel=false;
   switch(a){
     case'lesson':startLesson(id);break;case'test':startTest(id);break;case'review':startReview(false);break;case'practice':startReview(true);break;
     case'say':say(b.dataset.t);break;case'tab':S.tab=id;save();render();break;case'page':S.page=id;save();render();break;
     case'cnext':ses.ci++;render();break;case'prev':ses.ci--;render();break;case'go':initQuiz(lessonQueue());render();break;
     case'opt':answer(+b.dataset.i);break;case'next':next();break;
     case'rset':{const k=b.dataset.k;S[k]=k==='rdu'?+b.dataset.v:b.dataset.v;save();render();break}
-    case'rstart':startRush();break;case'mute':S.snd=S.snd===false;save();if(S.snd)sfx('ok');{const n=document.createElement('div');n.innerHTML=muteBtn();b.replaceWith(n.firstChild)}break;case'rk':rKey(b.dataset.k);break;
+    case'rstart':startRush();break;case'lreset':cloud.step='';cloud.msg='';render();break;case'logout':cloud.sb&&cloud.sb.auth.signOut();cloud.msg='';break;case'delacc':if(!armedDel){armedDel=true;render()}else{armedDel=false;sbDelete()}break;case'mute':S.snd=S.snd===false;save();if(S.snd)sfx('ok');{const n=document.createElement('div');n.innerHTML=muteBtn();b.replaceWith(n.firstChild)}break;case'rk':rKey(b.dataset.k);break;
     case'rquit':stopRush();rs=null;view='home';render();break;
     case'quit':case'home':stopRush();ses=null;view='home';render();break;case'settings':view='set';render();break;
     case'tog':S[b.dataset.k]=b.checked;save();break;
     case'copy':{const t=document.getElementById('exp');try{navigator.clipboard.writeText(t.value).then(()=>{b.textContent='Copié'},()=>t.select())}catch(err){t.select()}break}
     case'reset':if(!armed){armed=true;render()}else{armed=false;S=fresh();homeTip=null;save();view='home';render()}break;
   }});
-app.addEventListener('submit',e=>{e.preventDefault();if(e.target.id==='tf')answerTyped(document.getElementById('ti').value);
+app.addEventListener('submit',e=>{e.preventDefault();if(e.target.id==='login')return sbLogin(e.target);if(e.target.id==='tf')answerTyped(document.getElementById('ti').value);
   if(e.target.id==='imp'){const m=document.getElementById('impm');try{const v=JSON.parse(document.getElementById('impt').value);if(!v||typeof v.learned!=='object')throw 0;S=Object.assign(fresh(),v);homeTip=null;save();render();document.getElementById('impm').textContent='Progression importée.'}catch(err){m.textContent='Ce code n’est pas valide.'}}});
 document.addEventListener('keydown',e=>{if(view==='rush'){if(e.metaKey||e.ctrlKey||e.altKey)return;const k=e.key;const m=/^[a-zA-Z-]$/.test(k)?k.toLowerCase():k==='Backspace'?'back':k==='Escape'?'clear':k==='ArrowRight'?'skip':null;if(m){e.preventDefault();rKey(m)}return}if(view!=='quiz'||!ses)return;if(e.target.tagName==='BUTTON'||e.target.tagName==='INPUT')return;
   if(ses.ans){if(e.key==='Enter'){e.preventDefault();next()}return}if(cur().type!=='type'&&/^[1-4]$/.test(e.key))answer(+e.key-1)});
