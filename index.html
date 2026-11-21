@@ -167,13 +167,21 @@ textarea{width:100%;font:14px/1.4 ui-monospace,monospace;padding:12px;border-rad
 .btn.sm{min-height:44px;padding:0 16px;font-size:15px}
 .tpad{margin-top:12px;display:grid;gap:4px}.tmsg{text-align:center;margin:8px 0 0;font-size:15px}.tmsg.ok{color:var(--ok)}.tmsg.bad{color:var(--bad)}
 .bz .bstage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:4px 16px;min-height:0}
-.bprompt{display:flex;align-items:center;gap:12px}.bro{font:800 clamp(40px,10vw,56px)/1 Outfit,sans-serif;letter-spacing:.03em}
+.bprompt{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}.bcount{font-size:14px;color:#a8a2ab;border:1px solid #34303a;border-radius:999px;padding:4px 10px}.bro{font:800 clamp(40px,10vw,56px)/1 Outfit,sans-serif;letter-spacing:.03em}
 .bz .say{border-color:#34303a;color:#f2eee8}.bz .btn.gh{color:#f2eee8;border-color:#34303a}.bz .link{color:#a8a2ab}
 .bfb{text-align:center;display:grid;gap:2px;max-width:420px}.bfb b{font-size:18px}.bfb.ok b{color:#5cc98a}.bfb.bad b{color:#ff8a80}.bfb span{color:#a8a2ab;font-size:15px}
 .bscore{font-size:20px;letter-spacing:0}.bscore::after{display:none}
 .mkm{width:84px}.mkm .mm{display:block;width:60px;height:60px;margin:0 auto}
 .seg{overflow-x:auto;scrollbar-width:none}.seg::-webkit-scrollbar{display:none}.seg button{flex:none}
 @media (prefers-reduced-motion:reduce){.model.anim path{animation:none;stroke-dashoffset:0}.model.anim text{animation:none;opacity:1}}
+.pad .phint{position:absolute;inset:0;pointer-events:none}
+.aid{width:100%;height:100%}.aid .g{fill:none;stroke:color-mix(in srgb,currentColor 13%,transparent);stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+.aid .nx{fill:none;stroke:#e3402a;opacity:.55;stroke-width:5.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:kd .9s .15s ease-out forwards}
+.aid circle{fill:#e3402a}.aid text{font:700 5.6px Outfit,sans-serif;fill:#fff;text-anchor:middle}
+.model.hintm path{stroke:color-mix(in srgb,#e3402a 45%,transparent)}
+.hintb{border-color:color-mix(in srgb,var(--gold) 70%,transparent)!important}
+.lvl{font-size:14px;color:var(--mut);margin:-2px 0 0}
+@media (prefers-reduced-motion:reduce){.aid .nx{animation:none;stroke-dashoffset:0}}
 /* rafale */
 .rset{max-width:640px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:22px;display:grid;gap:14px}
 .og{display:grid;gap:6px}.og>span{font-size:14px;color:var(--mut);font-weight:500}
@@ -285,7 +293,7 @@ const wordHTML=w=>`<span class="w" lang="ja">${w.j}</span> · ${w.r} · « ${w.f
 
 /* ---------- état ---------- */
 const KEY='hanko-kana-v1';
-const fresh=()=>({learned:{},done:{},tests:{},xp:0,streak:0,last:'',today:'',todayXp:0,unlock:false,ear:true,tab:'h',page:'path',rsc:'h',rct:'kana',rdu:60,rfmt:'deck',best:{},snd:true,draw:true,bsc:'h',bn:10});
+const fresh=()=>({learned:{},done:{},tests:{},xp:0,streak:0,last:'',today:'',todayXp:0,unlock:false,ear:true,tab:'h',page:'path',rsc:'h',rct:'kana',rdu:60,rfmt:'deck',best:{},snd:true,draw:true,bsc:'h',bn:10,bl:2});
 let S=fresh();try{const v=JSON.parse(localStorage.getItem(KEY));if(v&&typeof v.learned==='object')S=Object.assign(fresh(),v)}catch(e){}
 const saveLocal=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const save=()=>{S.at=Date.now();saveLocal();cloudSoon()};
@@ -462,8 +470,21 @@ function judgeDraw(user,target){const U=dNorm(user),tg=dTpl(target),cands=Object
   r.tip=tips.join(' ');return r}
 function modelSVG(c,o){o=o||{};const k=KS&&KS[c];if(!k)return'';const anim=o.anim!==false,st=o.speed||0.6;
   return`<svg class="model ${o.cls||''} ${anim?'anim':''}" viewBox="0 0 109 109" aria-hidden="true">${k.d.map((d,i)=>`<path d="${d}" pathLength="1" style="animation-delay:${(i*st).toFixed(2)}s"/>`).join('')}${o.nums===false?'':k.p.map((p,i)=>`<text x="${Math.max(2,p[0]-6)}" y="${Math.max(8,p[1]-3)}" style="animation-delay:${(i*st).toFixed(2)}s">${i+1}</text>`).join('')}</svg>`}
+function aidSVG(c,aid,n,animFull){const k=KS&&KS[c];if(!k||aid<=0)return'';const N=k.d.length;let h='';
+  if(aid>=3)return modelSVG(c,{cls:'hintm',anim:!!animFull,speed:.5})+(n<N?aidSVG(c,1,n):'');
+  if(aid>=2)h+=k.d.map(d=>`<path class="g" d="${d}"/>`).join('');
+  if(n<N){if(aid>=2)h+=`<path class="nx" d="${k.d[n]}" pathLength="1"/>`;const p=k.p[n];h+=`<circle cx="${p[0]}" cy="${p[1]}" r="4.4"/><text x="${p[0]}" y="${(p[1]+2.1).toFixed(1)}">${n+1}</text>`}
+  return`<svg class="aid" viewBox="0 0 109 109" aria-hidden="true">${h}</svg>`}
+const BASE_AID={1:2,2:1,3:0};
+function aidCtx(){if(view==='cards'&&ses&&ses.tr&&!ses.tdone)return{c:LES[ses.id].items[ses.ci],aid:2};
+  if(view==='quiz'&&ses&&!ses.ans){const Q=cur();if(Q&&Q.type==='draw')return{c:Q.c,aid:Q.h||0}}
+  if(view==='brush'&&bs&&bs.state!=='done')return{c:bs.q[bs.u],aid:Math.max(BASE_AID[S.bl||2],bs.h||0)};return null}
+let aidAnim=false;
+function refreshAid(){if(!PAD)return;const el=document.querySelector('#'+PAD.id+' .phint');if(!el)return;const a=aidCtx();
+  el.innerHTML=a&&!PAD.locked?aidSVG(a.c,a.aid,PAD.strokes.length,aidAnim):'';aidAnim=false}
+const hintBtn=(act,h,base)=>{const cur=Math.max(base,h||0);return cur>=3?'':`<button class="btn gh sm hintb" data-act="${act}">Indice${cur>base?` (${cur-base}/${3-base})`:''}</button>`};
 let PAD=null;
-const padHTML=(id,guide)=>`<div class="pad" id="${id}">${guide&&KS?`<div class="pguide">${modelSVG(guide,{anim:false,nums:false,cls:'ghost'})}</div>`:''}<canvas aria-label="Zone de dessin"></canvas><div class="pover"></div></div>`;
+const padHTML=(id,guide)=>`<div class="pad" id="${id}">${guide&&KS?`<div class="pguide">${modelSVG(guide,{anim:false,nums:false,cls:'ghost'})}</div>`:''}<div class="phint"></div><canvas aria-label="Zone de dessin"></canvas><div class="pover"></div></div>`;
 const padTools=(chk,extra)=>`<div class="ptools"><button class="btn gh sm" data-act="pundo">↶ Annuler</button><button class="btn gh sm" data-act="pclear">Effacer</button>${chk?`<button class="btn ac sm" data-act="${chk}">Valider</button>`:''}${extra||''}</div>`;
 function mountPad(id){const box=document.getElementById(id);if(!box)return null;const cv=box.querySelector('canvas'),ctx=cv.getContext('2d');
   const keep=PAD&&PAD.id===id&&PAD.key===box.dataset.key;const st=keep?PAD.strokes:[];let cur=null,W=0;
@@ -474,45 +495,46 @@ function mountPad(id){const box=document.getElementById(id);if(!box)return null;
   const pt=e=>{const r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]};
   cv.addEventListener('pointerdown',e=>{if(P.locked)return;e.preventDefault();try{cv.setPointerCapture(e.pointerId)}catch(x){}cur=[pt(e)];redraw()});
   cv.addEventListener('pointermove',e=>{if(!cur)return;e.preventDefault();for(const x of(e.getCoalescedEvents?e.getCoalescedEvents():[e]))cur.push(pt(x));redraw()});
-  const end=()=>{if(!cur)return;if(cur.length>1||st.length<12)st.push(cur);cur=null;redraw();if(P.onStroke)P.onStroke()};
+  const end=()=>{if(!cur)return;if(cur.length>1||st.length<12)st.push(cur);cur=null;redraw();if(P.onStroke)P.onStroke();refreshAid()};
   cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);cv.addEventListener('lostpointercapture',end);
-  Object.assign(P,{redraw,undo(){if(!P.locked){st.pop();redraw()}},clear(){if(!P.locked){st.length=0;redraw()}},over(h){box.querySelector('.pover').innerHTML=h},reset(){P.locked=false;P.fade=false;st.length=0;P.over('');redraw()}});
-  try{new ResizeObserver(size).observe(box)}catch(e){}size();PAD=P;return P}
+  Object.assign(P,{redraw,undo(){if(!P.locked){st.pop();redraw();refreshAid()}},clear(){if(!P.locked){st.length=0;redraw();refreshAid()}},over(h){box.querySelector('.pover').innerHTML=h},reset(){P.locked=false;P.fade=false;st.length=0;P.over('');redraw()}});
+  try{new ResizeObserver(size).observe(box)}catch(e){}size();PAD=P;refreshAid();return P}
 const strokesOf=P=>P?P.strokes.filter(s=>s.length>1||P.strokes.length<3):[];
 
 /* ---------- Mode Pinceau : on entend/lit le son, on dessine ---------- */
 let bs=null;
 function brushPool(sc){return Object.keys(S.learned).filter(c=>canDraw(c)&&KS&&KS[c]&&(sc==='b'||ITEMS[c].s===sc))}
-const bkey=()=>'brush-'+(S.bsc||'h')+'-'+(S.bn||10);
+const bkey=()=>'brush-'+(S.bsc||'h')+'-'+(S.bn||10)+'-L'+(S.bl||2);
+const LVL={1:['Calque','Le kana est en filigrane et le prochain trait s’anime : tu n’as qu’à le suivre.'],2:['Guidé','Seul le point de départ numéroté du prochain trait est affiché.'],3:['Libre','Aucune aide, comme à l’examen. Le bouton Indice reste là en cas de besoin.']};
 function brushSetupV(){if(!KS)return`<div class="rset">${mascot('idle','Je prépare les pinceaux… (il faut une connexion la première fois)',64)}</div>`;
   const pool=brushPool(S.bsc||'h'),n=+(S.bn||10),size=n?Math.min(n,pool.length):pool.length,b=S.best[bkey()];
   const grp=(lab,k,opts,def)=>`<div class="og"><span>${lab}</span><div class="chips">${opts.map(([v,t])=>`<button data-act="rset" data-k="${k}" data-v="${v}" aria-pressed="${String(S[k]??def)===String(v)}">${t}</button>`).join('')}</div></div>`;
   const ok=pool.length>=3;
-  return`<div class="rset">${mascot('idle',ok?`Je te donne un son, tu dessines le kana au doigt. <b>${size} kana</b> parmi ceux que tu as appris. Soigne l’ordre des traits : je le vérifie !`:'Il me faut au moins 3 kana appris dans cette écriture. Fais une leçon et reviens !',64)}
-  ${grp('Écriture','bsc',[['h','Hiragana'],['k','Katakana'],['b','Les deux']],'h')}${grp('Nombre de kana','bn',[[10,'10'],[20,'20'],[0,'Tous']],10)}
+  return`<div class="rset">${mascot('idle',ok?`Je te donne un son, tu dessines le kana au doigt. Commence en Calque, puis passe en Guidé et en Libre quand tu te sens prêt. <b>${size} kana</b> parmi ceux que tu as appris. Soigne l’ordre des traits : je le vérifie !`:'Il me faut au moins 3 kana appris dans cette écriture. Fais une leçon et reviens !',64)}
+  ${grp('Niveau','bl',[[1,'Calque'],[2,'Guidé'],[3,'Libre']],2)}<p class="lvl">${LVL[S.bl||2][1]}</p>${grp('Écriture','bsc',[['h','Hiragana'],['k','Katakana'],['b','Les deux']],'h')}${grp('Nombre de kana','bn',[[10,'10'],[20,'20'],[0,'Tous']],10)}
   <p class="rbest">${b?`Ton record : <b>${fmtT(b.ms)}</b> pour ${b.n} kana, ${b.acc} % justes du premier coup`:'Pas encore de record pour ces réglages.'}</p>
   <button class="btn ac" data-act="bstart" ${ok?'':'disabled'}>Prendre le pinceau</button></div>`}
 function startBrush(){const pool=brushPool(S.bsc||'h');if(pool.length<3)return;const n=+(S.bn||10);
-  bs={q:shuffle(pool).slice(0,n||pool.length),u:0,start:0,ok:0,err:0,miss:new Set(),res:[],state:'draw',r:null,tid:0};PAD=null;view='brush';render()}
+  bs={q:shuffle(pool).slice(0,n||pool.length),u:0,start:0,ok:0,err:0,miss:new Set(),res:[],state:'draw',r:null,tid:0,h:0,hinted:new Set(),lvl:+(S.bl||2)};PAD=null;view='brush';render()}
 function stopBrush(){if(bs&&bs.tid){clearInterval(bs.tid);bs.tid=0}}
 function bClock(){return fmtT(bs.start?Date.now()-bs.start:0)}
 function brushV(){const c=bs.q[bs.u],it=ITEMS[c],R=bs.r,left=bs.q.length-bs.u;
   const fb=bs.state==='done'?`<div class="bfb ${R.ok?'ok':'bad'}"><b>${R.ok?pick(['Joli trait !','Bien tracé !','Parfait.']):'Pas tout à fait.'}</b><span>${R.tip||''}</span></div>`:'';
-  const acts=bs.state!=='done'?padTools('bcheck',`<button class="btn gh sm" data-act="bskip">Je ne sais pas</button>`)
+  const acts=bs.state!=='done'?padTools('bcheck',hintBtn('bhint',bs.h,BASE_AID[bs.lvl])+`<button class="link" data-act="bskip">Je ne sais pas</button>`)
     :R.ok?`<div class="ptools"><button class="btn ac" data-act="bnext" id="bnb">Suivant</button></div>`
     :`<div class="ptools"><button class="btn gh sm" data-act="bretry">Réessayer</button><button class="btn ac sm" data-act="bnext" id="bnb">Suivant</button>${R.self?'':`<button class="link" data-act="bself">J’avais juste</button>`}</div>`;
-  return`<div class="rz bz"><div class="rz-top"><button class="x" data-act="bquit" aria-label="Quitter">×</button><span class="rz-tag">Pinceau · ${left} kana restant${left>1?'s':''}</span>${muteBtn()}${daru(R?R.ok?'happy':'oops':'idle',36,allDone())}</div>
-  <div class="bstage"><div class="bprompt"><span class="bro">${it.r}</span>${tts?`<button class="say" data-act="say" data-t="${c}" aria-label="Écouter">${SPK}</button>`:''}</div>
+  return`<div class="rz bz"><div class="rz-top"><button class="x" data-act="bquit" aria-label="Quitter">×</button><span class="rz-tag">Pinceau · ${LVL[bs.lvl][0]} · ${left} restant${left>1?'s':''}</span>${muteBtn()}${daru(R?R.ok?'happy':'oops':'idle',36,allDone())}</div>
+  <div class="bstage"><div class="bprompt"><span class="bro">${it.r}</span>${bs.lvl<3||bs.h>=1?`<span class="bcount">${KS[c].d.length} trait${KS[c].d.length>1?'s':''}</span>`:''}${tts?`<button class="say" data-act="say" data-t="${c}" aria-label="Écouter">${SPK}</button>`:''}</div>
   ${padHTML('bp',null).replace('class="pad"',`class="pad dark" data-key="${bs.u}"`)}${fb}${acts}</div>
   <div class="rbar"><span class="t" id="bt">${bClock()}</span><div class="typed bscore"><span>${bs.ok}</span>&nbsp;juste${bs.ok>1?'s':''}</div><span class="c">${bs.u+1}<small>/${bs.q.length}</small></span></div></div>`}
 function bCheck(){const P=PAD,c=bs.q[bs.u],st=strokesOf(P);if(!st.length)return;const r=judgeDraw(st,c);bs.r=r;bs.state='done';P.locked=true;P.fade=true;
-  if(bs.res[bs.u]==null){bs.res[bs.u]=r.ok;if(r.ok)bs.ok++;else{bs.err++;bs.miss.add(c)}}
+  if(bs.res[bs.u]==null){bs.res[bs.u]=r.ok;if(r.ok){bs.ok++;if(bs.h>BASE_AID[bs.lvl])bs.hinted.add(c)}else{bs.err++;bs.miss.add(c)}}
   sfx(r.ok?'card':'bad');render();if(r.ok)setTimeout(()=>{if(view==='brush'&&bs&&bs.state==='done'&&bs.q[bs.u]===c)bNext()},1400)}
-function bNext(){bs.u++;bs.state='draw';bs.r=null;PAD=null;if(bs.u>=bs.q.length)return endBrush();render()}
+function bNext(){bs.u++;bs.state='draw';bs.r=null;bs.h=0;PAD=null;if(bs.u>=bs.q.length)return endBrush();render()}
 function endBrush(){stopBrush();const ms=bs.start?Date.now()-bs.start:0,n=bs.q.length;bs.ms=ms;bs.acc=Math.round(bs.ok/n*100);const k=bkey(),b=S.best[k];
-  bs.record=bs.ok>0&&(!b||b.n!==n||ms<b.ms||(ms===b.ms&&bs.acc>b.acc));if(bs.record)S.best[k]={ms,n,acc:bs.acc};bs.prev=b;if(bs.ok)sfx('done');addXp(bs.ok*2);view='brushres';render()}
-function brushResV(){const m=[...bs.miss];const talk=!bs.ok?'Le pinceau est capricieux au début. Revois l’ordre des traits dans les fiches, puis retente !':bs.record?`Nouveau record !${bs.prev?' Avant : '+fmtT(bs.prev.ms)+'.':''}`:bs.acc>=90?'Superbe calligraphie !':bs.acc>=60?'Belle main, continue comme ça.':'Courage : chaque tracé grave le kana un peu plus.';
-  return top()+`<section class="band"><div class="wrap narrow res"><p class="lead">Pinceau · ${bs.q.length} kana</p><div class="big-n">${bs.ok}/${bs.q.length}</div><p class="lead" style="margin-top:-4px">tracés justes du premier coup</p>
+  bs.record=bs.ok>0&&(!b||b.n!==n||ms<b.ms||(ms===b.ms&&bs.acc>b.acc));if(bs.record)S.best[k]={ms,n,acc:bs.acc};bs.prev=b;if(bs.ok)sfx('done');addXp(bs.ok*2-bs.hinted.size+(bs.lvl-1)*bs.ok);view='brushres';render()}
+function brushResV(){const m=[...bs.miss];const talk=!bs.ok?'Le pinceau est capricieux au début. Revois l’ordre des traits dans les fiches, puis retente !':bs.record?`Nouveau record !${bs.prev?' Avant : '+fmtT(bs.prev.ms)+'.':''}`:bs.acc>=90&&bs.lvl<3?`Superbe ! Essaie le niveau ${LVL[bs.lvl+1][0]} pour corser le jeu.`:bs.acc>=90?'Superbe calligraphie !':bs.acc>=60?'Belle main, continue comme ça.':'Courage : chaque tracé grave le kana un peu plus.';
+  return top()+`<section class="band"><div class="wrap narrow res"><p class="lead">Pinceau · ${bs.q.length} kana</p><div class="big-n">${bs.ok}/${bs.q.length}</div><p class="lead" style="margin-top:-4px">tracés justes du premier coup${bs.hinted.size?`, dont ${bs.hinted.size} avec indice`:''} · niveau ${LVL[bs.lvl][0]}</p>
   <div class="rfigs"><div class="fig1"><b>${fmtT(bs.ms)}</b><span>temps</span></div><div class="fig1"><b>${bs.acc} %</b><span>précision</span></div><div class="fig1"><b>${bs.err}</b><span>à revoir</span></div></div>
   ${m.length?`<h2 style="margin-top:14px">À retravailler</h2><div class="mrow">${m.map(c=>`<button class="mk mkm" data-act="say" data-t="${c}"><span class="mm">${modelSVG(c,{anim:false})}</span><small>${ITEMS[c].r}</small></button>`).join('')}</div>`:''}
   ${mascot(bs.record&&bs.ok?'happy':'idle',talk,70)}
@@ -581,7 +603,7 @@ function cardsV(){const L=LES[ses.id],n=L.items.length,c=L.items[ses.ci],it=ITEM
   ${tts?`<button class="say" data-act="say" data-t="${c}">${SPK} Écouter</button>`:''}
   ${tips.map(t=>`<p class="hint">${t}</p>`).join('')}</div>
   ${canDraw(c)&&KS&&KS[c]?`<div class="trace"><div class="tmodel" id="tm">${modelSVG(c)}</div><div class="tt"><b>Ordre des traits : ${KS[c].d.length}</b><button class="say" data-act="replay">↻ Revoir</button>${ses.tr?'':`<button class="say" data-act="ctrace">✎ M’entraîner à tracer</button>`}</div></div>
-  ${ses.tr?`<div class="tpad">${padHTML('cp',c).replace('class="pad"',`class="pad" data-key="c${ses.ci}"`)}${ses.tmsg?`<p class="tmsg ${ses.tok?'ok':'bad'}">${ses.tmsg}</p>`:''}${padTools(ses.tdone?'':'ccheck',ses.tdone?`<button class="btn gh sm" data-act="cagain">Recommencer</button>`:'')}</div>`:''}`:''}
+  ${ses.tr?`<div class="tpad">${padHTML('cp',null).replace('class="pad"',`class="pad" data-key="c${ses.ci}"`)}${ses.tmsg?`<p class="tmsg ${ses.tok?'ok':'bad'}">${ses.tmsg}</p>`:''}${padTools(ses.tdone?'':'ccheck',ses.tdone?`<button class="btn gh sm" data-act="cagain">Recommencer</button>`:'')}</div>`:''}`:''}
   <div class="card-m">${mascot('idle',say2,60)}</div>
   <div class="dots">${L.items.map((_,i)=>`<i class="${i<=ses.ci?'on':''}"></i>`).join('')}</div>
   <div class="cnav"><button class="btn gh" data-act="prev" ${ses.ci?'':'disabled'}>Précédent</button><button class="btn ac" data-act="${last?'go':'cnext'}">${last?'Passer au quiz':'Suivant'}</button></div>
@@ -591,7 +613,7 @@ function quizV(){const Q=cur(),it=ITEMS[Q.c],A=ses.ans;if(Q.type!=='type'&&Q.typ
   const base=ses.kind==='lesson'?30:0,pct=base+Math.round((ses.i+(A?1:0))/ses.queue.length*(100-base));
   const ask={k2r:'Comment se lit ce kana ?',r2k:'Quel kana se lit ainsi ?',ear:'Quel kana entends-tu ?',type:'Écris sa lecture en romaji',draw:'Dessine ce kana'}[Q.type];
   const pr=Q.type==='draw'?`<div class="bprompt"><span class="pr">${it.r}</span>${tts?`<button class="say" data-act="say" data-t="${it.c}" aria-label="Écouter">${SPK}</button>`:''}</div>`:Q.type==='r2k'?`<div class="pr">${it.r}</div>`:Q.type==='ear'?`<button class="ear" data-act="say" data-t="${it.c}" aria-label="Réécouter">${SPK}</button>`:`<div class="pk" lang="ja">${it.c}</div>`;
-  const body=Q.type==='draw'?`${padHTML('qp',null).replace('class="pad"',`class="pad" data-key="q${ses.i}"`)}${A?'':padTools('qcheck')}`
+  const body=Q.type==='draw'?`${padHTML('qp',null).replace('class="pad"',`class="pad" data-key="q${ses.i}"`)}${A?'':padTools('qcheck',hintBtn('qhint',Q.h,0))}`
     :Q.type==='type'
     ?`<form id="tf" class="tf"><input id="ti" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" placeholder="ex. ka" aria-label="Lecture en romaji" ${A?`disabled value="${esc(A.v)}" class="${A.ok?'ok':'bad'}"`:''}>${A?'':'<button class="btn ac">Valider</button>'}</form>`
     :`<div class="opts">${Q.o.map((c,i)=>{const cls=A?(c===Q.c?'ok':i===A.i?'bad':''):'';return`<button class="opt ${Q.type==='k2r'?'ro':'ka'} ${cls}" data-act="opt" data-i="${i}" ${A?'disabled':''}><kbd>${i+1}</kbd>${Q.type==='k2r'?ITEMS[c].r:`<span lang="ja">${c}</span>`}</button>`}).join('')}</div>`;
@@ -720,7 +742,7 @@ app.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b
     case'say':say(b.dataset.t);break;case'tab':S.tab=id;save();render();break;case'page':S.page=id;save();render();break;
     case'cnext':ses.ci++;ses.tr=false;ses.tdone=false;ses.tmsg='';render();break;case'prev':ses.ci--;ses.tr=false;ses.tdone=false;ses.tmsg='';render();break;case'go':initQuiz(lessonQueue());render();break;
     case'opt':answer(+b.dataset.i);break;case'next':next();break;
-    case'rset':{const k=b.dataset.k;S[k]=k==='rdu'?+b.dataset.v:b.dataset.v;save();render();break}
+    case'rset':{const k=b.dataset.k;S[k]=['rdu','bl','bn'].includes(k)?+b.dataset.v:b.dataset.v;save();render();break}
     case'rstart':startRush();break;
     case'replay':{const tm=document.getElementById('tm');if(tm)tm.innerHTML=modelSVG(LES[ses.id].items[ses.ci]);break}
     case'ctrace':ses.tr=true;ses.tmsg='';ses.tdone=false;render();break;
@@ -731,7 +753,9 @@ app.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b
     case'qself':{const Q=cur(),A=ses.ans;if(!A||A.ok||A.self)break;A.self=true;A.ok=true;A.msg='Compté juste.';A.tip='';
       if(!Q.retry){ses.ok++;ses.xp+=2;ses.miss.delete(Q.c);if(ses.graded.has(Q.c)&&S.learned[Q.c]){S.learned[Q.c].box=ses.prevBox[Q.c]||1;grade(Q.c,true);save()}}
       const lq=ses.queue[ses.queue.length-1];if(lq&&lq.retry&&lq.c===Q.c)ses.queue.pop();sfx('ok');render();break}
-    case'bstart':startBrush();break;case'bcheck':bCheck();break;case'bnext':bNext();break;
+    case'bstart':startBrush();break;
+    case'bhint':{if(!bs||bs.state==='done')break;const base=BASE_AID[bs.lvl];bs.h=Math.min(3,Math.max(base,bs.h)+1);aidAnim=bs.h===3;sfx('tick');render();break}
+    case'qhint':{const Q=cur();if(!Q||ses.ans)break;Q.h=Math.min(3,(Q.h||0)+1);aidAnim=Q.h===3;sfx('tick');render();break}case'bcheck':bCheck();break;case'bnext':bNext();break;
     case'bretry':bs.state='draw';bs.r=null;PAD&&PAD.reset();render();break;
     case'bskip':{if(bs.state==='done')break;if(!bs.start){bs.start=Date.now();bs.tid=setInterval(()=>{const e=document.getElementById('bt');if(e)e.textContent=bClock()},500)}
       bs.r={ok:false,tip:'Voici comment le tracer : observe l’ordre des traits.',self:true};bs.state='done';if(bs.res[bs.u]==null){bs.res[bs.u]=false;bs.err++;bs.miss.add(bs.q[bs.u])}if(PAD){PAD.locked=true;PAD.fade=true}sfx('bad');render();break}
