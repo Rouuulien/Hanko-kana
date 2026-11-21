@@ -19,7 +19,9 @@ Pour le publier avec GitHub Pages : *Settings → Pages → Deploy from a branch
 
 ## Progression
 
-La progression est enregistrée dans le navigateur (localStorage). Elle est propre à chaque appareil et à chaque adresse. Pour la transférer : *Réglages → Sauvegarde → Copier le code*, puis *Importer* sur l'autre appareil.
+- **Sur claude.ai** : la progression est sauvegardée automatiquement sur le compte Claude (synchronisée entre appareils), avec une copie locale dans le navigateur.
+- **Ailleurs (GitHub Pages, fichier local)** : la progression est enregistrée dans le navigateur uniquement.
+- Dans tous les cas, *Réglages → Sauvegarde → Copier le code* donne un code de secours à *Importer* ailleurs.
 
 ## Structure du code
 

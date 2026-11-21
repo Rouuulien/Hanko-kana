@@ -256,7 +256,33 @@ const wordHTML=w=>`<span class="w" lang="ja">${w.j}</span> · ${w.r} · « ${w.f
 const KEY='hanko-kana-v1';
 const fresh=()=>({learned:{},done:{},tests:{},xp:0,streak:0,last:'',today:'',todayXp:0,unlock:false,ear:true,tab:'h',page:'path',rsc:'h',rct:'kana',rdu:60,rfmt:'deck',best:{},snd:true});
 let S=fresh();try{const v=JSON.parse(localStorage.getItem(KEY));if(v&&typeof v.learned==='object')S=Object.assign(fresh(),v)}catch(e){}
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const saveLocal=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const save=()=>{S.at=Date.now();saveLocal();cloudSoon()};
+/* ---------- sauvegarde sur le compte Claude (capacité db) ---------- */
+const cloud={st:'local',ref:null,ready:false,busy:false,dirty:false,t:0,last:0};
+function merge(a,b){const n=(a.at||0)>=(b.at||0)?a:b,o=n===a?b:a,r=Object.assign(fresh(),o,n);
+  r.learned=Object.assign({},o.learned);for(const[c,L]of Object.entries(n.learned||{})){const p=r.learned[c];if(!p||L.box>=p.box)r.learned[c]=L}
+  r.done=Object.assign({},o.done,n.done);r.tests=Object.assign({},o.tests);for(const[k,v]of Object.entries(n.tests||{}))r.tests[k]=Math.max(v,r.tests[k]||0);
+  r.best=Object.assign({},o.best);for(const[k,v]of Object.entries(n.best||{})){const p=r.best[k];if(!p||(v.ms!=null?(p.n!==v.n||v.ms<p.ms):v.kpm>p.kpm))r.best[k]=v}
+  r.xp=Math.max(a.xp||0,b.xp||0);r.at=Math.max(a.at||0,b.at||0);return r}
+function cloudSoon(){if(!cloud.ready)return;clearTimeout(cloud.t);cloud.t=setTimeout(cloudPush,1200)}
+async function cloudPush(){if(!cloud.ref)return;if(cloud.busy){cloud.dirty=true;return}cloud.busy=true;cloud.st='sync';
+  try{await cloud.ref.set({v:1,at:S.at||Date.now(),data:JSON.stringify(S)});cloud.st='ok';cloud.last=Date.now()}catch(e){cloud.st=e&&e.code==='revoked'?'local':'err'}
+  cloud.busy=false;if(cloud.dirty){cloud.dirty=false;cloudPush()}else paintCloud()}
+async function cloudPull(){if(!cloud.ref)return;let snap;try{snap=await cloud.ref.get()}catch(e){cloud.st='err';paintCloud();return}
+  if(snap.exists){let rem=null;try{rem=JSON.parse(snap.data().data)}catch(e){}
+    if(rem&&typeof rem.learned==='object'){const m=merge(S,rem),same=JSON.stringify(m)===JSON.stringify(rem);S=m;saveLocal();homeTip=null;
+      if(['home','set','res','rushres'].includes(view))render();cloud.ready=true;if(!same)return cloudPush()}}
+  else if(Object.keys(S.learned).length||S.xp){cloud.ready=true;return cloudPush()}
+  cloud.ready=true;cloud.st='ok';cloud.last=Date.now();paintCloud()}
+async function cloudInit(){if(!window.claude||typeof window.claude.use!=='function')return;
+  const to=setTimeout(()=>{if(!cloud.ready&&cloud.ref){cloud.st='err';paintCloud()}},10000);
+  try{const[db,user]=await Promise.all([claude.use('db'),claude.use('user')]);if(!db||!user)return clearTimeout(to);
+    const id=await user.id();if(!id)return clearTimeout(to);
+    cloud.ref=db.doc('data/users/'+id+'/progress');cloud.st='sync';paintCloud();await cloudPull()}catch(e){cloud.st='local'}clearTimeout(to);paintCloud()}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&cloud.ref&&!cloud.busy)cloudPull()});
+const cloudText=()=>({ok:`Sauvegardée automatiquement sur ton compte Claude${cloud.last?' · synchro à '+new Date(cloud.last).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}):''}.`,sync:'Synchronisation avec ton compte Claude…',err:'Compte Claude injoignable pour l’instant : ta progression est gardée sur cet appareil et sera synchronisée dès que possible.',local:'Enregistrée seulement dans ce navigateur (sauvegarde sur le compte indisponible ici).'})[cloud.st];
+function paintCloud(){for(const e of document.querySelectorAll('[data-cloud]'))e.textContent=cloudText()}
 const ld=(off=0)=>{const d=new Date();d.setDate(d.getDate()+off);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
 const streak=()=>(S.last===ld()||S.last===ld(-1))?S.streak:0;
 const todayXp=()=>S.today===ld()?S.todayXp:0;
@@ -352,7 +378,7 @@ function homeV(){const nx=nextLesson(),due=dueList().length,nl=Object.keys(S.lea
   <div class="fig1"><b>${rw} / ${WORDS.length}</b><span>mots lisibles</span></div><div class="fig1"><b>${S.xp}</b><span>XP au total</span></div></div></section>
   <section class="band" style="padding-top:16px"><div class="wrap"><nav class="seg" aria-label="Sections"><button data-act="page" data-id="path" aria-pressed="${pg==='path'}">Parcours</button><button data-act="page" data-id="sheet" aria-pressed="${pg==='sheet'}">Tableau</button><button data-act="page" data-id="words" aria-pressed="${pg==='words'}">Mots</button><button data-act="page" data-id="rush" aria-pressed="${pg==='rush'}">Rafale</button></nav>
   ${pg==='sheet'?sheetV():pg==='words'?wordsV():pg==='rush'?rushSetupV():UNITS.map(u=>unitV(u,nx)).join('')}</div></section>
-  <p class="foot">Progression enregistrée dans ce navigateur. Pour la garder ailleurs : Réglages → Sauvegarde.</p>`}
+  <p class="foot" data-cloud>${cloudText()}</p>`}
 
 const XS=[0,52,72,52,0,-52,-72,-52];
 function unitV(u,nx){const d=u.lessons.filter(l=>S.done[l.id]).length,best=S.tests[u.id],to=testOpen(u),n=u.lessons.length;let k=0;
@@ -425,7 +451,7 @@ function setV(){return top()+`<section class="band"><div class="wrap narrow set"
   <label class="tg"><input type="checkbox" data-act="tog" data-k="unlock" ${S.unlock?'checked':''}><span>Tout débloquer<small>Accède à n’importe quelle leçon, sans suivre l’ordre.</small></span></label>
   <label class="tg"><input type="checkbox" data-act="tog" data-k="ear" ${S.ear!==false?'checked':''} ${tts?'':'disabled'}><span>Exercices d’écoute<small>${tts?'Utilise la voix japonaise de ton appareil.':'Aucune voix japonaise trouvée sur cet appareil.'}</small></span></label>
   <label class="tg"><input type="checkbox" data-act="tog" data-k="snd" ${S.snd!==false?'checked':''}><span>Sons du jeu<small>Petits sons de bonne réponse, d’erreur, de série et de fin de leçon.</small></span></label>
-  <h2>Sauvegarde</h2><p class="mut" style="margin:0">Ta progression reste dans ce navigateur. Copie ce code pour la garder ou la transférer sur un autre appareil.</p>
+  <h2>Sauvegarde</h2><p style="margin:0;font-weight:500" data-cloud>${cloudText()}</p><p class="mut" style="margin:0">Code de secours : copie-le pour garder une copie manuelle ou transférer ta progression hors de Claude (par exemple vers la version GitHub Pages).</p>
   <textarea id="exp" readonly rows="3">${esc(JSON.stringify(S))}</textarea><button class="btn gh" data-act="copy">Copier le code</button>
   <form id="imp"><textarea id="impt" rows="3" placeholder="Colle ici un code de sauvegarde" aria-label="Code de sauvegarde"></textarea><button class="btn gh">Importer</button><p id="impm" class="mut" style="margin:0"></p></form>
   <h2>Remise à zéro</h2><button class="btn danger" data-act="reset">${armed?'Confirmer : tout effacer':'Effacer ma progression'}</button></div></section>`}
@@ -531,6 +557,6 @@ app.addEventListener('submit',e=>{e.preventDefault();if(e.target.id==='tf')answe
   if(e.target.id==='imp'){const m=document.getElementById('impm');try{const v=JSON.parse(document.getElementById('impt').value);if(!v||typeof v.learned!=='object')throw 0;S=Object.assign(fresh(),v);homeTip=null;save();render();document.getElementById('impm').textContent='Progression importée.'}catch(err){m.textContent='Ce code n’est pas valide.'}}});
 document.addEventListener('keydown',e=>{if(view==='rush'){if(e.metaKey||e.ctrlKey||e.altKey)return;const k=e.key;const m=/^[a-zA-Z-]$/.test(k)?k.toLowerCase():k==='Backspace'?'back':k==='Escape'?'clear':k==='ArrowRight'?'skip':null;if(m){e.preventDefault();rKey(m)}return}if(view!=='quiz'||!ses)return;if(e.target.tagName==='BUTTON'||e.target.tagName==='INPUT')return;
   if(ses.ans){if(e.key==='Enter'){e.preventDefault();next()}return}if(cur().type!=='type'&&/^[1-4]$/.test(e.key))answer(+e.key-1)});
-render();
+render();cloudInit();
 }
 </script></body></html>
