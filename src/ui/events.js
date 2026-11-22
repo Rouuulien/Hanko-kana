@@ -19,18 +19,31 @@ import {
 } from '../modes/quiz.js';
 import { rKey, startRush, stopRush } from '../modes/rush.js';
 import { cloud, save, sbDelete, sbLogin, sbSetPw } from '../sync/cloud.js';
+import { deleteLabel } from './account.js';
 import { ui } from './app-state.js';
 import { BASE_AID, strokesOf } from './pad.js';
 import { app, render } from './render.js';
+import { resetLabel } from './views.js';
 import { muteBtn, sfx } from './sounds.js';
 import { say } from './voice.js';
+/** Met à jour les libellés des boutons à confirmation présents à l'écran. */
+function relabel() {
+  const r = document.querySelector('[data-act="reset"]'),
+    d = document.querySelector('[data-act="delacc"]');
+  if (r) r.textContent = resetLabel();
+  if (d) d.textContent = deleteLabel();
+}
 app.addEventListener('click', e => {
   const b = e.target.closest('[data-act]');
   if (!b || b.disabled) return;
   const a = b.dataset.act,
     id = b.dataset.id;
+  // Toute autre action désarme les confirmations en attente ; on remet aussitôt leur libellé
+  // (sans réafficher la page, qui effacerait par exemple une saisie en cours).
+  const disarm = (a !== 'reset' && ui.armed) || (a !== 'delacc' && ui.armedDel);
   if (a !== 'reset') ui.armed = false;
   if (a !== 'delacc') ui.armedDel = false;
+  if (disarm) relabel();
   switch (a) {
     case 'lesson':
       startLesson(id);

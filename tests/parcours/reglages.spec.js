@@ -14,11 +14,12 @@ test('effacer la progression demande une confirmation', async ({ hanko }) => {
   await page.locator('header [data-act="settings"]').click();
   await page.locator('[data-act="reset"]').click();
   await expect(page.locator('[data-act="reset"]')).toHaveText('Confirmer : tout effacer');
-  // Une autre action désarme la confirmation. INCOHÉRENCE CONNUE (figée, sans risque) : le bouton n'est pas
-  // réaffiché et garde « Confirmer », mais le clic suivant ne fait que réarmer, il n'efface rien.
+  // Une autre action désarme la confirmation, et le bouton reprend aussitôt son libellé
+  // (corrigé : il restait sur « Confirmer » alors qu'un clic ne faisait plus que réarmer).
   await page.locator('[data-act="tog"][data-k="draw"]').click();
-  await expect(page.locator('[data-act="reset"]')).toHaveText('Confirmer : tout effacer');
+  await expect(page.locator('[data-act="reset"]')).toHaveText('Effacer ma progression');
   await page.locator('[data-act="reset"]').click();
+  await expect(page.locator('[data-act="reset"]')).toHaveText('Confirmer : tout effacer');
   expect((await hanko.run(H => H.S)).xp).toBe(500);
 
   await page.locator('[data-act="reset"]').click();
@@ -26,4 +27,14 @@ test('effacer la progression demande une confirmation', async ({ hanko }) => {
   const st = await hanko.stored();
   expect(st.xp).toBe(0);
   expect(st.learned).toEqual({});
+});
+
+test('désarmer ne réaffiche pas la page : un code de secours en cours de saisie est conservé', async ({ hanko }) => {
+  const page = (await hanko.open({ state: REAL })).page;
+  await page.locator('header [data-act="settings"]').click();
+  await page.locator('[data-act="reset"]').click(); // armer réaffiche la page (comportement inchangé)
+  await page.locator('#impt').fill('{"learned":{}');
+  await page.locator('[data-act="tog"][data-k="snd"]').click();
+  await expect(page.locator('[data-act="reset"]')).toHaveText('Effacer ma progression');
+  await expect(page.locator('#impt')).toHaveValue('{"learned":{}');
 });

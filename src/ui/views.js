@@ -20,6 +20,8 @@ import { hintBtn, padHTML, padTools } from './pad.js';
 import { muteBtn } from './sounds.js';
 import { tts } from './voice.js';
 import { K2H, esc, pick } from '../util.js';
+/** Libellé du bouton d'effacement de la progression (deux clics : armer, puis confirmer). */
+const resetLabel = () => (ui.armed ? 'Confirmer : tout effacer' : 'Effacer ma progression');
 const wordHTML = w => `<span class="w" lang="ja">${w.j}</span> · ${w.r} · « ${w.f} »`;
 const top =
   () => `<header class="top"><div class="brand"><svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="10" fill="var(--ac)"/><text x="20" y="28" text-anchor="middle" font-size="22" fill="#fff" font-family="Zen Maru Gothic" font-weight="900">か</text></svg><span>Hanko</span></div>
@@ -265,8 +267,8 @@ function setV() {
   ${accountV()}<h2>Sauvegarde</h2><p style="margin:0;font-weight:500" data-cloud>${cloudText()}</p><p class="mut" style="margin:0">Code de secours : copie-le pour garder une copie manuelle ou transférer ta progression hors de Claude (par exemple vers la version GitHub Pages).</p>
   <textarea id="exp" readonly rows="3">${esc(JSON.stringify(S))}</textarea><button class="btn gh" data-act="copy">Copier le code</button>
   <form id="imp"><textarea id="impt" rows="3" placeholder="Colle ici un code de sauvegarde" aria-label="Code de sauvegarde"></textarea><button class="btn gh">Importer</button><p id="impm" class="mut" style="margin:0"></p></form>
-  <h2>Remise à zéro</h2><button class="btn danger" data-act="reset">${ui.armed ? 'Confirmer : tout effacer' : 'Effacer ma progression'}</button></div></section>`
+  <h2>Remise à zéro</h2><button class="btn danger" data-act="reset">${resetLabel()}</button></div></section>`
   );
 }
 
-export { wordHTML, top, homeV, cardsV, quizV, resV, setV };
+export { wordHTML, top, homeV, cardsV, quizV, resV, setV, resetLabel };

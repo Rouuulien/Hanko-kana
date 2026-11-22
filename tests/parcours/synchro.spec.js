@@ -49,6 +49,21 @@ test.describe('Supabase', () => {
     expect((await hanko.fake()).calls).toEqual([]);
   });
 
+  test('suppression du compte désarmée par une autre action : libellé remis, rien n’est supprimé', async ({
+    hanko,
+  }) => {
+    const page = (await hanko.open({ state: REAL, supabase: { session: SESSION, remote: REAL } })).page;
+    await synced(hanko);
+    await page.locator('header [data-act="settings"]').click();
+    await page.locator('[data-act="delacc"]').click();
+    await expect(page.locator('[data-act="delacc"]')).toHaveText('Confirmer : tout supprimer');
+    await page.locator('[data-act="tog"][data-k="snd"]').click();
+    await expect(page.locator('[data-act="delacc"]')).toHaveText('Supprimer mon compte');
+    await page.locator('[data-act="delacc"]').click();
+    await expect(page.locator('[data-act="delacc"]')).toHaveText('Confirmer : tout supprimer');
+    expect((await hanko.fake()).calls).not.toContain('rpc:delete_user');
+  });
+
   test('suppression du compte : confirmation, appel serveur, progression effacée', async ({ hanko }) => {
     const page = (await hanko.open({ state: REAL, supabase: { session: SESSION, remote: REAL } })).page;
     await synced(hanko);
