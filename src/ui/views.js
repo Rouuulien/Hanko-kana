@@ -24,7 +24,7 @@ import { K2H, esc, pick } from '../util.js';
 const resetLabel = () => (ui.armed ? 'Confirmer : tout effacer' : 'Effacer ma progression');
 const wordHTML = w => `<span class="w" lang="ja">${w.j}</span> · ${w.r} · « ${w.f} »`;
 const top =
-  () => `<header class="top"><div class="brand"><svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="10" fill="var(--ac)"/><text x="20" y="28" text-anchor="middle" font-size="22" fill="#fff" font-family="Zen Maru Gothic" font-weight="900">か</text></svg><span>Hanko</span></div>
+  () => `<header class="top"><div class="brand"><svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="10" fill="var(--ac)"/><text x="20" y="28" text-anchor="middle" font-size="22" fill="#fff" font-family="Zen Old Mincho, serif" font-weight="700">か</text></svg><span>Hanko</span></div>
 <div class="tstats"><span class="pill" title="Jours de suite">${FLAME}${streak()}<span class="hide">&nbsp;j</span></span><span class="pill" title="XP aujourd’hui">${COIN}${todayXp()}<span class="hide">&nbsp;XP</span></span><button class="ic" data-act="settings" aria-label="Réglages">${GEAR}</button></div></header>`;
 
 function tipHome(nx, due) {
@@ -45,6 +45,10 @@ function tipHome(nx, due) {
   return (ui.homeTip = t);
 }
 
+/** Grands kana du bandeau d'accueil : un élément par kana, `--n` (nombre de caractères) règle la taille pour tenir sur une ligne. */
+function bigK(items) {
+  return `<div class="big-k" lang="ja" style="--n:${items.join('').length}">${items.map(k => `<span>${k}</span>`).join('')}</div>`;
+}
 function homeV() {
   const nx = nextLesson(),
     due = dueList().length,
@@ -55,11 +59,11 @@ function homeV() {
   return (
     top() +
     `<section class="hero band"><div class="wrap hero-g">
-  <div>${mascot('idle', tipHome(nx, due))}<p class="kick">${nx ? 'Prochaine leçon · ' + nx.u.t : 'Parcours terminé'}</p><h1>${nx ? nx.t : 'Tous les kana sont vus !'}</h1>
-  <div class="big-k" lang="ja">${nx ? nx.items.slice(0, 5).join(' ') : 'かな カナ'}</div>
-  ${nx ? `<button class="btn wh" data-act="lesson" data-id="${nx.id}">Commencer la leçon</button>` : ''}</div>
+  <div class="today">${mascot('idle', tipHome(nx, due))}<p class="kick">${nx ? 'Prochaine leçon · ' + nx.u.t : 'Parcours terminé'}</p><h1>${nx ? nx.t : 'Tous les kana sont vus !'}</h1>
+  ${bigK(nx ? nx.items.slice(0, 5) : ['かな', 'カナ'])}
+  ${nx ? `<button class="btn ac" data-act="lesson" data-id="${nx.id}">Commencer la leçon</button>` : ''}</div>
   <div class="rev"><div class="rev-n">${due}</div><b>${due ? 'kana à réviser maintenant' : 'Rien à réviser pour l’instant'}</b><p class="mut">${due ? 'Une courte session suffit : réviser à temps fixe la mémoire.' : nextDue()}</p>
-  ${due ? `<button class="btn ac" data-act="review">Réviser</button>` : nl ? `<button class="btn gh" data-act="practice">Entraînement libre</button>` : ''}</div>
+  ${due ? `<button class="btn gh" data-act="review">Réviser</button>` : nl ? `<button class="btn gh" data-act="practice">Entraînement libre</button>` : ''}</div>
   </div></section>
   <section class="band" style="padding-bottom:8px"><div class="wrap figs">
   <div class="fig1"><b>${nl} / ${TOTAL}</b><span>kana vus</span></div><div class="fig1"><b>${ms}</b><span>kana maîtrisés</span></div>
@@ -105,7 +109,7 @@ function sheetV() {
     if (l.id.endsWith('-wa')) return [it[0], null, null, null, it[1], it[2], null, null, null, null];
     return it;
   });
-  return `<div class="sheet"><h2>Tableau des kana</h2><p class="mut" style="margin:4px 0 0">Plus la case est rouge, mieux tu maîtrises le kana. Touche-le pour l’entendre${tts ? '' : ' (voix japonaise indisponible ici)'}.</p>
+  return `<div class="sheet"><h2>Tableau des kana</h2><p class="mut" style="margin:4px 0 0">Plus la case est verte, mieux tu maîtrises le kana. Touche-le pour l’entendre${tts ? '' : ' (voix japonaise indisponible ici)'}.</p>
   <div class="tabs"><button data-act="tab" data-id="h" aria-pressed="${s === 'h'}">Hiragana</button><button data-act="tab" data-id="k" aria-pressed="${s === 'k'}">Katakana</button></div>
   <div class="g5">${base.map(cell).join('')}</div><p class="sub">Sons voisés</p><div class="g5">${unitItems(us[1]).map(cell).join('')}</div>
   <p class="sub">Combinaisons</p><div class="g3">${unitItems(us[2]).map(cell).join('')}</div>
@@ -248,7 +252,7 @@ function resV() {
   return (
     top() +
     `<section class="band"><div class="wrap narrow res">
-  <div class="stamp ${ui.ses.pass ? 'on' : 'off'}"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" stroke-width="6"/><circle cx="60" cy="60" r="43" fill="none" stroke="currentColor" stroke-width="2"/><text x="60" y="78" text-anchor="middle" font-size="52" fill="currentColor" font-family="Zen Maru Gothic" font-weight="900">${ui.ses.pass ? '済' : '再'}</text></svg></div>
+  <div class="stamp ${ui.ses.pass ? 'on' : 'off'}"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" stroke-width="6"/><circle cx="60" cy="60" r="43" fill="none" stroke="currentColor" stroke-width="2"/><text x="60" y="78" text-anchor="middle" font-size="52" fill="currentColor" font-family="Zen Old Mincho, serif" font-weight="700">${ui.ses.pass ? '済' : '再'}</text></svg></div>
   <h1>${title}</h1><p class="lead">${sub}</p>
   ${miss.length ? `<h2 style="margin-top:14px">À retravailler</h2><div class="mrow">${miss.map(c => `<button class="mk" data-act="say" data-t="${c}"><span lang="ja">${c}</span><small>${ITEMS[c].r}</small></button>`).join('')}</div>` : ''}
   ${mascot(ui.ses.pass ? 'happy' : 'oops', talk, 70)}

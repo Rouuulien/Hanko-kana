@@ -23,6 +23,7 @@ test('seuls les fichiers du site sont publiés ; tous les modules, styles et don
   for (const f of ['tests', 'node_modules', 'package.json', 'scripts', 'CLAUDE.md', 'README.md', 'supabase'])
     assert.equal(existsSync(join(out, f)), false, f);
   assert.ok(existsSync(join(out, 'data/KANJIVG-LICENSE.txt')), 'licence KanjiVG publiée');
+  assert.ok(existsSync(join(out, 'fonts/OFL.txt')), 'licence des polices publiée');
   const site = walk(join(ROOT, 'src')).map(f => './src/' + f);
   for (const f of [
     ...site,
@@ -32,6 +33,8 @@ test('seuls les fichiers du site sont publiés ; tous les modules, styles et don
     './data/kana-strokes.json',
     './manifest.webmanifest',
     './icons/icon-192.png',
+    './fonts/NotoSansJP.woff2',
+    './fonts/KleeOne-400.woff2',
   ])
     assert.ok(shell.includes(f), f);
   assert.ok(!shell.some(f => /\.(md|txt)$/.test(f)));

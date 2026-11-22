@@ -6,6 +6,6 @@ const GEAR =
 const FLAME =
   '<svg viewBox="0 0 24 24"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-6 0 2 1 3 2 3 0-4-1-6 1-9z" fill="#f28c28"/><path d="M12 13c1 2 3 3 3 5a3 3 0 0 1-6 0c0-1.5 1-2.5 1.5-3 .3 1 .8 1.3 1.5 1.3 0-1.3-.4-2.3 0-3.3z" fill="#ffd36b"/></svg>';
 const COIN =
-  '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#f2b33d"/><circle cx="12" cy="12" r="7" fill="none" stroke="#b7861d" stroke-width="1.6"/><path d="M12 8v8M9 12h6" stroke="#8a5f00" stroke-width="2" stroke-linecap="round"/></svg>';
+  '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#b69a63"/><circle cx="12" cy="12" r="7" fill="none" stroke="#7d6435" stroke-width="1.6"/><path d="M12 8v8M9 12h6" stroke="#5e4a26" stroke-width="2" stroke-linecap="round"/></svg>';
 
 export { SPK, GEAR, FLAME, COIN };
