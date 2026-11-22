@@ -2,6 +2,8 @@
 import { cloud } from '../sync/cloud.js';
 import { ui } from './app-state.js';
 import { esc } from '../util.js';
+/** Libellé du bouton de suppression du compte (deux clics : armer, puis confirmer). */
+const deleteLabel = () => (ui.armedDel ? 'Confirmer : tout supprimer' : 'Supprimer mon compte');
 function accountV() {
   if (cloud.mode !== 'sb') return '';
   const msg = cloud.msg ? `<p class="amsg" role="status">${esc(cloud.msg)}</p>` : '';
@@ -11,7 +13,7 @@ function accountV() {
     const pwForm = `<form id="setpw" class="lg"><input id="npw" class="rin" type="password" autocomplete="new-password" minlength="8" placeholder="Nouveau mot de passe (8 caractères min.)" aria-label="Nouveau mot de passe"><button class="btn ac">Enregistrer le mot de passe</button></form>`;
     return `<h2>Compte</h2><p style="margin:0">Connecté avec <b>${esc(cloud.email)}</b>.</p>
     ${cloud.recovery ? `<p style="margin:0"><b>Choisis ton nouveau mot de passe :</b></p>${pwForm}` : cloud.pwOpen ? pwForm : `<button class="link" style="justify-self:start" data-act="pwopen">Définir ou changer mon mot de passe</button>`}${msg}
-    <div class="acts" style="justify-content:flex-start;margin:0"><button class="btn gh" data-act="logout">Se déconnecter</button><button class="btn danger" data-act="delacc">${ui.armedDel ? 'Confirmer : tout supprimer' : 'Supprimer mon compte'}</button></div>
+    <div class="acts" style="justify-content:flex-start;margin:0"><button class="btn gh" data-act="logout">Se déconnecter</button><button class="btn danger" data-act="delacc">${deleteLabel()}</button></div>
     <p class="mut" style="margin:0">La suppression efface définitivement ton compte et ta progression en ligne.</p>`;
   }
   const tab = cloud.tab || 'pw';
@@ -30,4 +32,4 @@ function accountV() {
     <p class="mut" style="margin:0;font-size:14px">En créant un compte, tu acceptes la <a href="confidentialite.html">politique de confidentialité</a>.</p>`;
 }
 
-export { accountV };
+export { accountV, deleteLabel };
