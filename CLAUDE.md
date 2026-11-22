@@ -6,7 +6,7 @@ Projet personnel de Julien, en français, tutoiement. En ligne : https://rouuuli
 ## Architecture
 
 - `index.html` : page et script principal (module ES), sans build ni dépendance npm. Sections repérées par des commentaires `/* ---------- … ---------- */`. Découpage en modules en cours (refonte en plusieurs PR).
-- `styles.css` : styles. `src/util.js` : utilitaires. `src/data/` : kana, unités et leçons (`kana.js`), astuces (`notes.js`), mots (`words.js`). `src/core/romaji.js` : découpage et romaji.
+- `styles.css` : styles. `src/util.js` : utilitaires. `src/data/` : kana, unités et leçons (`kana.js`), astuces (`notes.js`), mots (`words.js`). `src/core/` : logique pure sans DOM, testée en unitaire : `state.js` (objet `S`, `fresh()`, chargement/sauvegarde locale), `merge.js` (fusion local/en ligne), `srs.js` (révisions espacées), `progress.js` (jours, série, déblocage), `romaji.js`. `S` n'est jamais réaffecté : utiliser `replaceState()`.
 - Tests : `npm test` (Playwright, voir `tests/README.md`), lancés en CI à chaque PR. Ils doivent rester verts à chaque étape ; les références `tests/golden/` ne se régénèrent (`npm run golden`) que pour un changement de comportement voulu.
 - `sw.js` : service worker (hors ligne). `manifest.webmanifest`, `icons/` : appli installable.
 - `data/kana-strokes.json` : tracés des kana dérivés de KanjiVG (CC BY-SA 3.0, voir `data/README.md`). Garder l'attribution.
