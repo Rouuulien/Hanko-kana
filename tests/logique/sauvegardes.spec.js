@@ -124,3 +124,18 @@ test('code de secours invalide : refusé, progression intacte', async ({ hanko }
   await expect(hanko.page.locator('#impm')).toHaveText('Ce code n’est pas valide.');
   expect((await hanko.run(H => H.S)).xp).toBe(500);
 });
+
+test('code de secours abîmé ({"learned":null}) : importé et réparé, sans plantage', async ({ hanko }) => {
+  const errors = [];
+  hanko.page.on('pageerror', e => errors.push(e.message));
+  await hanko.open();
+  await hanko.page.locator('header [data-act="settings"]').click();
+  await hanko.page.locator('#impt').fill(JSON.stringify({ ...REAL, learned: null }));
+  await hanko.page.locator('#imp button').click();
+  await expect(hanko.page.locator('#impm')).toHaveText('Progression importée.');
+  const S = await hanko.run(H => H.S);
+  expect(S.learned).toEqual({});
+  expect(S.xp).toBe(500);
+  expect(S.done).toEqual(REAL.done);
+  expect(errors).toEqual([]);
+});

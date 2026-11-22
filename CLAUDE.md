@@ -29,6 +29,7 @@ La progression des joueurs vit dans `localStorage` (clé `hanko-kana-v1`) et, s'
 3. **Ne pas casser `merge()`** (fusion local / en ligne) : tout nouveau champ de progression doit y être fusionné sans perte.
 4. Les identifiants de leçons et d'unités (`h-ka`, `k1`…) servent de clés dans `S.done` / `S.tests` : ne pas les renommer.
 5. Ne jamais vider ou réinitialiser `S` en dehors des actions explicites de l'utilisateur (Réglages → Effacer, suppression de compte).
+6. Toute sauvegarde venue de l'extérieur (localStorage, code de secours, version en ligne) passe par `readSave()` (`src/core/state.js`) : elle refuse ce qui n'est pas une sauvegarde et répare un champ objet invalide (`null`, tableau) en `{}` sans toucher au reste. Un nouveau champ objet de `S` s'ajoute à `OBJECT_FIELDS`.
 
 ## À chaque mise en production
 

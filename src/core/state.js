@@ -38,11 +38,27 @@ function replaceState(v) {
   for (const k of Object.keys(S)) delete S[k];
   Object.assign(S, v);
 }
+/** Champs de S qui doivent être des objets : null ou un tableau ferait planter le jeu au premier affichage. */
+const OBJECT_FIELDS = ['learned', 'done', 'tests', 'best'];
+/**
+ * Lit une sauvegarde venue d'ailleurs (localStorage, code de secours, version en ligne).
+ * Refusée (null) si ce n'est pas un objet dont `learned` est de type objet, comme avant.
+ * Sinon réparée sans rien perdre : un champ objet invalide (null, tableau, valeur simple) devient {},
+ * tous les autres champs sont gardés tels quels.
+ * @param {unknown} v
+ * @returns {SavedState | null}
+ */
+function readSave(v) {
+  if (!v || typeof v !== 'object' || typeof (/** @type {SavedState} */ (v).learned) !== 'object') return null;
+  const r = { .../** @type {SavedState} */ (v) };
+  for (const k of OBJECT_FIELDS) if (k in r && (!r[k] || typeof r[k] !== 'object' || Array.isArray(r[k]))) r[k] = {};
+  return r;
+}
 /** Charge la sauvegarde locale si elle est lisible ; sinon S reste à l'état neuf. */
 function loadLocal() {
   try {
-    const v = JSON.parse(localStorage.getItem(KEY));
-    if (v && typeof v.learned === 'object') replaceState(Object.assign(fresh(), v));
+    const v = readSave(JSON.parse(localStorage.getItem(KEY)));
+    if (v) replaceState(Object.assign(fresh(), v));
   } catch (e) {}
 }
 const saveLocal = () => {
@@ -51,4 +67,4 @@ const saveLocal = () => {
   } catch (e) {}
 };
 
-export { KEY, fresh, S, replaceState, loadLocal, saveLocal };
+export { KEY, fresh, S, replaceState, readSave, loadLocal, saveLocal };

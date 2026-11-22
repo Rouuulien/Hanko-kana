@@ -172,6 +172,20 @@ test('erreurs : serveur injoignable → « err », accès révoqué → « local
   assert.equal(cloud.st, 'err');
 });
 
+test('réception d’une sauvegarde en ligne abîmée (learned à null) : fusionnée sans plantage, puis réparée en ligne', async () => {
+  replaceState({ ...fresh(), learned: { あ: { box: 3, due: T0 } }, xp: 10, at: T0 - HOUR });
+  const f = service({ learned: null, done: { 'h-a': true }, xp: 300, at: T0 });
+  brancher(f);
+  cloud.ready = false;
+  await cloudPull();
+  await flush();
+  assert.deepEqual(S.learned, { あ: { box: 3, due: T0 } });
+  assert.deepEqual(S.done, { 'h-a': true });
+  assert.equal(S.xp, 300);
+  assert.equal(f.puts.length, 1, 'la version réparée et fusionnée est renvoyée');
+  assert.deepEqual(f.remote.learned, { あ: { box: 3, due: T0 } });
+});
+
 test('textes d’état', () => {
   Object.assign(cloud, { st: 'ok', mode: 'sb', last: 0 });
   assert.equal(cloudText(), 'Sauvegardée sur ton compte (joueur@example.test).');
