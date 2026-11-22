@@ -1,10 +1,10 @@
-dist/
-dist-claude/
+/dist/
+/dist-claude/
 test-results/
 playwright-report/
 tests/golden/
 tests/fixtures/
-data/
+/data/
 package-lock.json
 *.html
 *.md
