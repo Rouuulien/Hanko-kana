@@ -5,12 +5,15 @@ Projet personnel de Julien, en français, tutoiement. En ligne : https://rouuuli
 
 ## Architecture
 
-- `index.html` : page et script principal (module ES), sans build ni dépendance npm. Sections repérées par des commentaires `/* ---------- … ---------- */`. Découpage en modules en cours (refonte en plusieurs PR).
-- `styles.css` : styles. `src/util.js` : utilitaires. `src/data/` : kana, unités et leçons (`kana.js`), astuces (`notes.js`), mots (`words.js`). `src/core/` : logique pure sans DOM, testée en unitaire : `state.js` (objet `S`, `fresh()`, chargement/sauvegarde locale), `merge.js` (fusion local/en ligne), `srs.js` (révisions espacées), `progress.js` (jours, série, déblocage), `romaji.js`. `S` n'est jamais réaffecté : utiliser `replaceState()`.
-- `src/draw/` : `strokes.js` (chargement des tracés KanjiVG), `recognize.js` (reconnaissance du tracé), `svg.js` (modèle animé, aides). La zone de dessin (`mountPad`, aides interactives) est encore dans `index.html`.
-- `src/sync/cloud.js` : synchronisation (compte Claude ou Supabase), `save()`, fusion à la réception. Ne connaît pas l'interface : `index.html` la lui branche par `bindUI()`.
-- `src/ui/` : `app-state.js` (objet `ui` : écran courant, session, Rafale, Pinceau, zone de dessin ; jamais sauvegardé), `icons.js`, `daru.js` (mascotte), `sounds.js`. Les vues, les modes de jeu et les événements sont encore dans `index.html`.
-- Tests : `npm test` (Playwright, voir `tests/README.md`), lancés en CI à chaque PR. Ils doivent rester verts à chaque étape ; les références `tests/golden/` ne se régénèrent (`npm run golden`) que pour un changement de comportement voulu.
+- `index.html` : coquille de la page (balises, polices, `styles.css`) qui charge `src/main.js`. Sans build ni dépendance npm : modules ES natifs.
+- `src/main.js` : point d'entrée (charge la progression, branche la synchro sur l'interface, premier affichage).
+- `src/data/` : kana, unités et leçons (`kana.js`), astuces (`notes.js`), mots (`words.js`). `src/util.js` : utilitaires.
+- `src/core/` : logique pure sans DOM, testée en unitaire : `state.js` (objet `S`, `fresh()`, chargement/sauvegarde locale), `merge.js` (fusion local/en ligne), `srs.js` (révisions espacées), `progress.js` (jours, série, déblocage), `reading.js` (mots lisibles), `romaji.js`. `S` n'est jamais réaffecté : utiliser `replaceState()`.
+- `src/draw/` : `strokes.js` (chargement des tracés KanjiVG), `recognize.js` (reconnaissance du tracé), `svg.js` (modèle animé, aides).
+- `src/sync/cloud.js` : synchronisation (compte Claude ou Supabase), `save()`, fusion à la réception. Ne connaît pas l'interface : `main.js` la lui branche par `bindUI()`.
+- `src/ui/` : `app-state.js` (objet `ui` : écran courant, session, Rafale, Pinceau, zone de dessin ; jamais sauvegardé), `render.js`, `views.js` (écrans), `account.js`, `events.js` (un écouteur délégué sur `data-act`), `pad.js` (zone de dessin), `voice.js`, `sounds.js`, `daru.js`, `icons.js`.
+- `src/modes/` : `quiz.js` (leçons, quiz, tests, révisions), `rush.js` (Rafale), `brush.js` (Pinceau).
+- Tests : `npm test` (unitaires Node puis Playwright, voir `tests/README.md`), lancés en CI à chaque PR. Ils doivent rester verts à chaque étape ; les références `tests/golden/` ne se régénèrent (`npm run golden`) que pour un changement de comportement voulu.
 - `sw.js` : service worker (hors ligne). `manifest.webmanifest`, `icons/` : appli installable.
 - `data/kana-strokes.json` : tracés des kana dérivés de KanjiVG (CC BY-SA 3.0, voir `data/README.md`). Garder l'attribution.
 - `supabase/schema.sql` : table `progress` + règles RLS + fonction `delete_user()`.

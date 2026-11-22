@@ -3,7 +3,7 @@
 `npm ci && npx playwright install chromium`, puis `npm test`. Aucun outil n'est nécessaire pour faire tourner le jeu lui-même : `package.json` ne sert qu'aux tests.
 
 - `unit/` : tests unitaires Node (`node --test`, sans dépendance) qui importent directement les modules purs de `src/` : état et chargement, fusion (dont 2 000 paires aléatoires), révisions, déblocage, romaji, reconnaissance du tracé sur un échantillon, synchronisation avec un faux service (envoi différé et regroupé, envoi pendant un envoi, fusion à la réception, erreurs). Quelques dizaines de millisecondes : `npm run test:unit`.
-- `server.mjs` : serveur statique de test (port 8123). Avec `?hook` dans l'URL, il ajoute à la volée une ligne qui expose l'état interne du jeu sous `window.__hanko`. Le code de production n'est pas modifié.
+- `server.mjs` : serveur statique de test (port 8123). Avec `?hook` dans l'URL, il ajoute à la volée un petit module qui expose l'état interne du jeu sous `window.__hanko`. Le code de production n'est pas modifié.
 - `helpers/hook.mjs` : la liste de ce qui est exposé. C'est le seul point de contact entre les tests et le code : lors du découpage en modules, seul ce fichier change.
 - `helpers/hanko.js` : ouverture du jeu dans un état contrôlé (horloge figée au 15/01/2026, `Math.random` à graine fixe, appels externes bloqués, sauvegarde injectée dans `localStorage`).
 - `logique/` : tests de caractérisation de la logique critique (sauvegarde et anciens formats, fusion local/en ligne, révisions espacées, déblocage, romaji, reconnaissance du tracé).
