@@ -16,13 +16,24 @@ const TYPES = {
   '.png': 'image/png', '.svg': 'image/svg+xml', '.txt': 'text/plain; charset=utf-8',
 };
 const MARK = '</body></html>';
+// Test de mise à jour : /maj/… est servi depuis un site construit (dist) choisi par /__maj?dir=…, à l'intérieur de test-results/.
+let majRoot = null;
 
 createServer(async (req, res) => {
   const url = new URL(req.url, 'http://x');
   let path = decodeURIComponent(url.pathname);
+  if (path === '/__maj') {
+    const dir = resolve(url.searchParams.get('dir') || '');
+    if (!dir.startsWith(join(ROOT, 'test-results'))) { res.writeHead(403).end(); return }
+    majRoot = dir;
+    res.writeHead(204).end();
+    return;
+  }
   if (path.endsWith('/')) path += 'index.html';
-  const file = normalize(join(ROOT, path));
-  if (!file.startsWith(ROOT) || /[\\/](node_modules|\.git|tests)[\\/]/.test(file.slice(ROOT.length))) {
+  const base = path.startsWith('/maj/') && majRoot ? majRoot : ROOT;
+  if (base !== ROOT) path = path.slice(4);
+  const file = normalize(join(base, path));
+  if (!file.startsWith(base) || /[\\/](node_modules|\.git|tests)[\\/]/.test(file.slice(base.length))) {
     res.writeHead(404).end();
     return;
   }

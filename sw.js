@@ -2,11 +2,11 @@
    Fichiers du site (HTML, modules JS, CSS, données) : réseau d'abord, en revalidant le cache HTTP,
    pour qu'une page à jour ne soit jamais servie avec d'anciens modules ; cache si hors ligne.
    Le reste (icônes, polices, bibliothèque Supabase) : cache d'abord.
-   Les appels à Supabase ne sont jamais mis en cache. */
-const V = 'hanko-v11';
-const SHELL = ['./', './index.html', './styles.css',
-  './src/core/merge.js', './src/core/progress.js', './src/core/reading.js', './src/core/romaji.js', './src/core/srs.js', './src/core/state.js', './src/data/kana.js', './src/data/notes.js', './src/data/words.js', './src/draw/recognize.js', './src/draw/strokes.js', './src/draw/svg.js', './src/main.js', './src/modes/brush.js', './src/modes/quiz.js', './src/modes/rush.js', './src/sync/cloud.js', './src/ui/account.js', './src/ui/app-state.js', './src/ui/daru.js', './src/ui/events.js', './src/ui/icons.js', './src/ui/pad.js', './src/ui/render.js', './src/ui/sounds.js', './src/ui/views.js', './src/ui/voice.js', './src/util.js',
-  './confidentialite.html', './manifest.webmanifest', './data/kana-strokes.json', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png', './icons/favicon-32.png'];
+   Les appels à Supabase ne sont jamais mis en cache.
+   V et SHELL sont remplis par scripts/build.mjs au déploiement (version = empreinte du contenu publié) :
+   ne pas les modifier à la main. */
+const V = 'hanko-dev';
+const SHELL = ['./', './index.html'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(V).then(c => c.addAll(SHELL.map(u => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting()));
