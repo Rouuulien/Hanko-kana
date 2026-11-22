@@ -34,7 +34,7 @@ function lessonQueue(){const N=ui.ses.items,s=ITEMS[N[0]].s,cap=Math.min(N.lengt
 function startTest(uid){const u=UN[uid],all=unitItems(u);ui.ses={kind:'test',id:uid,set:new Set(all)};initQuiz(sample(all,15).map(c=>({c,type:pickType(S.learned[c]?S.learned[c].box:2,c)})));render()}
 function startReview(practice){const cs=practice?sample(Object.keys(S.learned),15):dueList().slice(0,20);if(!cs.length)return;ui.ses={kind:practice?'practice':'review',set:new Set(cs)};initQuiz(shuffle(cs).map(c=>({c,type:pickType(S.learned[c].box,c)})));render()}
 const cur=()=>ui.ses.queue[ui.ses.i];
-function settle(ok,extra){const Q=cur(),it=ITEMS[Q.c];
+function settle(ok,extra){const Q=cur();
   if(ok){ui.ses.combo++;ui.ses.best=Math.max(ui.ses.best,ui.ses.combo)}else ui.ses.combo=0;
   let msg=ok?pick(['Bien vu !','Exact !','Parfait.','Oui, c’est ça !','Sugoi !']):'Pas tout à fait.';
   if(ok&&ui.ses.combo>=3&&ui.ses.combo%3===0)msg=`Série de ${ui.ses.combo} ! Daru est fier.`;

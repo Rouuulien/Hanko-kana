@@ -55,4 +55,5 @@ La progression des joueurs vit dans `localStorage` (clé `hanko-kana-v1`) et, s'
 
 - Une branche par amélioration, puis fusion dans `main` quand c'est testé.
 - Messages de commit en français.
+- Style : `npm run format` (Prettier) avant de committer ; `npm run lint` (ESLint + Prettier) tourne en CI et bloque la PR ou le déploiement.
 - Garder les modifications petites et incrémentales.

@@ -1,0 +1,10 @@
+dist/
+dist-claude/
+test-results/
+playwright-report/
+tests/golden/
+tests/fixtures/
+data/
+package-lock.json
+*.html
+*.md
