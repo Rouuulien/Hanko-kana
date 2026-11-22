@@ -322,7 +322,11 @@ async function cloudInit(){
       const id=await user.id();if(!id)return clearTimeout(to);const ref=db.doc('data/users/'+id+'/progress');
       cloud.api={get:async()=>{const s=await ref.get();if(!s.exists)return null;try{return JSON.parse(s.data().data)}catch(e){return null}},put:st=>ref.set({v:1,at:st.at||Date.now(),data:JSON.stringify(st)})};
       cloud.st='sync';paintCloud();await cloudPull()}catch(e){cloud.st='local'}clearTimeout(to);paintCloud();return}
-  cloud.mode='sb';cloud.st='anon';if(view==='home')render();
+  cloud.mode='sb';cloud.st='anon';
+  try{const h=new URLSearchParams(location.hash.slice(1));if(h.get('error')||h.get('error_code')){const c=h.get('error_code')||'';
+    cloud.msg=/otp_expired|invalid/i.test(c+h.get('error_description'))?'Ce lien a expiré ou a déjà été utilisé. Chaque nouvel e-mail annule le précédent : redemande un e-mail une seule fois et ouvre uniquement le plus récent.':'La connexion par lien a échoué. Réessaie, ou utilise l’e-mail et le mot de passe.';
+    history.replaceState(null,'',location.pathname+location.search);view='set'}}catch(e){}
+  if(view==='home'||view==='set')render();
   if('serviceWorker'in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
   try{if(!window.supabase)await new Promise((ok,ko)=>{const sc=document.createElement('script');sc.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';sc.onload=ok;sc.onerror=ko;document.head.appendChild(sc)});
     cloud.sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'implicit'}});
