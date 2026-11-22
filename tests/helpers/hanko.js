@@ -28,7 +28,7 @@ export const test = base.extend({
       page,
       /** Ouvre le jeu. `state` : objet écrit dans localStorage avant le chargement (ou chaîne brute).
        *  `supabase: { session, remote }` ou `claude: { remote }` : faux service de sauvegarde en ligne. */
-      async open({ state, now = T0, seed = 42, hook = true, supabase, claude } = {}) {
+      async open({ state, now = T0, seed = 42, hook = true, supabase, claude, path } = {}) {
         await page.clock.setFixedTime(now);
         if (supabase) await page.addInitScript(fauxSupabase, supabase);
         if (claude) await page.addInitScript(fauxClaude, claude);
@@ -37,7 +37,7 @@ export const test = base.extend({
           await page.addInitScript(([k, v]) => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem(k, v); sessionStorage.setItem('seeded', '1') } },
             ['hanko-kana-v1', typeof state === 'string' ? state : JSON.stringify(state)]);
         }
-        await page.goto(hook ? '/?hook' : '/');
+        await page.goto(path || (hook ? '/?hook' : '/'));
         if (hook) await page.waitForFunction(() => !!globalThis.__hanko);
         return h;
       },

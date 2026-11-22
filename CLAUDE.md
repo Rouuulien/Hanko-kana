@@ -49,7 +49,7 @@ La progression des joueurs vit dans `localStorage` (clé `hanko-kana-v1`) et, s'
 - Interface et textes en français, ton chaleureux, Daru parle à la première personne.
 - Daru est une mascotte originale : ne pas utiliser de personnages ou visuels protégés (pas de pingouin Suica, rien de Mochikana).
 - Couleurs : vermillon `#e3402a`, encre `#1d1b20`, or `#f2b33d`. Polices : Zen Maru Gothic (kana, titres), Outfit (texte).
-- La version claude.ai (artifact) utilise le même code : la sauvegarde passe alors par `window.claude` au lieu de Supabase. Ne pas casser ce mode. Depuis le passage en modules, l'artifact doit être un fichier unique généré (script de build prévu dans la refonte) : ne pas republier `index.html` seul sur claude.ai d'ici là.
+- La version claude.ai (artifact) utilise le même code : la sauvegarde passe alors par `window.claude` au lieu de Supabase. Ne pas casser ce mode. Depuis le passage en modules, l'artifact se construit avec `npm run build:claude` : `dist-claude/index.html` (styles et code assemblés en ligne par esbuild) plus `data/kana-strokes.json`, `icons/`, `manifest.webmanifest`. Publier ce dossier (pas le `index.html` du dépôt) sur l'artifact existant, avec les capacités `db` et `user`. esbuild ne sert qu'à cette version ; le site Pages reste sans compilation.
 
 ## Méthode de travail
 
