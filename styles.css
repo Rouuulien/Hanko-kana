@@ -53,7 +53,7 @@
   --gold-ink: light-dark(#7d6435, #c9ae78);
   --ok: light-dark(#3f5241, #9bae9a);
   --bad: light-dark(#b3261e, #ff8a80);
-  --hero: light-dark(#c64b3c, #a33a2d);
+  --on-bad: light-dark(#ffffff, #282824);
   --sh: 0 18px 40px -26px rgba(40, 40, 36, 0.35);
   /* Scène sombre de la Rafale et du Pinceau (toujours sombre) */
   --st-bg: #1b1a17;
@@ -170,7 +170,7 @@ button {
 }
 .btn.danger {
   background: var(--bad);
-  color: var(--on-ac);
+  color: var(--on-bad);
   box-shadow: none;
 }
 .btn:disabled {
@@ -363,8 +363,8 @@ button {
   border-radius: var(--r-s);
   border: 0;
   background: none;
-  font-weight: 600;
-  color: var(--mut);
+  font-weight: 500;
+  color: var(--ink);
 }
 .seg button[aria-pressed='true'] {
   background: var(--card);
@@ -590,6 +590,12 @@ button {
 }
 .b6 {
   background: var(--sage);
+}
+.b1 small,
+.b2 small,
+.b3 small,
+.b4 small {
+  color: var(--ink);
 }
 .b5,
 .b6 {

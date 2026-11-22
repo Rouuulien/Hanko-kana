@@ -2,7 +2,7 @@
 // Tout texte doit tenir 4,5:1 (WCAG 2, niveau AA) sur le fond où il est posé.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 
 const css = readFileSync(new URL('../../styles.css', import.meta.url), 'utf8');
 const root = css.slice(css.indexOf(':root {'), css.indexOf('}', css.indexOf(':root {')));
@@ -35,6 +35,7 @@ const COUPLES = [
   ['mut', 'card'],
   ['ac-ink', 'bg'],
   ['on-ac', 'ac'],
+  ['on-bad', 'bad'],
   ['sage-ink', 'bg'],
   ['gold-ink', 'bg'],
   ['ok', 'card'],
@@ -48,3 +49,16 @@ for (const [t, f] of COUPLES)
       assert.ok(r >= 4.5, `${theme} : ${vars[t][i]} sur ${vars[f][i]} = ${r.toFixed(2)}`);
     }
   });
+
+test('plus aucune trace de l’ancienne charte (hors Daru, inchangé jusqu’au chantier 2)', () => {
+  const ROOT = new URL('../../', import.meta.url).pathname;
+  const fichiers = ['styles.css', 'index.html', 'confidentialite.html', 'manifest.webmanifest'];
+  const walk = d =>
+    readdirSync(ROOT + d, { withFileTypes: true }).flatMap(e =>
+      e.isDirectory() ? walk(d + '/' + e.name) : e.name.endsWith('.js') ? [d + '/' + e.name] : [],
+    );
+  fichiers.push(...walk('src').filter(f => !f.endsWith('/daru.js')));
+  const ANCIEN = /Zen Maru Gothic|Outfit|#e3402a|#1d1b20|#f2b33d|#fbfaf8/i;
+  const restes = fichiers.filter(f => ANCIEN.test(readFileSync(ROOT + f, 'utf8')));
+  assert.deepEqual(restes, []);
+});

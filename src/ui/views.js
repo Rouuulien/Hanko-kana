@@ -24,7 +24,7 @@ import { K2H, esc, pick } from '../util.js';
 const resetLabel = () => (ui.armed ? 'Confirmer : tout effacer' : 'Effacer ma progression');
 const wordHTML = w => `<span class="w" lang="ja">${w.j}</span> · ${w.r} · « ${w.f} »`;
 const top =
-  () => `<header class="top"><div class="brand"><svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="10" fill="var(--ac)"/><text x="20" y="28" text-anchor="middle" font-size="22" fill="#fff" font-family="Zen Maru Gothic" font-weight="900">か</text></svg><span>Hanko</span></div>
+  () => `<header class="top"><div class="brand"><svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="10" fill="var(--ac)"/><text x="20" y="28" text-anchor="middle" font-size="22" fill="#fff" font-family="Zen Old Mincho, serif" font-weight="700">か</text></svg><span>Hanko</span></div>
 <div class="tstats"><span class="pill" title="Jours de suite">${FLAME}${streak()}<span class="hide">&nbsp;j</span></span><span class="pill" title="XP aujourd’hui">${COIN}${todayXp()}<span class="hide">&nbsp;XP</span></span><button class="ic" data-act="settings" aria-label="Réglages">${GEAR}</button></div></header>`;
 
 function tipHome(nx, due) {
@@ -252,7 +252,7 @@ function resV() {
   return (
     top() +
     `<section class="band"><div class="wrap narrow res">
-  <div class="stamp ${ui.ses.pass ? 'on' : 'off'}"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" stroke-width="6"/><circle cx="60" cy="60" r="43" fill="none" stroke="currentColor" stroke-width="2"/><text x="60" y="78" text-anchor="middle" font-size="52" fill="currentColor" font-family="Zen Maru Gothic" font-weight="900">${ui.ses.pass ? '済' : '再'}</text></svg></div>
+  <div class="stamp ${ui.ses.pass ? 'on' : 'off'}"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" stroke-width="6"/><circle cx="60" cy="60" r="43" fill="none" stroke="currentColor" stroke-width="2"/><text x="60" y="78" text-anchor="middle" font-size="52" fill="currentColor" font-family="Zen Old Mincho, serif" font-weight="700">${ui.ses.pass ? '済' : '再'}</text></svg></div>
   <h1>${title}</h1><p class="lead">${sub}</p>
   ${miss.length ? `<h2 style="margin-top:14px">À retravailler</h2><div class="mrow">${miss.map(c => `<button class="mk" data-act="say" data-t="${c}"><span lang="ja">${c}</span><small>${ITEMS[c].r}</small></button>`).join('')}</div>` : ''}
   ${mascot(ui.ses.pass ? 'happy' : 'oops', talk, 70)}
