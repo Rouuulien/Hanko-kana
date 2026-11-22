@@ -5,7 +5,7 @@ Projet personnel de Julien, en français, tutoiement. En ligne : https://rouuuli
 
 ## Architecture
 
-- `index.html` : coquille de la page (balises, polices, `styles.css`) qui charge `src/main.js`. Sans build ni dépendance npm : modules ES natifs.
+- `index.html` : coquille de la page (balises, `styles.css`) qui charge `src/main.js`. Sans build ni dépendance npm : modules ES natifs.
 - `src/main.js` : point d'entrée (charge la progression, branche la synchro sur l'interface, premier affichage).
 - `src/data/` : kana, unités et leçons (`kana.js`), astuces (`notes.js`), mots (`words.js`). `src/util.js` : utilitaires.
 - `src/core/` : logique pure sans DOM, testée en unitaire : `state.js` (objet `S`, `fresh()`, chargement/sauvegarde locale), `merge.js` (fusion local/en ligne), `srs.js` (révisions espacées), `progress.js` (jours, série, déblocage), `reading.js` (mots lisibles), `romaji.js`. `S` n'est jamais réaffecté : utiliser `replaceState()`.
@@ -49,7 +49,9 @@ La progression des joueurs vit dans `localStorage` (clé `hanko-kana-v1`) et, s'
 
 - Interface et textes en français, ton chaleureux, Daru parle à la première personne.
 - Daru est une mascotte originale : ne pas utiliser de personnages ou visuels protégés (pas de pingouin Suica, rien de Mochikana).
-- Couleurs : vermillon `#e3402a`, encre `#1d1b20`, or `#f2b33d`. Polices : Zen Maru Gothic (kana, titres), Outfit (texte).
+- Direction : appli lifestyle japonaise contemporaine, sobre et minimaliste (pas un Duolingo bis). Conception : `docs/superpowers/specs/`.
+- Couleurs (variables de `:root` dans `styles.css`, clair et sombre en `light-dark()`) : Washi `#f7f5ef` (fond), Sumi `#282824` (texte), Vermillon `#c64b3c` (actions et accents seulement ; `#b5432f` pour du texte), Sauge `#9bae9a` (progression), Sable `#e8dfd0` (surfaces), Or mat `#b69a63` (récompenses). Tout texte tient 4,5:1 (`tests/unit/contraste.test.js`).
+- Polices hébergées dans `fonts/` (sous-ensembles, voir `fonts/README.md`) : Noto Sans JP (interface, japonais courant), Zen Old Mincho (titres, marque), Klee One (grands kana, formes manuscrites). Un caractère nouveau dans le code : `npm run fonts` (le test `polices` le signale).
 - La version claude.ai (artifact) utilise le même code : la sauvegarde passe alors par `window.claude` au lieu de Supabase. Ne pas casser ce mode. Depuis le passage en modules, l'artifact se construit avec `npm run build:claude` : `dist-claude/index.html` (styles et code assemblés en ligne par esbuild) plus `data/kana-strokes.json`, `icons/`, `manifest.webmanifest`. Publier ce dossier (pas le `index.html` du dépôt) sur l'artifact existant, avec les capacités `db` et `user`. esbuild ne sert qu'à cette version ; le site Pages reste sans compilation.
 
 ## Méthode de travail

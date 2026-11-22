@@ -104,6 +104,7 @@ Le service worker sert les fichiers du site **réseau d'abord**, avec revalidati
 | Objet d'état unique `S`, jamais réaffecté | Un module ne peut pas réaffecter une variable qu'il importe. Les remplacements complets passent par `replaceState()`, qui garde le même objet. |
 | Un seul écouteur de clics délégué (`data-act`) | L'interface est reconstruite en HTML à chaque rendu : aucun écouteur à rebrancher sur les éléments. |
 | Supabase (Postgres, Row Level Security) | Comptes et sauvegarde en ligne sans serveur à maintenir. Seule la clé publique est dans le code ; la sécurité repose sur les règles d'accès (`supabase/schema.sql`). Données hébergées dans l'UE. |
+| Polices hébergées avec l'appli, réduites aux caractères affichés | Une police japonaise complète pèse plusieurs mégaoctets. Les sous-ensembles (`npm run fonts`) tiennent en 870 Ko pour les trois familles et restent disponibles hors ligne ; un test vérifie que tout caractère du jeu est couvert. |
 | Reconnaissance du tracé maison | Comparaison de nuages de points normalisés, puis trait par trait (forme, sens, ordre), contre tous les kana de la même écriture. Aucun modèle ni service externe : fonctionne hors ligne. |
 
 ## Qualité
@@ -184,4 +185,4 @@ Le plan gratuit de Supabase met en pause un projet sans activité pendant 7 jour
 
 ## Crédits
 
-Les formes et l'ordre des traits des kana proviennent de [KanjiVG](https://kanjivg.tagaini.net) © Ulrich Apel, sous licence CC BY-SA 3.0. Le fichier dérivé `data/kana-strokes.json` est distribué sous la même licence (voir `data/`). Daru est une mascotte originale.
+Les formes et l'ordre des traits des kana proviennent de [KanjiVG](https://kanjivg.tagaini.net) © Ulrich Apel, sous licence CC BY-SA 3.0. Le fichier dérivé `data/kana-strokes.json` est distribué sous la même licence (voir `data/`). Polices Noto Sans JP, Zen Old Mincho et Klee One sous licence SIL Open Font License 1.1 (voir `fonts/`). Daru est une mascotte originale.
