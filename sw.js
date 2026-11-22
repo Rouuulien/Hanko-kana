@@ -3,8 +3,8 @@
    pour qu'une page à jour ne soit jamais servie avec d'anciens modules ; cache si hors ligne.
    Le reste (icônes, polices, bibliothèque Supabase) : cache d'abord.
    Les appels à Supabase ne sont jamais mis en cache. */
-const V = 'hanko-v9';
-const SHELL = ['./', './index.html', './styles.css', './src/util.js', './src/core/romaji.js', './src/core/state.js', './src/core/merge.js', './src/core/srs.js', './src/core/progress.js', './src/draw/strokes.js', './src/draw/recognize.js', './src/draw/svg.js', './src/sync/cloud.js', './src/data/kana.js', './src/data/notes.js', './src/data/words.js',
+const V = 'hanko-v10';
+const SHELL = ['./', './index.html', './styles.css', './src/util.js', './src/core/romaji.js', './src/core/state.js', './src/core/merge.js', './src/core/srs.js', './src/core/progress.js', './src/draw/strokes.js', './src/draw/recognize.js', './src/draw/svg.js', './src/sync/cloud.js', './src/ui/app-state.js', './src/ui/icons.js', './src/ui/daru.js', './src/ui/sounds.js', './src/data/kana.js', './src/data/notes.js', './src/data/words.js',
   './confidentialite.html', './manifest.webmanifest', './data/kana-strokes.json',
   './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png', './icons/favicon-32.png'];
 
