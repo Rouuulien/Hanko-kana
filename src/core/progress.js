@@ -1,6 +1,8 @@
+// @ts-check
 /* ---------- progression : jours, série, déblocage des leçons et des tests ---------- */
 import { S } from './state.js';
 import { UNITS, SL } from '../data/kana.js';
+/** Date locale « AAAA-MM-JJ », décalée de `off` jours. @param {number} [off] */
 const ld = (off = 0) => {
   const d = new Date();
   d.setDate(d.getDate() + off);
@@ -8,11 +10,13 @@ const ld = (off = 0) => {
 };
 const streak = () => (S.last === ld() || S.last === ld(-1) ? S.streak : 0);
 const todayXp = () => (S.today === ld() ? S.todayXp : 0);
+/** @param {import('../../types/hanko').Lesson} l */
 const unlocked = l => {
   if (S.unlock) return true;
   if (l.idx > 0) return !!S.done[SL[l.s][l.idx - 1].id];
   return l.s === 'h' || UNITS[0].lessons.every(x => S.done[x.id]);
 };
+/** @param {import('../../types/hanko').Unit} u */
 const testOpen = u => S.unlock || u.lessons.every(l => S.done[l.id]);
 const nextLesson = () => {
   for (const u of UNITS) for (const l of u.lessons) if (!S.done[l.id] && unlocked(l)) return l;

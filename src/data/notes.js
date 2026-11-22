@@ -1,5 +1,7 @@
+// @ts-check
 /* ---------- données : astuces de prononciation et de forme ---------- */
 const RN = 'Le r japonais : un seul battement de langue, entre r, l et d.';
+/** Astuces de prononciation, par hiragana. @type {Record<string, string>} */
 const NOTE_P = {
   ふ: 'Entre « fou » et « hou » : on souffle sans serrer les lèvres.',
   ら: RN,
@@ -11,6 +13,7 @@ const NOTE_P = {
   ぢ: 'Rare : on écrit presque toujours じ pour ce son.',
   づ: 'Rare : on écrit presque toujours ず pour ce son.',
 };
+/** Astuces de forme, par kana. @type {Record<string, string>} */
 const NOTE_S = {
   は: 'Se lit « wa » quand c’est la particule de thème.',
   へ: 'Se lit « é » quand c’est la particule de direction.',
@@ -31,6 +34,7 @@ const NOTE_S = {
   ソ: 'À ne pas confondre avec ン : le dernier trait descend vers la gauche.',
   ヲ: 'Très rare en katakana.',
 };
+/** Prononciation à la française d'une lecture (ex. « shi » → « chi », « tsu » → « tsou »). @param {string} r */
 const fr = r =>
   r === 'n'
     ? r

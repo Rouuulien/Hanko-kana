@@ -1,3 +1,4 @@
+// @ts-check
 /* ---------- données : les 208 kana, unités et leçons ----------
    Les identifiants d'unités (h1…k3) et de leçons (h-a, k-y0…) servent de clés dans la sauvegarde : ne jamais les renommer. */
 import { H2K } from '../util.js';
@@ -46,17 +47,20 @@ const YG = [
 ];
 const ALT = { shi: ['si'], chi: ['ti'], tsu: ['tu'], fu: ['hu'], ji: ['zi', 'di'], zu: ['du'], wo: ['o'], n: ['nn'] };
 
+/** @typedef {import('../../types/hanko').Item} Item @typedef {import('../../types/hanko').Unit} Unit @typedef {import('../../types/hanko').Lesson} Lesson */
+/** @type {Record<string, Item>} */
 const ITEMS = {},
   UNITS = [],
   LES = {},
   SL = { h: [], k: [] };
+/** Enregistre un kana (converti en katakana si s = 'k') et renvoie son caractère. @type {(s: import('../../types/hanko').Script, ch: string, r: string, al?: string[]) => string} */
 const mk = (s, ch, r, al) => {
   const c = s === 'k' ? H2K(ch) : ch;
   ITEMS[c] = { c, r, al: al || ALT[r] || [], s };
   return c;
 };
 const rowName = id => (id === 'a' ? 'Voyelles' : id === 'wa' ? 'W et N' : 'Ligne ' + id[0].toUpperCase());
-for (const s of ['h', 'k']) {
+for (const s of /** @type {const} */ (['h', 'k'])) {
   const nm = s === 'h' ? 'Hiragana' : 'Katakana';
   const row = (id, ks, rs) => {
     const R = rs.split(' ');
@@ -94,6 +98,7 @@ for (const s of ['h', 'k']) {
   }
 }
 const UN = Object.fromEntries(UNITS.map(u => [u.id, u]));
+/** @param {Unit} u */
 const unitItems = u => u.lessons.flatMap(l => l.items);
 const TOTAL = Object.keys(ITEMS).length;
 

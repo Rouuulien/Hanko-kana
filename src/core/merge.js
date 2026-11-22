@@ -1,7 +1,13 @@
+// @ts-check
 /* ---------- fusion de deux progressions (cet appareil / en ligne) ----------
    Rien ne doit être perdu : union des kana (meilleure boîte), des leçons, meilleurs scores et records, XP maximale.
    Réglages et série de jours : ceux de la version la plus récente (champ at). */
 import { fresh } from './state.js';
+/**
+ * @param {import('../../types/hanko').SavedState} a
+ * @param {import('../../types/hanko').SavedState} b
+ * @returns {import('../../types/hanko').State}
+ */
 function merge(a, b) {
   const n = (a.at || 0) >= (b.at || 0) ? a : b,
     o = n === a ? b : a,

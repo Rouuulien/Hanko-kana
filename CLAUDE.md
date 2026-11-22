@@ -55,5 +55,6 @@ La progression des joueurs vit dans `localStorage` (clé `hanko-kana-v1`) et, s'
 
 - Une branche par amélioration, puis fusion dans `main` quand c'est testé.
 - Messages de commit en français.
-- Style : `npm run format` (Prettier) avant de committer ; `npm run lint` (ESLint + Prettier) tourne en CI et bloque la PR ou le déploiement.
+- Style : `npm run format` (Prettier) avant de committer ; `npm run lint` (ESLint, Prettier, types) tourne en CI et bloque la PR ou le déploiement.
+- Types : `src/core/`, `src/data/` et `src/util.js` sont vérifiés par `tsc` (`// @ts-check`, annotations JSDoc, types dans `types/hanko.d.ts`). Tout nouveau champ de sauvegarde s'ajoute aussi à l'interface `State`. Pas de compilation : tsc ne fait que vérifier.
 - Garder les modifications petites et incrémentales.

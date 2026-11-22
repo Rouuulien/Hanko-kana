@@ -20,7 +20,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Style et erreurs courantes (ESLint, Prettier)
+      - name: Style, erreurs courantes et types (ESLint, Prettier, tsc)
         run: npm run lint
       - name: Navigateurs Playwright
         run: npx playwright install --with-deps chromium webkit
