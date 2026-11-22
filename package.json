@@ -12,9 +12,11 @@
     "test:unit": "TZ=Europe/Paris node --test 'tests/unit/*.test.js'",
     "test:logique": "playwright test --project=logique",
     "golden": "UPDATE_GOLDEN=1 playwright test --project=logique",
-    "build": "node scripts/build.mjs"
+    "build": "node scripts/build.mjs",
+    "build:claude": "node scripts/build-claude.mjs"
   },
   "devDependencies": {
-    "@playwright/test": "1.65.1"
+    "@playwright/test": "1.65.1",
+    "esbuild": "0.28.2"
   }
 }

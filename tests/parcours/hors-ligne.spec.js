@@ -7,7 +7,6 @@ import { build, PUBLISHED } from '../../scripts/build.mjs';
 import { REAL } from './_commun.js';
 
 const ROOT = new URL('../../', import.meta.url).pathname;
-test.describe.configure({ mode: 'serial' }); // les deux tests changent le site servi sous /maj/
 test.skip(({ browserName }) => browserName !== 'chromium', 'Service worker et mode hors ligne fiables sous Chromium uniquement dans Playwright');
 
 /** Copie des sources publiées dans `dir`, éventuellement modifiées, puis construction de `dir/dist`. */
@@ -17,7 +16,8 @@ function site(dir, edit = () => {}) {
   edit(dir);
   return build({ root: dir, out: join(dir, 'dist') });
 }
-const serve = (request, dir) => request.get('/__maj?dir=' + encodeURIComponent(join(dir, 'dist')));
+/** Sert le site construit dans `dir` sous /maj/<clé>/ (une clé par test). */
+const serve = (request, key, dir) => request.get(`/__maj?key=${key}&dir=` + encodeURIComponent(join(dir, 'dist')));
 async function installe(page) {
   await page.evaluate(async () => { await navigator.serviceWorker.register('sw.js'); await navigator.serviceWorker.ready });
   await page.reload();
@@ -27,10 +27,10 @@ const versionActive = page => page.evaluate(async () => (await caches.keys()).jo
 
 test('après une visite, le jeu fonctionne sans réseau', async ({ hanko, context, request }, info) => {
   const A = site(info.outputPath('a'));
-  await serve(request, info.outputPath('a'));
+  await serve(request, 'horsligne', info.outputPath('a'));
   await hanko.page.addInitScript(s => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('hanko-kana-v1', s); sessionStorage.setItem('seeded', '1') } }, JSON.stringify(REAL));
   const page = hanko.page;
-  await page.goto('/maj/');
+  await page.goto('/maj/horsligne/');
   await installe(page);
   expect(await versionActive(page)).toBe(A.V);
 
@@ -57,12 +57,12 @@ test('mise à jour : la nouvelle page n’est jamais servie avec d’anciens mod
   });
   expect(B.V).not.toBe(A.V);
 
-  await serve(request, info.outputPath('a'));
-  await page.goto('/maj/');
+  await serve(request, 'maj', info.outputPath('a'));
+  await page.goto('/maj/maj/');
   await installe(page);
   await expect(page).toHaveTitle('Hanko · kana');
 
-  await serve(request, info.outputPath('b')); // déploiement de B
+  await serve(request, 'maj', info.outputPath('b')); // déploiement de B
   await page.reload();
   await expect(page).toHaveTitle('Hanko B');
   await expect(page.locator('.hero h1')).toHaveText('Voyelles');

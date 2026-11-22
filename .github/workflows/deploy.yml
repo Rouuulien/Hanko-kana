@@ -42,8 +42,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+      - run: npm ci
       - name: Construction du site
         run: node scripts/build.mjs dist | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Construction de la version claude.ai (téléchargeable depuis l'exécution)
+        run: node scripts/build-claude.mjs dist-claude | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hanko-claude-ai
+          path: dist-claude
+          retention-days: 90
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

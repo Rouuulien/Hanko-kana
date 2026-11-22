@@ -16,8 +16,9 @@ const TYPES = {
   '.png': 'image/png', '.svg': 'image/svg+xml', '.txt': 'text/plain; charset=utf-8',
 };
 const MARK = '</body></html>';
-// Test de mise à jour : /maj/… est servi depuis un site construit (dist) choisi par /__maj?dir=…, à l'intérieur de test-results/.
-let majRoot = null;
+// Sites construits (dist, dist-claude) : /maj/<clé>/… est servi depuis le dossier choisi par /__maj?key=<clé>&dir=…,
+// à l'intérieur de test-results/. Une clé par test : les tests en parallèle ne se gênent pas.
+const majRoots = new Map();
 
 createServer(async (req, res) => {
   const url = new URL(req.url, 'http://x');
@@ -25,13 +26,14 @@ createServer(async (req, res) => {
   if (path === '/__maj') {
     const dir = resolve(url.searchParams.get('dir') || '');
     if (!dir.startsWith(join(ROOT, 'test-results'))) { res.writeHead(403).end(); return }
-    majRoot = dir;
+    majRoots.set(url.searchParams.get('key') || '', dir);
     res.writeHead(204).end();
     return;
   }
   if (path.endsWith('/')) path += 'index.html';
-  const base = path.startsWith('/maj/') && majRoot ? majRoot : ROOT;
-  if (base !== ROOT) path = path.slice(4);
+  const m = path.match(/^\/maj\/([\w-]+)(\/.*)$/);
+  const base = m && majRoots.has(m[1]) ? majRoots.get(m[1]) : ROOT;
+  if (base !== ROOT) path = m[2];
   const file = normalize(join(base, path));
   if (!file.startsWith(base) || /[\\/](node_modules|\.git|tests)[\\/]/.test(file.slice(base.length))) {
     res.writeHead(404).end();
