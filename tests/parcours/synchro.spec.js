@@ -64,6 +64,17 @@ test.describe('Supabase', () => {
     expect((await hanko.fake()).calls).not.toContain('rpc:delete_user');
   });
 
+  test('armer la suppression du compte garde un mot de passe en cours de saisie', async ({ hanko }) => {
+    const page = (await hanko.open({ state: REAL, supabase: { session: SESSION, remote: REAL } })).page;
+    await synced(hanko);
+    await page.locator('header [data-act="settings"]').click();
+    await page.locator('[data-act="pwopen"]').click();
+    await page.locator('#npw').fill('nouveau-mot-de-passe');
+    await page.locator('[data-act="delacc"]').click();
+    await expect(page.locator('[data-act="delacc"]')).toHaveText('Confirmer : tout supprimer');
+    await expect(page.locator('#npw')).toHaveValue('nouveau-mot-de-passe');
+  });
+
   test('suppression du compte : confirmation, appel serveur, progression effacée', async ({ hanko }) => {
     const page = (await hanko.open({ state: REAL, supabase: { session: SESSION, remote: REAL } })).page;
     await synced(hanko);

@@ -26,7 +26,8 @@ import { app, render } from './render.js';
 import { resetLabel } from './views.js';
 import { muteBtn, sfx } from './sounds.js';
 import { say } from './voice.js';
-/** Met à jour les libellés des boutons à confirmation présents à l'écran. */
+/** Met à jour les libellés des boutons à confirmation présents à l'écran (armement et désarmement),
+ *  sans réafficher la page, ce qui effacerait une saisie en cours (code de secours, mot de passe). */
 function relabel() {
   const r = document.querySelector('[data-act="reset"]'),
     d = document.querySelector('[data-act="delacc"]');
@@ -278,7 +279,7 @@ app.addEventListener('click', e => {
     case 'delacc':
       if (!ui.armedDel) {
         ui.armedDel = true;
-        render();
+        relabel(); // sans réafficher la page : une saisie en cours est gardée
       } else {
         ui.armedDel = false;
         sbDelete();
@@ -336,7 +337,7 @@ app.addEventListener('click', e => {
     case 'reset':
       if (!ui.armed) {
         ui.armed = true;
-        render();
+        relabel(); // sans réafficher la page : une saisie en cours est gardée
       } else {
         ui.armed = false;
         replaceState(fresh());
