@@ -22,7 +22,7 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Navigateurs Playwright
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps chromium webkit
       - run: npm test
       - name: Rapport en cas d'échec
         if: failure()
