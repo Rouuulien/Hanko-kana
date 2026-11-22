@@ -13,6 +13,10 @@ import{shuffle,pick,esc,H2K,K2H}from'./src/util.js';
 import{ITEMS,UNITS,LES,SL,UN,unitItems,TOTAL}from'./src/data/kana.js';
 import{NOTE_P,NOTE_S,fr}from'./src/data/notes.js';
 import{WORDS}from'./src/data/words.js';
+import{KEY,fresh,S,replaceState,loadLocal,saveLocal}from'./src/core/state.js';
+import{merge}from'./src/core/merge.js';
+import{IV,grade,dueList,nextDue}from'./src/core/srs.js';
+import{ld,streak,todayXp,unlocked,testOpen,nextLesson,allDone}from'./src/core/progress.js';
 const app=document.getElementById('app');
 const SPK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
 const GEAR='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>';
@@ -43,26 +47,18 @@ const wordsWith=c=>WORDS.filter(w=>w.t.includes(c));
 const wordHTML=w=>`<span class="w" lang="ja">${w.j}</span> · ${w.r} · « ${w.f} »`;
 
 /* ---------- état ---------- */
-const KEY='hanko-kana-v1';
-const fresh=()=>({learned:{},done:{},tests:{},xp:0,streak:0,last:'',today:'',todayXp:0,unlock:false,ear:true,tab:'h',page:'path',rsc:'h',rct:'kana',rdu:60,rfmt:'deck',best:{},snd:true,draw:true,bsc:'h',bn:10,bl:2});
-let S=fresh();try{const v=JSON.parse(localStorage.getItem(KEY));if(v&&typeof v.learned==='object')S=Object.assign(fresh(),v)}catch(e){}
-const saveLocal=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+loadLocal();
 const save=()=>{S.at=Date.now();saveLocal();cloudSoon()};
 /* ---------- sauvegarde sur le compte Claude (capacité db) ---------- */
 const cloud={mode:null,st:'local',api:null,ready:false,busy:false,dirty:false,t:0,last:0,sb:null,uid:null,email:'',step:'',msg:''};
 const SB_URL='https://hxnptpndukqivjewwxnj.supabase.co',SB_KEY='sb_publishable_jRnM6-6jhF_T0BZHPMjnhg_rGkdS-u0';
-function merge(a,b){const n=(a.at||0)>=(b.at||0)?a:b,o=n===a?b:a,r=Object.assign(fresh(),o,n);
-  r.learned=Object.assign({},o.learned);for(const[c,L]of Object.entries(n.learned||{})){const p=r.learned[c];if(!p||L.box>=p.box)r.learned[c]=L}
-  r.done=Object.assign({},o.done,n.done);r.tests=Object.assign({},o.tests);for(const[k,v]of Object.entries(n.tests||{}))r.tests[k]=Math.max(v,r.tests[k]||0);
-  r.best=Object.assign({},o.best);for(const[k,v]of Object.entries(n.best||{})){const p=r.best[k];if(!p||(v.ms!=null?(p.n!==v.n||v.ms<p.ms):v.kpm>p.kpm))r.best[k]=v}
-  r.xp=Math.max(a.xp||0,b.xp||0);r.at=Math.max(a.at||0,b.at||0);return r}
 function cloudSoon(){if(!cloud.ready||!cloud.api)return;clearTimeout(cloud.t);cloud.t=setTimeout(cloudPush,1200)}
 async function cloudPush(){if(!cloud.api)return;if(cloud.busy){cloud.dirty=true;return}cloud.busy=true;cloud.st='sync';paintCloud();
   try{await cloud.api.put(S);cloud.st='ok';cloud.last=Date.now()}catch(e){cloud.st=e&&e.code==='revoked'?'local':'err'}
   cloud.busy=false;if(cloud.dirty){cloud.dirty=false;cloudPush()}else paintCloud()}
 async function cloudPull(){const api=cloud.api;if(!api)return;let rem;try{rem=await api.get()}catch(e){cloud.st='err';paintCloud();return}
   if(api!==cloud.api)return;
-  if(rem&&typeof rem.learned==='object'){const m=merge(S,rem),same=JSON.stringify(m)===JSON.stringify(rem);S=m;saveLocal();homeTip=null;
+  if(rem&&typeof rem.learned==='object'){const m=merge(S,rem),same=JSON.stringify(m)===JSON.stringify(rem);replaceState(m);saveLocal();homeTip=null;
     if(['home','set','res','rushres'].includes(view))render();cloud.ready=true;if(!same)return cloudPush()}
   else if(Object.keys(S.learned).length||S.xp){cloud.ready=true;return cloudPush()}
   cloud.ready=true;cloud.st='ok';cloud.last=Date.now();paintCloud()}
@@ -119,7 +115,7 @@ async function sbSetPw(form){const sb=cloud.sb,pw=form.querySelector('#npw').val
 let armedDel=false;
 async function sbDelete(){const sb=cloud.sb;if(!sb)return;const{error}=await sb.rpc('delete_user');
   if(error){cloud.msg='Suppression impossible pour le moment. Réessaie plus tard.';return render()}
-  await sb.auth.signOut();S=fresh();saveLocal();homeTip=null;cloud.msg='Ton compte et ta progression en ligne ont été supprimés.';render()}
+  await sb.auth.signOut();replaceState(fresh());saveLocal();homeTip=null;cloud.msg='Ton compte et ta progression en ligne ont été supprimés.';render()}
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&cloud.api&&!cloud.busy)cloudPull()});
 const syncAt=()=>cloud.last?' · synchro à '+new Date(cloud.last).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}):'';
 const cloudText=()=>({ok:cloud.mode==='sb'?`Sauvegardée sur ton compte (${cloud.email})${syncAt()}.`:`Sauvegardée automatiquement sur ton compte Claude${syncAt()}.`,
@@ -149,18 +145,7 @@ function accountV(){if(cloud.mode!=='sb')return'';const msg=cloud.msg?`<p class=
     <div class="chips" role="tablist"><button data-act="atab" data-id="pw" aria-pressed="${tab==='pw'}">E-mail et mot de passe</button><button data-act="atab" data-id="code" aria-pressed="${tab==='code'}">Lien par e-mail</button></div>
     <form id="login" class="lg">${body}${msg}</form>
     <p class="mut" style="margin:0;font-size:14px">En créant un compte, tu acceptes la <a href="confidentialite.html">politique de confidentialité</a>.</p>`}
-const ld=(off=0)=>{const d=new Date();d.setDate(d.getDate()+off);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
-const streak=()=>(S.last===ld()||S.last===ld(-1))?S.streak:0;
-const todayXp=()=>S.today===ld()?S.todayXp:0;
 function addXp(n){const t=ld();if(S.today!==t){S.today=t;S.todayXp=0}S.todayXp+=n;S.xp+=n;if(S.last!==t){S.streak=S.last===ld(-1)?S.streak+1:1;S.last=t}save()}
-const IV=[0,4*36e5,864e5,3*864e5,7*864e5,16*864e5,35*864e5];
-function grade(c,ok){const L=S.learned[c];if(!L)return;L.box=ok?Math.min(6,L.box+1):1;L.due=Date.now()+IV[L.box]}
-const dueList=()=>{const n=Date.now();return Object.entries(S.learned).filter(([,L])=>L.due<=n).sort((a,b)=>a[1].due-b[1].due).map(([c])=>c)};
-function nextDue(){const now=Date.now();let m=Infinity;for(const L of Object.values(S.learned))if(L.due>now&&L.due<m)m=L.due;if(m===Infinity)return Object.keys(S.learned).length?'':'Termine une leçon pour lancer tes révisions.';const h=(m-now)/36e5;return'Prochaine révision '+(h<1?'dans moins d’une heure':h<24?'dans '+Math.round(h)+' h':'dans '+Math.round(h/24)+' j')+'.'}
-const unlocked=l=>{if(S.unlock)return true;if(l.idx>0)return!!S.done[SL[l.s][l.idx-1].id];return l.s==='h'||UNITS[0].lessons.every(x=>S.done[x.id])};
-const testOpen=u=>S.unlock||u.lessons.every(l=>S.done[l.id]);
-const nextLesson=()=>{for(const u of UNITS)for(const l of u.lessons)if(!S.done[l.id]&&unlocked(l))return l;return null};
-const allDone=()=>UNITS.every(u=>u.lessons.every(l=>S.done[l.id]));
 
 /* ---------- voix ---------- */
 let tts=false,jv=null;
@@ -546,10 +531,10 @@ app.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b
     case'quit':case'home':stopRush();stopBrush();ses=null;view='home';render();break;case'settings':view='set';render();break;
     case'tog':S[b.dataset.k]=b.checked;save();break;
     case'copy':{const t=document.getElementById('exp');try{navigator.clipboard.writeText(t.value).then(()=>{b.textContent='Copié'},()=>t.select())}catch(err){t.select()}break}
-    case'reset':if(!armed){armed=true;render()}else{armed=false;S=fresh();homeTip=null;save();view='home';render()}break;
+    case'reset':if(!armed){armed=true;render()}else{armed=false;replaceState(fresh());homeTip=null;save();view='home';render()}break;
   }});
 app.addEventListener('submit',e=>{e.preventDefault();if(e.target.id==='login')return sbLogin(e.target,e.submitter&&e.submitter.dataset.sub);if(e.target.id==='setpw')return sbSetPw(e.target);if(e.target.id==='tf')answerTyped(document.getElementById('ti').value);
-  if(e.target.id==='imp'){const m=document.getElementById('impm');try{const v=JSON.parse(document.getElementById('impt').value);if(!v||typeof v.learned!=='object')throw 0;S=Object.assign(fresh(),v);homeTip=null;save();render();document.getElementById('impm').textContent='Progression importée.'}catch(err){m.textContent='Ce code n’est pas valide.'}}});
+  if(e.target.id==='imp'){const m=document.getElementById('impm');try{const v=JSON.parse(document.getElementById('impt').value);if(!v||typeof v.learned!=='object')throw 0;replaceState(Object.assign(fresh(),v));homeTip=null;save();render();document.getElementById('impm').textContent='Progression importée.'}catch(err){m.textContent='Ce code n’est pas valide.'}}});
 document.addEventListener('keydown',e=>{if(view==='brush'&&bs){if(e.target.tagName==='BUTTON')return;if(e.key==='Enter'){e.preventDefault();bs.state==='done'?bNext():bCheck()}else if(e.key==='Backspace'){e.preventDefault();PAD&&PAD.undo()}else if(e.key==='Escape')PAD&&PAD.clear();return}if(view==='rush'){if(e.metaKey||e.ctrlKey||e.altKey)return;const k=e.key;const m=/^[a-zA-Z-]$/.test(k)?k.toLowerCase():k==='Backspace'?'back':k==='Escape'?'clear':k==='ArrowRight'?'skip':null;if(m){e.preventDefault();rKey(m)}return}if(view!=='quiz'||!ses)return;if(e.target.tagName==='BUTTON'||e.target.tagName==='INPUT')return;
   if(ses.ans){if(e.key==='Enter'){e.preventDefault();next()}return}if(cur().type!=='type'&&cur().type!=='draw'&&/^[1-4]$/.test(e.key))answer(+e.key-1)});
 render();cloudInit();loadKS().then(()=>{if(view==='home'||view==='cards')render()}).catch(()=>{});
