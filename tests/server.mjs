@@ -1,7 +1,7 @@
 // Serveur statique de test, sans dépendance.
-// Sert le dépôt tel quel. Avec `?hook` dans l'URL de la page, injecte à la fin du script
-// principal (module ES) une ligne qui expose l'état interne sous `window.__hanko` : cela permet de tester
-// la logique sans modifier index.html (les variables d'un module ne sont pas visibles de l'extérieur).
+// Sert le dépôt tel quel. Avec `?hook` dans l'URL de la page, ajoute après le script du jeu un petit module
+// (tests/helpers/hook.mjs) qui expose l'état interne sous `window.__hanko` : cela permet de tester la logique
+// sans modifier le code (les variables d'un module ne sont pas visibles de l'extérieur).
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { extname, join, normalize, resolve } from 'node:path';
@@ -15,7 +15,7 @@ const TYPES = {
   '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.webmanifest': 'application/manifest+json',
   '.png': 'image/png', '.svg': 'image/svg+xml', '.txt': 'text/plain; charset=utf-8',
 };
-const MARK = '\n</script></body></html>';
+const MARK = '</body></html>';
 
 createServer(async (req, res) => {
   const url = new URL(req.url, 'http://x');
@@ -31,7 +31,7 @@ createServer(async (req, res) => {
     if (url.searchParams.has('hook') && file.endsWith('index.html')) {
       const html = body.toString('utf8');
       if (!html.includes(MARK)) throw new Error('Point d’injection du hook introuvable dans index.html');
-      body = html.replace(MARK, '\n' + HOOK + MARK);
+      body = html.replace(MARK, '<script type="module">' + HOOK + '</script>' + MARK);
     }
     res.writeHead(200, { 'content-type': TYPES[extname(file)] || 'application/octet-stream', 'cache-control': 'no-store' });
     res.end(body);
