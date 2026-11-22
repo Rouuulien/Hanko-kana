@@ -22,7 +22,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0191,
+  "sd": 0.0295,
   "tip": ""
  },
  {
@@ -35,7 +35,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0114,
+  "sd": 0.0123,
   "tip": ""
  },
  {
@@ -48,21 +48,21 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0081,
+  "sd": 0.0059,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "あ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 42,
-  "like": "ぢ",
+  "rank": 51,
+  "like": "ち",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.3675,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぢ</span> (ji)."
+  "sd": 0.365,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ち</span> (chi)."
  },
  {
   "c": "あ",
@@ -99,7 +99,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0217,
+  "sd": 0.0256,
   "tip": ""
  },
  {
@@ -112,7 +112,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0169,
+  "sd": 0.0125,
   "tip": ""
  },
  {
@@ -125,7 +125,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0086,
+  "sd": 0.006,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -138,7 +138,7 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.8262,
+  "sd": 0.8355,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">け</span> (ke)."
  },
  {
@@ -176,7 +176,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0338,
+  "sd": 0.0249,
   "tip": ""
  },
  {
@@ -189,7 +189,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0117,
+  "sd": 0.0127,
   "tip": ""
  },
  {
@@ -202,7 +202,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0052,
+  "sd": 0.0073,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -215,7 +215,7 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.5333,
+  "sd": 0.5292,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">さ</span> (sa)."
  },
  {
@@ -223,12 +223,12 @@
   "v": "trait-manquant",
   "ok": false,
   "rank": 9,
-  "like": "ぺ",
+  "like": "べ",
   "need": 2,
   "got": 1,
   "dir": true,
   "order": true,
-  "tip": "Ce kana se trace en 2 traits (tu en as fait 1). Ton tracé ressemble plutôt à <span lang=\"ja\">ぺ</span> (pe)."
+  "tip": "Ce kana se trace en 2 traits (tu en as fait 1). Ton tracé ressemble plutôt à <span lang=\"ja\">べ</span> (be)."
  },
  {
   "c": "え",
@@ -253,7 +253,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0301,
+  "sd": 0.0315,
   "tip": ""
  },
  {
@@ -266,7 +266,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.02,
+  "sd": 0.014,
   "tip": ""
  },
  {
@@ -279,21 +279,21 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.012,
+  "sd": 0.01,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "え",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 63,
-  "like": "を",
+  "rank": 62,
+  "like": "あ",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.6633,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">を</span> (wo)."
+  "sd": 0.6665,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">あ</span> (a)."
  },
  {
   "c": "え",
@@ -330,7 +330,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0206,
+  "sd": 0.0239,
   "tip": ""
  },
  {
@@ -343,7 +343,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0229,
+  "sd": 0.0137,
   "tip": ""
  },
  {
@@ -356,20 +356,20 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0084,
+  "sd": 0.0114,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "お",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 44,
+  "rank": 46,
   "like": "わ",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.3657,
+  "sd": 0.3689,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">わ</span> (wa)."
  },
  {
@@ -407,7 +407,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0238,
+  "sd": 0.0324,
   "tip": ""
  },
  {
@@ -420,7 +420,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0128,
+  "sd": 0.018,
   "tip": ""
  },
  {
@@ -433,27 +433,27 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0078,
+  "sd": 0.0081,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "か",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 51,
+  "rank": 44,
   "like": "た",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.3684,
+  "sd": 0.3677,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">た</span> (ta)."
  },
  {
   "c": "か",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 30,
+  "rank": 31,
   "like": "あ",
   "need": 3,
   "got": 2,
@@ -484,7 +484,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0209,
+  "sd": 0.0232,
   "tip": ""
  },
  {
@@ -497,7 +497,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.012,
+  "sd": 0.023,
   "tip": ""
  },
  {
@@ -510,7 +510,7 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.0084,
+  "sd": 0.008,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -523,14 +523,14 @@
   "got": 4,
   "dir": true,
   "order": false,
-  "sd": 0.5207,
+  "sd": 0.5195,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">さ</span> (sa)."
  },
  {
   "c": "き",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 7,
+  "rank": 8,
   "like": "ち",
   "need": 4,
   "got": 3,
@@ -561,7 +561,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0151,
+  "sd": 0.0128,
   "tip": ""
  },
  {
@@ -574,7 +574,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0113,
+  "sd": 0.0124,
   "tip": ""
  },
  {
@@ -587,7 +587,7 @@
   "got": 1,
   "dir": false,
   "order": true,
-  "sd": 0.0048,
+  "sd": 0.0062,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -613,7 +613,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0218,
+  "sd": 0.0223,
   "tip": ""
  },
  {
@@ -626,7 +626,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.012,
+  "sd": 0.0122,
   "tip": ""
  },
  {
@@ -639,7 +639,7 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0087,
+  "sd": 0.0067,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -652,7 +652,7 @@
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.4263,
+  "sd": 0.4252,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ほ</span> (ho)."
  },
  {
@@ -690,7 +690,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0313,
+  "sd": 0.0415,
   "tip": ""
  },
  {
@@ -703,7 +703,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0158,
+  "sd": 0.0148,
   "tip": ""
  },
  {
@@ -716,7 +716,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0081,
+  "sd": 0.0087,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -729,7 +729,7 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.8968,
+  "sd": 0.8967,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">じ</span> (ji)."
  },
  {
@@ -767,7 +767,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.029,
+  "sd": 0.0176,
   "tip": ""
  },
  {
@@ -780,7 +780,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0197,
+  "sd": 0.0161,
   "tip": ""
  },
  {
@@ -793,7 +793,7 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0099,
+  "sd": 0.0063,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -856,7 +856,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0227,
+  "sd": 0.0423,
   "tip": ""
  },
  {
@@ -869,7 +869,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.014,
+  "sd": 0.0148,
   "tip": ""
  },
  {
@@ -882,7 +882,7 @@
   "got": 1,
   "dir": false,
   "order": true,
-  "sd": 0.0071,
+  "sd": 0.0067,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -908,7 +908,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0197,
+  "sd": 0.0194,
   "tip": ""
  },
  {
@@ -921,7 +921,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0155,
+  "sd": 0.0108,
   "tip": ""
  },
  {
@@ -934,7 +934,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0062,
+  "sd": 0.005,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -947,7 +947,7 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.4513,
+  "sd": 0.4484,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ず</span> (zu)."
  },
  {
@@ -985,7 +985,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0218,
+  "sd": 0.0192,
   "tip": ""
  },
  {
@@ -998,7 +998,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0107,
+  "sd": 0.0119,
   "tip": ""
  },
  {
@@ -1011,20 +1011,20 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0094,
+  "sd": 0.0067,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "せ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 27,
+  "rank": 16,
   "like": "ぜ",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.2696,
+  "sd": 0.2681,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぜ</span> (ze)."
  },
  {
@@ -1062,7 +1062,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0489,
+  "sd": 0.0292,
   "tip": ""
  },
  {
@@ -1075,7 +1075,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0215,
+  "sd": 0.0133,
   "tip": ""
  },
  {
@@ -1088,7 +1088,7 @@
   "got": 1,
   "dir": false,
   "order": true,
-  "sd": 0.008,
+  "sd": 0.0095,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -1114,7 +1114,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0316,
+  "sd": 0.0218,
   "tip": ""
  },
  {
@@ -1127,7 +1127,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0181,
+  "sd": 0.0187,
   "tip": ""
  },
  {
@@ -1140,7 +1140,7 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.0067,
+  "sd": 0.0083,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -1153,7 +1153,7 @@
   "got": 4,
   "dir": true,
   "order": false,
-  "sd": 0.7244,
+  "sd": 0.7272,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">だ</span> (da)."
  },
  {
@@ -1191,7 +1191,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0301,
+  "sd": 0.0163,
   "tip": ""
  },
  {
@@ -1204,7 +1204,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0217,
+  "sd": 0.0113,
   "tip": ""
  },
  {
@@ -1217,27 +1217,27 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0095,
+  "sd": 0.0062,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ち",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 54,
-  "like": "あ",
+  "rank": 53,
+  "like": "ぢ",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.4931,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">あ</span> (a)."
+  "sd": 0.4913,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぢ</span> (ji)."
  },
  {
   "c": "ち",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 23,
+  "rank": 24,
   "like": "を",
   "need": 2,
   "got": 1,
@@ -1268,7 +1268,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0291,
+  "sd": 0.0166,
   "tip": ""
  },
  {
@@ -1281,7 +1281,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0157,
+  "sd": 0.0068,
   "tip": ""
  },
  {
@@ -1320,7 +1320,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0261,
+  "sd": 0.0225,
   "tip": ""
  },
  {
@@ -1333,7 +1333,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0117,
+  "sd": 0.0238,
   "tip": ""
  },
  {
@@ -1346,7 +1346,7 @@
   "got": 1,
   "dir": false,
   "order": true,
-  "sd": 0.0069,
+  "sd": 0.0081,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -1372,7 +1372,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0204,
+  "sd": 0.0227,
   "tip": ""
  },
  {
@@ -1385,7 +1385,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.018,
+  "sd": 0.0093,
   "tip": ""
  },
  {
@@ -1398,7 +1398,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0071,
+  "sd": 0.0057,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -1406,13 +1406,13 @@
   "v": "ordre-inverse",
   "ok": false,
   "rank": 55,
-  "like": "を",
+  "like": "じ",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.5443,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">を</span> (wo)."
+  "sd": 0.5453,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">じ</span> (ji)."
  },
  {
   "c": "と",
@@ -1449,7 +1449,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0155,
+  "sd": 0.0261,
   "tip": ""
  },
  {
@@ -1462,7 +1462,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0117,
+  "sd": 0.0129,
   "tip": ""
  },
  {
@@ -1475,7 +1475,7 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.007,
+  "sd": 0.0062,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -1488,14 +1488,14 @@
   "got": 4,
   "dir": true,
   "order": false,
-  "sd": 0.6811,
+  "sd": 0.6838,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">か</span> (ka)."
  },
  {
   "c": "な",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 2,
+  "rank": 9,
   "like": "れ",
   "need": 4,
   "got": 3,
@@ -1526,7 +1526,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0278,
+  "sd": 0.0186,
   "tip": ""
  },
  {
@@ -1539,7 +1539,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0169,
+  "sd": 0.0162,
   "tip": ""
  },
  {
@@ -1552,7 +1552,7 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0073,
+  "sd": 0.0074,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -1565,7 +1565,7 @@
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.503,
+  "sd": 0.5037,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぽ</span> (po)."
  },
  {
@@ -1603,7 +1603,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0219,
+  "sd": 0.0369,
   "tip": ""
  },
  {
@@ -1616,7 +1616,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0146,
+  "sd": 0.021,
   "tip": ""
  },
  {
@@ -1629,7 +1629,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0085,
+  "sd": 0.0103,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -1642,14 +1642,14 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.471,
+  "sd": 0.4675,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">あ</span> (a)."
  },
  {
   "c": "ぬ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 32,
+  "rank": 35,
   "like": "く",
   "need": 2,
   "got": 1,
@@ -1667,7 +1667,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.1738,
+  "sd": 0.1756,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">め</span> (me)."
  },
  {
@@ -1693,7 +1693,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0358,
+  "sd": 0.0183,
   "tip": ""
  },
  {
@@ -1706,7 +1706,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0153,
+  "sd": 0.0135,
   "tip": ""
  },
  {
@@ -1719,7 +1719,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0109,
+  "sd": 0.0086,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -1727,19 +1727,19 @@
   "v": "ordre-inverse",
   "ok": false,
   "rank": 54,
-  "like": "け",
+  "like": "あ",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.4976,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">け</span> (ke)."
+  "sd": 0.4966,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">あ</span> (a)."
  },
  {
   "c": "ね",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 58,
+  "rank": 57,
   "like": "く",
   "need": 2,
   "got": 1,
@@ -1751,13 +1751,13 @@
   "c": "ね",
   "v": "voisin",
   "ok": true,
-  "rank": 3,
+  "rank": 2,
   "like": "れ",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.1474,
+  "sd": 0.1441,
   "tip": ""
  },
  {
@@ -1783,7 +1783,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0206,
+  "sd": 0.0191,
   "tip": ""
  },
  {
@@ -1796,7 +1796,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.014,
+  "sd": 0.0128,
   "tip": ""
  },
  {
@@ -1809,7 +1809,7 @@
   "got": 1,
   "dir": false,
   "order": true,
-  "sd": 0.0079,
+  "sd": 0.0075,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -1835,7 +1835,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0247,
+  "sd": 0.025,
   "tip": ""
  },
  {
@@ -1848,7 +1848,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0166,
+  "sd": 0.0156,
   "tip": ""
  },
  {
@@ -1861,7 +1861,7 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0084,
+  "sd": 0.0104,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -1874,7 +1874,7 @@
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.4361,
+  "sd": 0.441,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ほ</span> (ho)."
  },
  {
@@ -1882,12 +1882,12 @@
   "v": "trait-manquant",
   "ok": false,
   "rank": 6,
-  "like": "け",
+  "like": "に",
   "need": 3,
   "got": 2,
   "dir": true,
   "order": true,
-  "tip": "Ce kana se trace en 3 traits (tu en as fait 2). Ton tracé ressemble plutôt à <span lang=\"ja\">け</span> (ke)."
+  "tip": "Ce kana se trace en 3 traits (tu en as fait 2). Ton tracé ressemble plutôt à <span lang=\"ja\">に</span> (ni)."
  },
  {
   "c": "は",
@@ -1924,7 +1924,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0329,
+  "sd": 0.0254,
   "tip": ""
  },
  {
@@ -1937,7 +1937,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0211,
+  "sd": 0.0228,
   "tip": ""
  },
  {
@@ -1950,7 +1950,7 @@
   "got": 1,
   "dir": false,
   "order": true,
-  "sd": 0.0101,
+  "sd": 0.0095,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -1976,7 +1976,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0266,
+  "sd": 0.0261,
   "tip": ""
  },
  {
@@ -1989,7 +1989,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0127,
+  "sd": 0.0187,
   "tip": ""
  },
  {
@@ -2002,7 +2002,7 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.0084,
+  "sd": 0.0074,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -2010,19 +2010,19 @@
   "v": "ordre-inverse",
   "ok": false,
   "rank": 61,
-  "like": "ぶ",
+  "like": "ぷ",
   "need": 4,
   "got": 4,
   "dir": true,
   "order": false,
-  "sd": 0.5986,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぶ</span> (bu)."
+  "sd": 0.6009,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぷ</span> (pu)."
  },
  {
   "c": "ふ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 12,
+  "rank": 9,
   "like": "な",
   "need": 4,
   "got": 3,
@@ -2053,7 +2053,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0179,
+  "sd": 0.0191,
   "tip": ""
  },
  {
@@ -2066,7 +2066,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0134,
+  "sd": 0.0123,
   "tip": ""
  },
  {
@@ -2079,7 +2079,7 @@
   "got": 1,
   "dir": false,
   "order": true,
-  "sd": 0.008,
+  "sd": 0.0048,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -2105,7 +2105,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0258,
+  "sd": 0.027,
   "tip": ""
  },
  {
@@ -2118,7 +2118,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0184,
+  "sd": 0.0131,
   "tip": ""
  },
  {
@@ -2131,7 +2131,7 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.0062,
+  "sd": 0.0069,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -2144,7 +2144,7 @@
   "got": 4,
   "dir": true,
   "order": false,
-  "sd": 0.514,
+  "sd": 0.5133,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">は</span> (ha)."
  },
  {
@@ -2182,7 +2182,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0177,
+  "sd": 0.0233,
   "tip": ""
  },
  {
@@ -2195,7 +2195,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0147,
+  "sd": 0.0171,
   "tip": ""
  },
  {
@@ -2208,7 +2208,7 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0075,
+  "sd": 0.0076,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -2221,20 +2221,20 @@
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.3877,
+  "sd": 0.386,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">よ</span> (yo)."
  },
  {
   "c": "ま",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 30,
-  "like": "べ",
+  "rank": 33,
+  "like": "や",
   "need": 3,
   "got": 2,
   "dir": true,
   "order": true,
-  "tip": "Ce kana se trace en 3 traits (tu en as fait 2). Ton tracé ressemble plutôt à <span lang=\"ja\">べ</span> (be)."
+  "tip": "Ce kana se trace en 3 traits (tu en as fait 2). Ton tracé ressemble plutôt à <span lang=\"ja\">や</span> (ya)."
  },
  {
   "c": "み",
@@ -2259,7 +2259,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0252,
+  "sd": 0.0152,
   "tip": ""
  },
  {
@@ -2272,7 +2272,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0145,
+  "sd": 0.0133,
   "tip": ""
  },
  {
@@ -2285,7 +2285,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0121,
+  "sd": 0.0079,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -2298,7 +2298,7 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.5242,
+  "sd": 0.522,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">あ</span> (a)."
  },
  {
@@ -2336,7 +2336,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0257,
+  "sd": 0.0258,
   "tip": ""
  },
  {
@@ -2349,7 +2349,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0173,
+  "sd": 0.0151,
   "tip": ""
  },
  {
@@ -2362,27 +2362,27 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.01,
+  "sd": 0.0069,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "む",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 43,
-  "like": "な",
+  "rank": 50,
+  "like": "わ",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.4422,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">な</span> (na)."
+  "sd": 0.4438,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">わ</span> (wa)."
  },
  {
   "c": "む",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 4,
+  "rank": 3,
   "like": "を",
   "need": 3,
   "got": 2,
@@ -2413,7 +2413,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0184,
+  "sd": 0.0156,
   "tip": ""
  },
  {
@@ -2426,7 +2426,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0125,
+  "sd": 0.0155,
   "tip": ""
  },
  {
@@ -2439,27 +2439,27 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0073,
+  "sd": 0.0081,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "め",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 50,
+  "rank": 51,
   "like": "あ",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.4345,
+  "sd": 0.4323,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">あ</span> (a)."
  },
  {
   "c": "め",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 41,
+  "rank": 42,
   "like": "く",
   "need": 2,
   "got": 1,
@@ -2471,13 +2471,13 @@
   "c": "め",
   "v": "voisin",
   "ok": false,
-  "rank": 6,
+  "rank": 5,
   "like": "ぬ",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.1738,
+  "sd": 0.1745,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぬ</span> (nu)."
  },
  {
@@ -2503,7 +2503,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0211,
+  "sd": 0.0176,
   "tip": ""
  },
  {
@@ -2516,7 +2516,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.011,
+  "sd": 0.0118,
   "tip": ""
  },
  {
@@ -2529,7 +2529,7 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0059,
+  "sd": 0.005,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -2537,13 +2537,13 @@
   "v": "ordre-inverse",
   "ok": false,
   "rank": 8,
-  "like": "ぢ",
+  "like": "ち",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.2347,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぢ</span> (ji)."
+  "sd": 0.2335,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ち</span> (chi)."
  },
  {
   "c": "も",
@@ -2580,7 +2580,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0267,
+  "sd": 0.0211,
   "tip": ""
  },
  {
@@ -2593,7 +2593,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0148,
+  "sd": 0.0172,
   "tip": ""
  },
  {
@@ -2606,27 +2606,27 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0075,
+  "sd": 0.0099,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "や",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 14,
-  "like": "ぢ",
+  "rank": 35,
+  "like": "ぺ",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.3019,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぢ</span> (ji)."
+  "sd": 0.302,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぺ</span> (pe)."
  },
  {
   "c": "や",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 7,
+  "rank": 5,
   "like": "あ",
   "need": 3,
   "got": 2,
@@ -2657,7 +2657,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0194,
+  "sd": 0.0218,
   "tip": ""
  },
  {
@@ -2670,7 +2670,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0153,
+  "sd": 0.0171,
   "tip": ""
  },
  {
@@ -2683,7 +2683,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0071,
+  "sd": 0.0052,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -2696,7 +2696,7 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.444,
+  "sd": 0.4476,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">け</span> (ke)."
  },
  {
@@ -2734,7 +2734,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0366,
+  "sd": 0.0244,
   "tip": ""
  },
  {
@@ -2747,7 +2747,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0118,
+  "sd": 0.0133,
   "tip": ""
  },
  {
@@ -2760,7 +2760,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0086,
+  "sd": 0.0058,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -2773,14 +2773,14 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.5762,
+  "sd": 0.5771,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ま</span> (ma)."
  },
  {
   "c": "よ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 46,
+  "rank": 45,
   "like": "を",
   "need": 2,
   "got": 1,
@@ -2811,7 +2811,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0206,
+  "sd": 0.0178,
   "tip": ""
  },
  {
@@ -2824,7 +2824,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.017,
+  "sd": 0.0145,
   "tip": ""
  },
  {
@@ -2837,20 +2837,20 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0072,
+  "sd": 0.0068,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ら",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 61,
+  "rank": 60,
   "like": "を",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.639,
+  "sd": 0.6398,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">を</span> (wo)."
  },
  {
@@ -2888,7 +2888,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0282,
+  "sd": 0.0167,
   "tip": ""
  },
  {
@@ -2901,7 +2901,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0135,
+  "sd": 0.0106,
   "tip": ""
  },
  {
@@ -2914,7 +2914,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0063,
+  "sd": 0.0088,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -2922,19 +2922,19 @@
   "v": "ordre-inverse",
   "ok": false,
   "rank": 51,
-  "like": "を",
+  "like": "け",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.4465,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">を</span> (wo)."
+  "sd": 0.4452,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">け</span> (ke)."
  },
  {
   "c": "り",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 22,
+  "rank": 23,
   "like": "く",
   "need": 2,
   "got": 1,
@@ -2965,7 +2965,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0197,
+  "sd": 0.0315,
   "tip": ""
  },
  {
@@ -2978,7 +2978,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0287,
+  "sd": 0.0156,
   "tip": ""
  },
  {
@@ -2991,7 +2991,7 @@
   "got": 1,
   "dir": false,
   "order": true,
-  "sd": 0.007,
+  "sd": 0.0112,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -3017,7 +3017,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0206,
+  "sd": 0.026,
   "tip": ""
  },
  {
@@ -3030,7 +3030,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0156,
+  "sd": 0.0149,
   "tip": ""
  },
  {
@@ -3043,7 +3043,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0087,
+  "sd": 0.0066,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -3056,7 +3056,7 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.4436,
+  "sd": 0.4433,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">あ</span> (a)."
  },
  {
@@ -3094,7 +3094,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0135,
+  "sd": 0.0258,
   "tip": ""
  },
  {
@@ -3107,7 +3107,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0134,
+  "sd": 0.0215,
   "tip": ""
  },
  {
@@ -3120,7 +3120,7 @@
   "got": 1,
   "dir": false,
   "order": true,
-  "sd": 0.0106,
+  "sd": 0.0099,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -3146,7 +3146,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0198,
+  "sd": 0.0272,
   "tip": ""
  },
  {
@@ -3159,7 +3159,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0124,
+  "sd": 0.0133,
   "tip": ""
  },
  {
@@ -3172,20 +3172,20 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0081,
+  "sd": 0.0074,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "わ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 45,
+  "rank": 44,
   "like": "あ",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.4012,
+  "sd": 0.3996,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">あ</span> (a)."
  },
  {
@@ -3210,7 +3210,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0779,
+  "sd": 0.0815,
   "tip": ""
  },
  {
@@ -3236,7 +3236,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0177,
+  "sd": 0.0304,
   "tip": ""
  },
  {
@@ -3249,7 +3249,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.015,
+  "sd": 0.0145,
   "tip": ""
  },
  {
@@ -3262,7 +3262,7 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0086,
+  "sd": 0.0081,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -3270,25 +3270,25 @@
   "v": "ordre-inverse",
   "ok": false,
   "rank": 50,
-  "like": "な",
+  "like": "ぢ",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.4209,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">な</span> (na)."
+  "sd": 0.4197,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぢ</span> (ji)."
  },
  {
   "c": "を",
   "v": "trait-manquant",
-  "ok": true,
-  "rank": 1,
+  "ok": false,
+  "rank": 2,
   "like": "あ",
   "need": 3,
   "got": 2,
   "dir": true,
   "order": true,
-  "tip": "Ce kana se trace normalement en 3 traits (tu en as fait 2)."
+  "tip": "Ce kana se trace en 3 traits (tu en as fait 2). Ton tracé ressemble plutôt à <span lang=\"ja\">あ</span> (a)."
  },
  {
   "c": "ん",
@@ -3313,7 +3313,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0203,
+  "sd": 0.0265,
   "tip": ""
  },
  {
@@ -3326,7 +3326,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0167,
+  "sd": 0.0151,
   "tip": ""
  },
  {
@@ -3339,7 +3339,7 @@
   "got": 1,
   "dir": false,
   "order": true,
-  "sd": 0.008,
+  "sd": 0.0063,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -3365,7 +3365,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0234,
+  "sd": 0.0185,
   "tip": ""
  },
  {
@@ -3378,7 +3378,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0149,
+  "sd": 0.0152,
   "tip": ""
  },
  {
@@ -3391,7 +3391,7 @@
   "got": 5,
   "dir": false,
   "order": true,
-  "sd": 0.0053,
+  "sd": 0.0074,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -3404,7 +3404,7 @@
   "got": 5,
   "dir": true,
   "order": false,
-  "sd": 0.6162,
+  "sd": 0.6167,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">か</span> (ka)."
  },
  {
@@ -3442,7 +3442,7 @@
   "got": 6,
   "dir": true,
   "order": true,
-  "sd": 0.0218,
+  "sd": 0.0237,
   "tip": ""
  },
  {
@@ -3455,7 +3455,7 @@
   "got": 6,
   "dir": true,
   "order": true,
-  "sd": 0.0223,
+  "sd": 0.0157,
   "tip": ""
  },
  {
@@ -3468,28 +3468,28 @@
   "got": 6,
   "dir": false,
   "order": true,
-  "sd": 0.0075,
+  "sd": 0.0063,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ぎ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 62,
+  "rank": 64,
   "like": "ざ",
   "need": 6,
   "got": 6,
   "dir": true,
   "order": false,
-  "sd": 0.5196,
+  "sd": 0.5172,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ざ</span> (za)."
  },
  {
   "c": "ぎ",
   "v": "trait-manquant",
   "ok": true,
-  "rank": 0,
-  "like": "ぎ",
+  "rank": 1,
+  "like": "き",
   "need": 6,
   "got": 5,
   "dir": true,
@@ -3519,7 +3519,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0221,
+  "sd": 0.0188,
   "tip": ""
  },
  {
@@ -3532,7 +3532,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0175,
+  "sd": 0.0221,
   "tip": ""
  },
  {
@@ -3545,20 +3545,20 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0075,
+  "sd": 0.0082,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ぐ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 43,
+  "rank": 40,
   "like": "な",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.3911,
+  "sd": 0.3916,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">な</span> (na)."
  },
  {
@@ -3596,7 +3596,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0189,
+  "sd": 0.02,
   "tip": ""
  },
  {
@@ -3609,7 +3609,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0117,
+  "sd": 0.0119,
   "tip": ""
  },
  {
@@ -3622,21 +3622,21 @@
   "got": 5,
   "dir": false,
   "order": true,
-  "sd": 0.0072,
+  "sd": 0.0065,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "げ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 61,
-  "like": "ぱ",
+  "rank": 63,
+  "like": "ほ",
   "need": 5,
   "got": 5,
   "dir": true,
   "order": false,
-  "sd": 0.5412,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぱ</span> (pa)."
+  "sd": 0.5457,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ほ</span> (ho)."
  },
  {
   "c": "げ",
@@ -3673,7 +3673,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0204,
+  "sd": 0.0187,
   "tip": ""
  },
  {
@@ -3686,7 +3686,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0198,
+  "sd": 0.015,
   "tip": ""
  },
  {
@@ -3699,7 +3699,7 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.0074,
+  "sd": 0.009,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -3707,13 +3707,13 @@
   "v": "ordre-inverse",
   "ok": false,
   "rank": 65,
-  "like": "を",
+  "like": "ぷ",
   "need": 4,
   "got": 4,
   "dir": true,
   "order": false,
   "sd": 0.7392,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">を</span> (wo)."
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぷ</span> (pu)."
  },
  {
   "c": "ご",
@@ -3750,7 +3750,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0185,
+  "sd": 0.0179,
   "tip": ""
  },
  {
@@ -3763,7 +3763,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0139,
+  "sd": 0.0134,
   "tip": ""
  },
  {
@@ -3776,7 +3776,7 @@
   "got": 5,
   "dir": false,
   "order": true,
-  "sd": 0.0076,
+  "sd": 0.006,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -3789,7 +3789,7 @@
   "got": 5,
   "dir": true,
   "order": false,
-  "sd": 0.4058,
+  "sd": 0.4078,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぎ</span> (gi)."
  },
  {
@@ -3827,7 +3827,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0246,
+  "sd": 0.0309,
   "tip": ""
  },
  {
@@ -3840,7 +3840,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0162,
+  "sd": 0.0149,
   "tip": ""
  },
  {
@@ -3853,28 +3853,28 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0058,
+  "sd": 0.0076,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "じ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 56,
-  "like": "と",
+  "rank": 55,
+  "like": "な",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.475,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">と</span> (to)."
+  "sd": 0.4794,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">な</span> (na)."
  },
  {
   "c": "じ",
   "v": "trait-manquant",
   "ok": true,
-  "rank": 0,
-  "like": "じ",
+  "rank": 1,
+  "like": "し",
   "need": 3,
   "got": 2,
   "dir": true,
@@ -3904,7 +3904,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0146,
+  "sd": 0.0189,
   "tip": ""
  },
  {
@@ -3917,7 +3917,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0116,
+  "sd": 0.017,
   "tip": ""
  },
  {
@@ -3930,7 +3930,7 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.007,
+  "sd": 0.0074,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -3943,7 +3943,7 @@
   "got": 4,
   "dir": true,
   "order": false,
-  "sd": 0.5169,
+  "sd": 0.5176,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">す</span> (su)."
  },
  {
@@ -3981,7 +3981,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0211,
+  "sd": 0.0189,
   "tip": ""
  },
  {
@@ -3994,7 +3994,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0146,
+  "sd": 0.0148,
   "tip": ""
  },
  {
@@ -4007,20 +4007,20 @@
   "got": 5,
   "dir": false,
   "order": true,
-  "sd": 0.0075,
+  "sd": 0.0089,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ぜ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 55,
+  "rank": 56,
   "like": "せ",
   "need": 5,
   "got": 5,
   "dir": true,
   "order": false,
-  "sd": 0.4013,
+  "sd": 0.4047,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">せ</span> (se)."
  },
  {
@@ -4058,7 +4058,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0208,
+  "sd": 0.024,
   "tip": ""
  },
  {
@@ -4071,7 +4071,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.014,
+  "sd": 0.0172,
   "tip": ""
  },
  {
@@ -4084,7 +4084,7 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0097,
+  "sd": 0.0055,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -4097,7 +4097,7 @@
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.4372,
+  "sd": 0.4411,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">そ</span> (so)."
  },
  {
@@ -4135,7 +4135,7 @@
   "got": 6,
   "dir": true,
   "order": true,
-  "sd": 0.0234,
+  "sd": 0.0297,
   "tip": ""
  },
  {
@@ -4148,7 +4148,7 @@
   "got": 6,
   "dir": true,
   "order": true,
-  "sd": 0.0114,
+  "sd": 0.0131,
   "tip": ""
  },
  {
@@ -4161,7 +4161,7 @@
   "got": 6,
   "dir": false,
   "order": true,
-  "sd": 0.0074,
+  "sd": 0.0096,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -4174,7 +4174,7 @@
   "got": 6,
   "dir": true,
   "order": false,
-  "sd": 0.6238,
+  "sd": 0.6227,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">た</span> (ta)."
  },
  {
@@ -4212,7 +4212,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0233,
+  "sd": 0.0235,
   "tip": ""
  },
  {
@@ -4225,7 +4225,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0116,
+  "sd": 0.0186,
   "tip": ""
  },
  {
@@ -4238,7 +4238,7 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.0068,
+  "sd": 0.0069,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -4246,13 +4246,13 @@
   "v": "ordre-inverse",
   "ok": false,
   "rank": 62,
-  "like": "あ",
+  "like": "お",
   "need": 4,
   "got": 4,
   "dir": true,
   "order": false,
-  "sd": 0.5727,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">あ</span> (a)."
+  "sd": 0.567,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">お</span> (o)."
  },
  {
   "c": "ぢ",
@@ -4289,7 +4289,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0155,
+  "sd": 0.0156,
   "tip": ""
  },
  {
@@ -4302,7 +4302,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0183,
+  "sd": 0.0201,
   "tip": ""
  },
  {
@@ -4315,21 +4315,21 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0075,
+  "sd": 0.009,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "づ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 44,
-  "like": "ぜ",
+  "rank": 51,
+  "like": "ぺ",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.4466,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぜ</span> (ze)."
+  "sd": 0.4471,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぺ</span> (pe)."
  },
  {
   "c": "づ",
@@ -4366,7 +4366,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0349,
+  "sd": 0.0294,
   "tip": ""
  },
  {
@@ -4379,7 +4379,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0176,
+  "sd": 0.0123,
   "tip": ""
  },
  {
@@ -4392,7 +4392,7 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0067,
+  "sd": 0.0078,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -4405,7 +4405,7 @@
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.3707,
+  "sd": 0.3692,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">て</span> (te)."
  },
  {
@@ -4443,7 +4443,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0221,
+  "sd": 0.0177,
   "tip": ""
  },
  {
@@ -4456,7 +4456,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0127,
+  "sd": 0.0158,
   "tip": ""
  },
  {
@@ -4469,21 +4469,21 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.0075,
+  "sd": 0.0047,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ど",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 64,
-  "like": "ざ",
+  "rank": 66,
+  "like": "じ",
   "need": 4,
   "got": 4,
   "dir": true,
   "order": false,
-  "sd": 0.7399,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ざ</span> (za)."
+  "sd": 0.7401,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">じ</span> (ji)."
  },
  {
   "c": "ど",
@@ -4520,7 +4520,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0355,
+  "sd": 0.027,
   "tip": ""
  },
  {
@@ -4533,7 +4533,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0117,
+  "sd": 0.0132,
   "tip": ""
  },
  {
@@ -4546,7 +4546,7 @@
   "got": 5,
   "dir": false,
   "order": true,
-  "sd": 0.0077,
+  "sd": 0.0066,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -4559,7 +4559,7 @@
   "got": 5,
   "dir": true,
   "order": false,
-  "sd": 0.5666,
+  "sd": 0.5659,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぱ</span> (pa)."
  },
  {
@@ -4567,7 +4567,7 @@
   "v": "trait-manquant",
   "ok": true,
   "rank": 1,
-  "like": "ぱ",
+  "like": "は",
   "need": 5,
   "got": 4,
   "dir": true,
@@ -4597,7 +4597,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.021,
+  "sd": 0.02,
   "tip": ""
  },
  {
@@ -4610,7 +4610,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0109,
+  "sd": 0.0112,
   "tip": ""
  },
  {
@@ -4623,7 +4623,7 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0093,
+  "sd": 0.0053,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -4636,15 +4636,15 @@
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.5128,
+  "sd": 0.5098,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぴ</span> (pi)."
  },
  {
   "c": "び",
   "v": "trait-manquant",
   "ok": true,
-  "rank": 1,
-  "like": "ぴ",
+  "rank": 0,
+  "like": "び",
   "need": 3,
   "got": 2,
   "dir": true,
@@ -4674,7 +4674,7 @@
   "got": 6,
   "dir": true,
   "order": true,
-  "sd": 0.0171,
+  "sd": 0.0204,
   "tip": ""
  },
  {
@@ -4687,7 +4687,7 @@
   "got": 6,
   "dir": true,
   "order": true,
-  "sd": 0.0105,
+  "sd": 0.0186,
   "tip": ""
  },
  {
@@ -4700,20 +4700,20 @@
   "got": 6,
   "dir": false,
   "order": true,
-  "sd": 0.0072,
+  "sd": 0.006,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ぶ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 67,
+  "rank": 68,
   "like": "ぷ",
   "need": 6,
   "got": 6,
   "dir": true,
   "order": false,
-  "sd": 0.6746,
+  "sd": 0.673,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぷ</span> (pu)."
  },
  {
@@ -4751,7 +4751,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.019,
+  "sd": 0.0357,
   "tip": ""
  },
  {
@@ -4764,7 +4764,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0139,
+  "sd": 0.0141,
   "tip": ""
  },
  {
@@ -4777,20 +4777,20 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0047,
+  "sd": 0.0073,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "べ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 20,
+  "rank": 36,
   "like": "ぺ",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.352,
+  "sd": 0.3523,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぺ</span> (pe)."
  },
  {
@@ -4828,7 +4828,7 @@
   "got": 6,
   "dir": true,
   "order": true,
-  "sd": 0.0226,
+  "sd": 0.0172,
   "tip": ""
  },
  {
@@ -4841,7 +4841,7 @@
   "got": 6,
   "dir": true,
   "order": true,
-  "sd": 0.0141,
+  "sd": 0.0149,
   "tip": ""
  },
  {
@@ -4854,7 +4854,7 @@
   "got": 6,
   "dir": false,
   "order": true,
-  "sd": 0.0085,
+  "sd": 0.0074,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -4867,7 +4867,7 @@
   "got": 6,
   "dir": true,
   "order": false,
-  "sd": 0.5782,
+  "sd": 0.5739,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぽ</span> (po)."
  },
  {
@@ -4905,7 +4905,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0233,
+  "sd": 0.0266,
   "tip": ""
  },
  {
@@ -4918,7 +4918,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0174,
+  "sd": 0.0145,
   "tip": ""
  },
  {
@@ -4931,20 +4931,20 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.0067,
+  "sd": 0.0071,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ぱ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 69,
+  "rank": 70,
   "like": "ば",
   "need": 4,
   "got": 4,
   "dir": true,
   "order": false,
-  "sd": 0.7397,
+  "sd": 0.7398,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ば</span> (ba)."
  },
  {
@@ -4982,7 +4982,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0233,
+  "sd": 0.0307,
   "tip": ""
  },
  {
@@ -4995,7 +4995,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0086,
+  "sd": 0.0195,
   "tip": ""
  },
  {
@@ -5008,7 +5008,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0075,
+  "sd": 0.0089,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -5021,7 +5021,7 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.7252,
+  "sd": 0.7265,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">び</span> (bi)."
  },
  {
@@ -5059,7 +5059,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0182,
+  "sd": 0.0201,
   "tip": ""
  },
  {
@@ -5072,7 +5072,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0146,
+  "sd": 0.0165,
   "tip": ""
  },
  {
@@ -5085,20 +5085,20 @@
   "got": 5,
   "dir": false,
   "order": true,
-  "sd": 0.0077,
+  "sd": 0.0084,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ぷ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 22,
+  "rank": 21,
   "like": "ぶ",
   "need": 5,
   "got": 5,
   "dir": true,
   "order": false,
-  "sd": 0.3496,
+  "sd": 0.3469,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぶ</span> (bu)."
  },
  {
@@ -5136,7 +5136,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0248,
+  "sd": 0.0258,
   "tip": ""
  },
  {
@@ -5149,7 +5149,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0149,
+  "sd": 0.0118,
   "tip": ""
  },
  {
@@ -5162,33 +5162,33 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0082,
+  "sd": 0.012,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ぺ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 47,
+  "rank": 46,
   "like": "べ",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.4644,
+  "sd": 0.4682,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">べ</span> (be)."
  },
  {
   "c": "ぺ",
   "v": "trait-manquant",
-  "ok": false,
-  "rank": 2,
+  "ok": true,
+  "rank": 1,
   "like": "へ",
   "need": 2,
   "got": 1,
   "dir": true,
   "order": true,
-  "tip": "Ce kana se trace en 2 traits (tu en as fait 1). Ton tracé ressemble plutôt à <span lang=\"ja\">へ</span> (he)."
+  "tip": "Ce kana se trace normalement en 2 traits (tu en as fait 1)."
  },
  {
   "c": "ぽ",
@@ -5213,7 +5213,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0231,
+  "sd": 0.0239,
   "tip": ""
  },
  {
@@ -5226,7 +5226,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0154,
+  "sd": 0.0099,
   "tip": ""
  },
  {
@@ -5239,27 +5239,27 @@
   "got": 5,
   "dir": false,
   "order": true,
-  "sd": 0.0053,
+  "sd": 0.0062,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ぽ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 67,
+  "rank": 68,
   "like": "ぼ",
   "need": 5,
   "got": 5,
   "dir": true,
   "order": false,
-  "sd": 0.6379,
+  "sd": 0.6417,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ぼ</span> (bo)."
  },
  {
   "c": "ぽ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 7,
+  "rank": 3,
   "like": "ほ",
   "need": 5,
   "got": 4,
@@ -5290,7 +5290,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0246,
+  "sd": 0.0258,
   "tip": ""
  },
  {
@@ -5303,7 +5303,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0152,
+  "sd": 0.011,
   "tip": ""
  },
  {
@@ -5316,20 +5316,20 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0057,
+  "sd": 0.0076,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ア",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 58,
+  "rank": 57,
   "like": "フ",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.6315,
+  "sd": 0.63,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">フ</span> (fu)."
  },
  {
@@ -5367,7 +5367,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.018,
+  "sd": 0.0188,
   "tip": ""
  },
  {
@@ -5380,7 +5380,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0091,
+  "sd": 0.0109,
   "tip": ""
  },
  {
@@ -5393,21 +5393,21 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0062,
+  "sd": 0.0059,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "イ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 38,
-  "like": "オ",
+  "rank": 41,
+  "like": "サ",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.4016,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">オ</span> (o)."
+  "sd": 0.4052,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">サ</span> (sa)."
  },
  {
   "c": "イ",
@@ -5444,7 +5444,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0178,
+  "sd": 0.0254,
   "tip": ""
  },
  {
@@ -5457,7 +5457,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0145,
+  "sd": 0.0122,
   "tip": ""
  },
  {
@@ -5470,27 +5470,27 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0076,
+  "sd": 0.0075,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ウ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 32,
+  "rank": 31,
   "like": "ラ",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.3061,
+  "sd": 0.3053,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ラ</span> (ra)."
  },
  {
   "c": "ウ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 26,
+  "rank": 29,
   "like": "ブ",
   "need": 3,
   "got": 2,
@@ -5533,7 +5533,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0169,
+  "sd": 0.0205,
   "tip": ""
  },
  {
@@ -5546,7 +5546,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.011,
+  "sd": 0.0131,
   "tip": ""
  },
  {
@@ -5559,27 +5559,27 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0073,
+  "sd": 0.0063,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "エ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 42,
+  "rank": 43,
   "like": "ユ",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.3788,
+  "sd": 0.3789,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ユ</span> (yu)."
  },
  {
   "c": "エ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 27,
+  "rank": 24,
   "like": "チ",
   "need": 3,
   "got": 2,
@@ -5610,7 +5610,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0268,
+  "sd": 0.0229,
   "tip": ""
  },
  {
@@ -5623,7 +5623,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0112,
+  "sd": 0.0128,
   "tip": ""
  },
  {
@@ -5636,21 +5636,21 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.006,
+  "sd": 0.0102,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "オ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 14,
-  "like": "ホ",
+  "rank": 26,
+  "like": "ネ",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.2535,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ホ</span> (ho)."
+  "sd": 0.252,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ネ</span> (ne)."
  },
  {
   "c": "オ",
@@ -5687,7 +5687,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0196,
+  "sd": 0.0197,
   "tip": ""
  },
  {
@@ -5700,7 +5700,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0134,
+  "sd": 0.0123,
   "tip": ""
  },
  {
@@ -5713,7 +5713,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0078,
+  "sd": 0.0076,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -5726,7 +5726,7 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.4083,
+  "sd": 0.4103,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">オ</span> (o)."
  },
  {
@@ -5764,7 +5764,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0208,
+  "sd": 0.0216,
   "tip": ""
  },
  {
@@ -5777,7 +5777,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0191,
+  "sd": 0.0133,
   "tip": ""
  },
  {
@@ -5790,27 +5790,27 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0076,
+  "sd": 0.0085,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "キ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 17,
+  "rank": 16,
   "like": "ネ",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.2746,
+  "sd": 0.2715,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ネ</span> (ne)."
  },
  {
   "c": "キ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 8,
+  "rank": 10,
   "like": "ベ",
   "need": 3,
   "got": 2,
@@ -5841,7 +5841,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0213,
+  "sd": 0.0153,
   "tip": ""
  },
  {
@@ -5854,7 +5854,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0217,
+  "sd": 0.0099,
   "tip": ""
  },
  {
@@ -5867,7 +5867,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0051,
+  "sd": 0.0095,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -5880,14 +5880,14 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.3952,
+  "sd": 0.3941,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">タ</span> (ta)."
  },
  {
   "c": "ク",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 7,
+  "rank": 6,
   "like": "ノ",
   "need": 2,
   "got": 1,
@@ -5930,7 +5930,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.031,
+  "sd": 0.0301,
   "tip": ""
  },
  {
@@ -5943,7 +5943,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0164,
+  "sd": 0.0155,
   "tip": ""
  },
  {
@@ -5956,21 +5956,21 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0072,
+  "sd": 0.0056,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ケ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 48,
-  "like": "ゲ",
+  "rank": 41,
+  "like": "ナ",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.3436,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ゲ</span> (ge)."
+  "sd": 0.3419,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ナ</span> (na)."
  },
  {
   "c": "ケ",
@@ -6007,7 +6007,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0306,
+  "sd": 0.0301,
   "tip": ""
  },
  {
@@ -6020,7 +6020,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0217,
+  "sd": 0.0244,
   "tip": ""
  },
  {
@@ -6033,7 +6033,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.009,
+  "sd": 0.0095,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -6046,7 +6046,7 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.6512,
+  "sd": 0.6509,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ヨ</span> (yo)."
  },
  {
@@ -6084,7 +6084,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0238,
+  "sd": 0.0249,
   "tip": ""
  },
  {
@@ -6097,7 +6097,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0178,
+  "sd": 0.0159,
   "tip": ""
  },
  {
@@ -6110,20 +6110,20 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0062,
+  "sd": 0.0087,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "サ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 31,
+  "rank": 18,
   "like": "ザ",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.2549,
+  "sd": 0.2555,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ザ</span> (za)."
  },
  {
@@ -6161,7 +6161,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0235,
+  "sd": 0.0216,
   "tip": ""
  },
  {
@@ -6174,7 +6174,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0198,
+  "sd": 0.0162,
   "tip": ""
  },
  {
@@ -6187,7 +6187,7 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0111,
+  "sd": 0.0056,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -6200,14 +6200,14 @@
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.5185,
+  "sd": 0.5231,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ン</span> (n)."
  },
  {
   "c": "シ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 30,
+  "rank": 33,
   "like": "オ",
   "need": 3,
   "got": 2,
@@ -6219,13 +6219,13 @@
   "c": "シ",
   "v": "voisin",
   "ok": false,
-  "rank": 35,
+  "rank": 39,
   "like": "ツ",
   "need": 3,
   "got": 3,
   "dir": false,
   "order": false,
-  "sd": 0.3144,
+  "sd": 0.3127,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ツ</span> (tsu)."
  },
  {
@@ -6251,7 +6251,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0241,
+  "sd": 0.0237,
   "tip": ""
  },
  {
@@ -6264,7 +6264,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0209,
+  "sd": 0.0123,
   "tip": ""
  },
  {
@@ -6277,7 +6277,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0076,
+  "sd": 0.0103,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -6290,7 +6290,7 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.5999,
+  "sd": 0.6041,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ズ</span> (zu)."
  },
  {
@@ -6328,7 +6328,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0214,
+  "sd": 0.019,
   "tip": ""
  },
  {
@@ -6341,7 +6341,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0132,
+  "sd": 0.0168,
   "tip": ""
  },
  {
@@ -6354,27 +6354,27 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0106,
+  "sd": 0.007,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "セ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 45,
+  "rank": 46,
   "like": "ゼ",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.4562,
+  "sd": 0.4532,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ゼ</span> (ze)."
  },
  {
   "c": "セ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 6,
+  "rank": 7,
   "like": "チ",
   "need": 2,
   "got": 1,
@@ -6405,7 +6405,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0289,
+  "sd": 0.0172,
   "tip": ""
  },
  {
@@ -6418,7 +6418,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0124,
+  "sd": 0.0144,
   "tip": ""
  },
  {
@@ -6431,7 +6431,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0075,
+  "sd": 0.0078,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -6444,14 +6444,14 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.7105,
+  "sd": 0.7159,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ツ</span> (tsu)."
  },
  {
   "c": "ソ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 38,
+  "rank": 39,
   "like": "ト",
   "need": 2,
   "got": 1,
@@ -6469,7 +6469,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.158,
+  "sd": 0.1577,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ン</span> (n)."
  },
  {
@@ -6495,7 +6495,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0256,
+  "sd": 0.0204,
   "tip": ""
  },
  {
@@ -6508,7 +6508,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.019,
+  "sd": 0.013,
   "tip": ""
  },
  {
@@ -6521,20 +6521,20 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0074,
+  "sd": 0.0087,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "タ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 5,
+  "rank": 12,
   "like": "ク",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.2109,
+  "sd": 0.2078,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ク</span> (ku)."
  },
  {
@@ -6572,7 +6572,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0142,
+  "sd": 0.0321,
   "tip": ""
  },
  {
@@ -6585,7 +6585,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0148,
+  "sd": 0.0107,
   "tip": ""
  },
  {
@@ -6598,14 +6598,14 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0069,
+  "sd": 0.0066,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "チ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 46,
+  "rank": 45,
   "like": "ナ",
   "need": 3,
   "got": 3,
@@ -6618,7 +6618,7 @@
   "c": "チ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 6,
+  "rank": 5,
   "like": "ニ",
   "need": 3,
   "got": 2,
@@ -6649,7 +6649,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0252,
+  "sd": 0.0247,
   "tip": ""
  },
  {
@@ -6662,7 +6662,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0171,
+  "sd": 0.0196,
   "tip": ""
  },
  {
@@ -6675,7 +6675,7 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0091,
+  "sd": 0.0073,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -6688,7 +6688,7 @@
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.5381,
+  "sd": 0.5388,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ソ</span> (so)."
  },
  {
@@ -6696,24 +6696,24 @@
   "v": "trait-manquant",
   "ok": false,
   "rank": 7,
-  "like": "パ",
+  "like": "ハ",
   "need": 3,
   "got": 2,
   "dir": true,
   "order": true,
-  "tip": "Ce kana se trace en 3 traits (tu en as fait 2). Ton tracé ressemble plutôt à <span lang=\"ja\">パ</span> (pa)."
+  "tip": "Ce kana se trace en 3 traits (tu en as fait 2). Ton tracé ressemble plutôt à <span lang=\"ja\">ハ</span> (ha)."
  },
  {
   "c": "ツ",
   "v": "voisin",
   "ok": false,
-  "rank": 30,
+  "rank": 27,
   "like": "シ",
   "need": 3,
   "got": 3,
   "dir": false,
   "order": false,
-  "sd": 0.3153,
+  "sd": 0.3158,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">シ</span> (shi)."
  },
  {
@@ -6739,7 +6739,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0194,
+  "sd": 0.0201,
   "tip": ""
  },
  {
@@ -6752,7 +6752,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0173,
+  "sd": 0.0164,
   "tip": ""
  },
  {
@@ -6765,27 +6765,27 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0064,
+  "sd": 0.0074,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "テ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 48,
-  "like": "ゲ",
+  "rank": 47,
+  "like": "ナ",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.4515,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ゲ</span> (ge)."
+  "sd": 0.4496,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ナ</span> (na)."
  },
  {
   "c": "テ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 8,
+  "rank": 6,
   "like": "ベ",
   "need": 3,
   "got": 2,
@@ -6816,7 +6816,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0148,
+  "sd": 0.0222,
   "tip": ""
  },
  {
@@ -6829,7 +6829,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.013,
+  "sd": 0.0107,
   "tip": ""
  },
  {
@@ -6842,7 +6842,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.009,
+  "sd": 0.0048,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -6855,14 +6855,14 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.3208,
+  "sd": 0.3193,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ド</span> (do)."
  },
  {
   "c": "ト",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 7,
+  "rank": 6,
   "like": "チ",
   "need": 2,
   "got": 1,
@@ -6893,7 +6893,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0209,
+  "sd": 0.0204,
   "tip": ""
  },
  {
@@ -6906,7 +6906,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.015,
+  "sd": 0.0108,
   "tip": ""
  },
  {
@@ -6919,7 +6919,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0045,
+  "sd": 0.006,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -6927,19 +6927,19 @@
   "v": "ordre-inverse",
   "ok": false,
   "rank": 39,
-  "like": "チ",
+  "like": "テ",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.3853,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">チ</span> (chi)."
+  "sd": 0.3862,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">テ</span> (te)."
  },
  {
   "c": "ナ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 19,
+  "rank": 22,
   "like": "チ",
   "need": 2,
   "got": 1,
@@ -6970,7 +6970,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0218,
+  "sd": 0.0208,
   "tip": ""
  },
  {
@@ -6983,7 +6983,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.012,
+  "sd": 0.017,
   "tip": ""
  },
  {
@@ -6996,7 +6996,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0085,
+  "sd": 0.0065,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -7009,14 +7009,14 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.5548,
+  "sd": 0.5564,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">エ</span> (e)."
  },
  {
   "c": "ニ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 50,
+  "rank": 51,
   "like": "チ",
   "need": 2,
   "got": 1,
@@ -7047,7 +7047,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0253,
+  "sd": 0.0432,
   "tip": ""
  },
  {
@@ -7060,7 +7060,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0149,
+  "sd": 0.0203,
   "tip": ""
  },
  {
@@ -7073,7 +7073,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0085,
+  "sd": 0.0087,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -7086,7 +7086,7 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.4092,
+  "sd": 0.4066,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ヲ</span> (wo)."
  },
  {
@@ -7124,7 +7124,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0273,
+  "sd": 0.0306,
   "tip": ""
  },
  {
@@ -7137,7 +7137,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0122,
+  "sd": 0.011,
   "tip": ""
  },
  {
@@ -7150,7 +7150,7 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.0066,
+  "sd": 0.0065,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -7163,7 +7163,7 @@
   "got": 4,
   "dir": true,
   "order": false,
-  "sd": 0.4993,
+  "sd": 0.4994,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">キ</span> (ki)."
  },
  {
@@ -7201,7 +7201,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0166,
+  "sd": 0.0148,
   "tip": ""
  },
  {
@@ -7214,7 +7214,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.01,
+  "sd": 0.0091,
   "tip": ""
  },
  {
@@ -7227,7 +7227,7 @@
   "got": 1,
   "dir": false,
   "order": true,
-  "sd": 0.0062,
+  "sd": 0.0067,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -7253,7 +7253,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0224,
+  "sd": 0.018,
   "tip": ""
  },
  {
@@ -7266,7 +7266,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0155,
+  "sd": 0.0108,
   "tip": ""
  },
  {
@@ -7279,27 +7279,27 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0062,
+  "sd": 0.0087,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ハ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 60,
+  "rank": 59,
   "like": "サ",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.6686,
+  "sd": 0.6687,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">サ</span> (sa)."
  },
  {
   "c": "ハ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 64,
+  "rank": 65,
   "like": "ノ",
   "need": 2,
   "got": 1,
@@ -7330,7 +7330,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0247,
+  "sd": 0.0261,
   "tip": ""
  },
  {
@@ -7343,7 +7343,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0139,
+  "sd": 0.023,
   "tip": ""
  },
  {
@@ -7369,14 +7369,14 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.482,
+  "sd": 0.4795,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ビ</span> (bi)."
  },
  {
   "c": "ヒ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 51,
+  "rank": 52,
   "like": "チ",
   "need": 2,
   "got": 1,
@@ -7407,7 +7407,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.026,
+  "sd": 0.0472,
   "tip": ""
  },
  {
@@ -7420,7 +7420,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0196,
+  "sd": 0.0108,
   "tip": ""
  },
  {
@@ -7433,7 +7433,7 @@
   "got": 1,
   "dir": false,
   "order": true,
-  "sd": 0.0072,
+  "sd": 0.006,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -7459,7 +7459,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.02,
+  "sd": 0.0148,
   "tip": ""
  },
  {
@@ -7472,7 +7472,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0077,
+  "sd": 0.0106,
   "tip": ""
  },
  {
@@ -7485,7 +7485,7 @@
   "got": 1,
   "dir": false,
   "order": true,
-  "sd": 0.0053,
+  "sd": 0.0084,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -7511,7 +7511,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0206,
+  "sd": 0.0192,
   "tip": ""
  },
  {
@@ -7524,7 +7524,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0114,
+  "sd": 0.0167,
   "tip": ""
  },
  {
@@ -7537,7 +7537,7 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.0059,
+  "sd": 0.0064,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -7550,7 +7550,7 @@
   "got": 4,
   "dir": true,
   "order": false,
-  "sd": 0.5216,
+  "sd": 0.5155,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ポ</span> (po)."
  },
  {
@@ -7588,7 +7588,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0163,
+  "sd": 0.0323,
   "tip": ""
  },
  {
@@ -7601,7 +7601,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0254,
+  "sd": 0.0179,
   "tip": ""
  },
  {
@@ -7614,7 +7614,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0062,
+  "sd": 0.0129,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -7627,7 +7627,7 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.521,
+  "sd": 0.5229,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">フ</span> (fu)."
  },
  {
@@ -7635,12 +7635,12 @@
   "v": "trait-manquant",
   "ok": false,
   "rank": 9,
-  "like": "ブ",
+  "like": "オ",
   "need": 2,
   "got": 1,
   "dir": true,
   "order": true,
-  "tip": "Ce kana se trace en 2 traits (tu en as fait 1). Ton tracé ressemble plutôt à <span lang=\"ja\">ブ</span> (bu)."
+  "tip": "Ce kana se trace en 2 traits (tu en as fait 1). Ton tracé ressemble plutôt à <span lang=\"ja\">オ</span> (o)."
  },
  {
   "c": "ミ",
@@ -7665,7 +7665,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0188,
+  "sd": 0.0243,
   "tip": ""
  },
  {
@@ -7678,7 +7678,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0136,
+  "sd": 0.01,
   "tip": ""
  },
  {
@@ -7691,7 +7691,7 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0069,
+  "sd": 0.0075,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -7704,7 +7704,7 @@
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.5348,
+  "sd": 0.5361,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ド</span> (do)."
  },
  {
@@ -7742,7 +7742,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0225,
+  "sd": 0.0271,
   "tip": ""
  },
  {
@@ -7755,7 +7755,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0135,
+  "sd": 0.0172,
   "tip": ""
  },
  {
@@ -7768,7 +7768,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0065,
+  "sd": 0.0076,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -7781,7 +7781,7 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.5862,
+  "sd": 0.5848,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">レ</span> (re)."
  },
  {
@@ -7819,7 +7819,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0227,
+  "sd": 0.0205,
   "tip": ""
  },
  {
@@ -7832,7 +7832,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0156,
+  "sd": 0.0142,
   "tip": ""
  },
  {
@@ -7845,20 +7845,20 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0068,
+  "sd": 0.0082,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "メ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 47,
+  "rank": 46,
   "like": "ブ",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.3884,
+  "sd": 0.3836,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ブ</span> (bu)."
  },
  {
@@ -7896,7 +7896,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0264,
+  "sd": 0.0249,
   "tip": ""
  },
  {
@@ -7909,7 +7909,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0157,
+  "sd": 0.0136,
   "tip": ""
  },
  {
@@ -7922,7 +7922,7 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0047,
+  "sd": 0.0063,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -7935,14 +7935,14 @@
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.4003,
+  "sd": 0.4023,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ゼ</span> (ze)."
  },
  {
   "c": "モ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 33,
+  "rank": 32,
   "like": "ニ",
   "need": 3,
   "got": 2,
@@ -7973,7 +7973,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0292,
+  "sd": 0.023,
   "tip": ""
  },
  {
@@ -7986,7 +7986,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0106,
+  "sd": 0.011,
   "tip": ""
  },
  {
@@ -7999,7 +7999,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0069,
+  "sd": 0.0054,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -8012,14 +8012,14 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.4072,
+  "sd": 0.4064,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">サ</span> (sa)."
  },
  {
   "c": "ヤ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 12,
+  "rank": 11,
   "like": "チ",
   "need": 2,
   "got": 1,
@@ -8050,7 +8050,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0238,
+  "sd": 0.0204,
   "tip": ""
  },
  {
@@ -8063,7 +8063,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0099,
+  "sd": 0.01,
   "tip": ""
  },
  {
@@ -8076,7 +8076,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0065,
+  "sd": 0.0071,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -8089,7 +8089,7 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.4791,
+  "sd": 0.4802,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">エ</span> (e)."
  },
  {
@@ -8127,7 +8127,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0275,
+  "sd": 0.0332,
   "tip": ""
  },
  {
@@ -8140,7 +8140,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0168,
+  "sd": 0.0156,
   "tip": ""
  },
  {
@@ -8153,7 +8153,7 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0073,
+  "sd": 0.0082,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -8166,20 +8166,20 @@
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.4379,
+  "sd": 0.4418,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">コ</span> (ko)."
  },
  {
   "c": "ヨ",
   "v": "trait-manquant",
-  "ok": true,
-  "rank": 1,
+  "ok": false,
+  "rank": 2,
   "like": "ロ",
   "need": 3,
   "got": 2,
   "dir": true,
   "order": true,
-  "tip": "Ce kana se trace normalement en 3 traits (tu en as fait 2)."
+  "tip": "Ce kana se trace en 3 traits (tu en as fait 2). Ton tracé ressemble plutôt à <span lang=\"ja\">ロ</span> (ro)."
  },
  {
   "c": "ラ",
@@ -8204,7 +8204,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0267,
+  "sd": 0.0226,
   "tip": ""
  },
  {
@@ -8217,7 +8217,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0082,
+  "sd": 0.0127,
   "tip": ""
  },
  {
@@ -8230,7 +8230,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0069,
+  "sd": 0.0077,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -8243,14 +8243,14 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.5653,
+  "sd": 0.5634,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">テ</span> (te)."
  },
  {
   "c": "ラ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 41,
+  "rank": 40,
   "like": "チ",
   "need": 2,
   "got": 1,
@@ -8281,7 +8281,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0178,
+  "sd": 0.026,
   "tip": ""
  },
  {
@@ -8307,27 +8307,27 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0045,
+  "sd": 0.0065,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "リ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 50,
+  "rank": 49,
   "like": "サ",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.5057,
+  "sd": 0.5045,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">サ</span> (sa)."
  },
  {
   "c": "リ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 18,
+  "rank": 19,
   "like": "チ",
   "need": 2,
   "got": 1,
@@ -8358,7 +8358,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0289,
+  "sd": 0.0225,
   "tip": ""
  },
  {
@@ -8371,7 +8371,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0157,
+  "sd": 0.014,
   "tip": ""
  },
  {
@@ -8384,7 +8384,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0066,
+  "sd": 0.0071,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -8397,14 +8397,14 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.5243,
+  "sd": 0.5254,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">オ</span> (o)."
  },
  {
   "c": "ル",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 31,
+  "rank": 32,
   "like": "ノ",
   "need": 2,
   "got": 1,
@@ -8435,7 +8435,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0241,
+  "sd": 0.0269,
   "tip": ""
  },
  {
@@ -8448,7 +8448,7 @@
   "got": 1,
   "dir": true,
   "order": true,
-  "sd": 0.0224,
+  "sd": 0.016,
   "tip": ""
  },
  {
@@ -8461,7 +8461,7 @@
   "got": 1,
   "dir": false,
   "order": true,
-  "sd": 0.0117,
+  "sd": 0.0044,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -8487,7 +8487,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0319,
+  "sd": 0.029,
   "tip": ""
  },
  {
@@ -8500,7 +8500,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0207,
+  "sd": 0.0185,
   "tip": ""
  },
  {
@@ -8513,20 +8513,20 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.007,
+  "sd": 0.0075,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ロ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 39,
+  "rank": 50,
   "like": "コ",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.3904,
+  "sd": 0.3916,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">コ</span> (ko)."
  },
  {
@@ -8564,7 +8564,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0349,
+  "sd": 0.0225,
   "tip": ""
  },
  {
@@ -8577,7 +8577,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0156,
+  "sd": 0.0151,
   "tip": ""
  },
  {
@@ -8590,7 +8590,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0097,
+  "sd": 0.0072,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -8598,19 +8598,19 @@
   "v": "ordre-inverse",
   "ok": false,
   "rank": 49,
-  "like": "ヲ",
+  "like": "フ",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.5526,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ヲ</span> (wo)."
+  "sd": 0.5512,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">フ</span> (fu)."
  },
  {
   "c": "ワ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 45,
+  "rank": 46,
   "like": "チ",
   "need": 2,
   "got": 1,
@@ -8641,7 +8641,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0308,
+  "sd": 0.0287,
   "tip": ""
  },
  {
@@ -8654,7 +8654,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0143,
+  "sd": 0.0157,
   "tip": ""
  },
  {
@@ -8667,33 +8667,33 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0099,
+  "sd": 0.0085,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ヲ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 40,
+  "rank": 38,
   "like": "ヌ",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.3489,
+  "sd": 0.3508,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ヌ</span> (nu)."
  },
  {
   "c": "ヲ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 28,
-  "like": "オ",
+  "rank": 26,
+  "like": "ニ",
   "need": 3,
   "got": 2,
   "dir": true,
   "order": true,
-  "tip": "Ce kana se trace en 3 traits (tu en as fait 2). Ton tracé ressemble plutôt à <span lang=\"ja\">オ</span> (o)."
+  "tip": "Ce kana se trace en 3 traits (tu en as fait 2). Ton tracé ressemble plutôt à <span lang=\"ja\">ニ</span> (ni)."
  },
  {
   "c": "ン",
@@ -8718,7 +8718,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0205,
+  "sd": 0.02,
   "tip": ""
  },
  {
@@ -8731,7 +8731,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0177,
+  "sd": 0.0115,
   "tip": ""
  },
  {
@@ -8744,27 +8744,27 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0081,
+  "sd": 0.0055,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ン",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 60,
+  "rank": 61,
   "like": "シ",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.7891,
+  "sd": 0.7945,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">シ</span> (shi)."
  },
  {
   "c": "ン",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 40,
+  "rank": 37,
   "like": "ヘ",
   "need": 2,
   "got": 1,
@@ -8776,13 +8776,13 @@
   "c": "ン",
   "v": "voisin",
   "ok": false,
-  "rank": 8,
+  "rank": 9,
   "like": "ソ",
   "need": 2,
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.1616,
+  "sd": 0.1623,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ソ</span> (so)."
  },
  {
@@ -8808,7 +8808,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0238,
+  "sd": 0.0235,
   "tip": ""
  },
  {
@@ -8821,7 +8821,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.015,
+  "sd": 0.0191,
   "tip": ""
  },
  {
@@ -8834,20 +8834,20 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.0056,
+  "sd": 0.008,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ガ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 63,
+  "rank": 62,
   "like": "オ",
   "need": 4,
   "got": 4,
   "dir": true,
   "order": false,
-  "sd": 0.6817,
+  "sd": 0.6903,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">オ</span> (o)."
  },
  {
@@ -8885,7 +8885,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0246,
+  "sd": 0.0175,
   "tip": ""
  },
  {
@@ -8898,7 +8898,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0136,
+  "sd": 0.0159,
   "tip": ""
  },
  {
@@ -8911,7 +8911,7 @@
   "got": 5,
   "dir": false,
   "order": true,
-  "sd": 0.0061,
+  "sd": 0.0068,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -8924,7 +8924,7 @@
   "got": 5,
   "dir": true,
   "order": false,
-  "sd": 0.4619,
+  "sd": 0.464,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">キ</span> (ki)."
  },
  {
@@ -8962,7 +8962,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0204,
+  "sd": 0.0255,
   "tip": ""
  },
  {
@@ -8975,7 +8975,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0153,
+  "sd": 0.0151,
   "tip": ""
  },
  {
@@ -8988,7 +8988,7 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.0059,
+  "sd": 0.0063,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -9001,7 +9001,7 @@
   "got": 4,
   "dir": true,
   "order": false,
-  "sd": 0.6345,
+  "sd": 0.6336,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ダ</span> (da)."
  },
  {
@@ -9039,7 +9039,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0214,
+  "sd": 0.0162,
   "tip": ""
  },
  {
@@ -9052,7 +9052,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0148,
+  "sd": 0.0128,
   "tip": ""
  },
  {
@@ -9065,28 +9065,28 @@
   "got": 5,
   "dir": false,
   "order": true,
-  "sd": 0.0086,
+  "sd": 0.0071,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ゲ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 59,
-  "like": "ケ",
+  "rank": 61,
+  "like": "グ",
   "need": 5,
   "got": 5,
   "dir": true,
   "order": false,
-  "sd": 0.4852,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ケ</span> (ke)."
+  "sd": 0.4828,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">グ</span> (gu)."
  },
  {
   "c": "ゲ",
   "v": "trait-manquant",
   "ok": true,
-  "rank": 1,
-  "like": "ケ",
+  "rank": 0,
+  "like": "ゲ",
   "need": 5,
   "got": 4,
   "dir": true,
@@ -9116,7 +9116,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0186,
+  "sd": 0.0266,
   "tip": ""
  },
  {
@@ -9129,7 +9129,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0143,
+  "sd": 0.0148,
   "tip": ""
  },
  {
@@ -9142,7 +9142,7 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.0082,
+  "sd": 0.0066,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -9155,7 +9155,7 @@
   "got": 4,
   "dir": true,
   "order": false,
-  "sd": 0.7791,
+  "sd": 0.7769,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">サ</span> (sa)."
  },
  {
@@ -9193,7 +9193,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0194,
+  "sd": 0.0239,
   "tip": ""
  },
  {
@@ -9206,7 +9206,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0155,
+  "sd": 0.0157,
   "tip": ""
  },
  {
@@ -9219,7 +9219,7 @@
   "got": 5,
   "dir": false,
   "order": true,
-  "sd": 0.0052,
+  "sd": 0.0078,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -9232,7 +9232,7 @@
   "got": 5,
   "dir": true,
   "order": false,
-  "sd": 0.4992,
+  "sd": 0.4995,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">サ</span> (sa)."
  },
  {
@@ -9270,7 +9270,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0229,
+  "sd": 0.0195,
   "tip": ""
  },
  {
@@ -9283,7 +9283,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0173,
+  "sd": 0.0145,
   "tip": ""
  },
  {
@@ -9296,7 +9296,7 @@
   "got": 5,
   "dir": false,
   "order": true,
-  "sd": 0.0068,
+  "sd": 0.0099,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -9309,7 +9309,7 @@
   "got": 5,
   "dir": true,
   "order": false,
-  "sd": 0.5599,
+  "sd": 0.5631,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ゾ</span> (zo)."
  },
  {
@@ -9347,7 +9347,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0198,
+  "sd": 0.0244,
   "tip": ""
  },
  {
@@ -9360,7 +9360,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.01,
+  "sd": 0.0161,
   "tip": ""
  },
  {
@@ -9373,7 +9373,7 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.0067,
+  "sd": 0.0074,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -9386,7 +9386,7 @@
   "got": 4,
   "dir": true,
   "order": false,
-  "sd": 0.7,
+  "sd": 0.6976,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ダ</span> (da)."
  },
  {
@@ -9424,7 +9424,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0263,
+  "sd": 0.0191,
   "tip": ""
  },
  {
@@ -9437,7 +9437,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0149,
+  "sd": 0.0136,
   "tip": ""
  },
  {
@@ -9450,7 +9450,7 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.0064,
+  "sd": 0.006,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -9463,7 +9463,7 @@
   "got": 4,
   "dir": true,
   "order": false,
-  "sd": 0.6258,
+  "sd": 0.6293,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ヂ</span> (ji)."
  },
  {
@@ -9501,7 +9501,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.024,
+  "sd": 0.0168,
   "tip": ""
  },
  {
@@ -9514,7 +9514,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0161,
+  "sd": 0.0131,
   "tip": ""
  },
  {
@@ -9527,7 +9527,7 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.0065,
+  "sd": 0.0047,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -9540,7 +9540,7 @@
   "got": 4,
   "dir": true,
   "order": false,
-  "sd": 0.7289,
+  "sd": 0.7234,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ブ</span> (bu)."
  },
  {
@@ -9578,7 +9578,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0165,
+  "sd": 0.0241,
   "tip": ""
  },
  {
@@ -9591,7 +9591,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0178,
+  "sd": 0.0136,
   "tip": ""
  },
  {
@@ -9604,7 +9604,7 @@
   "got": 5,
   "dir": false,
   "order": true,
-  "sd": 0.0073,
+  "sd": 0.0078,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -9617,7 +9617,7 @@
   "got": 5,
   "dir": true,
   "order": false,
-  "sd": 0.5231,
+  "sd": 0.5232,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">グ</span> (gu)."
  },
  {
@@ -9655,7 +9655,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0185,
+  "sd": 0.0178,
   "tip": ""
  },
  {
@@ -9668,7 +9668,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0129,
+  "sd": 0.0122,
   "tip": ""
  },
  {
@@ -9681,7 +9681,7 @@
   "got": 5,
   "dir": false,
   "order": true,
-  "sd": 0.0082,
+  "sd": 0.008,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -9694,7 +9694,7 @@
   "got": 5,
   "dir": true,
   "order": false,
-  "sd": 0.3947,
+  "sd": 0.3966,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">チ</span> (chi)."
  },
  {
@@ -9732,7 +9732,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0249,
+  "sd": 0.0239,
   "tip": ""
  },
  {
@@ -9745,7 +9745,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0152,
+  "sd": 0.0158,
   "tip": ""
  },
  {
@@ -9758,20 +9758,20 @@
   "got": 5,
   "dir": false,
   "order": true,
-  "sd": 0.0086,
+  "sd": 0.0094,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ヅ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 61,
+  "rank": 62,
   "like": "ゾ",
   "need": 5,
   "got": 5,
   "dir": true,
   "order": false,
-  "sd": 0.5988,
+  "sd": 0.5952,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ゾ</span> (zo)."
  },
  {
@@ -9809,7 +9809,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.023,
+  "sd": 0.018,
   "tip": ""
  },
  {
@@ -9822,7 +9822,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.011,
+  "sd": 0.0127,
   "tip": ""
  },
  {
@@ -9835,20 +9835,20 @@
   "got": 5,
   "dir": false,
   "order": true,
-  "sd": 0.0075,
+  "sd": 0.0074,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "デ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 45,
+  "rank": 43,
   "like": "テ",
   "need": 5,
   "got": 5,
   "dir": true,
   "order": false,
-  "sd": 0.3992,
+  "sd": 0.3996,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">テ</span> (te)."
  },
  {
@@ -9886,7 +9886,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0322,
+  "sd": 0.0206,
   "tip": ""
  },
  {
@@ -9899,7 +9899,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0141,
+  "sd": 0.0193,
   "tip": ""
  },
  {
@@ -9912,21 +9912,21 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.0082,
+  "sd": 0.0054,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ド",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 60,
-  "like": "ト",
+  "rank": 53,
+  "like": "サ",
   "need": 4,
   "got": 4,
   "dir": true,
   "order": false,
-  "sd": 0.4546,
-  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ト</span> (to)."
+  "sd": 0.455,
+  "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">サ</span> (sa)."
  },
  {
   "c": "ド",
@@ -9963,7 +9963,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0241,
+  "sd": 0.0229,
   "tip": ""
  },
  {
@@ -9976,7 +9976,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0156,
+  "sd": 0.0141,
   "tip": ""
  },
  {
@@ -9989,7 +9989,7 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.0091,
+  "sd": 0.0071,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -10002,7 +10002,7 @@
   "got": 4,
   "dir": true,
   "order": false,
-  "sd": 0.6388,
+  "sd": 0.634,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">パ</span> (pa)."
  },
  {
@@ -10040,7 +10040,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.035,
+  "sd": 0.0213,
   "tip": ""
  },
  {
@@ -10053,7 +10053,7 @@
   "got": 4,
   "dir": true,
   "order": true,
-  "sd": 0.0184,
+  "sd": 0.0211,
   "tip": ""
  },
  {
@@ -10066,7 +10066,7 @@
   "got": 4,
   "dir": false,
   "order": true,
-  "sd": 0.0098,
+  "sd": 0.0093,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -10079,20 +10079,20 @@
   "got": 4,
   "dir": true,
   "order": false,
-  "sd": 0.6934,
+  "sd": 0.6932,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ピ</span> (pi)."
  },
  {
   "c": "ビ",
   "v": "trait-manquant",
-  "ok": false,
-  "rank": 2,
+  "ok": true,
+  "rank": 1,
   "like": "ヒ",
   "need": 4,
   "got": 3,
   "dir": true,
   "order": true,
-  "tip": "Ce kana se trace en 4 traits (tu en as fait 3). Ton tracé ressemble plutôt à <span lang=\"ja\">ヒ</span> (hi)."
+  "tip": "Ce kana se trace normalement en 4 traits (tu en as fait 3)."
  },
  {
   "c": "ブ",
@@ -10117,7 +10117,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0251,
+  "sd": 0.0176,
   "tip": ""
  },
  {
@@ -10130,7 +10130,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0196,
+  "sd": 0.0181,
   "tip": ""
  },
  {
@@ -10143,20 +10143,20 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.0076,
+  "sd": 0.0071,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ブ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 49,
+  "rank": 50,
   "like": "プ",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.4766,
+  "sd": 0.48,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">プ</span> (pu)."
  },
  {
@@ -10194,7 +10194,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0278,
+  "sd": 0.0222,
   "tip": ""
  },
  {
@@ -10207,7 +10207,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0152,
+  "sd": 0.0092,
   "tip": ""
  },
  {
@@ -10220,20 +10220,20 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.011,
+  "sd": 0.0084,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ベ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 28,
+  "rank": 27,
   "like": "ペ",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.3486,
+  "sd": 0.3512,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ペ</span> (pe)."
  },
  {
@@ -10271,7 +10271,7 @@
   "got": 6,
   "dir": true,
   "order": true,
-  "sd": 0.0202,
+  "sd": 0.0176,
   "tip": ""
  },
  {
@@ -10284,7 +10284,7 @@
   "got": 6,
   "dir": true,
   "order": true,
-  "sd": 0.0156,
+  "sd": 0.0143,
   "tip": ""
  },
  {
@@ -10297,7 +10297,7 @@
   "got": 6,
   "dir": false,
   "order": true,
-  "sd": 0.0083,
+  "sd": 0.0077,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -10310,20 +10310,20 @@
   "got": 6,
   "dir": true,
   "order": false,
-  "sd": 0.5992,
+  "sd": 0.6014,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ポ</span> (po)."
  },
  {
   "c": "ボ",
   "v": "trait-manquant",
-  "ok": false,
-  "rank": 2,
+  "ok": true,
+  "rank": 1,
   "like": "ホ",
   "need": 6,
   "got": 5,
   "dir": true,
   "order": true,
-  "tip": "Ce kana se trace en 6 traits (tu en as fait 5). Ton tracé ressemble plutôt à <span lang=\"ja\">ホ</span> (ho)."
+  "tip": "Ce kana se trace normalement en 6 traits (tu en as fait 5)."
  },
  {
   "c": "パ",
@@ -10348,7 +10348,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0193,
+  "sd": 0.0197,
   "tip": ""
  },
  {
@@ -10361,7 +10361,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0105,
+  "sd": 0.015,
   "tip": ""
  },
  {
@@ -10374,7 +10374,7 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.006,
+  "sd": 0.0061,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -10387,7 +10387,7 @@
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.5686,
+  "sd": 0.5693,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">バ</span> (ba)."
  },
  {
@@ -10425,7 +10425,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0267,
+  "sd": 0.0317,
   "tip": ""
  },
  {
@@ -10438,7 +10438,7 @@
   "got": 3,
   "dir": true,
   "order": true,
-  "sd": 0.0197,
+  "sd": 0.0171,
   "tip": ""
  },
  {
@@ -10451,20 +10451,20 @@
   "got": 3,
   "dir": false,
   "order": true,
-  "sd": 0.011,
+  "sd": 0.0085,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ピ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 19,
+  "rank": 18,
   "like": "ビ",
   "need": 3,
   "got": 3,
   "dir": true,
   "order": false,
-  "sd": 0.3266,
+  "sd": 0.3271,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ビ</span> (bi)."
  },
  {
@@ -10502,7 +10502,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0222,
+  "sd": 0.0274,
   "tip": ""
  },
  {
@@ -10515,7 +10515,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0138,
+  "sd": 0.0148,
   "tip": ""
  },
  {
@@ -10528,7 +10528,7 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0088,
+  "sd": 0.0107,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
@@ -10541,14 +10541,14 @@
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.6638,
+  "sd": 0.6672,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ブ</span> (bu)."
  },
  {
   "c": "プ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 4,
+  "rank": 3,
   "like": "フ",
   "need": 2,
   "got": 1,
@@ -10579,7 +10579,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.0217,
+  "sd": 0.025,
   "tip": ""
  },
  {
@@ -10592,7 +10592,7 @@
   "got": 2,
   "dir": true,
   "order": true,
-  "sd": 0.019,
+  "sd": 0.0108,
   "tip": ""
  },
  {
@@ -10605,33 +10605,33 @@
   "got": 2,
   "dir": false,
   "order": true,
-  "sd": 0.0059,
+  "sd": 0.0075,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ペ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 51,
+  "rank": 49,
   "like": "ベ",
   "need": 2,
   "got": 2,
   "dir": true,
   "order": false,
-  "sd": 0.4617,
+  "sd": 0.4609,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ベ</span> (be)."
  },
  {
   "c": "ペ",
   "v": "trait-manquant",
-  "ok": false,
-  "rank": 2,
+  "ok": true,
+  "rank": 1,
   "like": "ヘ",
   "need": 2,
   "got": 1,
   "dir": true,
   "order": true,
-  "tip": "Ce kana se trace en 2 traits (tu en as fait 1). Ton tracé ressemble plutôt à <span lang=\"ja\">ヘ</span> (he)."
+  "tip": "Ce kana se trace normalement en 2 traits (tu en as fait 1)."
  },
  {
   "c": "ポ",
@@ -10656,7 +10656,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0162,
+  "sd": 0.0206,
   "tip": ""
  },
  {
@@ -10669,7 +10669,7 @@
   "got": 5,
   "dir": true,
   "order": true,
-  "sd": 0.0129,
+  "sd": 0.0179,
   "tip": ""
  },
  {
@@ -10682,27 +10682,27 @@
   "got": 5,
   "dir": false,
   "order": true,
-  "sd": 0.0069,
+  "sd": 0.0084,
   "tip": "Un trait est tracé dans le mauvais sens."
  },
  {
   "c": "ポ",
   "v": "ordre-inverse",
   "ok": false,
-  "rank": 45,
+  "rank": 44,
   "like": "ボ",
   "need": 5,
   "got": 5,
   "dir": true,
   "order": false,
-  "sd": 0.3521,
+  "sd": 0.3531,
   "tip": "La forme ne correspond pas encore. Ton tracé ressemble plutôt à <span lang=\"ja\">ボ</span> (bo)."
  },
  {
   "c": "ポ",
   "v": "trait-manquant",
   "ok": false,
-  "rank": 2,
+  "rank": 3,
   "like": "ホ",
   "need": 5,
   "got": 4,
