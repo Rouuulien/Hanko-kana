@@ -29,30 +29,53 @@ test('Rafale : une faute est comptée, il faut retaper la bonne lecture', async 
   expect(await hanko.run(H => H.rs.u)).toBe(1);
 });
 
-// BUG CONNU (figé) : l'option « Tous » vaut 0 et le code lit `S.bn||10` : elle lance donc 10 kana, pas tous.
-// La vraie sauvegarde a précisément bn = 0.
-test('Pinceau : réglage « Tous » → 10 kana dessinés (bug connu), un tracé dans le mauvais ordre refusé', async ({
+// Corrigé : l'option « Tous » vaut 0, et le code lisait `S.bn || 10`, si bien qu'elle lançait 10 kana.
+// La vraie sauvegarde est précisément réglée sur « Tous » (bn = 0) : 15 kana appris, 15 kana dessinés.
+test('Pinceau, réglage « Tous » : tous les kana appris (15), un tracé dans le mauvais ordre refusé, record à part', async ({
   hanko,
 }) => {
-  test.setTimeout(90000);
+  test.setTimeout(120000);
   const page = (await hanko.open({ state: REAL })).page;
   await page.locator('[data-act="page"][data-id="brush"]').click();
+  await expect(page.locator('.rset .bubble')).toContainText('15 kana');
+  await expect(page.locator('.rbest')).toHaveText('Pas encore de record pour ces réglages.');
   await page.locator('[data-act="bstart"]').click();
-  expect(await hanko.run(H => H.bs.q.length)).toBe(10);
+  expect(await hanko.run(H => H.bs.q.length)).toBe(15);
   let wrong = null;
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 15; i++) {
     const c = await hanko.run(H => H.bs.q[H.bs.u]);
     const multi = await hanko.run((H, c) => H.KS[c].p.length > 1, c);
     const rev = !wrong && multi;
     if (rev) wrong = c;
-    if (i === 9) await page.clock.setFixedTime(T0 + 60000);
+    if (i === 14) await page.clock.setFixedTime(T0 + 90000);
     await dessiner(hanko, '#bp', c, { reverse: rev });
     await page.locator('[data-act="bcheck"]').click();
     await expect(page.locator('.bfb')).toHaveClass(rev ? /bad/ : /ok/);
     await page.locator('#bnb').click();
   }
-  await expect(page.locator('.big-n')).toHaveText('9/10');
+  await expect(page.locator('.big-n')).toHaveText('14/15');
   await expect(page.locator('.mrow .mk')).toHaveCount(1);
-  // Ancien record : 72,5 s pour 10 kana → battu.
-  expect((await hanko.stored()).best['brush-h-10-L2']).toEqual({ ms: 60000, n: 10, acc: 90 });
+  const best = (await hanko.stored()).best;
+  // Record « Tous » sous sa propre clé ; les records « 10 kana » (obtenus avec 10 kana) restent intacts.
+  expect(best['brush-h-0-L2']).toEqual({ ms: 90000, n: 15, acc: 93 });
+  expect(best['brush-h-10-L2']).toEqual(REAL.best['brush-h-10-L2']);
+  expect(best['brush-h-10-L1']).toEqual(REAL.best['brush-h-10-L1']);
+});
+
+test('Pinceau, réglage « 10 » : 10 kana, et l’ancien record « 10 kana » s’affiche toujours', async ({ hanko }) => {
+  const page = (await hanko.open({ state: { ...REAL, bn: 10 } })).page;
+  await page.locator('[data-act="page"][data-id="brush"]').click();
+  await expect(page.locator('.rset .bubble')).toContainText('10 kana');
+  await expect(page.locator('.rbest')).toContainText('pour 10 kana, 80 %');
+  await page.locator('[data-act="bstart"]').click();
+  expect(await hanko.run(H => H.bs.q.length)).toBe(10);
+});
+
+test('Pinceau : une ancienne sauvegarde sans réglage du nombre de kana lance 10 kana', async ({ hanko }) => {
+  const old = { ...REAL };
+  delete old.bn;
+  const page = (await hanko.open({ state: old })).page;
+  await page.locator('[data-act="page"][data-id="brush"]').click();
+  await page.locator('[data-act="bstart"]').click();
+  expect(await hanko.run(H => H.bs.q.length)).toBe(10);
 });

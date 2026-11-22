@@ -20,7 +20,10 @@ import { pick, shuffle } from '../util.js';
 function brushPool(sc) {
   return Object.keys(S.learned).filter(c => canDraw(c) && KS && KS[c] && (sc === 'b' || ITEMS[c].s === sc));
 }
-const bkey = () => 'brush-' + (S.bsc || 'h') + '-' + (S.bn || 10) + '-L' + (S.bl || 2);
+/** Nombre de kana d'une partie : 10, 20, ou 0 pour « Tous ». Absent (ancienne sauvegarde) : 10.
+ * (Ne pas écrire `S.bn || 10` : le 0 de « Tous » deviendrait 10.) */
+const brushCount = () => (S.bn == null ? 10 : +S.bn);
+const bkey = () => 'brush-' + (S.bsc || 'h') + '-' + brushCount() + '-L' + (S.bl || 2);
 const LVL = {
   1: ['Calque', 'Le kana est en filigrane et le prochain trait s’anime : tu n’as qu’à le suivre.'],
   2: ['Guidé', 'Seul le point de départ numéroté du prochain trait est affiché.'],
@@ -30,7 +33,7 @@ function brushSetupV() {
   if (!KS)
     return `<div class="rset">${mascot('idle', 'Je prépare les pinceaux… (il faut une connexion la première fois)', 64)}</div>`;
   const pool = brushPool(S.bsc || 'h'),
-    n = +(S.bn || 10),
+    n = brushCount(),
     size = n ? Math.min(n, pool.length) : pool.length,
     b = S.best[bkey()];
   const grp = (lab, k, opts, def) =>
@@ -71,7 +74,7 @@ function brushSetupV() {
 function startBrush() {
   const pool = brushPool(S.bsc || 'h');
   if (pool.length < 3) return;
-  const n = +(S.bn || 10);
+  const n = brushCount();
   ui.bs = {
     q: shuffle(pool).slice(0, n || pool.length),
     u: 0,
