@@ -45,6 +45,10 @@ function tipHome(nx, due) {
   return (ui.homeTip = t);
 }
 
+/** Grands kana du bandeau d'accueil : un élément par kana, `--n` (nombre de caractères) règle la taille pour tenir sur une ligne. */
+function bigK(items) {
+  return `<div class="big-k" lang="ja" style="--n:${items.join('').length}">${items.map(k => `<span>${k}</span>`).join('')}</div>`;
+}
 function homeV() {
   const nx = nextLesson(),
     due = dueList().length,
@@ -55,11 +59,11 @@ function homeV() {
   return (
     top() +
     `<section class="hero band"><div class="wrap hero-g">
-  <div>${mascot('idle', tipHome(nx, due))}<p class="kick">${nx ? 'Prochaine leçon · ' + nx.u.t : 'Parcours terminé'}</p><h1>${nx ? nx.t : 'Tous les kana sont vus !'}</h1>
-  <div class="big-k" lang="ja">${nx ? nx.items.slice(0, 5).join(' ') : 'かな カナ'}</div>
-  ${nx ? `<button class="btn wh" data-act="lesson" data-id="${nx.id}">Commencer la leçon</button>` : ''}</div>
+  <div class="today">${mascot('idle', tipHome(nx, due))}<p class="kick">${nx ? 'Prochaine leçon · ' + nx.u.t : 'Parcours terminé'}</p><h1>${nx ? nx.t : 'Tous les kana sont vus !'}</h1>
+  ${bigK(nx ? nx.items.slice(0, 5) : ['かな', 'カナ'])}
+  ${nx ? `<button class="btn ac" data-act="lesson" data-id="${nx.id}">Commencer la leçon</button>` : ''}</div>
   <div class="rev"><div class="rev-n">${due}</div><b>${due ? 'kana à réviser maintenant' : 'Rien à réviser pour l’instant'}</b><p class="mut">${due ? 'Une courte session suffit : réviser à temps fixe la mémoire.' : nextDue()}</p>
-  ${due ? `<button class="btn ac" data-act="review">Réviser</button>` : nl ? `<button class="btn gh" data-act="practice">Entraînement libre</button>` : ''}</div>
+  ${due ? `<button class="btn gh" data-act="review">Réviser</button>` : nl ? `<button class="btn gh" data-act="practice">Entraînement libre</button>` : ''}</div>
   </div></section>
   <section class="band" style="padding-bottom:8px"><div class="wrap figs">
   <div class="fig1"><b>${nl} / ${TOTAL}</b><span>kana vus</span></div><div class="fig1"><b>${ms}</b><span>kana maîtrisés</span></div>
@@ -105,7 +109,7 @@ function sheetV() {
     if (l.id.endsWith('-wa')) return [it[0], null, null, null, it[1], it[2], null, null, null, null];
     return it;
   });
-  return `<div class="sheet"><h2>Tableau des kana</h2><p class="mut" style="margin:4px 0 0">Plus la case est rouge, mieux tu maîtrises le kana. Touche-le pour l’entendre${tts ? '' : ' (voix japonaise indisponible ici)'}.</p>
+  return `<div class="sheet"><h2>Tableau des kana</h2><p class="mut" style="margin:4px 0 0">Plus la case est verte, mieux tu maîtrises le kana. Touche-le pour l’entendre${tts ? '' : ' (voix japonaise indisponible ici)'}.</p>
   <div class="tabs"><button data-act="tab" data-id="h" aria-pressed="${s === 'h'}">Hiragana</button><button data-act="tab" data-id="k" aria-pressed="${s === 'k'}">Katakana</button></div>
   <div class="g5">${base.map(cell).join('')}</div><p class="sub">Sons voisés</p><div class="g5">${unitItems(us[1]).map(cell).join('')}</div>
   <p class="sub">Combinaisons</p><div class="g3">${unitItems(us[2]).map(cell).join('')}</div>
