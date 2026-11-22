@@ -29,11 +29,15 @@ test('effacer la progression demande une confirmation', async ({ hanko }) => {
   expect(st.learned).toEqual({});
 });
 
-test('désarmer ne réaffiche pas la page : un code de secours en cours de saisie est conservé', async ({ hanko }) => {
+test('armer puis désarmer « Effacer » ne réaffiche pas la page : un code de secours en cours de saisie est conservé', async ({
+  hanko,
+}) => {
   const page = (await hanko.open({ state: REAL })).page;
   await page.locator('header [data-act="settings"]').click();
-  await page.locator('[data-act="reset"]').click(); // armer réaffiche la page (comportement inchangé)
   await page.locator('#impt').fill('{"learned":{}');
+  await page.locator('[data-act="reset"]').click(); // armer
+  await expect(page.locator('[data-act="reset"]')).toHaveText('Confirmer : tout effacer');
+  await expect(page.locator('#impt')).toHaveValue('{"learned":{}'); // corrigé : armer vidait la saisie
   await page.locator('[data-act="tog"][data-k="snd"]').click();
   await expect(page.locator('[data-act="reset"]')).toHaveText('Effacer ma progression');
   await expect(page.locator('#impt')).toHaveValue('{"learned":{}');
