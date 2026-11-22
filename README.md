@@ -22,7 +22,7 @@ L'appli est faite de fichiers statiques : pas de build, pas de dépendance à in
 
 ## Comptes et sauvegarde (Supabase)
 
-La connexion se fait par code envoyé par e-mail (sans mot de passe). La progression est gardée sur l'appareil et synchronisée avec Supabase.
+Deux façons de se connecter : **e-mail + mot de passe** (méthode principale, fonctionne dans tous les navigateurs et dans l'appli installée) ou **lien / code par e-mail**. Mot de passe oublié et définition d'un mot de passe depuis un appareil connecté sont gérés. La progression est gardée sur l'appareil et synchronisée avec Supabase.
 
 Mise en place, une seule fois :
 
@@ -30,7 +30,7 @@ Mise en place, une seule fois :
 2. **Adresses autorisées** : *Authentication → URL Configuration* :
    - *Site URL* : `https://rouuulien.github.io/Hanko-kana/`
    - *Redirect URLs* : ajouter `https://rouuulien.github.io/Hanko-kana/**`
-3. **E-mail avec code** : *Authentication → Emails → Magic Link*. Remplacer le contenu par :
+3. **E-mail avec code** (nécessite un SMTP personnalisé, voir point 4) : *Authentication → Emails → Magic Link*. Remplacer le contenu par :
    - Sujet : `Ton code de connexion Hanko`
    - Corps :
      ```html
@@ -41,7 +41,7 @@ Mise en place, une seule fois :
      <p>Si tu n'as rien demandé, ignore cet e-mail.</p>
      ```
    Le code est indispensable sur iPhone : une appli installée sur l'écran d'accueil ne partage pas sa session avec Safari, donc le lien ouvrirait le jeu dans Safari et non dans l'appli.
-4. **E-mails (recommandé)** : le service d'e-mail intégré à Supabase est limité à quelques envois par heure. Pour plus d'utilisateurs, brancher un SMTP (Brevo, Resend…) dans *Authentication → Emails → SMTP Settings*.
+4. **E-mails** : le service d'e-mail intégré à Supabase est limité (quelques envois par heure) et ne permet pas de modifier les modèles. Pour plus d'utilisateurs, brancher un SMTP (Brevo, Resend…) dans *Authentication → Emails → SMTP Settings*.
 
 La clé présente dans `index.html` est la clé **publishable** : elle est faite pour être publique. La sécurité repose sur les règles d'accès (RLS) de `schema.sql`. Ne jamais mettre la clé secrète dans ce dépôt.
 

@@ -34,7 +34,8 @@ La progression des joueurs vit dans `localStorage` (clé `hanko-kana-v1`) et, s'
 - Projet `Hanko-Kana`, ref `hxnptpndukqivjewwxnj`, région eu-west-1.
 - Le code n'utilise que la clé **publishable** (publique). Ne jamais committer la clé secrète.
 - Toute modification de schéma : nouveau fichier dans `supabase/migrations/` (horodaté), rétrocompatible, avec RLS sur toute nouvelle table. Lancer les advisors de sécurité après.
-- Connexion par code e-mail (`signInWithOtp` + `verifyOtp`). Le modèle d'e-mail « Magic Link » doit contenir `{{ .Token }}`.
+- Connexion : e-mail + mot de passe (`signInWithPassword`, `signUp`, `resetPasswordForEmail`, `updateUser`) en méthode principale ; lien/code e-mail (`signInWithOtp` + `verifyOtp`) en alternative. Les modèles d'e-mail ne sont modifiables qu'avec un SMTP personnalisé (pas encore configuré) : le code `{{ .Token }}` n'est donc pas encore envoyé.
+- Une session Supabase est propre à chaque navigateur et à l'appli installée (stockage séparé sur iOS).
 
 ## Style et contenu
 

@@ -93,7 +93,7 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 .wd{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:12px 14px;text-align:left;display:grid;gap:2px}
 .wd .j{font-size:24px;font-weight:700}.wd .r{color:var(--ac);font-weight:600}.wd .f{color:var(--mut);font-size:14px}
 .wd.locked{opacity:.55;border-style:dashed}.wd.locked .r,.wd.locked .f{visibility:hidden}
-.lg{display:grid;gap:10px}.lg .btn{justify-self:start}.foot a,.foot .link{font-size:13px}
+.lg{display:grid;gap:10px}.amsg{margin:0;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--gold) 16%,var(--card));font-size:15px}.lg .btn{justify-self:start}.foot a,.foot .link{font-size:13px}
 .foot{font-size:13px;color:var(--mut);text-align:center;padding:24px 16px 32px}
 /* quiz */
 .qtop{display:flex;align-items:center;gap:14px;padding:calc(14px + env(safe-area-inset-top)) max(5vw,16px) 14px;max-width:720px;margin:0 auto}
@@ -326,7 +326,7 @@ async function cloudInit(){
   if('serviceWorker'in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
   try{if(!window.supabase)await new Promise((ok,ko)=>{const sc=document.createElement('script');sc.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';sc.onload=ok;sc.onerror=ko;document.head.appendChild(sc)});
     cloud.sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'implicit'}});
-    cloud.sb.auth.onAuthStateChange((ev,ses)=>{setTimeout(()=>sbSession(ses),0)});
+    cloud.sb.auth.onAuthStateChange((ev,ses)=>{if(ev==='PASSWORD_RECOVERY'){cloud.recovery=true;cloud.msg='';view='set'}setTimeout(()=>{sbSession(ses);if(ev==='PASSWORD_RECOVERY')render()},0)});
     const r=await cloud.sb.auth.getSession();sbSession(r.data&&r.data.session)}
   catch(e){cloud.st='off';paintCloud();if(view==='set')render()}}
 function sbSession(ses){const uid=ses&&ses.user?ses.user.id:null;if(uid===cloud.uid&&cloud.api!==undefined&&(uid?cloud.api:true))return;
@@ -336,15 +336,31 @@ function sbSession(ses){const uid=ses&&ses.user?ses.user.id:null;if(uid===cloud.
   cloud.api={get:async()=>{const{data,error}=await sb.from('progress').select('data').eq('user_id',uid).maybeSingle();if(error)throw error;return data?data.data:null},
     put:async st=>{const{error}=await sb.from('progress').upsert({user_id:uid,data:st,updated_at:new Date().toISOString()});if(error)throw error}};
   cloud.st='sync';paintCloud();if(view==='set'||view==='home')render();cloudPull()}
-async function sbLogin(form){const sb=cloud.sb;if(!sb)return;const btn=form.querySelector('button.btn');btn&&(btn.disabled=true);
-  if(cloud.step!=='code'){const email=form.querySelector('#lmail').value.trim();if(!email)return;cloud.email=email;
-    const{error}=await sb.auth.signInWithOtp({email,options:{shouldCreateUser:true,emailRedirectTo:location.origin+location.pathname}});
-    if(error){cloud.msg=/rate|seconds/i.test(error.message)?'Patiente une minute avant de redemander un code.':'Envoi impossible : vérifie l’adresse e-mail.'}
-    else{cloud.step='code';cloud.msg='Regarde ta boîte mail (et les indésirables). Tu peux aussi simplement cliquer sur le lien reçu.'}}
-  else{const token=form.querySelector('#lcode').value.replace(/\s/g,'');if(!token)return;
-    const{error}=await sb.auth.verifyOtp({email:cloud.email,token,type:'email'});
-    if(error)cloud.msg='Code invalide ou expiré. Redemande un code si besoin.'}
+const authErr=e=>{const m=(e&&e.message)||'';
+  if(/invalid login credentials/i.test(m))return'E-mail ou mot de passe incorrect. Si ton compte a été créé avec un code ou un lien, définis d’abord un mot de passe (« Mot de passe oublié ? » ou depuis un appareil déjà connecté).';
+  if(/already registered|already exists/i.test(m))return'Un compte existe déjà avec cette adresse : connecte-toi.';
+  if(/email not confirmed/i.test(m))return'Adresse pas encore confirmée : ouvre le lien reçu par e-mail, puis reconnecte-toi ici.';
+  if(/password.*(short|least|characters)|weak/i.test(m))return'Mot de passe trop faible : au moins 8 caractères, avec lettres et chiffres.';
+  if(/rate|seconds|too many/i.test(m))return'Trop de tentatives : patiente une minute avant de réessayer.';
+  return'Opération impossible pour le moment. Vérifie ta connexion et réessaie.'};
+const redir=()=>location.origin+location.pathname;
+async function sbLogin(form,act){const sb=cloud.sb;if(!sb)return;for(const b of form.querySelectorAll('button'))b.disabled=true;cloud.msg='';
+  try{
+    if(cloud.tab!=='code'){const email=(form.querySelector('#lmail').value||'').trim(),pw=(form.querySelector('#lpw')||{}).value||'';if(!email)throw{message:''};cloud.email=email;
+      if(act==='forgot'){const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:redir()});if(error)throw error;cloud.msg='Si un compte existe, tu vas recevoir un e-mail. Ouvre le lien, puis choisis ton nouveau mot de passe.'}
+      else if(act==='signup'){if(pw.length<8)throw{message:'password short'};const{data,error}=await sb.auth.signUp({email,password:pw,options:{emailRedirectTo:redir()}});if(error)throw error;
+        if(data&&data.user&&data.user.identities&&!data.user.identities.length)throw{message:'already registered'};
+        if(!data.session)cloud.msg='Compte créé ! Ouvre le lien de confirmation reçu par e-mail (sur n’importe quel appareil), puis reviens ici et connecte-toi.'}
+      else{const{error}=await sb.auth.signInWithPassword({email,password:pw});if(error)throw error}}
+    else if(cloud.step!=='code'){const email=form.querySelector('#lmail').value.trim();if(!email)throw{message:''};cloud.email=email;
+      const{error}=await sb.auth.signInWithOtp({email,options:{shouldCreateUser:true,emailRedirectTo:redir()}});if(error)throw error;
+      cloud.step='code';cloud.msg='Regarde ta boîte mail (et les indésirables). Saisis le code s’il y en a un, ou ouvre le lien reçu dans ce même navigateur.'}
+    else{const token=form.querySelector('#lcode').value.replace(/\s/g,'');if(!token)throw{message:''};const{error}=await sb.auth.verifyOtp({email:cloud.email,token,type:'email'});if(error)cloud.msg='Code invalide ou expiré. Redemande un code si besoin.'}
+  }catch(e){cloud.msg=e&&e.message?authErr(e):'Renseigne ton adresse e-mail.'}
   render()}
+async function sbSetPw(form){const sb=cloud.sb,pw=form.querySelector('#npw').value;for(const b of form.querySelectorAll('button'))b.disabled=true;
+  if(pw.length<8){cloud.msg='Mot de passe trop faible : au moins 8 caractères.';return render()}
+  const{error}=await sb.auth.updateUser({password:pw});cloud.msg=error?authErr(error):'Mot de passe enregistré. Tu peux maintenant te connecter avec ton e-mail et ce mot de passe sur tous tes appareils.';cloud.recovery=false;cloud.pwOpen=false;render()}
 let armedDel=false;
 async function sbDelete(){const sb=cloud.sb;if(!sb)return;const{error}=await sb.rpc('delete_user');
   if(error){cloud.msg='Suppression impossible pour le moment. Réessaie plus tard.';return render()}
@@ -358,15 +374,25 @@ const cloudText=()=>({ok:cloud.mode==='sb'?`Sauvegardée sur ton compte (${cloud
   off:'Hors ligne : progression gardée sur cet appareil.',
   local:'Enregistrée seulement dans ce navigateur.'})[cloud.st];
 function paintCloud(){for(const e of document.querySelectorAll('[data-cloud]'))e.textContent=cloudText()}
-function accountV(){if(cloud.mode!=='sb')return'';const msg=cloud.msg?`<p class="mut" style="margin:0">${esc(cloud.msg)}</p>`:'';
+function accountV(){if(cloud.mode!=='sb')return'';const msg=cloud.msg?`<p class="amsg" role="status">${esc(cloud.msg)}</p>`:'';
   if(cloud.st==='off')return`<h2>Compte</h2><p class="mut" style="margin:0">Connexion impossible hors ligne. Reviens quand tu as du réseau pour créer ton compte ou te connecter.</p>`;
-  if(cloud.uid)return`<h2>Compte</h2><p style="margin:0">Connecté avec <b>${esc(cloud.email)}</b>.</p>${msg}
+  if(cloud.uid){const pwForm=`<form id="setpw" class="lg"><input id="npw" class="rin" type="password" autocomplete="new-password" minlength="8" placeholder="Nouveau mot de passe (8 caractères min.)" aria-label="Nouveau mot de passe"><button class="btn ac">Enregistrer le mot de passe</button></form>`;
+    return`<h2>Compte</h2><p style="margin:0">Connecté avec <b>${esc(cloud.email)}</b>.</p>
+    ${cloud.recovery?`<p style="margin:0"><b>Choisis ton nouveau mot de passe :</b></p>${pwForm}`:cloud.pwOpen?pwForm:`<button class="link" style="justify-self:start" data-act="pwopen">Définir ou changer mon mot de passe</button>`}${msg}
     <div class="acts" style="justify-content:flex-start;margin:0"><button class="btn gh" data-act="logout">Se déconnecter</button><button class="btn danger" data-act="delacc">${armedDel?'Confirmer : tout supprimer':'Supprimer mon compte'}</button></div>
-    <p class="mut" style="margin:0">La suppression efface définitivement ton compte et ta progression en ligne.</p>`;
-  return`<h2>Compte</h2><p class="mut" style="margin:0">Crée un compte gratuit pour sauvegarder ta progression et la retrouver sur tous tes appareils. Pas de mot de passe : tu reçois un code par e-mail.</p>
-    <form id="login" class="lg">${cloud.step==='code'
-      ?`<p style="margin:0">Code envoyé à <b>${esc(cloud.email)}</b>.</p><input id="lcode" class="rin" inputmode="numeric" autocomplete="one-time-code" placeholder="Code reçu par e-mail" maxlength="10" aria-label="Code reçu par e-mail"><button class="btn ac">Valider le code</button><button type="button" class="link" data-act="lreset">Changer d’adresse e-mail</button>`
-      :`<input id="lmail" class="rin" type="email" autocomplete="email" placeholder="ton@email.fr" required aria-label="Adresse e-mail" value="${esc(cloud.email)}"><button class="btn ac">Recevoir mon code</button>`}${msg}</form>
+    <p class="mut" style="margin:0">La suppression efface définitivement ton compte et ta progression en ligne.</p>`}
+  const tab=cloud.tab||'pw';
+  const body=tab==='pw'
+    ?`<input id="lmail" class="rin" type="email" autocomplete="email" placeholder="ton@email.fr" required aria-label="Adresse e-mail" value="${esc(cloud.email)}">
+      <input id="lpw" class="rin" type="password" autocomplete="current-password" placeholder="Mot de passe" aria-label="Mot de passe">
+      <div class="acts" style="justify-content:flex-start;margin:0"><button class="btn ac" data-sub="login">Se connecter</button><button class="btn gh" data-sub="signup">Créer un compte</button></div>
+      <button class="link" style="justify-self:start" data-sub="forgot">Mot de passe oublié ?</button>`
+    :cloud.step==='code'
+      ?`<p style="margin:0">E-mail envoyé à <b>${esc(cloud.email)}</b>.</p><input id="lcode" class="rin" inputmode="numeric" autocomplete="one-time-code" placeholder="Code reçu par e-mail" maxlength="10" aria-label="Code reçu par e-mail"><button class="btn ac">Valider le code</button><button type="button" class="link" data-act="lreset">Changer d’adresse e-mail</button>`
+      :`<input id="lmail" class="rin" type="email" autocomplete="email" placeholder="ton@email.fr" required aria-label="Adresse e-mail" value="${esc(cloud.email)}"><button class="btn ac">Recevoir un lien de connexion</button>`;
+  return`<h2>Compte</h2><p class="mut" style="margin:0">Crée un compte gratuit pour sauvegarder ta progression en ligne et la retrouver sur tous tes appareils.</p>
+    <div class="chips" role="tablist"><button data-act="atab" data-id="pw" aria-pressed="${tab==='pw'}">E-mail et mot de passe</button><button data-act="atab" data-id="code" aria-pressed="${tab==='code'}">Lien par e-mail</button></div>
+    <form id="login" class="lg">${body}${msg}</form>
     <p class="mut" style="margin:0;font-size:14px">En créant un compte, tu acceptes la <a href="confidentialite.html">politique de confidentialité</a>.</p>`}
 const ld=(off=0)=>{const d=new Date();d.setDate(d.getDate()+off);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
 const streak=()=>(S.last===ld()||S.last===ld(-1))?S.streak:0;
@@ -760,14 +786,14 @@ app.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b
     case'bskip':{if(bs.state==='done')break;if(!bs.start){bs.start=Date.now();bs.tid=setInterval(()=>{const e=document.getElementById('bt');if(e)e.textContent=bClock()},500)}
       bs.r={ok:false,tip:'Voici comment le tracer : observe l’ordre des traits.',self:true};bs.state='done';if(bs.res[bs.u]==null){bs.res[bs.u]=false;bs.err++;bs.miss.add(bs.q[bs.u])}if(PAD){PAD.locked=true;PAD.fade=true}sfx('bad');render();break}
     case'bself':{if(bs.res[bs.u]===false){bs.res[bs.u]=true;bs.ok++;bs.err--;bs.miss.delete(bs.q[bs.u])}bs.r.ok=true;bs.r.self=true;bs.r.tip='Compté juste.';sfx('ok');render();break}
-    case'bquit':stopBrush();bs=null;PAD=null;view='home';render();break;case'lreset':cloud.step='';cloud.msg='';render();break;case'logout':cloud.sb&&cloud.sb.auth.signOut();cloud.msg='';break;case'delacc':if(!armedDel){armedDel=true;render()}else{armedDel=false;sbDelete()}break;case'mute':S.snd=S.snd===false;save();if(S.snd)sfx('ok');{const n=document.createElement('div');n.innerHTML=muteBtn();b.replaceWith(n.firstChild)}break;case'rk':rKey(b.dataset.k);break;
+    case'bquit':stopBrush();bs=null;PAD=null;view='home';render();break;case'lreset':cloud.step='';cloud.msg='';render();break;case'atab':cloud.tab=id;cloud.msg='';cloud.step='';render();break;case'pwopen':cloud.pwOpen=true;cloud.msg='';render();break;case'logout':cloud.sb&&cloud.sb.auth.signOut();cloud.msg='';break;case'delacc':if(!armedDel){armedDel=true;render()}else{armedDel=false;sbDelete()}break;case'mute':S.snd=S.snd===false;save();if(S.snd)sfx('ok');{const n=document.createElement('div');n.innerHTML=muteBtn();b.replaceWith(n.firstChild)}break;case'rk':rKey(b.dataset.k);break;
     case'rquit':stopRush();rs=null;view='home';render();break;
     case'quit':case'home':stopRush();stopBrush();ses=null;view='home';render();break;case'settings':view='set';render();break;
     case'tog':S[b.dataset.k]=b.checked;save();break;
     case'copy':{const t=document.getElementById('exp');try{navigator.clipboard.writeText(t.value).then(()=>{b.textContent='Copié'},()=>t.select())}catch(err){t.select()}break}
     case'reset':if(!armed){armed=true;render()}else{armed=false;S=fresh();homeTip=null;save();view='home';render()}break;
   }});
-app.addEventListener('submit',e=>{e.preventDefault();if(e.target.id==='login')return sbLogin(e.target);if(e.target.id==='tf')answerTyped(document.getElementById('ti').value);
+app.addEventListener('submit',e=>{e.preventDefault();if(e.target.id==='login')return sbLogin(e.target,e.submitter&&e.submitter.dataset.sub);if(e.target.id==='setpw')return sbSetPw(e.target);if(e.target.id==='tf')answerTyped(document.getElementById('ti').value);
   if(e.target.id==='imp'){const m=document.getElementById('impm');try{const v=JSON.parse(document.getElementById('impt').value);if(!v||typeof v.learned!=='object')throw 0;S=Object.assign(fresh(),v);homeTip=null;save();render();document.getElementById('impm').textContent='Progression importée.'}catch(err){m.textContent='Ce code n’est pas valide.'}}});
 document.addEventListener('keydown',e=>{if(view==='brush'&&bs){if(e.target.tagName==='BUTTON')return;if(e.key==='Enter'){e.preventDefault();bs.state==='done'?bNext():bCheck()}else if(e.key==='Backspace'){e.preventDefault();PAD&&PAD.undo()}else if(e.key==='Escape')PAD&&PAD.clear();return}if(view==='rush'){if(e.metaKey||e.ctrlKey||e.altKey)return;const k=e.key;const m=/^[a-zA-Z-]$/.test(k)?k.toLowerCase():k==='Backspace'?'back':k==='Escape'?'clear':k==='ArrowRight'?'skip':null;if(m){e.preventDefault();rKey(m)}return}if(view!=='quiz'||!ses)return;if(e.target.tagName==='BUTTON'||e.target.tagName==='INPUT')return;
   if(ses.ans){if(e.key==='Enter'){e.preventDefault();next()}return}if(cur().type!=='type'&&cur().type!=='draw'&&/^[1-4]$/.test(e.key))answer(+e.key-1)});
