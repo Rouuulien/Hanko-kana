@@ -15,9 +15,10 @@ export const PUBLISHED = [
   'src',
   'data',
   'icons',
+  'fonts',
 ];
 /** Extensions gardées hors ligne (les licences et README publiés ne sont pas mis en cache). */
-const OFFLINE = /\.(html|css|js|json|webmanifest|png|svg)$/;
+const OFFLINE = /\.(html|css|js|json|webmanifest|png|svg|woff2)$/;
 
 const walk = d =>
   readdirSync(d, { withFileTypes: true }).flatMap(e => (e.isDirectory() ? walk(join(d, e.name)) : [join(d, e.name)]));

@@ -3,6 +3,37 @@
    PICTURE: Daru beside the next lesson's kana, huge on a vermilion field; a zigzag stamp trail below
    COLOUR and TYPE: vermilion + sumi ink + a little gold on white; Zen Maru Gothic for kana and titles, Outfit for text
    LAYOUT: top bar, hero, figures, segmented nav (Parcours / Tableau / Mots); quiz in one calm column with Daru reacting */
+/* Polices hébergées avec l'appli (fonts/README.md) */
+@font-face {
+  font-family: 'Noto Sans JP';
+  src: url('fonts/NotoSansJP.woff2') format('woff2');
+  font-weight: 400 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Zen Old Mincho';
+  src: url('fonts/ZenOldMincho-400.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Zen Old Mincho';
+  src: url('fonts/ZenOldMincho-700.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Klee One';
+  src: url('fonts/KleeOne-400.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Klee One';
+  src: url('fonts/KleeOne-600.woff2') format('woff2');
+  font-weight: 600;
+  font-display: swap;
+}
 :root {
   color-scheme: light dark;
   --bg: light-dark(#fbfaf8, #141317);

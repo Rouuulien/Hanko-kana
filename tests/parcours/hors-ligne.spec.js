@@ -55,6 +55,27 @@ test('après une visite, le jeu fonctionne sans réseau', async ({ hanko, contex
   await context.setOffline(false);
 });
 
+test('les polices viennent de l’appli, même hors ligne', async ({ hanko, context, request }, info) => {
+  site(info.outputPath('a'));
+  await serve(request, 'polices', info.outputPath('a'));
+  const page = hanko.page;
+  const externes = [];
+  page.on('request', r => {
+    if (/fonts\.(googleapis|gstatic)\.com/.test(r.url())) externes.push(r.url());
+  });
+  await page.goto('/maj/polices/');
+  await installe(page);
+  await context.setOffline(true);
+  await page.reload();
+  const ok = await page.evaluate(async () => {
+    await Promise.all([document.fonts.load('16px "Noto Sans JP"'), document.fonts.load('40px "Klee One"', 'あ')]);
+    return [document.fonts.check('16px "Noto Sans JP"'), document.fonts.check('40px "Klee One"', 'あ')];
+  });
+  expect(ok).toEqual([true, true]);
+  expect(externes).toEqual([]);
+  await context.setOffline(false);
+});
+
 test('mise à jour : la nouvelle page n’est jamais servie avec d’anciens modules, puis fonctionne hors ligne', async ({
   hanko,
   context,

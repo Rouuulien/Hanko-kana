@@ -16,7 +16,8 @@
     "build:claude": "node scripts/build-claude.mjs",
     "lint": "eslint . && tsc -p jsconfig.json && prettier --check \"src/**/*.js\" sw.js styles.css \"scripts/**/*.mjs\" \"tests/**/*.{js,mjs}\" \"*.config.js\" \"types/**/*.ts\"",
     "format": "prettier --write \"src/**/*.js\" sw.js styles.css \"scripts/**/*.mjs\" \"tests/**/*.{js,mjs}\" \"*.config.js\" \"types/**/*.ts\"",
-    "typecheck": "tsc -p jsconfig.json"
+    "typecheck": "tsc -p jsconfig.json",
+    "fonts": "node scripts/fonts.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
@@ -25,6 +26,7 @@
     "eslint": "10.15.0",
     "globals": "17.14.0",
     "prettier": "3.10.1",
+    "subset-font": "2.9.0",
     "typescript": "7.0.2"
   }
 }
