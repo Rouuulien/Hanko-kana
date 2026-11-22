@@ -6,4 +6,4 @@ export const HOOK = `globalThis.__hanko={
   ITEMS,UNITS,LES,SL,WORDS,TOTAL,ALT,toks,romaji,H2K,K2H,
   IV,grade,dueList,nextDue,ld,streak,todayXp,addXp,unlocked,testOpen,nextLesson,allDone,canRead,
   loadKS,get KS(){return KS},judgeDraw,dNorm,
-  cloud,get view(){return view}};`;
+  cloud,get view(){return view},get ses(){return ses},get bs(){return bs},get rs(){return rs}};`;

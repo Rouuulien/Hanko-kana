@@ -5,6 +5,7 @@
 import { test as base, expect } from '@playwright/test';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
+import { fauxSupabase, fauxClaude } from './faux-cloud.js';
 
 export const T0 = Date.UTC(2026, 0, 15, 9, 0, 0); // jeudi 15 janvier 2026, 10 h à Paris
 export const HOUR = 36e5, DAY = 864e5;
@@ -25,9 +26,12 @@ export const test = base.extend({
     await page.route(/^https:\/\/(fonts\.googleapis\.com|fonts\.gstatic\.com|cdn\.jsdelivr\.net|[^/]*\.supabase\.co)\//, r => r.abort());
     const h = {
       page,
-      /** Ouvre le jeu. `state` : objet écrit dans localStorage avant le chargement (ou chaîne brute). */
-      async open({ state, now = T0, seed = 42, hook = true } = {}) {
+      /** Ouvre le jeu. `state` : objet écrit dans localStorage avant le chargement (ou chaîne brute).
+       *  `supabase: { session, remote }` ou `claude: { remote }` : faux service de sauvegarde en ligne. */
+      async open({ state, now = T0, seed = 42, hook = true, supabase, claude } = {}) {
         await page.clock.setFixedTime(now);
+        if (supabase) await page.addInitScript(fauxSupabase, supabase);
+        if (claude) await page.addInitScript(fauxClaude, claude);
         await page.addInitScript(seedRandom, seed);
         if (state !== undefined) {
           await page.addInitScript(([k, v]) => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem(k, v); sessionStorage.setItem('seeded', '1') } },
@@ -38,6 +42,7 @@ export const test = base.extend({
         return h;
       },
       run: (fn, arg) => page.evaluate(([src, a]) => (0, eval)('(' + src + ')')(globalThis.__hanko, a), [fn.toString(), arg]),
+      fake: () => page.evaluate(() => window.__fake),
       stored: () => page.evaluate(() => JSON.parse(localStorage.getItem('hanko-kana-v1'))),
     };
     await use(h);

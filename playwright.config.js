@@ -13,5 +13,9 @@ export default defineConfig({
   projects: [
     // Logique critique (fusion, révisions, sauvegarde, romaji, tracé) : un seul moteur suffit.
     { name: 'logique', testDir: 'tests/logique', use: { ...devices['Desktop Chrome'] } },
+    // Parcours complets du joueur : ordinateur (Chromium) et iPhone (WebKit, moteur de Safari).
+    { name: 'parcours-chromium', testDir: 'tests/parcours', use: { ...devices['Desktop Chrome'] } },
+    // WebKit demande des bibliothèques système (sudo npx playwright install-deps webkit) : toujours en CI, en local sur demande.
+    ...(process.env.CI || process.env.WEBKIT ? [{ name: 'parcours-iphone', testDir: 'tests/parcours', use: { ...devices['iPhone 13'] } }] : []),
   ],
 });
