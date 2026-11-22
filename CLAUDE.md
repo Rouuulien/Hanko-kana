@@ -5,7 +5,9 @@ Projet personnel de Julien, en français, tutoiement. En ligne : https://rouuuli
 
 ## Architecture
 
-- `index.html` : toute l'appli (HTML + CSS + JS, sans build ni dépendance npm). Sections repérées par des commentaires `/* ---------- … ---------- */`.
+- `index.html` : page et script principal (module ES), sans build ni dépendance npm. Sections repérées par des commentaires `/* ---------- … ---------- */`. Découpage en modules en cours (refonte en plusieurs PR).
+- `styles.css` : styles. `src/util.js` : utilitaires. `src/data/` : kana, unités et leçons (`kana.js`), astuces (`notes.js`), mots (`words.js`). `src/core/romaji.js` : découpage et romaji.
+- Tests : `npm test` (Playwright, voir `tests/README.md`), lancés en CI à chaque PR. Ils doivent rester verts à chaque étape ; les références `tests/golden/` ne se régénèrent (`npm run golden`) que pour un changement de comportement voulu.
 - `sw.js` : service worker (hors ligne). `manifest.webmanifest`, `icons/` : appli installable.
 - `data/kana-strokes.json` : tracés des kana dérivés de KanjiVG (CC BY-SA 3.0, voir `data/README.md`). Garder l'attribution.
 - `supabase/schema.sql` : table `progress` + règles RLS + fonction `delete_user()`.
@@ -25,7 +27,7 @@ La progression des joueurs vit dans `localStorage` (clé `hanko-kana-v1`) et, s'
 ## À chaque mise en production
 
 - Incrémenter la version du cache dans `sw.js` (`const V = 'hanko-vN'`), sinon les appareils gardent l'ancienne version.
-- Ajouter à `SHELL` dans `sw.js` tout nouveau fichier nécessaire hors ligne.
+- Ajouter à `SHELL` dans `sw.js` tout nouveau fichier nécessaire hors ligne (un test vérifie que chaque fichier de `src/` et chaque `.css` y figure).
 - Tester en local : `python3 -m http.server 8000` puis http://localhost:8000 (le service worker et Supabase fonctionnent en localhost ; ajouter `http://localhost:8000/**` aux Redirect URLs Supabase si besoin de tester la connexion).
 - Vérifier sur mobile (iPhone Safari et appli installée) : clavier, zones tactiles ≥ 44 px, zones sûres (`env(safe-area-inset-*)`).
 
@@ -42,7 +44,7 @@ La progression des joueurs vit dans `localStorage` (clé `hanko-kana-v1`) et, s'
 - Interface et textes en français, ton chaleureux, Daru parle à la première personne.
 - Daru est une mascotte originale : ne pas utiliser de personnages ou visuels protégés (pas de pingouin Suica, rien de Mochikana).
 - Couleurs : vermillon `#e3402a`, encre `#1d1b20`, or `#f2b33d`. Polices : Zen Maru Gothic (kana, titres), Outfit (texte).
-- La version claude.ai (artifact) utilise le même `index.html` : la sauvegarde passe alors par `window.claude` au lieu de Supabase. Ne pas casser ce mode.
+- La version claude.ai (artifact) utilise le même code : la sauvegarde passe alors par `window.claude` au lieu de Supabase. Ne pas casser ce mode. Depuis le passage en modules, l'artifact doit être un fichier unique généré (script de build prévu dans la refonte) : ne pas republier `index.html` seul sur claude.ai d'ici là.
 
 ## Méthode de travail
 

@@ -1,7 +1,7 @@
 // Serveur statique de test, sans dépendance.
 // Sert le dépôt tel quel. Avec `?hook` dans l'URL de la page, injecte à la fin du script
-// principal une ligne qui expose l'état interne sous `window.__hanko` : cela permet de tester
-// la logique sans modifier index.html (le code de production est entièrement dans un bloc `{ … }`).
+// principal (module ES) une ligne qui expose l'état interne sous `window.__hanko` : cela permet de tester
+// la logique sans modifier index.html (les variables d'un module ne sont pas visibles de l'extérieur).
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { extname, join, normalize, resolve } from 'node:path';
@@ -15,7 +15,7 @@ const TYPES = {
   '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.webmanifest': 'application/manifest+json',
   '.png': 'image/png', '.svg': 'image/svg+xml', '.txt': 'text/plain; charset=utf-8',
 };
-const MARK = '\n}\n</script></body></html>';
+const MARK = '\n</script></body></html>';
 
 createServer(async (req, res) => {
   const url = new URL(req.url, 'http://x');
