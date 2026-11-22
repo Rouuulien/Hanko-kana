@@ -18,7 +18,7 @@ Projet personnel de Julien, en français, tutoiement. En ligne : https://rouuuli
 - `data/kana-strokes.json` : tracés des kana dérivés de KanjiVG (CC BY-SA 3.0, voir `data/README.md`). Garder l'attribution.
 - `supabase/schema.sql` : table `progress` + règles RLS + fonction `delete_user()`.
 - `confidentialite.html` : politique de confidentialité (RGPD).
-- Déploiement : tout push sur `main` est publié par GitHub Pages en 1 à 2 minutes.
+- Déploiement : tout push sur `main` lance `.github/workflows/deploy.yml` (tests complets, puis `scripts/build.mjs` construit `dist/`, puis publication GitHub Pages). Si un test échoue, rien n'est publié. Seuls les fichiers listés dans `PUBLISHED` (`scripts/build.mjs`) sont publiés.
 
 ## Règles critiques : ne jamais faire perdre la progression
 
@@ -32,8 +32,7 @@ La progression des joueurs vit dans `localStorage` (clé `hanko-kana-v1`) et, s'
 
 ## À chaque mise en production
 
-- Incrémenter la version du cache dans `sw.js` (`const V = 'hanko-vN'`), sinon les appareils gardent l'ancienne version.
-- Ajouter à `SHELL` dans `sw.js` tout nouveau fichier nécessaire hors ligne (un test vérifie que chaque fichier de `src/` et chaque `.css` y figure).
+- Version du cache et liste hors ligne : **automatiques**. `scripts/build.mjs` remplit `V` (empreinte du contenu publié) et `SHELL` (tous les fichiers publiés) dans `sw.js`. Ne pas les modifier à la main ; un nouveau fichier ou dossier à publier s'ajoute à `PUBLISHED`.
 - Tester en local : `python3 -m http.server 8000` puis http://localhost:8000 (le service worker et Supabase fonctionnent en localhost ; ajouter `http://localhost:8000/**` aux Redirect URLs Supabase si besoin de tester la connexion).
 - Vérifier sur mobile (iPhone Safari et appli installée) : clavier, zones tactiles ≥ 44 px, zones sûres (`env(safe-area-inset-*)`).
 

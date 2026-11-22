@@ -1,9 +1,8 @@
 name: Tests
 
+# Tests à chaque PR. Sur main, ils sont lancés par le workflow de déploiement, avant toute publication.
 on:
   pull_request:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 concurrency:

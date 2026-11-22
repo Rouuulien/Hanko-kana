@@ -11,7 +11,8 @@
     "test": "npm run test:unit && playwright test",
     "test:unit": "TZ=Europe/Paris node --test 'tests/unit/*.test.js'",
     "test:logique": "playwright test --project=logique",
-    "golden": "UPDATE_GOLDEN=1 playwright test --project=logique"
+    "golden": "UPDATE_GOLDEN=1 playwright test --project=logique",
+    "build": "node scripts/build.mjs"
   },
   "devDependencies": {
     "@playwright/test": "1.65.1"

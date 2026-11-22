@@ -1,15 +1,38 @@
-// Hors ligne : après une première visite, le jeu se recharge sans réseau (service worker).
+// Hors ligne et mises à jour, sur le site tel qu'il est publié (construit par scripts/build.mjs).
 // Le jeu n'enregistre le service worker qu'en HTTPS : ici on l'enregistre à la main sur localhost.
+import { cpSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { test, expect } from '../helpers/hanko.js';
-import { readdirSync } from 'node:fs';
+import { build, PUBLISHED } from '../../scripts/build.mjs';
 import { REAL } from './_commun.js';
 
-test('après une visite, le jeu fonctionne sans réseau', async ({ hanko, context, browserName }) => {
-  test.skip(browserName !== 'chromium', 'Mode hors ligne + service worker fiable sous Chromium uniquement dans Playwright');
-  const page = (await hanko.open({ state: REAL, hook: false })).page;
+const ROOT = new URL('../../', import.meta.url).pathname;
+test.describe.configure({ mode: 'serial' }); // les deux tests changent le site servi sous /maj/
+test.skip(({ browserName }) => browserName !== 'chromium', 'Service worker et mode hors ligne fiables sous Chromium uniquement dans Playwright');
+
+/** Copie des sources publiées dans `dir`, éventuellement modifiées, puis construction de `dir/dist`. */
+function site(dir, edit = () => {}) {
+  mkdirSync(dir, { recursive: true });
+  for (const f of [...PUBLISHED, 'sw.js']) cpSync(join(ROOT, f), join(dir, f), { recursive: true });
+  edit(dir);
+  return build({ root: dir, out: join(dir, 'dist') });
+}
+const serve = (request, dir) => request.get('/__maj?dir=' + encodeURIComponent(join(dir, 'dist')));
+async function installe(page) {
   await page.evaluate(async () => { await navigator.serviceWorker.register('sw.js'); await navigator.serviceWorker.ready });
   await page.reload();
   await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller)).toBe(true);
+}
+const versionActive = page => page.evaluate(async () => (await caches.keys()).join(','));
+
+test('après une visite, le jeu fonctionne sans réseau', async ({ hanko, context, request }, info) => {
+  const A = site(info.outputPath('a'));
+  await serve(request, info.outputPath('a'));
+  await hanko.page.addInitScript(s => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('hanko-kana-v1', s); sessionStorage.setItem('seeded', '1') } }, JSON.stringify(REAL));
+  const page = hanko.page;
+  await page.goto('/maj/');
+  await installe(page);
+  expect(await versionActive(page)).toBe(A.V);
 
   await context.setOffline(true);
   await page.reload();
@@ -21,12 +44,34 @@ test('après une visite, le jeu fonctionne sans réseau', async ({ hanko, contex
   await context.setOffline(false);
 });
 
-test('liste hors ligne (SHELL) : chaque fichier existe, aucun module ni feuille de style oublié', async ({ request }) => {
-  const sw = await (await request.get('/sw.js')).text();
-  const shell = JSON.parse(sw.match(/const SHELL = (\[[^\]]*\])/)[1].replace(/'/g, '"'));
-  for (const u of shell) expect((await request.get(u.replace(/^\.\//, '/'))).status(), u).toBe(200);
-  const root = new URL('../../', import.meta.url);
-  const site = [...readdirSync(new URL('src/', root), { recursive: true }).filter(f => f.endsWith('.js')).map(f => './src/' + f.replaceAll('\\', '/')),
-    ...readdirSync(root).filter(f => f.endsWith('.css')).map(f => './' + f)];
-  expect(shell).toEqual(expect.arrayContaining(site));
+test('mise à jour : la nouvelle page n’est jamais servie avec d’anciens modules, puis fonctionne hors ligne', async ({ hanko, context, request }, info) => {
+  const errors = [];
+  const page = hanko.page;
+  page.on('pageerror', e => errors.push(e.message));
+  const A = site(info.outputPath('a'));
+  // Version B : un module gagne un export que le point d'entrée utilise. Un ancien util.js en cache casserait la page.
+  const B = site(info.outputPath('b'), dir => {
+    writeFileSync(join(dir, 'src/util.js'), readFileSync(join(dir, 'src/util.js'), 'utf8') + "export const VERSION='B';\n");
+    const m = join(dir, 'src/main.js');
+    writeFileSync(m, readFileSync(m, 'utf8') + "import{VERSION}from'./util.js';document.title='Hanko '+VERSION;\n");
+  });
+  expect(B.V).not.toBe(A.V);
+
+  await serve(request, info.outputPath('a'));
+  await page.goto('/maj/');
+  await installe(page);
+  await expect(page).toHaveTitle('Hanko · kana');
+
+  await serve(request, info.outputPath('b')); // déploiement de B
+  await page.reload();
+  await expect(page).toHaveTitle('Hanko B');
+  await expect(page.locator('.hero h1')).toHaveText('Voyelles');
+  await expect.poll(() => versionActive(page), { timeout: 10000 }).toBe(B.V); // l'ancien cache est supprimé
+
+  await context.setOffline(true);
+  await page.reload();
+  await expect(page).toHaveTitle('Hanko B');
+  await expect(page.locator('.hero h1')).toHaveText('Voyelles');
+  await context.setOffline(false);
+  expect(errors).toEqual([]);
 });
