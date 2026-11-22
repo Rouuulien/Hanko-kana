@@ -33,12 +33,9 @@ jobs:
         run: npx playwright install --with-deps chromium webkit
       - run: npm test
 
-  publication:
+  construction:
     needs: tests
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploiement.outputs.page_url }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -59,5 +56,16 @@ jobs:
       - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
+
+  # Tâche séparée, comme dans le modèle officiel de GitHub : quand elle démarre, l'artefact du site est
+  # enregistré. Dans une seule tâche, le déploiement a déjà interrogé les artefacts avant que celui du site
+  # soit visible (« No artifacts named "github-pages" »).
+  publication:
+    needs: construction
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploiement.outputs.page_url }}
+    steps:
       - id: deploiement
         uses: actions/deploy-pages@v5
