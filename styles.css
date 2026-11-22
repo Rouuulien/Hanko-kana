@@ -1,8 +1,9 @@
 /* VOICE: friendly dojo coach — Daru the daruma talks, short and warm, in French
-   IDEA: an eki stamp-rally trail: each lesson is a hanko to press, Daru paints his second eye at the end
-   PICTURE: Daru beside the next lesson's kana, huge on a vermilion field; a zigzag stamp trail below
-   COLOUR and TYPE: vermilion + sumi ink + a little gold on white; Zen Maru Gothic for kana and titles, Outfit for text
-   LAYOUT: top bar, hero, figures, segmented nav (Parcours / Tableau / Mots); quiz in one calm column with Daru reacting */
+   IDEA: an eki stamp-rally trail: each lesson is a hanko to press
+   COLOUR and TYPE: Japanese lifestyle, calm and minimal: Washi paper, Sumi ink, Vermilion only as an accent,
+   Sage for progress, Sand surfaces, matte Gold for rewards; Noto Sans JP for the interface, Zen Old Mincho for titles,
+   Klee One (handwritten forms) for large kana
+   LAYOUT: top bar, lesson of the day, figures, segmented nav; quiz in one calm column */
 /* Polices hébergées avec l'appli (fonts/README.md) */
 @font-face {
   font-family: 'Noto Sans JP';
@@ -36,17 +37,45 @@
 }
 :root {
   color-scheme: light dark;
-  --bg: light-dark(#fbfaf8, #141317);
-  --card: light-dark(#fff, #1e1c22);
-  --ink: light-dark(#1d1b20, #f2eee8);
-  --mut: light-dark(#6b6670, #a8a2ab);
-  --line: light-dark(#e8e3de, #34303a);
-  --ac: light-dark(#e3402a, #ff6249);
-  --hero: light-dark(#e3402a, #a92f1b);
-  --gold: #f2b33d;
-  --ok: light-dark(#1f7a4b, #5cc98a);
+  /* Charte : Washi (fond), Sumi (texte), Vermillon (actions), Sauge (progression), Sable (surfaces), Or mat (récompenses) */
+  --bg: light-dark(#f7f5ef, #1b1a17);
+  --card: light-dark(#ffffff, #24231f);
+  --sand: light-dark(#e8dfd0, #2e2b24);
+  --ink: light-dark(#282824, #eeeae0);
+  --mut: light-dark(#6e6b63, #a39e92);
+  --line: light-dark(#e5ded1, #34322c);
+  --ac: #c64b3c;
+  --ac-ink: light-dark(#b5432f, #e0705f);
+  --on-ac: #ffffff;
+  --sage: #9bae9a;
+  --sage-ink: light-dark(#3f5241, #9bae9a);
+  --gold: #b69a63;
+  --gold-ink: light-dark(#7d6435, #c9ae78);
+  --ok: light-dark(#3f5241, #9bae9a);
   --bad: light-dark(#b3261e, #ff8a80);
-  --sh: 0 18px 40px -26px rgba(40, 10, 0, 0.5);
+  --hero: light-dark(#c64b3c, #a33a2d);
+  --sh: 0 18px 40px -26px rgba(40, 40, 36, 0.35);
+  /* Scène sombre de la Rafale et du Pinceau (toujours sombre) */
+  --st-bg: #1b1a17;
+  --st-card: #24231f;
+  --st-raise: #2e2b24;
+  --st-line: #34322c;
+  --st-ink: #eeeae0;
+  --st-mut: #a39e92;
+  --st-ac: #e0705f;
+  --st-ok: #9bae9a;
+  --st-bad: #ff8a80;
+  --paper: #f7f5ef;
+  --sumi: #282824;
+  /* Polices (fonts/README.md) */
+  --f-ui: 'Noto Sans JP', system-ui, sans-serif;
+  --f-title: 'Zen Old Mincho', 'Hiragino Mincho ProN', serif;
+  --f-kana: 'Klee One', 'Hiragino Maru Gothic ProN', sans-serif;
+  /* Rayons */
+  --r-s: 12px;
+  --r-m: 14px;
+  --r-l: 20px;
+  --r-xl: 24px;
 }
 :root[data-theme='light'] {
   color-scheme: light;
@@ -62,26 +91,23 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font:
-    16px/1.55 Outfit,
-    system-ui,
-    sans-serif;
+  font: 16px/1.6 var(--f-ui);
   overflow-x: clip;
 }
 [lang='ja'] {
-  font-family: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', sans-serif;
+  font-family: var(--f-ui);
 }
 h1,
 h2,
 h3 {
-  font-family: 'Zen Maru Gothic', Outfit, sans-serif;
-  line-height: 1.1;
+  font-family: var(--f-title);
+  font-weight: 700;
+  line-height: 1.15;
   margin: 0;
   text-wrap: balance;
 }
 h1 {
-  font-size: clamp(32px, 5vw, 48px);
-  font-weight: 900;
+  font-size: clamp(30px, 5vw, 44px);
 }
 h2 {
   font-size: 22px;
@@ -132,12 +158,12 @@ button {
 }
 .btn.wh {
   background: #fff;
-  color: #b8301d;
-  box-shadow: 0 4px 0 #8f2515;
+  color: var(--ac-ink);
+  box-shadow: 0 4px 0 #a33a2d;
 }
 .btn.ac {
   background: var(--ac);
-  color: #fff;
+  color: var(--on-ac);
   box-shadow: 0 4px 0 color-mix(in srgb, var(--ac) 60%, #000);
 }
 .btn.gh {
@@ -148,7 +174,7 @@ button {
 }
 .btn.danger {
   background: var(--bad);
-  color: #fff;
+  color: var(--on-ac);
   box-shadow: none;
 }
 .btn:disabled {
@@ -172,9 +198,7 @@ button {
   display: flex;
   align-items: center;
   gap: 10px;
-  font:
-    900 22px 'Zen Maru Gothic',
-    sans-serif;
+  font: 700 22px var(--f-title);
 }
 .tstats {
   display: flex;
@@ -209,7 +233,7 @@ button {
 /* hero */
 .hero {
   background: var(--hero);
-  color: #fff;
+  color: var(--on-ac);
   position: relative;
   overflow: hidden;
 }
@@ -237,9 +261,7 @@ button {
   opacity: 0.9;
 }
 .big-k {
-  font:
-    900 clamp(58px, 10vw, 120px)/1 'Zen Maru Gothic',
-    sans-serif;
+  font: 700 clamp(58px, 10vw, 120px)/1 var(--f-title);
   letter-spacing: 0.06em;
   margin: 14px 0 22px;
   overflow-wrap: anywhere;
@@ -255,10 +277,8 @@ button {
   box-shadow: var(--sh);
 }
 .rev-n {
-  font:
-    900 clamp(52px, 8vw, 72px)/1 'Zen Maru Gothic',
-    sans-serif;
-  color: var(--ac);
+  font: 700 clamp(52px, 8vw, 72px)/1 var(--f-title);
+  color: var(--ac-ink);
 }
 .rev p {
   margin: 0;
@@ -297,7 +317,7 @@ button {
   margin-bottom: 22px;
 }
 .bubble b {
-  color: var(--ac);
+  color: var(--ac-ink);
 }
 .bubble .w {
   font-size: 22px;
@@ -320,9 +340,7 @@ button {
 }
 .fig1 b {
   display: block;
-  font:
-    900 28px/1.1 'Zen Maru Gothic',
-    sans-serif;
+  font: 700 28px/1.1 var(--f-title);
   white-space: nowrap;
 }
 .fig1 span {
@@ -410,11 +428,9 @@ button {
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font:
-    900 28px 'Zen Maru Gothic',
-    sans-serif;
+  font: 700 28px var(--f-title);
   background: var(--card);
-  color: var(--ac);
+  color: var(--ac-ink);
   border: 3px solid var(--ac);
   box-shadow: 0 5px 0 color-mix(in srgb, var(--ac) 35%, var(--line));
   transition: transform 0.15s;
@@ -424,7 +440,7 @@ button {
 }
 .stp.done .sk {
   background: var(--ac);
-  color: #fff;
+  color: var(--on-ac);
   box-shadow: 0 5px 0 color-mix(in srgb, var(--ac) 60%, #000);
 }
 .stp.lock {
@@ -457,12 +473,12 @@ button {
 .stp.test .sk {
   border-radius: 20px;
   border-color: var(--gold);
-  color: #b7861d;
+  color: var(--gold-ink);
 }
 .stp.test.done .sk {
   background: var(--gold);
-  color: #5a3d00;
-  box-shadow: 0 5px 0 #b7861d;
+  color: var(--sumi);
+  box-shadow: 0 5px 0 var(--gold);
 }
 .sl {
   font-size: 14px;
@@ -574,7 +590,7 @@ button {
 .b4,
 .b5,
 .b6 {
-  color: #fff;
+  color: var(--on-ac);
   border-color: transparent;
 }
 .b4 small,
@@ -627,7 +643,7 @@ button {
   font-weight: 700;
 }
 .wd .r {
-  color: var(--ac);
+  color: var(--ac-ink);
   font-weight: 600;
 }
 .wd .f {
@@ -692,7 +708,7 @@ button {
 }
 .combo {
   font-weight: 700;
-  color: var(--ac);
+  color: var(--ac-ink);
   white-space: nowrap;
   font-size: 15px;
 }
@@ -716,14 +732,10 @@ button {
   min-height: 90px;
 }
 .pk {
-  font:
-    900 clamp(96px, 22vw, 140px)/1 'Zen Maru Gothic',
-    sans-serif;
+  font: 700 clamp(96px, 22vw, 140px)/1 var(--f-title);
 }
 .pr {
-  font:
-    700 clamp(52px, 12vw, 72px)/1 Outfit,
-    sans-serif;
+  font: 700 clamp(52px, 12vw, 72px)/1 var(--f-ui);
   letter-spacing: 0.02em;
 }
 .ear {
@@ -732,7 +744,7 @@ button {
   border-radius: 50%;
   border: 0;
   background: var(--ac);
-  color: #fff;
+  color: var(--on-ac);
   display: grid;
   place-items: center;
   box-shadow: 0 6px 0 color-mix(in srgb, var(--ac) 60%, #000);
@@ -768,9 +780,7 @@ button {
   position: absolute;
   top: 8px;
   left: 10px;
-  font:
-    13px Outfit,
-    sans-serif;
+  font: 13px var(--f-ui);
   color: var(--mut);
 }
 .opt:not(:disabled):hover {
@@ -803,9 +813,7 @@ button {
   gap: 12px;
 }
 .tf input {
-  font:
-    600 26px Outfit,
-    sans-serif;
+  font: 600 26px var(--f-ui);
   text-align: center;
   padding: 14px;
   border-radius: 16px;
@@ -880,10 +888,8 @@ button {
   font-size: clamp(110px, 26vw, 170px);
 }
 .card .ro {
-  font:
-    700 34px Outfit,
-    sans-serif;
-  color: var(--ac);
+  font: 700 34px var(--f-ui);
+  color: var(--ac-ink);
 }
 .say {
   display: inline-flex;
@@ -952,7 +958,7 @@ button {
 .stamp {
   width: 140px;
   height: 140px;
-  color: var(--ac);
+  color: var(--ac-ink);
   transform: rotate(-8deg);
 }
 .stamp.off {
@@ -1078,9 +1084,7 @@ textarea {
   stroke-linejoin: round;
 }
 .model text {
-  font:
-    600 7.5px Outfit,
-    sans-serif;
+  font: 600 7.5px var(--f-ui);
   fill: var(--ac);
 }
 .model.anim path {
@@ -1176,24 +1180,24 @@ textarea {
   pointer-events: none;
 }
 .pad.dark {
-  background-color: #fffdf9;
-  color: #1d1b20;
-  border-color: #fffdf9;
+  background-color: var(--paper);
+  color: var(--sumi);
+  border-color: var(--paper);
   box-shadow:
     0 26px 50px -22px rgba(0, 0, 0, 0.9),
-    0 0 46px -12px rgba(255, 98, 73, 0.45);
+    0 0 46px -12px rgba(224, 112, 95, 0.45);
 }
 .pad.dark .model text {
-  fill: #e3402a;
+  fill: #c64b3c;
 }
 .pad.dark .model path {
-  stroke: #1d1b20;
+  stroke: #282824;
 }
 .pad.dark .model.okm path {
-  stroke: #1f7a4b;
+  stroke: #3f5241;
 }
 .pad.dark .model.badm path {
-  stroke: #e3402a;
+  stroke: #c64b3c;
 }
 .ptools {
   display: flex;
@@ -1243,27 +1247,25 @@ textarea {
 }
 .bcount {
   font-size: 14px;
-  color: #a8a2ab;
-  border: 1px solid #34303a;
+  color: var(--st-mut);
+  border: 1px solid var(--st-line);
   border-radius: 999px;
   padding: 4px 10px;
 }
 .bro {
-  font:
-    800 clamp(40px, 10vw, 56px)/1 Outfit,
-    sans-serif;
+  font: 800 clamp(40px, 10vw, 56px)/1 var(--f-ui);
   letter-spacing: 0.03em;
 }
 .bz .say {
-  border-color: #34303a;
-  color: #f2eee8;
+  border-color: var(--st-line);
+  color: var(--st-ink);
 }
 .bz .btn.gh {
-  color: #f2eee8;
-  border-color: #34303a;
+  color: var(--st-ink);
+  border-color: var(--st-line);
 }
 .bz .link {
-  color: #a8a2ab;
+  color: var(--st-mut);
 }
 .bfb {
   text-align: center;
@@ -1275,13 +1277,13 @@ textarea {
   font-size: 18px;
 }
 .bfb.ok b {
-  color: #5cc98a;
+  color: var(--st-ok);
 }
 .bfb.bad b {
-  color: #ff8a80;
+  color: var(--st-bad);
 }
 .bfb span {
-  color: #a8a2ab;
+  color: var(--st-mut);
   font-size: 15px;
 }
 .bscore {
@@ -1338,7 +1340,7 @@ textarea {
 }
 .aid .nx {
   fill: none;
-  stroke: #e3402a;
+  stroke: #c64b3c;
   opacity: 0.55;
   stroke-width: 5.5;
   stroke-linecap: round;
@@ -1348,17 +1350,15 @@ textarea {
   animation: kd 0.9s 0.15s ease-out forwards;
 }
 .aid circle {
-  fill: #e3402a;
+  fill: #c64b3c;
 }
 .aid text {
-  font:
-    700 5.6px Outfit,
-    sans-serif;
+  font: 700 5.6px var(--f-ui);
   fill: #fff;
   text-anchor: middle;
 }
 .model.hintm path {
-  stroke: color-mix(in srgb, #e3402a 45%, transparent);
+  stroke: color-mix(in srgb, #c64b3c 45%, transparent);
 }
 .hintb {
   border-color: color-mix(in srgb, var(--gold) 70%, transparent) !important;
@@ -1409,7 +1409,7 @@ textarea {
 }
 .chips button[aria-pressed='true'] {
   background: var(--ac);
-  color: #fff;
+  color: var(--on-ac);
   border-color: var(--ac);
 }
 .rset .btn {
@@ -1427,8 +1427,8 @@ textarea {
   position: fixed;
   inset: 0;
   z-index: 20;
-  background: #17151b;
-  color: #f2eee8;
+  background: var(--st-bg);
+  color: var(--st-ink);
   display: flex;
   flex-direction: column;
   height: 100dvh;
@@ -1453,14 +1453,14 @@ textarea {
   height: 20px;
 }
 .rz-top .x {
-  background: #24212a;
-  border-color: #34303a;
-  color: #f2eee8;
+  background: var(--st-card);
+  border-color: var(--st-line);
+  color: var(--st-ink);
 }
 .rz-tag {
   flex: 1;
   font-size: 14px;
-  color: #a8a2ab;
+  color: var(--st-mut);
 }
 .stage {
   flex: 1;
@@ -1478,23 +1478,23 @@ textarea {
   position: absolute;
   inset: 0;
   border-radius: 24px;
-  background: #fffdf9;
-  color: #1d1b20;
+  background: var(--paper);
+  color: var(--sumi);
 }
 .cd.b1 {
   transform: rotate(-3deg) translateY(7px);
-  background: #d8d0c9;
+  background: #e8dfd0;
 }
 .cd.b2 {
   transform: rotate(3.5deg) translateY(12px);
-  background: #b9afa6;
+  background: #cfc4b0;
 }
 .cd.front {
   display: grid;
   place-items: center;
   box-shadow:
     0 26px 50px -22px rgba(0, 0, 0, 0.9),
-    0 0 46px -12px rgba(255, 98, 73, 0.45);
+    0 0 46px -12px rgba(224, 112, 95, 0.45);
 }
 .cd.front.in {
   animation: cin 0.22s ease-out;
@@ -1508,13 +1508,11 @@ textarea {
 .cd.front.bad {
   animation: shake 0.3s;
   box-shadow:
-    0 0 0 4px #ff6249,
+    0 0 0 4px var(--st-ac),
     0 26px 50px -22px rgba(0, 0, 0, 0.9);
 }
 .ck {
-  font:
-    900 clamp(72px, min(24vw, 16vh), 124px)/1 'Zen Maru Gothic',
-    sans-serif;
+  font: 700 clamp(72px, min(24vw, 16vh), 124px)/1 var(--f-title);
   padding: 0 14px;
   text-align: center;
 }
@@ -1526,10 +1524,10 @@ textarea {
   font-style: normal;
 }
 .ck i.dn {
-  color: #1f7a4b;
+  color: var(--sage-ink);
 }
 .ck i.cur {
-  text-decoration: underline 5px #e3402a;
+  text-decoration: underline 5px var(--ac);
   text-underline-offset: 12px;
 }
 .reveal {
@@ -1538,10 +1536,8 @@ textarea {
   left: 0;
   right: 0;
   text-align: center;
-  font:
-    700 20px Outfit,
-    sans-serif;
-  color: #b3261e;
+  font: 700 20px var(--f-ui);
+  color: var(--bad);
 }
 .mean {
   position: absolute;
@@ -1550,13 +1546,13 @@ textarea {
   right: 0;
   text-align: center;
   font-size: 15px;
-  color: #6b6670;
+  color: var(--mut);
 }
 .hintline {
   text-align: center;
   min-height: 22px;
   font-size: 15px;
-  color: #a8a2ab;
+  color: var(--st-mut);
   margin: 0 16px 4px;
 }
 .rbar {
@@ -1571,21 +1567,17 @@ textarea {
 }
 .rbar .t {
   justify-self: end;
-  font:
-    500 24px Outfit,
-    sans-serif;
+  font: 500 24px var(--f-ui);
   font-variant-numeric: tabular-nums;
 }
 .rbar .c {
-  font:
-    500 24px Outfit,
-    sans-serif;
+  font: 500 24px var(--f-ui);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 .rbar .c small {
   font-size: 16px;
-  color: #a8a2ab;
+  color: var(--st-mut);
 }
 .typed {
   height: 58px;
@@ -1594,23 +1586,21 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  font:
-    600 26px Outfit,
-    sans-serif;
+  font: 600 26px var(--f-ui);
   letter-spacing: 0.08em;
-  color: #fff;
+  color: var(--on-ac);
 }
 .typed::after {
   content: '';
   width: 2px;
   height: 28px;
-  background: #ff6249;
+  background: var(--st-ac);
   margin-left: 3px;
   animation: blink 1s steps(1) infinite;
 }
 .typed.err {
   animation: shake 0.25s;
-  box-shadow: 0 0 0 2px #ff6249;
+  box-shadow: 0 0 0 2px var(--st-ac);
 }
 @keyframes blink {
   50% {
@@ -1627,32 +1617,28 @@ textarea {
 }
 .kb button {
   height: clamp(44px, 7.4vh, 62px);
-  border: 1px solid #34303a;
+  border: 1px solid var(--st-line);
   margin: 0 -1px -1px 0;
-  background: #24212a;
-  color: #f2eee8;
-  font:
-    600 21px Outfit,
-    sans-serif;
+  background: var(--st-card);
+  color: var(--st-ink);
+  font: 600 21px var(--f-ui);
   touch-action: manipulation;
   user-select: none;
   -webkit-user-select: none;
 }
 .kb button.fn {
-  background: #2f2b36;
-  color: #ff8f7f;
+  background: var(--st-raise);
+  color: var(--st-ac);
   font-size: 22px;
 }
 .kb button.hit,
 .kb button:active {
-  background: #e3402a;
-  color: #fff;
+  background: var(--ac);
+  color: var(--on-ac);
 }
 .big-n {
-  font:
-    900 clamp(60px, 13vw, 92px)/1 'Zen Maru Gothic',
-    sans-serif;
-  color: var(--ac);
+  font: 700 clamp(60px, 13vw, 92px)/1 var(--f-title);
+  color: var(--ac-ink);
   font-variant-numeric: tabular-nums;
 }
 .rfigs {
