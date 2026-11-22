@@ -14,5 +14,10 @@ export default [
     // Les fonctions passées à page.evaluate() s'exécutent dans le navigateur.
     languageOptions: { globals: { ...globals.node, ...globals.browser, __hanko: 'readonly' } },
   },
-  { rules: { 'no-unused-vars': ['error', { args: 'none', caughtErrors: 'none' }], 'no-empty': ['error', { allowEmptyCatch: true }] } },
+  {
+    rules: {
+      'no-unused-vars': ['error', { args: 'none', caughtErrors: 'none' }],
+      'no-empty': ['error', { allowEmptyCatch: true }],
+    },
+  },
 ];

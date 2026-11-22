@@ -22,7 +22,9 @@ test('premier lancement → première leçon → résultat → progression conse
 
   const st = await hanko.stored();
   expect(st.done).toEqual({ 'h-a': true });
-  expect(st.learned).toEqual(Object.fromEntries(['あ', 'い', 'う', 'え', 'お'].map(c => [c, { box: 1, due: T0 + 4 * HOUR }])));
+  expect(st.learned).toEqual(
+    Object.fromEntries(['あ', 'い', 'う', 'え', 'お'].map(c => [c, { box: 1, due: T0 + 4 * HOUR }])),
+  );
   expect(st).toMatchObject({ streak: 1, last: '2026-01-15', today: '2026-01-15', at: T0 });
   expect(st.xp).toBe(st.todayXp);
   expect(st.xp).toBeGreaterThan(10);
@@ -55,7 +57,10 @@ test('test d’unité réussi : tampon obtenu et score enregistré', async ({ ha
   const page = (await hanko.open({ state: REAL })).page;
   await hanko.run(H => {
     const u = H.UNITS[0];
-    for (const l of u.lessons) { H.S.done[l.id] = true; for (const c of l.items) H.S.learned[c] ||= { box: 2, due: Date.now() + 864e5 } }
+    for (const l of u.lessons) {
+      H.S.done[l.id] = true;
+      for (const c of l.items) H.S.learned[c] ||= { box: 2, due: Date.now() + 864e5 };
+    }
     H.saveLocal();
   });
   await page.reload();

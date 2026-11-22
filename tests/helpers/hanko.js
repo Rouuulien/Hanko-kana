@@ -8,7 +8,8 @@ import { dirname } from 'node:path';
 import { fauxSupabase, fauxClaude } from './faux-cloud.js';
 
 export const T0 = Date.UTC(2026, 0, 15, 9, 0, 0); // jeudi 15 janvier 2026, 10 h à Paris
-export const HOUR = 36e5, DAY = 864e5;
+export const HOUR = 36e5,
+  DAY = 864e5;
 
 const seedRandom = seed => {
   let a = seed >>> 0;
@@ -23,7 +24,10 @@ const seedRandom = seed => {
 
 export const test = base.extend({
   hanko: async ({ page }, use) => {
-    await page.route(/^https:\/\/(fonts\.googleapis\.com|fonts\.gstatic\.com|cdn\.jsdelivr\.net|[^/]*\.supabase\.co)\//, r => r.abort());
+    await page.route(
+      /^https:\/\/(fonts\.googleapis\.com|fonts\.gstatic\.com|cdn\.jsdelivr\.net|[^/]*\.supabase\.co)\//,
+      r => r.abort(),
+    );
     const h = {
       page,
       /** Ouvre le jeu. `state` : objet écrit dans localStorage avant le chargement (ou chaîne brute).
@@ -34,14 +38,22 @@ export const test = base.extend({
         if (claude) await page.addInitScript(fauxClaude, claude);
         await page.addInitScript(seedRandom, seed);
         if (state !== undefined) {
-          await page.addInitScript(([k, v]) => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem(k, v); sessionStorage.setItem('seeded', '1') } },
-            ['hanko-kana-v1', typeof state === 'string' ? state : JSON.stringify(state)]);
+          await page.addInitScript(
+            ([k, v]) => {
+              if (!sessionStorage.getItem('seeded')) {
+                localStorage.setItem(k, v);
+                sessionStorage.setItem('seeded', '1');
+              }
+            },
+            ['hanko-kana-v1', typeof state === 'string' ? state : JSON.stringify(state)],
+          );
         }
         await page.goto(path || (hook ? '/?hook' : '/'));
         if (hook) await page.waitForFunction(() => !!globalThis.__hanko);
         return h;
       },
-      run: (fn, arg) => page.evaluate(([src, a]) => (0, eval)('(' + src + ')')(globalThis.__hanko, a), [fn.toString(), arg]),
+      run: (fn, arg) =>
+        page.evaluate(([src, a]) => (0, eval)('(' + src + ')')(globalThis.__hanko, a), [fn.toString(), arg]),
       fake: () => page.evaluate(() => window.__fake),
       stored: () => page.evaluate(() => JSON.parse(localStorage.getItem('hanko-kana-v1'))),
     };
@@ -61,6 +73,10 @@ export function expectGolden(name, value) {
     return;
   }
   let ref;
-  try { ref = readFileSync(file, 'utf8') } catch { throw new Error(`Référence absente : lance « npm run golden » pour créer tests/golden/${name}.json`) }
+  try {
+    ref = readFileSync(file, 'utf8');
+  } catch {
+    throw new Error(`Référence absente : lance « npm run golden » pour créer tests/golden/${name}.json`);
+  }
   expect(JSON.parse(json), `écart avec la référence ${name}.json`).toEqual(JSON.parse(ref));
 }

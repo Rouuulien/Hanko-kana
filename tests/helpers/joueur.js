@@ -24,7 +24,10 @@ export async function dessiner(hanko, padSel, c, { reverse = false } = {}) {
 /** Répond à la question en cours du quiz (juste ou faux), puis passe à la suivante. Renvoie le type de question. */
 export async function repondre(hanko, { juste = true } = {}) {
   const page = hanko.page;
-  const Q = await hanko.run(H => { const Q = H.ses.queue[H.ses.i]; return { c: Q.c, type: Q.type, o: Q.o, r: H.ITEMS[Q.c].r } });
+  const Q = await hanko.run(H => {
+    const Q = H.ses.queue[H.ses.i];
+    return { c: Q.c, type: Q.type, o: Q.o, r: H.ITEMS[Q.c].r };
+  });
   if (Q.type === 'type') {
     await page.locator('#ti').fill(juste ? Q.r : 'zzz');
     await page.locator('#ti').press('Enter');
