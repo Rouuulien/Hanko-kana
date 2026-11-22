@@ -1,0 +1,11 @@
+# Tests
+
+`npm ci && npx playwright install chromium`, puis `npm test`. Aucun outil n'est nécessaire pour faire tourner le jeu lui-même : `package.json` ne sert qu'aux tests.
+
+- `server.mjs` : serveur statique de test (port 8123). Avec `?hook` dans l'URL, il ajoute à la volée une ligne qui expose l'état interne du jeu sous `window.__hanko`. Le code de production n'est pas modifié.
+- `helpers/hook.mjs` : la liste de ce qui est exposé. C'est le seul point de contact entre les tests et le code : lors du découpage en modules, seul ce fichier change.
+- `helpers/hanko.js` : ouverture du jeu dans un état contrôlé (horloge figée au 15/01/2026, `Math.random` à graine fixe, appels externes bloqués, sauvegarde injectée dans `localStorage`).
+- `logique/` : tests de caractérisation de la logique critique (sauvegarde et anciens formats, fusion local/en ligne, révisions espacées, déblocage, romaji, reconnaissance du tracé).
+- `golden/` : références enregistrées sur le code d'origine (lectures des 208 kana, des mots, résultats de la reconnaissance sur ~900 tracés de synthèse). `npm run golden` les régénère : à faire uniquement quand un changement de comportement est voulu, et à justifier dans la PR.
+
+Les comportements surprenants sont figés tels quels et signalés dans les tests (`BUG CONNU`, `LIMITE CONNUE`, `test.fail`) : la refonte ne doit rien changer, les corrections viendront après.
