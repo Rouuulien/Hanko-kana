@@ -79,3 +79,28 @@ test('Pinceau : une ancienne sauvegarde sans réglage du nombre de kana lance 10
   await page.locator('[data-act="bstart"]').click();
   expect(await hanko.run(H => H.bs.q.length)).toBe(10);
 });
+
+test('Rafale, mots avec petit っ : on tape la consonne doublée (さっき → sakki), sans erreur ni plantage', async ({
+  hanko,
+}) => {
+  const errors = [];
+  hanko.page.on('pageerror', e => errors.push(e.message));
+  const page = (await hanko.open({ state: { ...REAL, rct: 'words' } })).page;
+  // Aucun mot de la liste n'a de petit っ : on en ajoute deux, lisibles avec les kana de la vraie sauvegarde.
+  await hanko.run(H => {
+    for (const [j, f] of [
+      ['さっき', 'tout à l’heure'],
+      ['いっこ', 'un objet'],
+    ])
+      H.WORDS.push({ j, f, t: H.toks(j), r: H.romaji(j), s: 'h' });
+  });
+  await page.locator('[data-act="page"][data-id="rush"]').click();
+  await page.locator('[data-act="rstart"]').click();
+  const deck = await hanko.run(H => H.rs.q.map(u => u.j));
+  expect(deck).toEqual(expect.arrayContaining(['さっき', 'いっこ']));
+  for (let i = 0; i < 200 && (await hanko.run(H => H.view)) === 'rush'; i++) {
+    await page.keyboard.type(await hanko.run(H => H.rs.q[H.rs.u].t[H.rs.k].r));
+  }
+  await expect(page.locator('.rfigs .fig1 b').nth(2)).toHaveText('0'); // aucune erreur
+  expect(errors).toEqual([]);
+});

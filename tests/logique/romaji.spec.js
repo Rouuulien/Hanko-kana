@@ -50,8 +50,8 @@ test('transcription des mots : combinaisons, voyelle longue ー, particule を',
     ラーメン: ['raamen', ['ラ', 'メ', 'ン']],
     しゃしん: ['shashin', ['しゃ', 'し', 'ん']],
     ほんをよむ: ['hon o yomu', ['ほ', 'ん', 'を', 'よ', 'む']],
-    // LIMITE CONNUE : le petit っ/ッ n'est pas géré. Aucun mot de la liste n'en contient aujourd'hui.
-    リュック: ['ryuッku', ['リュ', 'ッ', 'ク']],
+    // Corrigé : le petit っ/ッ double la consonne suivante (avant : « ryuッku »).
+    リュック: ['ryukku', ['リュ', 'ク']],
   });
 });
 

@@ -1,6 +1,7 @@
 /* ---------- mode Rafale : paquet de cartes à taper au clavier, en paquet complet ou contre la montre ---------- */
 import { allDone } from '../core/progress.js';
 import { canRead } from '../core/reading.js';
+import { typingTokens } from '../core/romaji.js';
 import { S } from '../core/state.js';
 import { ITEMS } from '../data/kana.js';
 import { WORDS } from '../data/words.js';
@@ -13,25 +14,8 @@ import { muteBtn, sfx } from '../ui/sounds.js';
 import { top } from '../ui/views.js';
 import { pick, shuffle } from '../util.js';
 const unitK = c => ({ j: c, t: [{ c, r: ITEMS[c].r, al: ITEMS[c].al }] });
-function unitW(w) {
-  const ch = [...w.j],
-    t = [];
-  for (let i = 0; i < ch.length;) {
-    const two = ch[i] + (ch[i + 1] || '');
-    if (ITEMS[two]) {
-      t.push({ c: two, r: ITEMS[two].r, al: ITEMS[two].al });
-      i += 2;
-      continue;
-    }
-    const c = ch[i];
-    if (c === 'ー') {
-      const v = ((t[t.length - 1] || { r: '' }).r.match(/[aiueo]$/) || ['-'])[0];
-      t.push({ c, r: v, al: ['-'] });
-    } else t.push({ c, r: ITEMS[c].r, al: ITEMS[c].al });
-    i++;
-  }
-  return { j: w.j, f: w.f, t };
-}
+/** Un mot de la Rafale : ses kana à taper un par un (découpage dans src/core/romaji.js). */
+const unitW = w => ({ j: w.j, f: w.f, t: typingTokens(w.j) });
 function rushPool(sc, ct) {
   if (ct === 'words') return WORDS.filter(w => canRead(w) && (sc === 'b' || w.s === sc)).map(unitW);
   return Object.keys(S.learned)
