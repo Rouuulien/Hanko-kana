@@ -1,7 +1,7 @@
 import { test, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { fauxStockage, fixture, T0 } from './_outils.js';
-import { KEY, fresh, S, replaceState, loadLocal, saveLocal } from '../../src/core/state.js';
+import { KEY, fresh, S, replaceState, readSave, loadLocal, saveLocal } from '../../src/core/state.js';
 
 beforeEach(() => replaceState(fresh()));
 
@@ -80,4 +80,30 @@ test('saveLocal écrit l’état courant', () => {
   replaceState({ ...fresh(), xp: 3, at: T0 });
   saveLocal();
   assert.deepEqual(JSON.parse(m.get(KEY)), { ...fresh(), xp: 3, at: T0 });
+});
+
+test('readSave : refuse ce qui n’est pas une sauvegarde, répare les champs objets sans rien perdre', () => {
+  for (const v of [null, undefined, 42, 'x', [], {}, { xp: 5 }, { learned: 'x' }])
+    assert.equal(readSave(v), null, JSON.stringify(v));
+  assert.deepEqual(readSave({ learned: null, xp: 7, futur: 1 }), { learned: {}, xp: 7, futur: 1 });
+  assert.deepEqual(readSave({ learned: [], done: null, tests: [3], best: 'x', xp: 1 }), {
+    learned: {},
+    done: {},
+    tests: {},
+    best: {},
+    xp: 1,
+  });
+  const ok = { learned: { あ: { box: 2, due: 1 } }, done: { 'h-a': true }, tests: { h1: 80 }, best: {}, xp: 9 };
+  assert.deepEqual(readSave(ok), ok, 'une sauvegarde saine est rendue telle quelle');
+  assert.notEqual(readSave(ok), ok, 'sans modifier l’objet reçu');
+  assert.ok(!('done' in readSave({ learned: {} })), 'un champ absent reste absent (valeur par défaut au chargement)');
+});
+
+test('chargement d’une sauvegarde abîmée : réparée, le reste de la progression est gardé', () => {
+  fauxStockage({ [KEY]: JSON.stringify({ learned: null, done: { 'h-a': true }, xp: 120 }) });
+  replaceState(fresh());
+  loadLocal();
+  assert.deepEqual(S.learned, {});
+  assert.deepEqual(S.done, { 'h-a': true });
+  assert.equal(S.xp, 120);
 });

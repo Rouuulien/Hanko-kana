@@ -127,13 +127,35 @@ test('save() horodate et écrit dans localStorage', async ({ hanko }) => {
   expect(st.xp).toBe(5);
 });
 
-// BUG CONNU (non corrigé pendant la refonte, comportement figé) : `typeof null === 'object'`,
-// donc {"learned":null} passe le contrôle de chargement et l'appli plante au premier affichage.
-// Même faille dans l'import du code de secours et dans cloudPull(). test.fail : ce test passe tant que le bug existe.
-test.fail('BUG CONNU : {"learned":null} fait planter le premier affichage', async ({ hanko }) => {
+// Corrigé : `typeof null === 'object'` laissait passer {"learned":null}, et l'appli plantait au premier affichage
+// (page blanche). La sauvegarde est maintenant réparée sans rien perdre : champ objet invalide → {}, le reste gardé.
+test('{"learned":null} : plus de plantage, le reste de la progression est gardé', async ({ hanko }) => {
   const errors = [];
   hanko.page.on('pageerror', e => errors.push(e.message));
   await hanko.open({ state: '{"learned":null}', hook: false });
-  await hanko.page.waitForTimeout(300);
+  await expect(hanko.page.locator('.hero h1')).toHaveText('Voyelles');
   expect(errors).toEqual([]);
 });
+
+for (const [label, raw] of [
+  ['learned à null', { learned: null, xp: 120, done: { 'h-a': true }, streak: 3 }],
+  ['learned en tableau', { learned: [], xp: 120, done: { 'h-a': true }, streak: 3 }],
+  [
+    'done, tests et best à null',
+    { learned: { あ: { box: 2, due: 0 } }, xp: 120, done: null, tests: null, best: null, streak: 3 },
+  ],
+]) {
+  test(`sauvegarde abîmée (${label}) : réparée, XP et série conservées, accueil affiché`, async ({ hanko }) => {
+    const errors = [];
+    hanko.page.on('pageerror', e => errors.push(e.message));
+    await hanko.open({ state: raw });
+    const S = await hanko.run(H => H.S);
+    expect(S).toMatchObject({ xp: 120, streak: 3 });
+    for (const k of ['learned', 'done', 'tests', 'best'])
+      expect(typeof S[k] === 'object' && S[k] !== null && !Array.isArray(S[k]), k).toBe(true);
+    if (raw.done) expect(S.done).toEqual({ 'h-a': true });
+    if (raw.learned && !Array.isArray(raw.learned)) expect(S.learned).toEqual(raw.learned);
+    await expect(hanko.page.locator('.figs .fig1 b').last()).toHaveText('120');
+    expect(errors).toEqual([]);
+  });
+}

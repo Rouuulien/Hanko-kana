@@ -1,6 +1,6 @@
 /* ---------- événements : un seul écouteur de clics délégué (data-act), formulaires, clavier ---------- */
 import { grade } from '../core/srs.js';
-import { S, fresh, replaceState } from '../core/state.js';
+import { S, fresh, replaceState, readSave } from '../core/state.js';
 import { LES } from '../data/kana.js';
 import { judgeDraw } from '../draw/recognize.js';
 import { modelSVG } from '../draw/svg.js';
@@ -343,8 +343,8 @@ app.addEventListener('submit', e => {
   if (e.target.id === 'imp') {
     const m = document.getElementById('impm');
     try {
-      const v = JSON.parse(document.getElementById('impt').value);
-      if (!v || typeof v.learned !== 'object') throw 0;
+      const v = readSave(JSON.parse(document.getElementById('impt').value));
+      if (!v) throw 0;
       replaceState(Object.assign(fresh(), v));
       ui.homeTip = null;
       save();

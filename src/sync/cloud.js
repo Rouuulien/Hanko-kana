@@ -3,7 +3,7 @@
    À la connexion et au retour sur l'onglet, cloudPull() fusionne la version en ligne avec la locale (merge) sans rien perdre.
    Deux services : compte Claude (window.claude, version claude.ai) ou Supabase (connexion e-mail).
    Le module ne connaît pas l'interface : elle lui est branchée par bindUI() (afficher, écran courant, changer d'écran). */
-import { S, fresh, replaceState, saveLocal } from '../core/state.js';
+import { S, fresh, replaceState, readSave, saveLocal } from '../core/state.js';
 import { merge } from '../core/merge.js';
 const ui = { render() {}, view: () => 'home', go() {}, resetTip() {} };
 /** Branche l'interface : { render, view: () => écran courant, go: écran => void, resetTip }. */
@@ -72,8 +72,9 @@ async function cloudPull() {
     return;
   }
   if (api !== cloud.api) return;
-  if (rem && typeof rem.learned === 'object') {
-    const m = merge(S, rem),
+  const lu = readSave(rem);
+  if (lu) {
+    const m = merge(S, lu),
       same = JSON.stringify(m) === JSON.stringify(rem);
     replaceState(m);
     saveLocal();
