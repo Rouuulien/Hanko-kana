@@ -7,7 +7,10 @@ import { build, PUBLISHED } from '../../scripts/build.mjs';
 import { REAL } from './_commun.js';
 
 const ROOT = new URL('../../', import.meta.url).pathname;
-test.skip(({ browserName }) => browserName !== 'chromium', 'Service worker et mode hors ligne fiables sous Chromium uniquement dans Playwright');
+test.skip(
+  ({ browserName }) => browserName !== 'chromium',
+  'Service worker et mode hors ligne fiables sous Chromium uniquement dans Playwright',
+);
 
 /** Copie des sources publiées dans `dir`, éventuellement modifiées, puis construction de `dir/dist`. */
 function site(dir, edit = () => {}) {
@@ -19,7 +22,10 @@ function site(dir, edit = () => {}) {
 /** Sert le site construit dans `dir` sous /maj/<clé>/ (une clé par test). */
 const serve = (request, key, dir) => request.get(`/__maj?key=${key}&dir=` + encodeURIComponent(join(dir, 'dist')));
 async function installe(page) {
-  await page.evaluate(async () => { await navigator.serviceWorker.register('sw.js'); await navigator.serviceWorker.ready });
+  await page.evaluate(async () => {
+    await navigator.serviceWorker.register('sw.js');
+    await navigator.serviceWorker.ready;
+  });
   await page.reload();
   await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller)).toBe(true);
 }
@@ -28,7 +34,12 @@ const versionActive = page => page.evaluate(async () => (await caches.keys()).jo
 test('après une visite, le jeu fonctionne sans réseau', async ({ hanko, context, request }, info) => {
   const A = site(info.outputPath('a'));
   await serve(request, 'horsligne', info.outputPath('a'));
-  await hanko.page.addInitScript(s => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('hanko-kana-v1', s); sessionStorage.setItem('seeded', '1') } }, JSON.stringify(REAL));
+  await hanko.page.addInitScript(s => {
+    if (!sessionStorage.getItem('seeded')) {
+      localStorage.setItem('hanko-kana-v1', s);
+      sessionStorage.setItem('seeded', '1');
+    }
+  }, JSON.stringify(REAL));
   const page = hanko.page;
   await page.goto('/maj/horsligne/');
   await installe(page);
@@ -44,14 +55,21 @@ test('après une visite, le jeu fonctionne sans réseau', async ({ hanko, contex
   await context.setOffline(false);
 });
 
-test('mise à jour : la nouvelle page n’est jamais servie avec d’anciens modules, puis fonctionne hors ligne', async ({ hanko, context, request }, info) => {
+test('mise à jour : la nouvelle page n’est jamais servie avec d’anciens modules, puis fonctionne hors ligne', async ({
+  hanko,
+  context,
+  request,
+}, info) => {
   const errors = [];
   const page = hanko.page;
   page.on('pageerror', e => errors.push(e.message));
   const A = site(info.outputPath('a'));
   // Version B : un module gagne un export que le point d'entrée utilise. Un ancien util.js en cache casserait la page.
   const B = site(info.outputPath('b'), dir => {
-    writeFileSync(join(dir, 'src/util.js'), readFileSync(join(dir, 'src/util.js'), 'utf8') + "export const VERSION='B';\n");
+    writeFileSync(
+      join(dir, 'src/util.js'),
+      readFileSync(join(dir, 'src/util.js'), 'utf8') + "export const VERSION='B';\n",
+    );
     const m = join(dir, 'src/main.js');
     writeFileSync(m, readFileSync(m, 'utf8') + "import{VERSION}from'./util.js';document.title='Hanko '+VERSION;\n");
   });

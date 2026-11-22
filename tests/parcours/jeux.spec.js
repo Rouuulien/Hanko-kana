@@ -31,7 +31,9 @@ test('Rafale : une faute est comptée, il faut retaper la bonne lecture', async 
 
 // BUG CONNU (figé) : l'option « Tous » vaut 0 et le code lit `S.bn||10` : elle lance donc 10 kana, pas tous.
 // La vraie sauvegarde a précisément bn = 0.
-test('Pinceau : réglage « Tous » → 10 kana dessinés (bug connu), un tracé dans le mauvais ordre refusé', async ({ hanko }) => {
+test('Pinceau : réglage « Tous » → 10 kana dessinés (bug connu), un tracé dans le mauvais ordre refusé', async ({
+  hanko,
+}) => {
   test.setTimeout(90000);
   const page = (await hanko.open({ state: REAL })).page;
   await page.locator('[data-act="page"][data-id="brush"]').click();

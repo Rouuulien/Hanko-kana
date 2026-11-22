@@ -4,10 +4,14 @@
 const ui = {
   view: 'home', // écran courant : home, cards, quiz, res, set, rush, rushres, brush, brushres
   ses: null, // leçon, quiz, test ou révision en cours
-  armed: false, armedDel: false, // confirmations en attente : effacer la progression, supprimer le compte
-  lastView: '', homeTip: null, // dernier écran affiché (remise en haut de page), message de Daru sur l'accueil
-  aidAnim: false, PAD: null, // aide animée au prochain affichage, zone de dessin montée
-  bs: null, rs: null, // partie de Pinceau, partie de Rafale
+  armed: false,
+  armedDel: false, // confirmations en attente : effacer la progression, supprimer le compte
+  lastView: '',
+  homeTip: null, // dernier écran affiché (remise en haut de page), message de Daru sur l'accueil
+  aidAnim: false,
+  PAD: null, // aide animée au prochain affichage, zone de dessin montée
+  bs: null,
+  rs: null, // partie de Pinceau, partie de Rafale
 };
 
 export { ui };

@@ -3,8 +3,28 @@
 import { test, expect, T0 } from '../helpers/hanko.js';
 
 const FRESH = {
-  learned: {}, done: {}, tests: {}, xp: 0, streak: 0, last: '', today: '', todayXp: 0, unlock: false, ear: true,
-  tab: 'h', page: 'path', rsc: 'h', rct: 'kana', rdu: 60, rfmt: 'deck', best: {}, snd: true, draw: true, bsc: 'h', bn: 10, bl: 2,
+  learned: {},
+  done: {},
+  tests: {},
+  xp: 0,
+  streak: 0,
+  last: '',
+  today: '',
+  todayXp: 0,
+  unlock: false,
+  ear: true,
+  tab: 'h',
+  page: 'path',
+  rsc: 'h',
+  rct: 'kana',
+  rdu: 60,
+  rfmt: 'deck',
+  best: {},
+  snd: true,
+  draw: true,
+  bsc: 'h',
+  bn: 10,
+  bl: 2,
 };
 
 test('la clé de stockage ne change jamais', async ({ hanko }) => {
@@ -24,15 +44,45 @@ test('premier lancement : état neuf, rien n’est écrit tant que le joueur n�
 });
 
 test('une sauvegarde complète est relue à l’identique', async ({ hanko }) => {
-  const save = { ...FRESH, learned: { あ: { box: 3, due: T0 + 1000 } }, done: { 'h-a': true }, tests: { h1: 85 }, xp: 120, streak: 4,
-    last: '2026-01-15', today: '2026-01-15', todayXp: 12, best: { 'deck-h-kana': { ms: 41000, n: 5, acc: 100 } }, at: T0 - 5000 };
+  const save = {
+    ...FRESH,
+    learned: { あ: { box: 3, due: T0 + 1000 } },
+    done: { 'h-a': true },
+    tests: { h1: 85 },
+    xp: 120,
+    streak: 4,
+    last: '2026-01-15',
+    today: '2026-01-15',
+    todayXp: 12,
+    best: { 'deck-h-kana': { ms: 41000, n: 5, acc: 100 } },
+    at: T0 - 5000,
+  };
   await hanko.open({ state: save });
   expect(await hanko.run(H => H.S)).toEqual(save);
 });
 
 // Formats successifs de l'état, reconstitués depuis l'historique git de fresh().
-const GEN1 = { learned: { か: { box: 2, due: T0 } }, done: { 'h-a': true, 'h-ka': true }, tests: {}, xp: 40, streak: 2, last: '2026-01-14', today: '2026-01-14',
-  todayXp: 8, unlock: false, ear: false, tab: 'k', page: 'sheet', rsc: 'b', rct: 'words', rdu: 30, rfmt: 'time', best: { 'time-b-words-30': { kpm: 22, acc: 90 } }, snd: false, at: T0 - 9e7 };
+const GEN1 = {
+  learned: { か: { box: 2, due: T0 } },
+  done: { 'h-a': true, 'h-ka': true },
+  tests: {},
+  xp: 40,
+  streak: 2,
+  last: '2026-01-14',
+  today: '2026-01-14',
+  todayXp: 8,
+  unlock: false,
+  ear: false,
+  tab: 'k',
+  page: 'sheet',
+  rsc: 'b',
+  rct: 'words',
+  rdu: 30,
+  rfmt: 'time',
+  best: { 'time-b-words-30': { kpm: 22, acc: 90 } },
+  snd: false,
+  at: T0 - 9e7,
+};
 const GEN2 = { ...GEN1, draw: false, bsc: 'k', bn: 20 };
 
 test('ancien format n°1 (avant le dessin) : champs manquants complétés, rien d’écrasé', async ({ hanko }) => {
@@ -53,7 +103,13 @@ test('champs inconnus (sauvegarde d’une version plus récente) : conservés', 
   expect(S.xp).toBe(3);
 });
 
-for (const [label, raw] of [['JSON corrompu', '{"learned":'], ['objet sans learned', '{"xp":50}'], ['null', 'null'], ['nombre', '42'], ['learned non objet', '{"learned":"x","xp":9}']]) {
+for (const [label, raw] of [
+  ['JSON corrompu', '{"learned":'],
+  ['objet sans learned', '{"xp":50}'],
+  ['null', 'null'],
+  ['nombre', '42'],
+  ['learned non objet', '{"learned":"x","xp":9}'],
+]) {
   test(`sauvegarde illisible (${label}) : état neuf, sans plantage`, async ({ hanko }) => {
     const errors = [];
     hanko.page.on('pageerror', e => errors.push(e.message));

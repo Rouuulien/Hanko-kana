@@ -7,7 +7,30 @@ beforeEach(() => replaceState(fresh()));
 
 test('clé de stockage et valeurs par défaut figées', () => {
   assert.equal(KEY, 'hanko-kana-v1');
-  assert.deepEqual(Object.keys(fresh()), ['learned', 'done', 'tests', 'xp', 'streak', 'last', 'today', 'todayXp', 'unlock', 'ear', 'tab', 'page', 'rsc', 'rct', 'rdu', 'rfmt', 'best', 'snd', 'draw', 'bsc', 'bn', 'bl']);
+  assert.deepEqual(Object.keys(fresh()), [
+    'learned',
+    'done',
+    'tests',
+    'xp',
+    'streak',
+    'last',
+    'today',
+    'todayXp',
+    'unlock',
+    'ear',
+    'tab',
+    'page',
+    'rsc',
+    'rct',
+    'rdu',
+    'rfmt',
+    'best',
+    'snd',
+    'draw',
+    'bsc',
+    'bn',
+    'bl',
+  ]);
   assert.notEqual(fresh().learned, fresh().learned, 'chaque état neuf a ses propres objets');
 });
 
@@ -21,7 +44,11 @@ test('replaceState remplace le contenu sans changer d’objet', () => {
 });
 
 test('chargement : vraie sauvegarde et anciens formats, sans perte', () => {
-  for (const [nom, ajout] of [['vraie-sauvegarde', {}], ['ancien-format-1', { draw: true, bsc: 'h', bn: 10, bl: 2 }], ['ancien-format-2', { bl: 2 }]]) {
+  for (const [nom, ajout] of [
+    ['vraie-sauvegarde', {}],
+    ['ancien-format-1', { draw: true, bsc: 'h', bn: 10, bl: 2 }],
+    ['ancien-format-2', { bl: 2 }],
+  ]) {
     const f = fixture(nom);
     fauxStockage({ [KEY]: JSON.stringify(f) });
     replaceState(fresh());
@@ -42,7 +69,10 @@ test('chargement : sauvegarde absente ou illisible → état neuf', () => {
 
 test('chargement sans localStorage (navigation privée stricte) : pas d’exception', () => {
   delete globalThis.localStorage;
-  assert.doesNotThrow(() => { loadLocal(); saveLocal() });
+  assert.doesNotThrow(() => {
+    loadLocal();
+    saveLocal();
+  });
 });
 
 test('saveLocal écrit l’état courant', () => {

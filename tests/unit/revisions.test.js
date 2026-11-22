@@ -6,7 +6,10 @@ import { IV, grade, dueList, nextDue } from '../../src/core/srs.js';
 import { ld, streak, unlocked, nextLesson, allDone, testOpen } from '../../src/core/progress.js';
 import { LES, UNITS } from '../../src/data/kana.js';
 
-beforeEach(() => { horloge(); replaceState(fresh()) });
+beforeEach(() => {
+  horloge();
+  replaceState(fresh());
+});
 afterEach(() => mock.timers.reset());
 
 test('boîtes de Leitner : +1 si juste (plafond 6), retour en 1 si faux', () => {
@@ -21,11 +24,19 @@ test('boîtes de Leitner : +1 si juste (plafond 6), retour en 1 si faux', () => 
 
 test('vraie sauvegarde : kana dus dans le temps, du plus urgent au moins urgent', () => {
   replaceState({ ...fresh(), ...fixture('vraie-sauvegarde') });
-  for (const [h, n] of [[0, 0], [3, 4], [18, 12], [52, 15]]) {
+  for (const [h, n] of [
+    [0, 0],
+    [3, 4],
+    [18, 12],
+    [52, 15],
+  ]) {
     horloge(T0 + h * HOUR);
     const d = dueList();
     assert.equal(d.length, n, `${h} h`);
-    assert.deepEqual(d, [...d].sort((a, b) => S.learned[a].due - S.learned[b].due));
+    assert.deepEqual(
+      d,
+      [...d].sort((a, b) => S.learned[a].due - S.learned[b].due),
+    );
   }
   horloge(T0);
   assert.equal(nextDue(), 'Prochaine révision dans 1 h.');

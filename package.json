@@ -13,10 +13,16 @@
     "test:logique": "playwright test --project=logique",
     "golden": "UPDATE_GOLDEN=1 playwright test --project=logique",
     "build": "node scripts/build.mjs",
-    "build:claude": "node scripts/build-claude.mjs"
+    "build:claude": "node scripts/build-claude.mjs",
+    "lint": "eslint . && prettier --check \"src/**/*.js\" sw.js styles.css \"scripts/**/*.mjs\" \"tests/**/*.{js,mjs}\" \"*.config.js\"",
+    "format": "prettier --write \"src/**/*.js\" sw.js styles.css \"scripts/**/*.mjs\" \"tests/**/*.{js,mjs}\" \"*.config.js\""
   },
   "devDependencies": {
+    "@eslint/js": "10.0.1",
     "@playwright/test": "1.65.1",
-    "esbuild": "0.28.2"
+    "esbuild": "0.28.2",
+    "eslint": "10.15.0",
+    "globals": "17.14.0",
+    "prettier": "3.10.1"
   }
 }

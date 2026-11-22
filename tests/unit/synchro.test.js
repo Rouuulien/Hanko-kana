@@ -16,17 +16,38 @@ const flush = () => new Promise(r => setImmediate(r));
 function service(remote = null, { failGet, failPut, delay } = {}) {
   const f = { remote, puts: [], pending: [] };
   f.api = {
-    get: async () => { if (failGet) throw new Error('réseau'); return f.remote && JSON.parse(JSON.stringify(f.remote)) },
+    get: async () => {
+      if (failGet) throw new Error('réseau');
+      return f.remote && JSON.parse(JSON.stringify(f.remote));
+    },
     put: st => {
       f.puts.push(JSON.parse(JSON.stringify(st)));
       if (failPut) return Promise.reject(failPut);
-      if (!delay) { f.remote = JSON.parse(JSON.stringify(st)); return Promise.resolve() }
-      return new Promise(ok => f.pending.push(() => { f.remote = JSON.parse(JSON.stringify(st)); ok() }));
+      if (!delay) {
+        f.remote = JSON.parse(JSON.stringify(st));
+        return Promise.resolve();
+      }
+      return new Promise(ok =>
+        f.pending.push(() => {
+          f.remote = JSON.parse(JSON.stringify(st));
+          ok();
+        }),
+      );
     },
   };
   return f;
 }
-const brancher = f => Object.assign(cloud, { api: f.api, ready: true, busy: false, dirty: false, st: 'sync', mode: 'sb', email: 'joueur@example.test', last: 0 });
+const brancher = f =>
+  Object.assign(cloud, {
+    api: f.api,
+    ready: true,
+    busy: false,
+    dirty: false,
+    st: 'sync',
+    mode: 'sb',
+    email: 'joueur@example.test',
+    last: 0,
+  });
 
 beforeEach(() => {
   mock.timers.enable({ apis: ['setTimeout', 'Date'], now: T0 });
@@ -38,39 +59,61 @@ beforeEach(() => {
 afterEach(() => mock.timers.reset());
 
 test('save() écrit tout de suite en local, puis envoie en ligne 1,2 s après la dernière sauvegarde', async () => {
-  const f = service(); brancher(f);
-  S.xp = 1; save();
+  const f = service();
+  brancher(f);
+  S.xp = 1;
+  save();
   assert.equal(JSON.parse(stock.get(KEY)).at, T0);
-  mock.timers.tick(1000); S.xp = 2; save();
-  mock.timers.tick(1000); await flush();
+  mock.timers.tick(1000);
+  S.xp = 2;
+  save();
+  mock.timers.tick(1000);
+  await flush();
   assert.equal(f.puts.length, 0, 'pas encore : le délai repart à chaque sauvegarde');
-  mock.timers.tick(200); await flush();
+  mock.timers.tick(200);
+  await flush();
   assert.equal(f.puts.length, 1);
   assert.equal(f.puts[0].xp, 2);
   assert.equal(cloud.st, 'ok');
 });
 
 test('sauvegarde pendant un envoi en cours : un seul envoi supplémentaire, avec le dernier état', async () => {
-  const f = service(null, { delay: true }); brancher(f);
-  S.xp = 1; const p = cloudPush();
-  S.xp = 2; cloudPush(); S.xp = 3; cloudPush();
+  const f = service(null, { delay: true });
+  brancher(f);
+  S.xp = 1;
+  const p = cloudPush();
+  S.xp = 2;
+  cloudPush();
+  S.xp = 3;
+  cloudPush();
   assert.equal(f.puts.length, 1);
-  f.pending.shift()(); await p; await flush();
+  f.pending.shift()();
+  await p;
+  await flush();
   assert.equal(f.puts.length, 2);
   assert.equal(f.puts[1].xp, 3);
-  f.pending.shift()(); await flush();
+  f.pending.shift()();
+  await flush();
   assert.equal(cloud.st, 'ok');
 });
 
 test('pas d’envoi tant que la première réception n’a pas eu lieu (sinon on écraserait la version en ligne)', async () => {
-  const f = service(REAL); brancher(f); cloud.ready = false;
-  S.xp = 1; save(); mock.timers.tick(5000); await flush();
+  const f = service(REAL);
+  brancher(f);
+  cloud.ready = false;
+  S.xp = 1;
+  save();
+  mock.timers.tick(5000);
+  await flush();
   assert.equal(f.puts.length, 0);
 });
 
 test('réception : vraie sauvegarde en ligne sur un appareil vierge → récupérée et gardée en local', async () => {
-  const f = service(REAL); brancher(f); cloud.ready = false;
-  await cloudPull(); await flush();
+  const f = service(REAL);
+  brancher(f);
+  cloud.ready = false;
+  await cloudPull();
+  await flush();
   assert.equal(S.xp, 500);
   assert.equal(Object.keys(S.learned).length, 15);
   assert.equal(JSON.parse(stock.get(KEY)).xp, 500);
@@ -79,9 +122,18 @@ test('réception : vraie sauvegarde en ligne sur un appareil vierge → récupé
 });
 
 test('réception : progression locale plus riche → fusion, puis renvoi en ligne', async () => {
-  replaceState({ ...fresh(), ...REAL, at: REAL.at + HOUR, xp: 510, learned: { ...REAL.learned, た: { box: 1, due: T0 } } });
-  const f = service(REAL); brancher(f); cloud.ready = false;
-  await cloudPull(); await flush();
+  replaceState({
+    ...fresh(),
+    ...REAL,
+    at: REAL.at + HOUR,
+    xp: 510,
+    learned: { ...REAL.learned, た: { box: 1, due: T0 } },
+  });
+  const f = service(REAL);
+  brancher(f);
+  cloud.ready = false;
+  await cloudPull();
+  await flush();
   assert.equal(f.puts.length, 1);
   assert.equal(f.remote.xp, 510);
   assert.ok(f.remote.learned.た);
@@ -89,12 +141,18 @@ test('réception : progression locale plus riche → fusion, puis renvoi en lign
 
 test('réception : rien en ligne → la progression locale est envoyée ; appareil vierge → rien à envoyer', async () => {
   replaceState({ ...fresh(), xp: 5, learned: { あ: { box: 1, due: 0 } } });
-  let f = service(null); brancher(f); cloud.ready = false;
-  await cloudPull(); await flush();
+  let f = service(null);
+  brancher(f);
+  cloud.ready = false;
+  await cloudPull();
+  await flush();
   assert.equal(f.puts.length, 1);
   replaceState(fresh());
-  f = service(null); brancher(f); cloud.ready = false;
-  await cloudPull(); await flush();
+  f = service(null);
+  brancher(f);
+  cloud.ready = false;
+  await cloudPull();
+  await flush();
   assert.equal(f.puts.length, 0);
   assert.equal(cloud.st, 'ok');
 });

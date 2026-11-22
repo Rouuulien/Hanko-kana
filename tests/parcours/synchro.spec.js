@@ -16,7 +16,13 @@ test.describe('Supabase', () => {
   });
 
   test('progression hors ligne plus récente : fusionnée et renvoyée en ligne', async ({ hanko }) => {
-    const local = { ...REAL, at: REAL.at + HOUR, xp: 510, learned: { ...REAL.learned, た: { box: 1, due: T0 } }, done: { ...REAL.done, 'h-ta': true } };
+    const local = {
+      ...REAL,
+      at: REAL.at + HOUR,
+      xp: 510,
+      learned: { ...REAL.learned, た: { box: 1, due: T0 } },
+      done: { ...REAL.done, 'h-ta': true },
+    };
     const remote = { ...REAL, learned: { ...REAL.learned, あ: { box: 5, due: T0 + 99 * HOUR } }, tests: { h1: 70 } };
     await hanko.open({ state: local, supabase: { session: SESSION, remote } });
     await synced(hanko);

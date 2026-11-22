@@ -4,8 +4,15 @@ import { readFileSync } from 'node:fs';
 import { test, expect, T0, HOUR } from '../helpers/hanko.js';
 
 const load = f => JSON.parse(readFileSync(new URL(`../fixtures/${f}.json`, import.meta.url), 'utf8'));
-const REAL = load('vraie-sauvegarde'), OLD1 = load('ancien-format-1'), OLD2 = load('ancien-format-2');
-const sortKeys = o => JSON.parse(JSON.stringify(o, (k, v) => v && typeof v === 'object' && !Array.isArray(v) ? Object.fromEntries(Object.entries(v).sort()) : v));
+const REAL = load('vraie-sauvegarde'),
+  OLD1 = load('ancien-format-1'),
+  OLD2 = load('ancien-format-2');
+const sortKeys = o =>
+  JSON.parse(
+    JSON.stringify(o, (k, v) =>
+      v && typeof v === 'object' && !Array.isArray(v) ? Object.fromEntries(Object.entries(v).sort()) : v,
+    ),
+  );
 
 test('la vraie sauvegarde est relue à l’identique', async ({ hanko }) => {
   await hanko.open({ state: REAL });
@@ -21,7 +28,11 @@ test('accueil sur la vraie sauvegarde : chiffres affichés', async ({ hanko }) =
   await expect(hanko.page.locator('.hero h1')).toHaveText('Ligne T'); // leçon suivante : h-ta
 });
 
-for (const [h, n, first] of [[3, 4, 'お'], [18, 12, 'お'], [52, 15, 'お']]) {
+for (const [h, n, first] of [
+  [3, 4, 'お'],
+  [18, 12, 'お'],
+  [52, 15, 'お'],
+]) {
   test(`révisions dues ${h} h plus tard : ${n} kana`, async ({ hanko }) => {
     await hanko.open({ state: REAL, now: T0 + h * HOUR });
     const due = await hanko.run(H => H.dueList());
@@ -46,7 +57,9 @@ test('ancien format n°2 : relu sans perte, ancienne clé de record Pinceau cons
 });
 
 test.describe('fusion avec la vraie sauvegarde', () => {
-  test.beforeEach(async ({ hanko }) => { await hanko.open() });
+  test.beforeEach(async ({ hanko }) => {
+    await hanko.open();
+  });
   const merge = (hanko, a, b) => hanko.run((H, [a, b]) => H.merge(a, b), [a, b]);
 
   test('nouvel appareil, première connexion : on récupère tout', async ({ hanko }) => {
@@ -55,9 +68,17 @@ test.describe('fusion avec la vraie sauvegarde', () => {
     expect(sortKeys(r)).toEqual(sortKeys(REAL));
   });
 
-  test('appareil hors ligne avec une progression plus ancienne mais différente : union sans perte', async ({ hanko }) => {
-    const offline = { ...OLD1, at: REAL.at - 2 * HOUR, xp: 520,
-      learned: { ...OLD1.learned, あ: { box: 5, due: T0 + 100 * HOUR }, た: { box: 1, due: T0 } }, done: { ...OLD1.done, 'h-ta': true }, tests: { h1: 60 } };
+  test('appareil hors ligne avec une progression plus ancienne mais différente : union sans perte', async ({
+    hanko,
+  }) => {
+    const offline = {
+      ...OLD1,
+      at: REAL.at - 2 * HOUR,
+      xp: 520,
+      learned: { ...OLD1.learned, あ: { box: 5, due: T0 + 100 * HOUR }, た: { box: 1, due: T0 } },
+      done: { ...OLD1.done, 'h-ta': true },
+      tests: { h1: 60 },
+    };
     const r = await merge(hanko, offline, REAL);
     expect(Object.keys(r.learned).sort()).toEqual([...Object.keys(REAL.learned), 'た'].sort());
     expect(r.learned.あ.box).toBe(5);
@@ -68,7 +89,9 @@ test.describe('fusion avec la vraie sauvegarde', () => {
     expect(r.at).toBe(REAL.at);
   });
 
-  test('autre appareil resté sur l’ancien format, plus récent : records et réglages récents préservés', async ({ hanko }) => {
+  test('autre appareil resté sur l’ancien format, plus récent : records et réglages récents préservés', async ({
+    hanko,
+  }) => {
     const remote = { ...OLD2, at: REAL.at + HOUR };
     const r = await merge(hanko, REAL, remote);
     expect(r.best).toEqual({ ...REAL.best, 'brush-h-10': OLD2.best['brush-h-10'] });
@@ -84,7 +107,9 @@ test('code de secours : export puis import sur un autre appareil', async ({ hank
   expect(sortKeys(JSON.parse(code))).toEqual(sortKeys(REAL));
 
   await hanko.page.evaluate(() => localStorage.clear());
-  await hanko.run(H => { H.S = H.fresh() });
+  await hanko.run(H => {
+    H.S = H.fresh();
+  });
   await hanko.page.locator('#impt').fill(code);
   await hanko.page.locator('#imp button').click();
   await expect(hanko.page.locator('#impm')).toHaveText('Progression importée.');
