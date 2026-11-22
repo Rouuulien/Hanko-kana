@@ -14,8 +14,9 @@
     "golden": "UPDATE_GOLDEN=1 playwright test --project=logique",
     "build": "node scripts/build.mjs",
     "build:claude": "node scripts/build-claude.mjs",
-    "lint": "eslint . && prettier --check \"src/**/*.js\" sw.js styles.css \"scripts/**/*.mjs\" \"tests/**/*.{js,mjs}\" \"*.config.js\"",
-    "format": "prettier --write \"src/**/*.js\" sw.js styles.css \"scripts/**/*.mjs\" \"tests/**/*.{js,mjs}\" \"*.config.js\""
+    "lint": "eslint . && tsc -p jsconfig.json && prettier --check \"src/**/*.js\" sw.js styles.css \"scripts/**/*.mjs\" \"tests/**/*.{js,mjs}\" \"*.config.js\" \"types/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.js\" sw.js styles.css \"scripts/**/*.mjs\" \"tests/**/*.{js,mjs}\" \"*.config.js\" \"types/**/*.ts\"",
+    "typecheck": "tsc -p jsconfig.json"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
@@ -23,6 +24,7 @@
     "esbuild": "0.28.2",
     "eslint": "10.15.0",
     "globals": "17.14.0",
-    "prettier": "3.10.1"
+    "prettier": "3.10.1",
+    "typescript": "7.0.2"
   }
 }

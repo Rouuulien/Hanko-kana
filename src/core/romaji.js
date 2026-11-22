@@ -1,5 +1,7 @@
+// @ts-check
 import { ITEMS } from '../data/kana.js';
 /* mots : découpage en kana, romaji */
+/** Découpe un mot en kana (combinaisons comprises, ー ignoré). @param {string} w @returns {string[]} */
 function toks(w) {
   const ch = [...w],
     o = [];
@@ -15,6 +17,7 @@ function toks(w) {
   }
   return o;
 }
+/** Transcription en romaji (ー répète la voyelle, を se lit « o »). @param {string} w @returns {string} */
 function romaji(w) {
   const ch = [...w];
   let o = '';
