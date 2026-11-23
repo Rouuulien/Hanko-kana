@@ -297,14 +297,14 @@ function resV() {
   <h1>${title}</h1><p class="lead">${sub}</p>
   ${miss.length ? `<h2 style="margin-top:14px">À retravailler</h2><div class="mrow">${miss.map(c => `<button class="mk" data-act="say" data-t="${c}"><span lang="ja">${c}</span><small>${ITEMS[c].r}</small></button>`).join('')}</div>` : ''}
   ${mascot(ui.ses.pass ? 'happy' : 'oops', talk, 70)}
-  <div class="acts">${nl ? `<button class="btn ac" data-act="lesson" data-id="${nl.id}">Leçon suivante</button>` : ''}${k === 'test' && !ui.ses.pass ? `<button class="btn ac" data-act="test" data-id="${ui.ses.id}">Retenter</button>` : ''}<button class="btn gh" data-act="home">Retour au parcours</button></div></div></section>`
+  <div class="acts">${nl ? `<button class="btn ac" data-act="lesson" data-id="${nl.id}">Leçon suivante</button>` : ''}${k === 'test' && !ui.ses.pass ? `<button class="btn ac" data-act="test" data-id="${ui.ses.id}">Retenter</button>` : ''}<button class="btn gh" data-act="home">Retour</button></div></div></section>`
   );
 }
 
 function setV() {
   return (
     top() +
-    `<section class="band"><div class="wrap narrow set"><button class="back" data-act="home">← Parcours</button><h1>Réglages</h1>
+    `<section class="band"><div class="wrap narrow set"><button class="back" data-act="home">← Retour</button><h1>Réglages</h1>
   <label class="tg"><input type="checkbox" data-act="tog" data-k="unlock" ${S.unlock ? 'checked' : ''}><span>Tout débloquer<small>Accède à n’importe quelle leçon, sans suivre l’ordre.</small></span></label>
   <label class="tg"><input type="checkbox" data-act="tog" data-k="ear" ${S.ear !== false ? 'checked' : ''} ${tts ? '' : 'disabled'}><span>Exercices d’écoute<small>${tts ? 'Utilise la voix japonaise de ton appareil.' : 'Aucune voix japonaise trouvée sur cet appareil.'}</small></span></label>
   <label class="tg"><input type="checkbox" data-act="tog" data-k="draw" ${S.draw !== false ? 'checked' : ''}><span>Exercices de dessin<small>Ajoute des « dessine ce kana » dans les leçons et les révisions.</small></span></label>

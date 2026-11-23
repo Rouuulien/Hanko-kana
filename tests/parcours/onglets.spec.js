@@ -119,3 +119,10 @@ test('accueil d’un parcours terminé', async ({ hanko }) => {
   await expect(page.locator('[data-act="lesson"]')).toHaveCount(0);
   await expect(page.locator('[data-act="practice"]')).toBeVisible();
 });
+
+test('le retour des Réglages ne promet pas le Parcours quand il ramène ailleurs', async ({ hanko }) => {
+  const page = (await hanko.open({ state: REAL })).page;
+  await ouvrir(page, 'words');
+  await page.locator('header [data-act="settings"]').click();
+  await expect(page.locator('.set [data-act="home"]')).toHaveText('← Retour');
+});
