@@ -120,7 +120,7 @@ function settle(ok, extra) {
     ui.ses.best = Math.max(ui.ses.best, ui.ses.combo);
   } else ui.ses.combo = 0;
   let msg = ok ? pick(['Bien vu !', 'Exact !', 'Parfait.', 'Oui, c’est ça !', 'Sugoi !']) : 'Pas tout à fait.';
-  if (ok && ui.ses.combo >= 3 && ui.ses.combo % 3 === 0) msg = `Série de ${ui.ses.combo} ! Daru est fier.`;
+  if (ok && ui.ses.combo >= 3 && ui.ses.combo % 3 === 0) msg = `Série de ${ui.ses.combo} ! Koï est fière.`;
   let tip = '';
   if (!ok) {
     const h = K2H(Q.c);

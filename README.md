@@ -3,7 +3,7 @@
 [![Déploiement](https://github.com/Rouuulien/Hanko-kana/actions/workflows/deploy.yml/badge.svg)](https://github.com/Rouuulien/Hanko-kana/actions/workflows/deploy.yml)
 [![Tests](https://github.com/Rouuulien/Hanko-kana/actions/workflows/test.yml/badge.svg)](https://github.com/Rouuulien/Hanko-kana/actions/workflows/test.yml)
 
-Jeu web pour apprendre les hiragana et katakana, avec Daru le daruma comme guide. Application installable (PWA), jouable hors ligne, avec sauvegarde synchronisée entre appareils.
+Jeu web pour apprendre les hiragana et katakana, avec Koï, la carpe koï, comme guide. Application installable (PWA), jouable hors ligne, avec sauvegarde synchronisée entre appareils.
 
 **Jouer : https://rouuulien.github.io/Hanko-kana/**
 
@@ -185,4 +185,4 @@ Le plan gratuit de Supabase met en pause un projet sans activité pendant 7 jour
 
 ## Crédits
 
-Les formes et l'ordre des traits des kana proviennent de [KanjiVG](https://kanjivg.tagaini.net) © Ulrich Apel, sous licence CC BY-SA 3.0. Le fichier dérivé `data/kana-strokes.json` est distribué sous la même licence (voir `data/`). Polices Noto Sans JP, Zen Old Mincho et Klee One sous licence SIL Open Font License 1.1 (voir `fonts/`). Daru est une mascotte originale.
+Les formes et l'ordre des traits des kana proviennent de [KanjiVG](https://kanjivg.tagaini.net) © Ulrich Apel, sous licence CC BY-SA 3.0. Le fichier dérivé `data/kana-strokes.json` est distribué sous la même licence (voir `data/`). Polices Noto Sans JP, Zen Old Mincho et Klee One sous licence SIL Open Font License 1.1 (voir `fonts/`). Koï est une mascotte originale.

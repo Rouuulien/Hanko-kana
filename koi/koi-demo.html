@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Koï — démo CSS</title>
+<style>
+/* ============ THEME (variables) ============ */
+:root {
+  --bg: #F7F5EF;          /* Washi */
+  --ink: #282824;         /* Sumi : contour */
+  --patch: #C64B3C;       /* taches : Vermillion */
+  --body: #E8DFD0;        /* Sand */
+  --fin: #F7F5EF;         /* Washi */
+  --sage: #9BAE9A;
+  --gold: #B69A63;
+  --vermillion: #C64B3C;
+  --ui: #282824;
+}
+[data-theme="dark"] {
+  --bg: #1E1E1B;
+  --ink: #F7F5EF;        /* contour inversé sur fond sombre */
+  --fin: #E8DFD0;
+  --ui: #F7F5EF;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ui); font: 15px/1.4 system-ui, sans-serif; transition: background .3s; }
+main { max-width: 760px; margin: 0 auto; padding: 24px 16px 48px; }
+h1 { font-weight: 500; font-size: 18px; letter-spacing: .04em; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+button { font: inherit; color: var(--ui); background: transparent; border: 1px solid var(--ui); border-radius: 999px; padding: 6px 14px; cursor: pointer; opacity: .75; }
+button[aria-pressed="true"] { opacity: 1; background: var(--ui); color: var(--bg); }
+.stage { position: relative; overflow: hidden; height: 340px; display: grid; place-items: center; border: 1px solid color-mix(in srgb, var(--ui) 20%, transparent); border-radius: 16px; }
+.thumbs { display: flex; align-items: center; gap: 16px; margin-top: 16px; font-size: 13px; opacity: .8; }
+
+/* ============ KOÏ : couleurs ============ */
+.koi { width: 300px; height: auto; display: block; overflow: visible; }
+.koi .line  { stroke: var(--ink); stroke-width: 6; stroke-linejoin: round; stroke-linecap: round; fill: none; }
+.koi .thin  { stroke: var(--sage); stroke-width: 4; stroke-linecap: round; fill: none; }
+.koi .f-body  { fill: var(--body); }
+.koi .f-fin   { fill: var(--fin); }
+.koi .f-patch { fill: var(--patch); }
+.koi .f-accent{ fill: var(--vermillion); }
+.koi .brush { fill: var(--ink); stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; }
+
+/* tous les groupes animables pivotent en coordonnées du viewBox */
+.koi g { transform-box: view-box; }
+.koi .root   { transform-origin: 540px 520px; }
+.koi .tail   { transform-origin: 845px 228px; }
+.koi .dorsal { transform-origin: 520px 480px; }
+.koi .pec    { transform-origin: 590px 670px; }
+.koi .farpec { transform-origin: 872px 395px; }
+
+/* yeux : un seul visible selon l'état */
+.koi .eye-happy, .koi .eye-sleep, .koi .zz, .koi .sparkles, .koi .ripple { display: none; }
+
+/* ============ ÉTATS ============ */
+/* resting : calme, ondulation lente */
+[data-state="resting"] .root   { animation: bob 5s ease-in-out infinite; }
+[data-state="resting"] .tail   { animation: wag 4s ease-in-out infinite; --a: 4deg; }
+[data-state="resting"] .pec    { animation: wag 5s ease-in-out infinite reverse; --a: 3deg; }
+
+/* swimming : traverse l'écran, queue rapide */
+[data-state="swimming"] .koi   { animation: across 7s linear infinite; }
+[data-state="swimming"] .root  { animation: sway 1.6s ease-in-out infinite; }
+[data-state="swimming"] .tail  { animation: wag .8s ease-in-out infinite; --a: 12deg; }
+[data-state="swimming"] .pec   { animation: wag .8s ease-in-out infinite; --a: 8deg; }
+[data-state="swimming"] .dorsal{ animation: wag 1.6s ease-in-out infinite; --a: 3deg; }
+
+/* greeting : salue de la nageoire */
+[data-state="greeting"] .root   { animation: nod 2.4s ease-in-out infinite; }
+[data-state="greeting"] .farpec { animation: wave .7s ease-in-out infinite; }
+[data-state="greeting"] .tail   { animation: wag 1.6s ease-in-out infinite; --a: 6deg; }
+
+/* happy : petit saut discret, œil souriant */
+[data-state="happy"] .koi    { animation: hop 1.8s ease-out infinite; }
+[data-state="happy"] .tail   { animation: wag .6s ease-in-out infinite; --a: 10deg; }
+[data-state="happy"] .eye-open  { display: none; }
+[data-state="happy"] .eye-happy { display: inline; }
+
+/* encouraging : ondulation douce + cercle d'eau, sans déception */
+[data-state="encouraging"] .root   { animation: nod 3.2s ease-in-out infinite; }
+[data-state="encouraging"] .tail   { animation: wag 2.4s ease-in-out infinite; --a: 5deg; }
+[data-state="encouraging"] .ripple { display: inline; animation: ripple 3s ease-out infinite; transform-origin: 560px 740px; transform-box: view-box; }
+
+/* sleeping : œil fermé, respiration, z */
+[data-state="sleeping"] .root    { animation: breathe 5s ease-in-out infinite; }
+[data-state="sleeping"] .eye-open  { display: none; }
+[data-state="sleeping"] .eye-sleep { display: inline; }
+[data-state="sleeping"] .tail    { animation: wag 7s ease-in-out infinite; --a: 2deg; }
+[data-state="sleeping"] .zz      { display: inline; }
+[data-state="sleeping"] .zz text { animation: float 3.2s ease-in infinite; opacity: 0; }
+[data-state="sleeping"] .zz text:nth-child(2) { animation-delay: 1.1s; }
+[data-state="sleeping"] .zz text:nth-child(3) { animation-delay: 2.2s; }
+
+/* celebrating : saut + rotation + étincelles dorées */
+[data-state="celebrating"] .koi     { animation: leap 1.6s ease-in-out infinite; }
+[data-state="celebrating"] .tail    { animation: wag .5s ease-in-out infinite; --a: 14deg; }
+[data-state="celebrating"] .eye-open  { display: none; }
+[data-state="celebrating"] .eye-happy { display: inline; }
+[data-state="celebrating"] .sparkles { display: inline; }
+[data-state="celebrating"] .sparkles circle { animation: pulse 1.6s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+[data-state="celebrating"] .sparkles circle:nth-child(2) { animation-delay: .3s; }
+[data-state="celebrating"] .sparkles circle:nth-child(3) { animation-delay: .6s; }
+[data-state="celebrating"] .sparkles circle:nth-child(4) { animation-delay: .9s; }
+
+@keyframes wag    { 0%,100% { transform: rotate(calc(var(--a, 8deg) * -1)); } 50% { transform: rotate(var(--a, 8deg)); } }
+@keyframes bob    { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes sway   { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+@keyframes nod    { 0%,100% { transform: rotate(0) translateY(0); } 50% { transform: rotate(-4deg) translateY(-6px); } }
+@keyframes wave   { 0%,100% { transform: rotate(0); } 50% { transform: rotate(-28deg); } }
+@keyframes across { from { transform: translateX(70%) scaleX(1); } to { transform: translateX(-70%) scaleX(1); } }
+@keyframes hop    { 0%,55%,100% { transform: translateY(0); } 25% { transform: translateY(-24px); } }
+@keyframes breathe{ 0%,100% { transform: scale(1); } 50% { transform: scale(1.015) translateY(3px); } }
+@keyframes leap   { 0% { transform: translateY(0) rotate(0); } 40% { transform: translateY(-50px) rotate(-12deg); } 70% { transform: translateY(-20px) rotate(8deg); } 100% { transform: translateY(0) rotate(0); } }
+@keyframes ripple { 0% { transform: scale(.4); opacity: .8; } 100% { transform: scale(1.6); opacity: 0; } }
+@keyframes float  { 0% { transform: translate(0,0); opacity: 0; } 20% { opacity: .8; } 100% { transform: translate(40px,-60px); opacity: 0; } }
+@keyframes pulse  { 0% { transform: scale(0); opacity: 1; } 100% { transform: scale(2.2); opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) { .koi, .koi * { animation: none !important; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Koï — démo des états</h1>
+
+  <div class="controls" id="states"></div>
+  <div class="controls"><button id="theme" aria-pressed="false">Thème sombre</button></div>
+
+  <div class="stage" id="stage"></div>
+  <div class="thumbs"><span>48 px :</span><div id="thumb" style="width:48px"></div><span>dans le jeu, API : <code>koi.dataset.state = 'happy'</code></span></div>
+</main>
+
+<!-- clip-path partagé (défini une seule fois) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <clipPath id="bodyClip">
+      <path d="M250 585 C300 520 420 480 540 470 C680 458 790 400 805 295 C810 262 815 240 818 222 L872 222 C900 330 885 450 795 560 C705 665 520 705 380 683 C300 670 240 640 250 585 Z"/>
+    </clipPath>
+  </defs>
+</svg>
+
+<template id="koi-tpl">
+<svg class="koi" viewBox="0 0 1200 900" role="img" aria-label="Koï" data-state="resting">
+  <g class="root">
+    <g class="tail">
+      <path class="f-fin" d="M815 232 C760 200 722 135 730 55 C785 108 836 118 858 158 C876 100 930 50 998 22 C1006 102 966 178 875 232 Z"/>
+      <path class="line" d="M818 228 C760 196 722 135 730 55 C785 108 836 118 858 158 C876 100 930 50 998 22 C1006 102 966 178 872 228"/>
+      <path class="thin" d="M834 216 C786 190 756 142 752 96 M842 208 C806 176 782 140 778 104 M850 200 C826 168 810 140 806 118"/>
+      <path class="thin" d="M868 196 C896 150 940 98 984 52 M874 206 C914 168 956 112 986 70 M862 188 C880 152 904 118 930 88"/>
+    </g>
+    <g class="dorsal">
+      <path class="f-fin" d="M430 495 C438 430 500 392 575 404 C562 430 568 452 615 468 Z"/>
+      <path class="line" d="M430 495 C438 430 500 392 575 404 C562 430 568 452 615 468"/>
+      <path class="thin" d="M470 462 C482 432 515 415 548 410"/>
+    </g>
+    <g class="farpec">
+      <path class="f-fin" d="M868 395 C925 470 990 458 1012 412 C962 414 920 405 885 365 Z"/>
+      <path class="line" d="M868 395 C925 470 990 458 1012 412 C962 414 920 405 885 365"/>
+      <path class="thin" d="M915 425 C945 435 975 432 993 420"/>
+    </g>
+    <g class="pec">
+      <path class="f-fin" d="M540 665 C515 740 590 795 685 772 C730 760 748 724 716 698 C676 716 626 700 610 660 Z"/>
+      <path class="line" d="M540 665 C515 740 590 795 685 772 C730 760 748 724 716 698 C676 716 626 700 610 660"/>
+      <path class="thin" d="M600 705 C625 735 660 748 695 744"/>
+    </g>
+
+    <g class="body">
+      <path class="f-body" d="M250 585 C300 520 420 480 540 470 C680 458 790 400 805 295 C810 262 815 240 818 222 L872 222 C900 330 885 450 795 560 C705 665 520 705 380 683 C300 670 240 640 250 585 Z"/>
+      <g clip-path="url(#bodyClip)">
+        <path class="f-patch" d="M440 522 C450 490 500 482 535 497 C560 508 575 482 600 492 C625 507 610 542 570 550 C540 557 520 577 490 572 C455 567 436 546 440 522 Z"/>
+        <path class="f-patch" d="M650 542 C660 507 700 492 740 497 C780 502 800 482 822 470 C842 502 832 547 792 567 C752 587 702 592 667 577 C652 567 646 554 650 542 Z"/>
+        <path class="f-patch" d="M835 282 C860 264 886 292 883 332 C879 362 850 367 838 342 Z"/>
+        <path class="f-accent" d="M300 560 C305 535 340 525 366 536 C376 556 346 576 318 576 Z"/>
+      </g>
+      <path class="line" d="M872 222 C900 330 885 450 795 560 C705 665 520 705 380 683 C300 670 240 640 250 585 C300 520 420 480 540 470 C680 458 790 400 805 295 C810 262 815 240 818 222"/>
+    </g>
+
+    <g class="face">
+      <path class="line" d="M250 585 C225 580 212 560 218 540"/>
+      <path class="line" d="M262 628 C240 642 240 670 262 692"/>
+      <path class="line" d="M432 560 C458 590 458 630 436 662"/>
+      <g class="eye-open">
+        <path class="brush" d="M318 614 C338 582 374 582 396 608 C374 598 340 598 318 614 Z"/>
+      </g>
+      <path class="line eye-happy" d="M326 612 C342 594 366 594 380 612"/>
+      <path class="line eye-sleep" d="M326 604 C342 620 366 620 380 604"/>
+    </g>
+  </g>
+
+  <g class="zz" fill="var(--ink)" font-family="system-ui, sans-serif" font-size="46">
+    <text x="300" y="500">z</text><text x="300" y="500">z</text><text x="300" y="500">z</text>
+  </g>
+  <g class="sparkles" fill="var(--gold)">
+    <circle cx="250" cy="420" r="9"/><circle cx="960" cy="300" r="9"/><circle cx="1010" cy="560" r="8"/><circle cx="380" cy="300" r="8"/>
+  </g>
+  <ellipse class="ripple" cx="560" cy="740" rx="260" ry="40" fill="none" stroke="var(--sage)" stroke-width="5"/>
+</svg>
+</template>
+
+<script>
+const STATES = {
+  resting: 'Repos', swimming: 'Nage', greeting: 'Salut', happy: 'Content',
+  encouraging: 'Courage', sleeping: 'Sommeil', celebrating: 'Fête'
+};
+const tpl = document.getElementById('koi-tpl');
+const big = tpl.content.firstElementChild.cloneNode(true);
+const small = tpl.content.firstElementChild.cloneNode(true);
+document.getElementById('stage').append(big);
+const thumb = document.getElementById('thumb'); thumb.append(small); small.style.width = '48px';
+
+const bar = document.getElementById('states');
+function setState(s) {
+  big.dataset.state = s; small.dataset.state = s;
+  bar.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.s === s));
+}
+for (const [k, label] of Object.entries(STATES)) {
+  const b = document.createElement('button'); b.textContent = label; b.dataset.s = k;
+  b.onclick = () => setState(k); bar.append(b);
+}
+setState('resting');
+
+const themeBtn = document.getElementById('theme');
+themeBtn.onclick = () => {
+  const dark = document.documentElement.dataset.theme !== 'dark';
+  document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+  themeBtn.setAttribute('aria-pressed', dark);
+  themeBtn.textContent = dark ? 'Thème clair' : 'Thème sombre';
+};
+</script>
+</body>
+</html>

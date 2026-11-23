@@ -1,4 +1,4 @@
-/* VOICE: friendly dojo coach — Daru the daruma talks, short and warm, in French
+/* VOICE: friendly dojo coach — Koï the koi carp talks, short and warm, in French
    IDEA: an eki stamp-rally trail: each lesson is a hanko to press
    COLOUR and TYPE: Japanese lifestyle, calm and minimal: Washi paper, Sumi ink, Vermilion only as an accent,
    Sage for progress, Sand surfaces, matte Gold for rewards; Noto Sans JP for the interface, Zen Old Mincho for titles,
@@ -58,6 +58,12 @@
   --sh: 0 18px 40px -26px rgba(40, 40, 36, 0.35);
   /* Sumi fixe : texte sur l'or mat et la sauge pleine, dans les deux thèmes */
   --sumi: #282824;
+  /* Koï (src/ui/koi.js) : couleurs de dessin, pas de texte */
+  --koi-line: light-dark(#282824, #f7f5ef);
+  --koi-body: #e8dfd0;
+  --koi-fin: light-dark(#f7f5ef, #e8dfd0);
+  --koi-patch: #c64b3c;
+  --koi-face: #282824; /* visage posé sur le corps Sable : Sumi dans les deux thèmes */
   /* Polices (fonts/README.md) */
   --f-ui: 'Noto Sans JP', system-ui, sans-serif;
   --f-title: 'Zen Old Mincho', 'Hiragino Mincho ProN', serif;
@@ -342,16 +348,313 @@ button {
   align-items: flex-end;
   gap: 12px;
 }
-.daru {
+.koi-w {
+  display: inline-block;
   flex: none;
+  line-height: 0;
+}
+/* Koï : dessin (src/ui/koi.js) et états (data-state), repris de koi/koi-demo.html */
+.koi {
+  display: block;
   overflow: visible;
 }
-.daru.bob {
-  animation: bob 3s ease-in-out infinite;
+.koi .line {
+  stroke: var(--koi-line);
+  stroke-width: 6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  fill: none;
 }
-@keyframes bob {
+.koi .thin {
+  stroke: var(--sage);
+  stroke-width: 4;
+  stroke-linecap: round;
+  fill: none;
+}
+.koi .f-body {
+  fill: var(--koi-body);
+}
+.koi .f-fin {
+  fill: var(--koi-fin);
+}
+.koi .f-patch {
+  fill: var(--koi-patch);
+}
+.koi .gill,
+.koi .eye-happy,
+.koi .eye-sleep {
+  stroke: var(--koi-face);
+}
+.koi .brush {
+  fill: var(--koi-face);
+  stroke: var(--koi-face);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+.koi .zz {
+  fill: var(--koi-line);
+}
+.koi .sparkles {
+  fill: var(--gold);
+}
+.koi .ripple {
+  fill: none;
+  stroke: var(--sage);
+  stroke-width: 5;
+}
+.koi g {
+  transform-box: view-box;
+}
+.koi .root {
+  transform-origin: 540px 520px;
+}
+.koi .tail {
+  transform-origin: 845px 228px;
+}
+.koi .dorsal {
+  transform-origin: 520px 480px;
+}
+.koi .pec {
+  transform-origin: 590px 670px;
+}
+.koi .farpec {
+  transform-origin: 872px 395px;
+}
+.koi .eye-happy,
+.koi .eye-sleep,
+.koi .zz,
+.koi .sparkles,
+.koi .ripple {
+  display: none;
+}
+/* repos : ondulation lente */
+.koi[data-state='resting'] .root {
+  animation: koi-bob 5s ease-in-out infinite;
+}
+.koi[data-state='resting'] .tail {
+  animation: koi-wag 4s ease-in-out infinite;
+  --a: 4deg;
+}
+.koi[data-state='resting'] .pec {
+  animation: koi-wag 5s ease-in-out infinite reverse;
+  --a: 3deg;
+}
+/* nage : le corps ondule ; le déplacement est porté par l'enveloppant .koi-w */
+.koi[data-state='swimming'] .root {
+  animation: koi-sway 1.6s ease-in-out infinite;
+}
+.koi[data-state='swimming'] .tail {
+  animation: koi-wag 0.8s ease-in-out infinite;
+  --a: 12deg;
+}
+.koi[data-state='swimming'] .pec {
+  animation: koi-wag 0.8s ease-in-out infinite;
+  --a: 8deg;
+}
+.koi[data-state='swimming'] .dorsal {
+  animation: koi-wag 1.6s ease-in-out infinite;
+  --a: 3deg;
+}
+/* salut de la nageoire */
+.koi[data-state='greeting'] .root {
+  animation: koi-nod 2.4s ease-in-out infinite;
+}
+.koi[data-state='greeting'] .farpec {
+  animation: koi-wave 0.7s ease-in-out infinite;
+}
+.koi[data-state='greeting'] .tail {
+  animation: koi-wag 1.6s ease-in-out infinite;
+  --a: 6deg;
+}
+/* content : petit saut discret, œil souriant */
+.koi[data-state='happy'] {
+  animation: koi-hop 1.8s ease-out infinite;
+}
+.koi[data-state='happy'] .tail {
+  animation: koi-wag 0.6s ease-in-out infinite;
+  --a: 10deg;
+}
+.koi[data-state='happy'] .eye-open,
+.koi[data-state='celebrating'] .eye-open,
+.koi[data-state='sleeping'] .eye-open {
+  display: none;
+}
+.koi[data-state='happy'] .eye-happy,
+.koi[data-state='celebrating'] .eye-happy {
+  display: inline;
+}
+/* encouragement : ondulation douce et cercle d'eau, sans déception */
+.koi[data-state='encouraging'] .root {
+  animation: koi-nod 3.2s ease-in-out infinite;
+}
+.koi[data-state='encouraging'] .tail {
+  animation: koi-wag 2.4s ease-in-out infinite;
+  --a: 5deg;
+}
+.koi[data-state='encouraging'] .ripple {
+  display: inline;
+  animation: koi-ripple 3s ease-out infinite;
+  transform-origin: 560px 740px;
+  transform-box: view-box;
+}
+/* sommeil : œil fermé, respiration, z */
+.koi[data-state='sleeping'] .root {
+  animation: koi-breathe 5s ease-in-out infinite;
+}
+.koi[data-state='sleeping'] .eye-sleep {
+  display: inline;
+}
+.koi[data-state='sleeping'] .tail {
+  animation: koi-wag 7s ease-in-out infinite;
+  --a: 2deg;
+}
+.koi[data-state='sleeping'] .zz {
+  display: inline;
+}
+.koi[data-state='sleeping'] .zz text {
+  animation: koi-float 3.2s ease-in infinite;
+  opacity: 0;
+}
+.koi[data-state='sleeping'] .zz text:nth-child(2) {
+  animation-delay: 1.1s;
+}
+.koi[data-state='sleeping'] .zz text:nth-child(3) {
+  animation-delay: 2.2s;
+}
+/* fête : saut, rotation, étincelles dorées */
+.koi[data-state='celebrating'] {
+  animation: koi-leap 1.6s ease-in-out infinite;
+}
+.koi[data-state='celebrating'] .tail {
+  animation: koi-wag 0.5s ease-in-out infinite;
+  --a: 14deg;
+}
+.koi[data-state='celebrating'] .sparkles {
+  display: inline;
+}
+.koi[data-state='celebrating'] .sparkles circle {
+  animation: koi-pulse 1.6s ease-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.koi[data-state='celebrating'] .sparkles circle:nth-child(2) {
+  animation-delay: 0.3s;
+}
+.koi[data-state='celebrating'] .sparkles circle:nth-child(3) {
+  animation-delay: 0.6s;
+}
+.koi[data-state='celebrating'] .sparkles circle:nth-child(4) {
+  animation-delay: 0.9s;
+}
+@keyframes koi-wag {
+  0%,
+  100% {
+    transform: rotate(calc(var(--a, 8deg) * -1));
+  }
   50% {
-    transform: translateY(-4px) rotate(-2deg);
+    transform: rotate(var(--a, 8deg));
+  }
+}
+@keyframes koi-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+@keyframes koi-sway {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+@keyframes koi-nod {
+  0%,
+  100% {
+    transform: rotate(0) translateY(0);
+  }
+  50% {
+    transform: rotate(-4deg) translateY(-6px);
+  }
+}
+@keyframes koi-wave {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(-28deg);
+  }
+}
+@keyframes koi-hop {
+  0%,
+  55%,
+  100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-8%);
+  }
+}
+@keyframes koi-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.015) translateY(3px);
+  }
+}
+@keyframes koi-leap {
+  0% {
+    transform: translateY(0) rotate(0);
+  }
+  40% {
+    transform: translateY(-16%) rotate(-12deg);
+  }
+  70% {
+    transform: translateY(-6%) rotate(8deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+}
+@keyframes koi-ripple {
+  0% {
+    transform: scale(0.4);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+@keyframes koi-float {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(40px, -60px);
+    opacity: 0;
+  }
+}
+@keyframes koi-pulse {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
   }
 }
 .bubble {
@@ -2059,8 +2362,11 @@ textarea {
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  .koi,
+  .koi * {
+    animation: none !important;
+  }
   .stamp.on,
-  .daru.bob,
   .stp.cur .sk,
   .opt.bad {
     animation: none;

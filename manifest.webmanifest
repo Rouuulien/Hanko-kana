@@ -1,7 +1,7 @@
 {
   "name": "Hanko · apprendre les kana",
   "short_name": "Hanko",
-  "description": "Apprends les hiragana et katakana avec Daru : leçons, révisions espacées, mots et mode Rafale.",
+  "description": "Apprends les hiragana et katakana avec Koï : leçons, révisions espacées, mots et mode Rafale.",
   "lang": "fr",
   "start_url": "./",
   "scope": "./",

@@ -14,7 +14,7 @@ import { rushSetupV } from '../modes/rush.js';
 import { cloud, cloudText } from '../sync/cloud.js';
 import { accountV } from './account.js';
 import { ui } from './app-state.js';
-import { daru, mascot } from './daru.js';
+import { koi, mascot } from './koi.js';
 import {
   CHECK,
   CLOSE,
@@ -49,9 +49,9 @@ function tipHome(nx, due) {
   const nl = Object.keys(S.learned).length;
   let t;
   if (!nl)
-    t = `Salut, moi c’est <b>Daru</b> ! Je n’ai qu’un œil peint : je peindrai le second quand tu connaîtras tous les kana. On commence par les 5 voyelles ?`;
+    t = `Salut, moi c’est <b>Koï</b> ! Une vieille légende dit qu’une carpe qui remonte la cascade devient dragon. Remontons-la ensemble : quand tu connaîtras tous les kana, je me transformerai. On commence par les 5 voyelles ?`;
   else if (allDone())
-    t = `Mes deux yeux sont peints, tu connais tous les kana ! Continue les révisions pour les garder.`;
+    t = `Tu connais tous les kana : la cascade est remontée ! Continue les révisions pour les garder.`;
   else if (due) t = `<b>${due} kana</b> attendent leur révision. C’est maintenant que ta mémoire en profite le plus.`;
   else {
     const r = WORDS.filter(w => canRead(w));
@@ -92,7 +92,7 @@ function homeV() {
             : todayV();
   return top() + `<div class="tabv">${body}</div>` + tabbar();
 }
-/** Onglet Accueil (maquette « Accueil clair ») : leçon du jour, révisions, progression compacte, Daru. */
+/** Onglet Accueil (maquette « Accueil clair ») : leçon du jour, révisions, progression compacte, Koï. */
 function todayV() {
   const nx = nextLesson(),
     due = dueList().length,
@@ -109,7 +109,7 @@ function todayV() {
   ${due ? `<button class="btn gh" data-act="review">Réviser</button>` : nl ? `<button class="btn gh" data-act="practice">Entraînement libre</button>` : ''}</div>
   <div class="progress"><span class="mut">Ta progression</span><div class="prog"><i style="width:${Math.round((nl / TOTAL) * 100)}%"></i></div>
   <div class="figs">${fig(`${nl} / ${TOTAL}`, 'kana vus')}${fig(ms, 'maîtrisés')}${fig(`${rw} / ${WORDS.length}`, 'mots lisibles')}${fig(S.xp, 'XP')}</div></div>
-  ${mascot('idle', tipHome(nx, due), 56)}
+  ${mascot(allDone() ? 'celebrating' : 'resting', tipHome(nx, due), 80)}
   </div></section>
   ${foot()}`;
 }
@@ -216,7 +216,7 @@ function cardsV() {
   ${ui.ses.tr ? `<div class="tpad">${padHTML('cp', null).replace('class="pad"', `class="pad" data-key="c${ui.ses.ci}"`)}${ui.ses.tmsg ? `<p class="tmsg ${ui.ses.tok ? 'ok' : 'bad'}">${ui.ses.tmsg}</p>` : ''}${padTools(ui.ses.tdone ? '' : 'ccheck', ui.ses.tdone ? `<button class="btn gh sm" data-act="cagain">Recommencer</button>` : '')}</div>` : ''}`
       : ''
   }
-  <div class="card-m">${mascot('idle', say2, 60)}</div>
+  <div class="card-m">${mascot('resting', say2, 60)}</div>
   <div class="dots">${L.items.map((_, i) => `<i class="${i <= ui.ses.ci ? 'on' : ''}"></i>`).join('')}</div>
   <div class="cnav"><button class="btn gh" data-act="prev" ${ui.ses.ci ? '' : 'disabled'}>Précédent</button><button class="btn ac" data-act="${last ? 'go' : 'cnext'}">${last ? 'Passer au quiz' : 'Suivant'}</button></div>
   ${!last ? `<p class="skip"><button class="link" data-act="go">Je connais déjà, aller au quiz</button></p>` : ''}</div>`;
@@ -265,7 +265,7 @@ function quizV() {
           : '';
   const draw = Q.type === 'draw';
   const fb = A
-    ? `<div class="fb ${A.ok ? 'ok' : 'bad'}${draw ? ' draw' : ''}"><div class="fb-in"><div class="fb-m">${draw ? '' : daru(A.ok ? 'happy' : 'oops', 48, allDone())}<div class="msg"><b>${A.msg}</b>${note ? `<span class="note">${note}</span>` : ''}${draw && !A.ok && !A.self ? `<button class="link qself" data-act="qself">J’avais juste</button>` : ''}</div></div><button class="btn ${A.ok ? 'ac' : 'gh'}" data-act="next" id="nb">Continuer</button></div></div>`
+    ? `<div class="fb ${A.ok ? 'ok' : 'bad'}${draw ? ' draw' : ''}"><div class="fb-in"><div class="fb-m">${draw ? '' : koi(A.ok ? 'happy' : 'encouraging', 48)}<div class="msg"><b>${A.msg}</b>${note ? `<span class="note">${note}</span>` : ''}${draw && !A.ok && !A.self ? `<button class="link qself" data-act="qself">J’avais juste</button>` : ''}</div></div><button class="btn ${A.ok ? 'ac' : 'gh'}" data-act="next" id="nb">Continuer</button></div></div>`
     : '';
   // Écouter : avant la réponse seulement là où ça ne la donne pas (dessin ; l'écoute a son gros bouton), après sur tous les types.
   const listen =
@@ -311,13 +311,13 @@ function resV() {
         ? 'Revois les kana ci-dessus, ils reviendront bientôt dans tes révisions.'
         : 'Sans faute, bravo !'
       : 'Pas grave : refais un tour des leçons de l’unité et retente le test.';
-  if (allDone() && k === 'lesson' && !nl) talk = 'Tu as vu tous les kana : je peins enfin mon second œil !';
+  if (allDone() && k === 'lesson' && !nl) talk = 'Tu as vu tous les kana : nous avons remonté la cascade ensemble !';
   return `<div class="gres"><div class="gres-top"><button class="x" data-act="home" aria-label="Fermer">${CLOSE}</button></div>
   <div class="stamp ${ui.ses.pass ? 'on' : 'off'}"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" stroke-width="6"/><circle cx="60" cy="60" r="43" fill="none" stroke="currentColor" stroke-width="2"/><text x="60" y="78" text-anchor="middle" font-size="52" fill="currentColor" font-family="Zen Old Mincho, serif" font-weight="700">${ui.ses.pass ? '済' : '再'}</text></svg></div>
   <h1>${title}</h1>${k === 'test' && !ui.ses.pass ? `<p class="gsub">${sub}</p>` : ''}
   <div class="rfigs"><div class="fig1"><b>${pc} %</b><span>du premier coup</span></div><div class="fig1"><b>×${ui.ses.best}</b><span>meilleure série</span></div><div class="fig1"><b>+${ui.ses.xp}</b><span>XP</span></div></div>
   ${miss.length ? `<div class="gmiss"><p>À retravailler</p><div class="mrow">${miss.map(c => `<button class="mk" data-act="say" data-t="${c}"><span lang="ja">${c}</span><small>${ITEMS[c].r}</small></button>`).join('')}</div></div>` : ''}
-  ${mascot(ui.ses.pass ? 'happy' : 'oops', talk, 56)}
+  ${mascot(ui.ses.pass ? 'happy' : 'encouraging', talk, 56)}
   <div class="gacts">${nl ? `<button class="btn ac" data-act="lesson" data-id="${nl.id}">Leçon suivante</button>` : ''}${k === 'test' && !ui.ses.pass ? `<button class="btn ac" data-act="test" data-id="${ui.ses.id}">Retenter</button>` : ''}<button class="btn gh" data-act="home">Retour</button></div></div>`;
 }
 

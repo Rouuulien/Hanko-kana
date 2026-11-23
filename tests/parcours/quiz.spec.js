@@ -48,7 +48,7 @@ test('dessin : la zone de dessin reste visible au-dessus du panneau', async ({ h
   await forcer(hanko, 'draw');
   await repondreSansContinuer(hanko, true);
   await expect(page.locator('.fb')).toHaveClass(/\bdraw\b/);
-  await expect(page.locator('.fb .daru')).toHaveCount(0);
+  await expect(page.locator('.fb .koi')).toHaveCount(0);
   const fb = await box(page, '.fb'),
     qp = await box(page, '#qp');
   expect(qp.bottom).toBeLessThanOrEqual(fb.top);
