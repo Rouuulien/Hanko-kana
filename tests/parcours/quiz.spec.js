@@ -167,14 +167,13 @@ test('fiche : astuces sous la carte', async ({ hanko }) => {
 test('dessin faux : « J’avais juste » sur sa propre ligne', async ({ hanko }) => {
   const page = await quiz(hanko);
   await forcer(hanko, 'draw');
-  let c = await hanko.run(H => H.ses.queue[H.ses.i].c);
+  const c = await hanko.run(H => H.ses.queue[H.ses.i].c);
   // un kana à plusieurs traits, pour qu'un tracé à l'envers soit refusé
   if (!(await hanko.run((H, c) => H.KS[c].p.length > 1, c))) {
     await hanko.run(H => {
       H.ses.queue[H.ses.i].c = 'た';
     });
     await page.locator('[data-act="pclear"]').click(); // réaffiche la question avec le kana choisi
-    c = 'た';
   }
   await repondreSansContinuer(hanko, false);
   await expect(page.locator('.fb [data-act="qself"]')).toBeVisible();

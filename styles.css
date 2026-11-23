@@ -146,10 +146,6 @@ button {
   transform: scale(0.98);
   opacity: 0.88;
 }
-.btn.wh {
-  background: var(--ac);
-  color: var(--on-ac);
-}
 .btn.ac {
   background: var(--ac);
   color: var(--on-ac);
@@ -1132,12 +1128,6 @@ button {
   text-underline-offset: 3px;
 }
 /* results */
-.res {
-  text-align: center;
-  display: grid;
-  justify-items: center;
-  gap: 10px;
-}
 .stamp {
   width: 96px;
   height: 96px;
@@ -1159,11 +1149,6 @@ button {
     transform: scale(1) rotate(-8deg);
     opacity: 1;
   }
-}
-.lead {
-  font-size: 18px;
-  color: var(--mut);
-  margin: 0;
 }
 .mrow {
   display: flex;
@@ -1193,10 +1178,6 @@ button {
   gap: 12px;
   justify-content: center;
   margin-top: 16px;
-}
-.res .mascot {
-  text-align: left;
-  margin-top: 8px;
 }
 /* settings */
 .set {
