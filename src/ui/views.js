@@ -208,7 +208,8 @@ function cardsV() {
   <div class="qz"><p class="qcap">${L.u.t} · ${L.t} — découverte</p><div class="card">
   <div class="pk" lang="ja">${c}</div><div class="ro">${it.r}</div>
   ${tts ? `<button class="say" data-act="say" data-t="${c}">${SPK} Écouter</button>` : ''}
-  ${tips.map(t => `<p class="hint">${t}</p>`).join('')}</div>
+</div>
+  ${tips.length ? `<ul class="hints">${tips.map(t => `<li class="hint">${t}</li>`).join('')}</ul>` : ''}
   ${
     canDraw(c) && KS && KS[c]
       ? `<div class="trace"><div class="tmodel" id="tm">${modelSVG(c)}</div><div class="tt"><b>Ordre des traits : ${KS[c].d.length}</b><button class="say" data-act="replay">${REPLAY}Revoir</button>${ui.ses.tr ? '' : `<button class="say" data-act="ctrace">${PENCIL}M’entraîner à tracer</button>`}</div></div>
@@ -256,7 +257,7 @@ function quizV() {
             .join('')}</div>`;
   const note =
     Q.type === 'draw' && A
-      ? (A.tip || '') + (!A.ok && !A.self ? ` <button class="link" data-act="qself">J’avais juste</button>` : '')
+      ? A.tip || ''
       : A && !A.ok
         ? `Réponse : <span lang="ja">${it.c}</span> = ${it.r}${it.al.length && Q.type === 'type' ? ' (ou ' + it.al.join(', ') + ')' : ''}${A.tip ? '<br>' + A.tip : ''}`
         : A && Q.type === 'ear'
@@ -264,7 +265,7 @@ function quizV() {
           : '';
   const draw = Q.type === 'draw';
   const fb = A
-    ? `<div class="fb ${A.ok ? 'ok' : 'bad'}${draw ? ' draw' : ''}"><div class="fb-in"><div class="fb-m">${draw ? '' : daru(A.ok ? 'happy' : 'oops', 48, allDone())}<div class="msg"><b>${A.msg}</b>${note ? `<span class="note">${note}</span>` : ''}</div></div><button class="btn ${A.ok ? 'ac' : 'gh'}" data-act="next" id="nb">Continuer</button></div></div>`
+    ? `<div class="fb ${A.ok ? 'ok' : 'bad'}${draw ? ' draw' : ''}"><div class="fb-in"><div class="fb-m">${draw ? '' : daru(A.ok ? 'happy' : 'oops', 48, allDone())}<div class="msg"><b>${A.msg}</b>${note ? `<span class="note">${note}</span>` : ''}${draw && !A.ok && !A.self ? `<button class="link qself" data-act="qself">J’avais juste</button>` : ''}</div></div><button class="btn ${A.ok ? 'ac' : 'gh'}" data-act="next" id="nb">Continuer</button></div></div>`
     : '';
   // Écouter : avant la réponse seulement là où ça ne la donne pas (dessin ; l'écoute a son gros bouton), après sur tous les types.
   const listen =

@@ -154,3 +154,41 @@ test('combinaison sur petit écran : le bouton Écouter ne touche pas le kana', 
   const touche = !(b.left >= k.right || b.right <= k.left || b.top >= k.bottom || b.bottom <= k.top);
   expect(touche).toBe(false);
 });
+
+test('fiche : astuces sous la carte', async ({ hanko }) => {
+  const page = (await hanko.open({ state: REAL })).page;
+  await page.locator('.hero [data-act="lesson"]').click();
+  await page.locator('.cnav [data-act]').last().click(); // ち : « se prononce tchi »
+  await expect(page.locator('.card .pk')).toHaveText('ち');
+  await expect(page.locator('.card .hint')).toHaveCount(0);
+  await expect(page.locator('.hints .hint').first()).toBeVisible();
+});
+
+test('dessin faux : « J’avais juste » sur sa propre ligne', async ({ hanko }) => {
+  const page = await quiz(hanko);
+  await forcer(hanko, 'draw');
+  let c = await hanko.run(H => H.ses.queue[H.ses.i].c);
+  // un kana à plusieurs traits, pour qu'un tracé à l'envers soit refusé
+  if (!(await hanko.run((H, c) => H.KS[c].p.length > 1, c))) {
+    await hanko.run(H => {
+      H.ses.queue[H.ses.i].c = 'た';
+    });
+    await page.locator('[data-act="pclear"]').click(); // réaffiche la question avec le kana choisi
+    c = 'た';
+  }
+  await repondreSansContinuer(hanko, false);
+  await expect(page.locator('.fb [data-act="qself"]')).toBeVisible();
+  await expect(page.locator('.note [data-act="qself"]')).toHaveCount(0);
+});
+
+for (const [scheme, attendu] of [
+  ['light', 'rgb(94, 115, 96)'],
+  ['dark', 'rgb(155, 174, 154)'],
+])
+  test(`bonne réponse : bordure au jeton du thème (${scheme})`, async ({ hanko }) => {
+    await hanko.page.emulateMedia({ colorScheme: scheme });
+    const page = await quiz(hanko);
+    await forcer(hanko, 'k2r');
+    await repondreSansContinuer(hanko, true);
+    expect(await page.locator('.opt.ok').evaluate(e => getComputedStyle(e).borderTopColor)).toBe(attendu);
+  });

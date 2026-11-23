@@ -156,3 +156,62 @@ test('clavier de Rafale : pas de zone morte entre deux touches (375 px)', async 
   });
   expect(['a', 'z']).toContain(cible);
 });
+
+test('Rafale : sur une carte fausse, le kana passe en rouge', async ({ hanko }) => {
+  const page = (await hanko.open({ state: REAL })).page;
+  await ouvrir(page, 'rush');
+  await page.locator('[data-act="rstart"]').click();
+  await page.keyboard.type('x');
+  await expect(page.locator('#cf')).toHaveClass(/bad/);
+  const [ck, bad] = await page.evaluate(() => {
+    const p = document.createElement('i');
+    p.style.color = 'var(--bad)';
+    document.body.append(p);
+    return [getComputedStyle(document.querySelector('#cf .ck')).color, getComputedStyle(p).color];
+  });
+  expect(ck).toBe(bad);
+});
+
+test('aides du tracé lisibles en sombre (niveau Calque)', async ({ hanko }) => {
+  await hanko.page.emulateMedia({ colorScheme: 'dark', reducedMotion: 'reduce' });
+  const page = (await hanko.open({ state: { ...REAL, bl: 1 } })).page;
+  await ouvrir(page, 'brush');
+  await page.locator('[data-act="bstart"]').click();
+  await expect(page.locator('#bp .aid .nx')).toHaveCount(1);
+  const ratio = await page.evaluate(() => {
+    const ctx = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
+    const rgb = s => {
+      ctx.clearRect(0, 0, 1, 1);
+      ctx.fillStyle = s;
+      ctx.fillRect(0, 0, 1, 1);
+      return [...ctx.getImageData(0, 0, 1, 1).data.slice(0, 3)];
+    };
+    const lum = c =>
+      c
+        .map(v => ((v /= 255) <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4))
+        .reduce((t, v, i) => t + v * [0.2126, 0.7152, 0.0722][i], 0);
+    const nx = document.querySelector('#bp .aid .nx'),
+      cs = getComputedStyle(nx),
+      a = parseFloat(cs.opacity);
+    const f = rgb(cs.stroke),
+      b = rgb(getComputedStyle(document.querySelector('#bp')).backgroundColor);
+    const vu = f.map((v, i) => v * a + b[i] * (1 - a)); // trait atténué par son opacité, sur le fond
+    const l1 = lum(vu),
+      l2 = lum(b);
+    return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+  });
+  expect(ratio).toBeGreaterThanOrEqual(3);
+});
+
+test('Pinceau : score à zéro en gris', async ({ hanko }) => {
+  const page = (await hanko.open({ state: REAL })).page;
+  await ouvrir(page, 'brush');
+  await page.locator('[data-act="bstart"]').click();
+  const [b, mut] = await page.evaluate(() => {
+    const p = document.createElement('i');
+    p.style.color = 'var(--mut)';
+    document.body.append(p);
+    return [getComputedStyle(document.querySelector('.bscore b')).color, getComputedStyle(p).color];
+  });
+  expect(b).toBe(mut);
+});

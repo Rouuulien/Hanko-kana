@@ -52,6 +52,7 @@
   --gold: #b69a63;
   --gold-ink: light-dark(#7d6435, #c9ae78);
   --ok: light-dark(#3f5241, #9bae9a);
+  --ok-line: light-dark(#5e7360, #9bae9a); /* bordure d'une bonne réponse */
   --bad: light-dark(#b3261e, #ff8a80);
   --on-bad: light-dark(#ffffff, #282824);
   --sh: 0 18px 40px -26px rgba(40, 40, 36, 0.35);
@@ -929,7 +930,7 @@ button {
   flex: none;
 }
 .opt.ok {
-  border: 1.5px solid #5e7360;
+  border: 1.5px solid var(--ok-line);
   background: color-mix(in srgb, var(--sage) 22%, var(--card));
   color: var(--ok);
 }
@@ -1538,6 +1539,28 @@ textarea {
   color: var(--ok);
   font-weight: 500;
 }
+.bscore b.z {
+  color: var(--mut);
+}
+.cd.front.bad .ck {
+  color: var(--bad);
+}
+.hints {
+  list-style: none;
+  margin: -8px 0 0;
+  padding: 0 4px;
+  display: grid;
+  gap: 6px;
+}
+.hints .hint {
+  margin: 0;
+}
+.fb .qself {
+  justify-self: start;
+  min-height: 44px;
+  padding: 0;
+  font-size: 13px;
+}
 .bscore::after {
   display: none;
 }
@@ -1588,8 +1611,8 @@ textarea {
 }
 .aid .nx {
   fill: none;
-  stroke: #c64b3c;
-  opacity: 0.55;
+  stroke: var(--ac-ink);
+  opacity: 0.8;
   stroke-width: 5.5;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -1606,7 +1629,7 @@ textarea {
   text-anchor: middle;
 }
 .model.hintm path {
-  stroke: color-mix(in srgb, #c64b3c 45%, transparent);
+  stroke: color-mix(in srgb, var(--ac-ink) 60%, transparent);
 }
 .hintb {
   border-color: color-mix(in srgb, var(--gold) 70%, transparent) !important;
