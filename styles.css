@@ -2031,9 +2031,28 @@ textarea {
 #app.tr-rise {
   animation: tr-rise 0.2s ease-out;
 }
+@keyframes tr-next {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+}
+@keyframes tr-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+.tr-next {
+  animation: tr-next 0.2s ease-out;
+}
+.fb.tr-up {
+  animation: tr-up 0.2s ease-out;
+}
 @media (prefers-reduced-motion: reduce) {
   #app.tr-fade,
-  #app.tr-rise {
+  #app.tr-rise,
+  .tr-next,
+  .fb.tr-up {
     animation: tr-fade 0.15s ease-out;
   }
 }

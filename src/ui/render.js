@@ -19,6 +19,9 @@ function enter(t) {
     app.classList.add(`tr-${t}`);
     app.addEventListener('animationend', e => e.target === app && app.classList.remove(`tr-${t}`), { once: true });
   }
+  // Nouveaux éléments à chaque rendu : poser la classe suffit à lancer l'animation.
+  if (t === 'next') app.querySelector('.qz, .bstage')?.classList.add('tr-next');
+  if (t === 'panel') app.querySelector('.fb')?.classList.add('tr-up');
 }
 function render() {
   // L'écran affiché était un onglet : on retient sa position de défilement avant de le remplacer.
