@@ -63,6 +63,7 @@
   --koi-body: #e8dfd0;
   --koi-fin: light-dark(#f7f5ef, #e8dfd0);
   --koi-patch: #c64b3c;
+  --koi-face: #282824; /* visage posé sur le corps Sable : Sumi dans les deux thèmes */
   /* Polices (fonts/README.md) */
   --f-ui: 'Noto Sans JP', system-ui, sans-serif;
   --f-title: 'Zen Old Mincho', 'Hiragino Mincho ProN', serif;
@@ -379,9 +380,14 @@ button {
 .koi .f-patch {
   fill: var(--koi-patch);
 }
+.koi .gill,
+.koi .eye-happy,
+.koi .eye-sleep {
+  stroke: var(--koi-face);
+}
 .koi .brush {
-  fill: var(--koi-line);
-  stroke: var(--koi-line);
+  fill: var(--koi-face);
+  stroke: var(--koi-face);
   stroke-width: 2;
   stroke-linejoin: round;
 }
@@ -433,7 +439,7 @@ button {
   animation: koi-wag 5s ease-in-out infinite reverse;
   --a: 3deg;
 }
-/* nage : le corps ondule ; le déplacement est porté par l'enveloppant (.koi-w, .pond-k) */
+/* nage : le corps ondule ; le déplacement est porté par l'enveloppant .koi-w */
 .koi[data-state='swimming'] .root {
   animation: koi-sway 1.6s ease-in-out infinite;
 }

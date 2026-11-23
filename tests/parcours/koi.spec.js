@@ -41,3 +41,16 @@ test('plus de Daru dans la page', async ({ hanko }) => {
   const page = (await hanko.open({ state: REAL })).page;
   await expect(page.locator('body')).not.toContainText('Daru');
 });
+test('thème sombre : œil et ouïe en Sumi sur le corps clair, barbillons clairs sur le fond', async ({ hanko }) => {
+  await hanko.page.emulateMedia({ colorScheme: 'dark', reducedMotion: 'reduce' });
+  const page = (await hanko.open({ state: REAL })).page;
+  const c = await page.evaluate(() => {
+    const k = document.querySelector('.today-g .koi');
+    return [
+      getComputedStyle(k.querySelector('.eye-open')).fill,
+      getComputedStyle(k.querySelector('.gill')).stroke,
+      getComputedStyle(k.querySelector('.barbel')).stroke,
+    ];
+  });
+  expect(c).toEqual(['rgb(40, 40, 36)', 'rgb(40, 40, 36)', 'rgb(247, 245, 239)']);
+});

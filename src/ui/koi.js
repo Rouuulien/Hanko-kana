@@ -48,9 +48,9 @@ function koi(state, size) {
 <path class="line" d="M872 222 C900 330 885 450 795 560 C705 665 520 705 380 683 C300 670 240 640 250 585 C300 520 420 480 540 470 C680 458 790 400 805 295 C810 262 815 240 818 222"/>
 </g>
 <g class="face">
-<path class="line" d="M250 585 C225 580 212 560 218 540"/>
-<path class="line" d="M262 628 C240 642 240 670 262 692"/>
-<path class="line" d="M432 560 C458 590 458 630 436 662"/>
+<path class="line barbel" d="M250 585 C225 580 212 560 218 540"/>
+<path class="line barbel" d="M262 628 C240 642 240 670 262 692"/>
+<path class="line gill" d="M432 560 C458 590 458 630 436 662"/>
 <path class="brush eye-open" d="M318 614 C338 582 374 582 396 608 C374 598 340 598 318 614 Z"/>
 <path class="line eye-happy" d="M326 612 C342 594 366 594 380 612"/>
 <path class="line eye-sleep" d="M326 604 C342 620 366 620 380 604"/>
