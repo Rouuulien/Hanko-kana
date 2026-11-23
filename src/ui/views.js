@@ -49,9 +49,9 @@ function tipHome(nx, due) {
   const nl = Object.keys(S.learned).length;
   let t;
   if (!nl)
-    t = `Salut, moi c’est <b>Daru</b> ! Je n’ai qu’un œil peint : je peindrai le second quand tu connaîtras tous les kana. On commence par les 5 voyelles ?`;
+    t = `Salut, moi c’est <b>Koï</b> ! Une vieille légende dit qu’une carpe qui remonte la cascade devient dragon. Remontons-la ensemble : quand tu connaîtras tous les kana, je me transformerai. On commence par les 5 voyelles ?`;
   else if (allDone())
-    t = `Mes deux yeux sont peints, tu connais tous les kana ! Continue les révisions pour les garder.`;
+    t = `Tu connais tous les kana : la cascade est remontée ! Continue les révisions pour les garder.`;
   else if (due) t = `<b>${due} kana</b> attendent leur révision. C’est maintenant que ta mémoire en profite le plus.`;
   else {
     const r = WORDS.filter(w => canRead(w));
@@ -92,7 +92,7 @@ function homeV() {
             : todayV();
   return top() + `<div class="tabv">${body}</div>` + tabbar();
 }
-/** Onglet Accueil (maquette « Accueil clair ») : leçon du jour, révisions, progression compacte, Daru. */
+/** Onglet Accueil (maquette « Accueil clair ») : leçon du jour, révisions, progression compacte, Koï. */
 function todayV() {
   const nx = nextLesson(),
     due = dueList().length,
@@ -311,7 +311,7 @@ function resV() {
         ? 'Revois les kana ci-dessus, ils reviendront bientôt dans tes révisions.'
         : 'Sans faute, bravo !'
       : 'Pas grave : refais un tour des leçons de l’unité et retente le test.';
-  if (allDone() && k === 'lesson' && !nl) talk = 'Tu as vu tous les kana : je peins enfin mon second œil !';
+  if (allDone() && k === 'lesson' && !nl) talk = 'Tu as vu tous les kana : nous avons remonté la cascade ensemble !';
   return `<div class="gres"><div class="gres-top"><button class="x" data-act="home" aria-label="Fermer">${CLOSE}</button></div>
   <div class="stamp ${ui.ses.pass ? 'on' : 'off'}"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" stroke-width="6"/><circle cx="60" cy="60" r="43" fill="none" stroke="currentColor" stroke-width="2"/><text x="60" y="78" text-anchor="middle" font-size="52" fill="currentColor" font-family="Zen Old Mincho, serif" font-weight="700">${ui.ses.pass ? '済' : '再'}</text></svg></div>
   <h1>${title}</h1>${k === 'test' && !ui.ses.pass ? `<p class="gsub">${sub}</p>` : ''}

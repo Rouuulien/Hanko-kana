@@ -281,7 +281,7 @@ function rushResV() {
           ? 'Ça commence à filer, continue !'
           : ui.rs.kpm < 50
             ? 'Très rapide, tu lis presque sans réfléchir.'
-            : 'Vitesse de ninja. Daru est impressionné.';
+            : 'Vitesse de ninja. Koï est impressionnée.';
   const best = ui.rs.record && ui.rs.ok;
   return `<div class="gres"><div class="gres-top"><button class="x" data-act="home" aria-label="Fermer">${CLOSE}</button></div>
   <p class="gcap">Rafale · ${deck ? 'paquet de ' + ui.rs.q.length + ' cartes' : ui.rs.dur + ' s'} · ${S.rct === 'words' ? 'mots' : 'kana'}</p>

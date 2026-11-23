@@ -31,3 +31,17 @@ test('mascot() : la koï dans son enveloppant, puis la bulle', () => {
   );
   assert.ok(m.includes('width="76"'));
 });
+
+test('plus de Daru dans le code ni dans les métadonnées', async () => {
+  const { readFileSync, readdirSync } = await import('node:fs');
+  const ROOT = new URL('../../', import.meta.url).pathname;
+  const walk = d =>
+    readdirSync(ROOT + d, { withFileTypes: true }).flatMap(e =>
+      e.isDirectory() ? walk(d + '/' + e.name) : e.name.endsWith('.js') ? [d + '/' + e.name] : [],
+    );
+  const fichiers = [...walk('src'), 'index.html', 'manifest.webmanifest', 'styles.css'];
+  assert.deepEqual(
+    fichiers.filter(f => /Daru|second œil/.test(readFileSync(ROOT + f, 'utf8'))),
+    [],
+  );
+});
