@@ -2025,7 +2025,8 @@ textarea {
     transform: translateY(12px);
   }
 }
-#app.tr-fade {
+#app.tr-fade,
+.tabv.tr-fade {
   animation: tr-fade 0.2s ease-out;
 }
 #app.tr-rise {
@@ -2051,6 +2052,7 @@ textarea {
 @media (prefers-reduced-motion: reduce) {
   #app.tr-fade,
   #app.tr-rise,
+  .tabv.tr-fade,
   .tr-next,
   .fb.tr-up {
     animation: tr-fade 0.15s ease-out;

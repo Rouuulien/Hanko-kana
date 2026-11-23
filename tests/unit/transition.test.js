@@ -9,9 +9,9 @@ test('premier affichage : rien', () => {
   assert.equal(transitionFor(null, S('home')), 'none');
 });
 
-test('onglets : fondu si l’onglet ou le mode change, rien sinon', () => {
-  assert.equal(transitionFor(S('home'), S('home', { tab: 'path' })), 'fade');
-  assert.equal(transitionFor(S('home', { tab: 'train' }), S('home', { tab: 'train', train: 'brush' })), 'fade');
+test('onglets : fondu du contenu si l’onglet ou le mode change, rien sinon', () => {
+  assert.equal(transitionFor(S('home'), S('home', { tab: 'path' })), 'tab');
+  assert.equal(transitionFor(S('home', { tab: 'train' }), S('home', { tab: 'train', train: 'brush' })), 'tab');
   assert.equal(transitionFor(S('home', { tab: 'path' }), S('home', { tab: 'path' })), 'none');
 });
 

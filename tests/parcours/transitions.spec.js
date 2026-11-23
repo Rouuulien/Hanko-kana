@@ -5,10 +5,28 @@ import { forcer, ouvrirQuiz, repondreSansContinuer } from '../helpers/joueur.js'
 
 test.use({ viewport: { width: 390, height: 844 } });
 
-test('changer d’onglet : fondu', async ({ hanko }) => {
+test('changer d’onglet : seul le contenu fond, l’en-tête et la barre restent nets', async ({ hanko }) => {
   const page = (await hanko.open({ state: REAL })).page;
-  await ouvrir(page, 'path');
-  await expect(page.locator('#app')).toHaveClass(/\btr-fade\b/);
+  await page.evaluate(() => document.querySelector('.tabbar [data-id="path"]').click());
+  await expect(page.locator('.tabv')).toHaveClass(/\btr-fade\b/);
+  const [app, barre, tete] = await page.evaluate(() => [
+    getComputedStyle(document.getElementById('app')).animationName,
+    getComputedStyle(document.querySelector('.tabbar')).opacity,
+    getComputedStyle(document.querySelector('header.top')).opacity,
+  ]);
+  expect(app).toBe('none');
+  expect([barre, tete]).toEqual(['1', '1']);
+});
+
+test('la fin d’une animation d’un élément enfant ne bloque pas le nettoyage de l’écran', async ({ hanko }) => {
+  const page = (await hanko.open({ state: REAL })).page;
+  await page.evaluate(() => {
+    document.querySelector('.hero [data-act="lesson"]').click();
+    // un enfant finit son animation avant l'écran : l'événement remonte jusqu'à #app
+    document.querySelector('.qz').dispatchEvent(new AnimationEvent('animationend', { bubbles: true }));
+  });
+  await page.waitForTimeout(500);
+  await expect(page.locator('#app')).not.toHaveClass(/\btr-rise\b/);
 });
 
 test('ouvrir une leçon : l’écran monte ; quitter : fondu', async ({ hanko }) => {

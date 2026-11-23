@@ -17,9 +17,17 @@ function enter(t) {
     app.classList.remove('tr-fade', 'tr-rise');
     void app.offsetWidth; // relance l'animation si la même classe vient d'être posée
     app.classList.add(`tr-${t}`);
-    app.addEventListener('animationend', e => e.target === app && app.classList.remove(`tr-${t}`), { once: true });
+    // ne se retire qu'à la fin de l'animation de #app : celle d'un enfant remonte aussi jusqu'ici
+    const end = e => {
+      if (e.target !== app) return;
+      app.classList.remove(`tr-${t}`);
+      app.removeEventListener('animationend', end);
+    };
+    app.addEventListener('animationend', end);
   }
   // Nouveaux éléments à chaque rendu : poser la classe suffit à lancer l'animation.
+  // Changement d'onglet : seul le contenu fond, l'en-tête et la barre d'onglets restent nets (comme sur iOS).
+  if (t === 'tab') app.querySelector('.tabv')?.classList.add('tr-fade');
   if (t === 'next') app.querySelector('.qz, .bstage')?.classList.add('tr-next');
   if (t === 'panel') app.querySelector('.fb')?.classList.add('tr-up');
 }

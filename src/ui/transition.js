@@ -25,12 +25,12 @@ function snapshot(ui) {
 /**
  * @param {Shot | null} prev écran affiché jusqu'ici (null au premier affichage)
  * @param {Shot} next écran qui s'affiche
- * @returns {'none' | 'fade' | 'rise' | 'next' | 'panel'}
+ * @returns {'none' | 'tab' | 'fade' | 'rise' | 'next' | 'panel'}
  */
 function transitionFor(prev, next) {
   if (!prev) return 'none';
   if (prev.view === 'home' && next.view === 'home')
-    return prev.tab !== next.tab || prev.train !== next.train ? 'fade' : 'none';
+    return prev.tab !== next.tab || prev.train !== next.train ? 'tab' : 'none'; // seul le contenu de l'onglet fond
   if (next.view === 'home') return 'fade'; // retour aux onglets
   if (prev.view === 'home') return 'rise'; // écran plein cadre ouvert depuis les onglets
   if (prev.view !== next.view) return prev.view === 'cards' && next.view === 'quiz' ? 'next' : 'rise';
