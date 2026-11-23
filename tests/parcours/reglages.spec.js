@@ -65,3 +65,34 @@ for (const scheme of ['light', 'dark'])
     await expect(page.locator('[data-act="tog"][data-k="ear"]')).toBeDisabled();
     expect(await releve(page)).toEqual([]);
   });
+
+for (const scheme of ['light', 'dark'])
+  test(`interrupteur éteint : se détache de la carte (${scheme})`, async ({ hanko }) => {
+    await hanko.page.emulateMedia({ colorScheme: scheme });
+    const page = (await hanko.open({ state: { ...REAL, unlock: false } })).page;
+    await page.locator('header [data-act="settings"]').click();
+    const ratio = await page.locator('[data-act="tog"][data-k="unlock"]').evaluate(input => {
+      const ctx = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
+      const rgba = s => {
+        ctx.clearRect(0, 0, 1, 1);
+        ctx.fillStyle = s;
+        ctx.fillRect(0, 0, 1, 1);
+        const d = ctx.getImageData(0, 0, 1, 1).data;
+        return [d[0], d[1], d[2], d[3] / 255];
+      };
+      const lum = c =>
+        c
+          .slice(0, 3)
+          .map(v => ((v /= 255) <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4))
+          .reduce((t, v, i) => t + v * [0.2126, 0.7152, 0.0722][i], 0);
+      const carte = rgba(getComputedStyle(input.closest('.sgroup')).backgroundColor);
+      const m = getComputedStyle(input).boxShadow.match(/(rgba?|color)\([^)]*\)/);
+      // le contour de l'interrupteur (liseré intérieur), mélangé au fond de la carte
+      const c = m ? rgba(m[0]) : rgba(getComputedStyle(input).backgroundColor);
+      const vu = c.slice(0, 3).map((v, i) => v * c[3] + carte[i] * (1 - c[3]));
+      const a = lum(vu),
+        b = lum(carte);
+      return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+    });
+    expect(ratio).toBeGreaterThanOrEqual(3);
+  });

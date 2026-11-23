@@ -204,3 +204,29 @@ test('leçons terminées sans pastille rouge pleine, leçon en cours cerclée de
   expect(done).not.toBe(ac);
   expect(curBord).toBe(ac);
 });
+
+for (const scheme of ['light', 'dark'])
+  test(`leçons terminées lisibles à 4,5:1 (${scheme})`, async ({ hanko }) => {
+    await hanko.page.emulateMedia({ colorScheme: scheme });
+    const page = (await hanko.open({ state: REAL })).page;
+    await ouvrir(page, 'path');
+    const ratio = await page
+      .locator('.stp.done .sk')
+      .first()
+      .evaluate(e => {
+        const ctx = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
+        const lum = s => {
+          ctx.clearRect(0, 0, 1, 1);
+          ctx.fillStyle = s;
+          ctx.fillRect(0, 0, 1, 1);
+          return [...ctx.getImageData(0, 0, 1, 1).data.slice(0, 3)]
+            .map(v => ((v /= 255) <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4))
+            .reduce((t, v, i) => t + v * [0.2126, 0.7152, 0.0722][i], 0);
+        };
+        const cs = getComputedStyle(e),
+          a = lum(cs.color),
+          b = lum(cs.backgroundColor);
+        return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+      });
+    expect(ratio).toBeGreaterThanOrEqual(4.5);
+  });
