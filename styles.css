@@ -1766,20 +1766,21 @@ textarea {
 .kb {
   display: grid;
   grid-template-columns: repeat(10, minmax(0, 1fr));
-  gap: 6px;
   max-width: 640px;
   width: 100%;
   margin: 8px auto 0;
-  padding: 10px 8px max(12px, env(safe-area-inset-bottom));
+  padding: 7px 5px max(9px, env(safe-area-inset-bottom));
   background: var(--sand);
   border-radius: var(--r-xl) var(--r-xl) 0 0;
 }
 .kb button {
-  height: clamp(44px, 6.6vh, 56px);
+  /* l'espace entre les touches est une bordure transparente : un appui qui y tombe compte quand même */
+  height: clamp(46px, 7vh, 60px);
   padding: 0;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--card);
+  border: 3px solid transparent;
+  border-radius: 13px;
+  background: var(--card) padding-box;
+  box-shadow: inset 0 0 0 1px var(--line);
   color: var(--ink);
   font: 500 17px var(--f-ui);
   touch-action: manipulation;
@@ -1787,7 +1788,7 @@ textarea {
   -webkit-user-select: none;
 }
 .kb button.fn {
-  background: var(--bg);
+  background: var(--bg) padding-box;
   color: var(--mut);
   display: grid;
   place-items: center;
@@ -1798,8 +1799,8 @@ textarea {
 }
 .kb button.hit,
 .kb button:active {
-  background: var(--line);
-  color: var(--ink);
+  background: var(--ink) padding-box;
+  color: var(--bg);
 }
 .big-n {
   font: 700 clamp(52px, 16vw, 64px)/1 var(--f-title);

@@ -115,3 +115,44 @@ test('résultats du Pinceau : plein cadre', async ({ hanko }) => {
   await expect(page.locator('header.top')).toHaveCount(0);
   await expect(page.locator('.gres .rfigs .fig1')).toHaveCount(3);
 });
+
+for (const scheme of ['light', 'dark'])
+  test(`clavier de Rafale : la touche frappée se voit (${scheme})`, async ({ hanko }) => {
+    await hanko.page.emulateMedia({ colorScheme: scheme });
+    const page = (await hanko.open({ state: REAL })).page;
+    await ouvrir(page, 'rush');
+    await page.locator('[data-act="rstart"]').click();
+    const ratio = await page.evaluate(() => {
+      const ctx = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
+      const lum = s => {
+        ctx.clearRect(0, 0, 1, 1);
+        ctx.fillStyle = s;
+        ctx.fillRect(0, 0, 1, 1);
+        return [...ctx.getImageData(0, 0, 1, 1).data.slice(0, 3)]
+          .map(v => ((v /= 255) <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4))
+          .reduce((t, v, i) => t + v * [0.2126, 0.7152, 0.0722][i], 0);
+      };
+      const k = document.querySelector('.kb [data-k="a"]');
+      const repos = lum(getComputedStyle(k).backgroundColor);
+      k.classList.add('hit');
+      const frappe = lum(getComputedStyle(k).backgroundColor);
+      return (Math.max(repos, frappe) + 0.05) / (Math.min(repos, frappe) + 0.05);
+    });
+    expect(ratio).toBeGreaterThanOrEqual(1.5);
+  });
+
+test('clavier de Rafale : pas de zone morte entre deux touches (375 px)', async ({ hanko }) => {
+  await hanko.page.setViewportSize({ width: 375, height: 667 });
+  const page = (await hanko.open({ state: REAL })).page;
+  await ouvrir(page, 'rush');
+  await page.locator('[data-act="rstart"]').click();
+  const cible = await page.evaluate(() => {
+    const a = document.querySelector('.kb [data-k="a"]').getBoundingClientRect(),
+      z = document.querySelector('.kb [data-k="z"]').getBoundingClientRect();
+    const x = (a.right + z.left) / 2,
+      y = (a.top + a.bottom) / 2; // milieu de l'espace entre A et Z
+    const e = document.elementFromPoint(x, y);
+    return e && e.closest('[data-act="rk"]') ? e.closest('[data-act="rk"]').dataset.k : null;
+  });
+  expect(['a', 'z']).toContain(cible);
+});
