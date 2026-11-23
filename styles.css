@@ -813,10 +813,7 @@ button {
 }
 /* le panneau de réponse est fixé en bas : on réserve sa hauteur pour ne rien masquer */
 .qz.ans {
-  padding-bottom: calc(230px + env(safe-area-inset-bottom));
-}
-.qz.ans.draw {
-  padding-bottom: calc(150px + env(safe-area-inset-bottom));
+  padding-bottom: calc(var(--fb-h, 230px) + 16px);
 }
 .qcap {
   margin: 0;
@@ -858,7 +855,7 @@ button {
   place-items: center;
 }
 .pk {
-  font: 400 clamp(72px, 30vw, 128px)/1 var(--f-kana);
+  font: 400 clamp(72px, 26vw, 128px)/1 var(--f-kana);
   white-space: nowrap;
 }
 .pr {

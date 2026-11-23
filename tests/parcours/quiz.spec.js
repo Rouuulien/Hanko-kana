@@ -124,3 +124,33 @@ test('fiche : navigation en bas en 52 px, zones tactiles, combinaisons sur une l
   expect(await page.locator('.qcap').textContent()).toContain('découverte');
   await expect(page.locator('.ask')).toHaveCount(0);
 });
+
+test('dessin faux sur petit écran : toute la zone de dessin reste visible au-dessus du panneau', async ({ hanko }) => {
+  await hanko.page.setViewportSize({ width: 375, height: 667 });
+  const page = await quiz(hanko);
+  await forcer(hanko, 'draw');
+  await repondreSansContinuer(hanko, false);
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  const fb = await box(page, '.fb'),
+    qp = await box(page, '#qp');
+  expect(qp.bottom).toBeLessThanOrEqual(fb.top);
+});
+
+test('combinaison sur petit écran : le bouton Écouter ne touche pas le kana', async ({ hanko }) => {
+  await hanko.page.setViewportSize({ width: 375, height: 667 });
+  const page = await quiz(hanko, { voix: true });
+  await hanko.run(H => {
+    H.ses.queue[H.ses.i + 1].c = 'きゃ';
+    delete H.ses.queue[H.ses.i + 1].o;
+  });
+  await forcer(hanko, 'k2r');
+  await repondreSansContinuer(hanko, true);
+  const k = await page.locator('.prompt .pk').evaluate(e => {
+    const r = document.createRange();
+    r.selectNodeContents(e);
+    return r.getBoundingClientRect().toJSON(); // boîte des glyphes eux-mêmes
+  });
+  const b = await box(page, '.prompt [data-act="say"]');
+  const touche = !(b.left >= k.right || b.right <= k.left || b.top >= k.bottom || b.bottom <= k.top);
+  expect(touche).toBe(false);
+});

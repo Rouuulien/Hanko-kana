@@ -53,6 +53,10 @@ function render() {
       if (ui.bs.state === 'done') mo(ui.bs.q[ui.bs.u], ui.bs.r.ok);
     }
   }
+  // Panneau de réponse fixé en bas : le quiz réserve sa hauteur réelle (note sur plusieurs lignes, zone sûre comprise).
+  const fb = app.querySelector('.fb'),
+    qz = app.querySelector('.qz');
+  if (fb && qz) qz.style.setProperty('--fb-h', `${fb.offsetHeight}px`);
   if (ui.view === 'rush') rPaint();
   const where = ui.view === 'home' ? `home:${ui.tab}:${ui.train}` : ui.view; // un nouvel onglet s'ouvre en haut
   if (where !== ui.lastView) {
