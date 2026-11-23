@@ -121,10 +121,10 @@ function brushV() {
       : R.ok
         ? `<div class="ptools"><button class="btn ac" data-act="bnext" id="bnb">Suivant</button></div>`
         : `<div class="ptools"><button class="btn gh sm" data-act="bretry">Réessayer</button><button class="btn ac sm" data-act="bnext" id="bnb">Suivant</button>${R.self ? '' : `<button class="link" data-act="bself">J’avais juste</button>`}</div>`;
-  return `<div class="rz bz"><div class="rz-top"><button class="x" data-act="bquit" aria-label="Quitter">${CLOSE}</button><span class="rz-tag">Pinceau · ${LVL[ui.bs.lvl][0]} · ${left} restant${left > 1 ? 's' : ''}</span>${muteBtn()}${daru(R ? (R.ok ? 'happy' : 'oops') : 'idle', 36, allDone())}</div>
+  return `<div class="rz bz"><div class="rz-top"><button class="x" data-act="bquit" aria-label="Quitter">${CLOSE}</button><span class="rz-tag">Pinceau · ${LVL[ui.bs.lvl][0]} · ${left} restant${left > 1 ? 's' : ''}</span>${muteBtn()}${daru(R ? (R.ok ? 'happy' : 'oops') : 'idle', 32, allDone())}</div>
   <div class="bstage"><div class="bprompt"><span class="bro">${it.r}</span>${ui.bs.lvl < 3 || ui.bs.h >= 1 ? `<span class="bcount">${KS[c].d.length} trait${KS[c].d.length > 1 ? 's' : ''}</span>` : ''}${tts ? `<button class="say rnd" data-act="say" data-t="${c}" aria-label="Écouter">${SPK}</button>` : ''}</div>
   ${padHTML('bp', null).replace('class="pad"', `class="pad" data-key="${ui.bs.u}"`)}${fb}${acts}</div>
-  <div class="rbar"><span class="t" id="bt">${bClock()}</span><div class="typed bscore"><b>${ui.bs.ok}</b>&nbsp;juste${ui.bs.ok > 1 ? 's' : ''}</div><span class="c">${ui.bs.u + 1}<small>/${ui.bs.q.length}</small></span></div></div>`;
+  <div class="rbar"><span class="t" id="bt">${bClock()}</span><div class="typed bscore"><b${ui.bs.ok ? '' : ' class="z"'}>${ui.bs.ok}</b>&nbsp;juste${ui.bs.ok > 1 ? 's' : ''}</div><span class="c">${ui.bs.u + 1}<small>/${ui.bs.q.length}</small></span></div></div>`;
 }
 function bCheck() {
   const P = ui.PAD,

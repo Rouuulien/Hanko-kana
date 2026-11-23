@@ -78,11 +78,14 @@ test.describe('Supabase', () => {
   test('suppression du compte : confirmation, appel serveur, progression effacée', async ({ hanko }) => {
     const page = (await hanko.open({ state: REAL, supabase: { session: SESSION, remote: REAL } })).page;
     await synced(hanko);
+    await ouvrir(page, 'words'); // Réglages ouverts depuis un autre onglet que l'Accueil
     await page.locator('header [data-act="settings"]').click();
     await page.locator('[data-act="delacc"]').click();
     await expect(page.locator('[data-act="delacc"]')).toHaveText('Confirmer : tout supprimer');
     await page.locator('[data-act="delacc"]').click();
     await expect(page.locator('.amsg')).toHaveText('Ton compte et ta progression en ligne ont été supprimés.');
+    await page.locator('.set [data-act="home"]').click(); // Retour mène à l'Accueil, comme après « Effacer »
+    await expect(page.locator('.tabbar [aria-current="page"]')).toHaveAttribute('data-id', 'home');
     const f = await hanko.fake();
     expect(f.calls).toEqual(expect.arrayContaining(['rpc:delete_user', 'signOut']));
     expect(f.rows['joueur-1']).toBeUndefined();

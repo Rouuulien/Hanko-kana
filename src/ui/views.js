@@ -84,7 +84,7 @@ function homeV() {
     ui.tab === 'path'
       ? pathV()
       : ui.tab === 'sheet'
-        ? band(sheetV())
+        ? band(`<h1 class="tabt">Tableau</h1>${sheetV()}`)
         : ui.tab === 'words'
           ? band(`<h1 class="tabt">Mots</h1>${wordsV()}`)
           : ui.tab === 'train'
@@ -105,7 +105,7 @@ function todayV() {
   <h1>${nx ? nx.t : 'Tous les kana sont vus !'}</h1>
   ${bigK(nx ? nx.items.slice(0, 5) : ['かな', 'カナ'])}
   ${nx ? `<button class="btn ac" data-act="lesson" data-id="${nx.id}">Commencer la leçon</button>` : ''}</article>
-  <div class="rev"><div class="rev-t"><b><span class="rev-n">${due}</span> kana à réviser</b><span>${due ? 'Le bon moment pour ta mémoire.' : nextDue()}</span></div>
+  <div class="rev"><span class="rev-n">${due}</span><div class="rev-t"><b>${due ? 'kana à réviser' : 'Révisions à jour'}</b><span>${due ? 'Le bon moment pour ta mémoire.' : nextDue()}</span></div>
   ${due ? `<button class="btn gh" data-act="review">Réviser</button>` : nl ? `<button class="btn gh" data-act="practice">Entraînement libre</button>` : ''}</div>
   <div class="progress"><span class="mut">Ta progression</span><div class="prog"><i style="width:${Math.round((nl / TOTAL) * 100)}%"></i></div>
   <div class="figs">${fig(`${nl} / ${TOTAL}`, 'kana vus')}${fig(ms, 'maîtrisés')}${fig(`${rw} / ${WORDS.length}`, 'mots lisibles')}${fig(S.xp, 'XP')}</div></div>
@@ -162,7 +162,7 @@ function sheetV() {
     if (l.id.endsWith('-wa')) return [it[0], null, null, null, it[1], it[2], null, null, null, null];
     return it;
   });
-  return `<div class="sheet"><h2>Tableau des kana</h2><p class="mut" style="margin:4px 0 0">Plus la case est verte, mieux tu maîtrises le kana. Touche-le pour l’entendre${tts ? '' : ' (voix japonaise indisponible ici)'}.</p>
+  return `<div class="sheet"><p class="mut" style="margin:4px 0 0">Plus la case est verte, mieux tu maîtrises le kana. Touche-le pour l’entendre${tts ? '' : ' (voix japonaise indisponible ici)'}.</p>
   <div class="tabs"><button data-act="tab" data-id="h" aria-pressed="${s === 'h'}">Hiragana</button><button data-act="tab" data-id="k" aria-pressed="${s === 'k'}">Katakana</button></div>
   <div class="g5">${base.map(cell).join('')}</div><p class="sub">Sons voisés</p><div class="g5">${unitItems(us[1]).map(cell).join('')}</div>
   <p class="sub">Combinaisons</p><div class="g3">${unitItems(us[2]).map(cell).join('')}</div>
@@ -208,7 +208,8 @@ function cardsV() {
   <div class="qz"><p class="qcap">${L.u.t} · ${L.t} — découverte</p><div class="card">
   <div class="pk" lang="ja">${c}</div><div class="ro">${it.r}</div>
   ${tts ? `<button class="say" data-act="say" data-t="${c}">${SPK} Écouter</button>` : ''}
-  ${tips.map(t => `<p class="hint">${t}</p>`).join('')}</div>
+</div>
+  ${tips.length ? `<ul class="hints">${tips.map(t => `<li class="hint">${t}</li>`).join('')}</ul>` : ''}
   ${
     canDraw(c) && KS && KS[c]
       ? `<div class="trace"><div class="tmodel" id="tm">${modelSVG(c)}</div><div class="tt"><b>Ordre des traits : ${KS[c].d.length}</b><button class="say" data-act="replay">${REPLAY}Revoir</button>${ui.ses.tr ? '' : `<button class="say" data-act="ctrace">${PENCIL}M’entraîner à tracer</button>`}</div></div>
@@ -256,7 +257,7 @@ function quizV() {
             .join('')}</div>`;
   const note =
     Q.type === 'draw' && A
-      ? (A.tip || '') + (!A.ok && !A.self ? ` <button class="link" data-act="qself">J’avais juste</button>` : '')
+      ? A.tip || ''
       : A && !A.ok
         ? `Réponse : <span lang="ja">${it.c}</span> = ${it.r}${it.al.length && Q.type === 'type' ? ' (ou ' + it.al.join(', ') + ')' : ''}${A.tip ? '<br>' + A.tip : ''}`
         : A && Q.type === 'ear'
@@ -264,7 +265,7 @@ function quizV() {
           : '';
   const draw = Q.type === 'draw';
   const fb = A
-    ? `<div class="fb ${A.ok ? 'ok' : 'bad'}${draw ? ' draw' : ''}"><div class="fb-in"><div class="fb-m">${draw ? '' : daru(A.ok ? 'happy' : 'oops', 48, allDone())}<div class="msg"><b>${A.msg}</b>${note ? `<span class="note">${note}</span>` : ''}</div></div><button class="btn ${A.ok ? 'ac' : 'gh'}" data-act="next" id="nb">Continuer</button></div></div>`
+    ? `<div class="fb ${A.ok ? 'ok' : 'bad'}${draw ? ' draw' : ''}"><div class="fb-in"><div class="fb-m">${draw ? '' : daru(A.ok ? 'happy' : 'oops', 48, allDone())}<div class="msg"><b>${A.msg}</b>${note ? `<span class="note">${note}</span>` : ''}${draw && !A.ok && !A.self ? `<button class="link qself" data-act="qself">J’avais juste</button>` : ''}</div></div><button class="btn ${A.ok ? 'ac' : 'gh'}" data-act="next" id="nb">Continuer</button></div></div>`
     : '';
   // Écouter : avant la réponse seulement là où ça ne la donne pas (dessin ; l'écoute a son gros bouton), après sur tous les types.
   const listen =
@@ -311,30 +312,29 @@ function resV() {
         : 'Sans faute, bravo !'
       : 'Pas grave : refais un tour des leçons de l’unité et retente le test.';
   if (allDone() && k === 'lesson' && !nl) talk = 'Tu as vu tous les kana : je peins enfin mon second œil !';
-  return (
-    top() +
-    `<section class="band"><div class="wrap narrow res">
+  return `<div class="gres"><div class="gres-top"><button class="x" data-act="home" aria-label="Fermer">${CLOSE}</button></div>
   <div class="stamp ${ui.ses.pass ? 'on' : 'off'}"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" stroke-width="6"/><circle cx="60" cy="60" r="43" fill="none" stroke="currentColor" stroke-width="2"/><text x="60" y="78" text-anchor="middle" font-size="52" fill="currentColor" font-family="Zen Old Mincho, serif" font-weight="700">${ui.ses.pass ? '済' : '再'}</text></svg></div>
-  <h1>${title}</h1><p class="lead">${sub}</p>
-  ${miss.length ? `<h2 style="margin-top:14px">À retravailler</h2><div class="mrow">${miss.map(c => `<button class="mk" data-act="say" data-t="${c}"><span lang="ja">${c}</span><small>${ITEMS[c].r}</small></button>`).join('')}</div>` : ''}
-  ${mascot(ui.ses.pass ? 'happy' : 'oops', talk, 70)}
-  <div class="acts">${nl ? `<button class="btn ac" data-act="lesson" data-id="${nl.id}">Leçon suivante</button>` : ''}${k === 'test' && !ui.ses.pass ? `<button class="btn ac" data-act="test" data-id="${ui.ses.id}">Retenter</button>` : ''}<button class="btn gh" data-act="home">Retour</button></div></div></section>`
-  );
+  <h1>${title}</h1>${k === 'test' && !ui.ses.pass ? `<p class="gsub">${sub}</p>` : ''}
+  <div class="rfigs"><div class="fig1"><b>${pc} %</b><span>du premier coup</span></div><div class="fig1"><b>×${ui.ses.best}</b><span>meilleure série</span></div><div class="fig1"><b>+${ui.ses.xp}</b><span>XP</span></div></div>
+  ${miss.length ? `<div class="gmiss"><p>À retravailler</p><div class="mrow">${miss.map(c => `<button class="mk" data-act="say" data-t="${c}"><span lang="ja">${c}</span><small>${ITEMS[c].r}</small></button>`).join('')}</div></div>` : ''}
+  ${mascot(ui.ses.pass ? 'happy' : 'oops', talk, 56)}
+  <div class="gacts">${nl ? `<button class="btn ac" data-act="lesson" data-id="${nl.id}">Leçon suivante</button>` : ''}${k === 'test' && !ui.ses.pass ? `<button class="btn ac" data-act="test" data-id="${ui.ses.id}">Retenter</button>` : ''}<button class="btn gh" data-act="home">Retour</button></div></div>`;
 }
 
 function setV() {
-  return (
-    top() +
-    `<section class="band"><div class="wrap narrow set"><button class="back" data-act="home">← Retour</button><h1>Réglages</h1>
-  <label class="tg"><input type="checkbox" data-act="tog" data-k="unlock" ${S.unlock ? 'checked' : ''}><span>Tout débloquer<small>Accède à n’importe quelle leçon, sans suivre l’ordre.</small></span></label>
-  <label class="tg"><input type="checkbox" data-act="tog" data-k="ear" ${S.ear !== false ? 'checked' : ''} ${tts ? '' : 'disabled'}><span>Exercices d’écoute<small>${tts ? 'Utilise la voix japonaise de ton appareil.' : 'Aucune voix japonaise trouvée sur cet appareil.'}</small></span></label>
-  <label class="tg"><input type="checkbox" data-act="tog" data-k="draw" ${S.draw !== false ? 'checked' : ''}><span>Exercices de dessin<small>Ajoute des « dessine ce kana » dans les leçons et les révisions.</small></span></label>
-  <label class="tg"><input type="checkbox" data-act="tog" data-k="snd" ${S.snd !== false ? 'checked' : ''}><span>Sons du jeu<small>Petits sons de bonne réponse, d’erreur, de série et de fin de leçon.</small></span></label>
-  ${accountV()}<h2>Sauvegarde</h2><p style="margin:0;font-weight:500" data-cloud>${cloudText()}</p><p class="mut" style="margin:0">Code de secours : copie-le pour garder une copie manuelle ou transférer ta progression hors de Claude (par exemple vers la version GitHub Pages).</p>
+  const acc = accountV();
+  return `<section class="band"><div class="wrap narrow set"><header class="sethead"><button class="back" data-act="home">← Retour</button><h1>Réglages</h1></header>
+  <div class="sgroup">
+  <label class="tg"><span>Tout débloquer<small>Accède à n’importe quelle leçon, sans suivre l’ordre.</small></span><input type="checkbox" data-act="tog" data-k="unlock" ${S.unlock ? 'checked' : ''}></label>
+  <label class="tg"><span>Exercices d’écoute<small>${tts ? 'Utilise la voix japonaise de ton appareil.' : 'Aucune voix japonaise trouvée sur cet appareil.'}</small></span><input type="checkbox" data-act="tog" data-k="ear" ${S.ear !== false ? 'checked' : ''} ${tts ? '' : 'disabled'}></label>
+  <label class="tg"><span>Exercices de dessin<small>Ajoute des « dessine ce kana » dans les leçons et les révisions.</small></span><input type="checkbox" data-act="tog" data-k="draw" ${S.draw !== false ? 'checked' : ''}></label>
+  <label class="tg"><span>Sons du jeu<small>Petits sons de bonne réponse, d’erreur, de série et de fin de leçon.</small></span><input type="checkbox" data-act="tog" data-k="snd" ${S.snd !== false ? 'checked' : ''}></label>
+  </div>
+  ${acc ? `<section class="scard">${acc}</section>` : ''}
+  <section class="scard"><h2>Sauvegarde</h2><p style="margin:0;font-weight:500" data-cloud>${cloudText()}</p><p class="mut" style="margin:0">Code de secours : copie-le pour garder une copie manuelle ou transférer ta progression hors de Claude (par exemple vers la version GitHub Pages).</p>
   <textarea id="exp" readonly rows="3">${esc(JSON.stringify(S))}</textarea><button class="btn gh" data-act="copy">Copier le code</button>
-  <form id="imp"><textarea id="impt" rows="3" placeholder="Colle ici un code de sauvegarde" aria-label="Code de sauvegarde"></textarea><button class="btn gh">Importer</button><p id="impm" class="mut" style="margin:0"></p></form>
-  <h2>Remise à zéro</h2><button class="btn danger" data-act="reset">${resetLabel()}</button></div></section>`
-  );
+  <form id="imp"><textarea id="impt" rows="3" placeholder="Colle ici un code de sauvegarde" aria-label="Code de sauvegarde"></textarea><button class="btn gh">Importer</button><p id="impm" class="mut" style="margin:0"></p></form></section>
+  <section class="scard"><h2>Remise à zéro</h2><button class="btn danger" data-act="reset">${resetLabel()}</button></section></div></section>`;
 }
 
 export { wordHTML, top, homeV, cardsV, quizV, resV, setV, resetLabel };

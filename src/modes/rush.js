@@ -263,7 +263,7 @@ const KB = [
   ['clear', CLEARALL, 'Tout effacer'],
 ];
 function rushV() {
-  return `<div class="rz"><div class="rz-top"><button class="x" data-act="rquit" aria-label="Quitter">${CLOSE}</button><span class="rz-tag">${ui.rs.fmt === 'deck' ? 'Paquet complet' : 'Contre la montre · ' + ui.rs.dur + ' s'} · ${S.rct === 'words' ? 'mots' : 'kana'}</span>${muteBtn()}${daru('idle', 36, allDone())}</div>
+  return `<div class="rz"><div class="rz-top"><button class="x" data-act="rquit" aria-label="Quitter">${CLOSE}</button><span class="rz-tag">${ui.rs.fmt === 'deck' ? 'Paquet complet' : 'Contre la montre · ' + ui.rs.dur + ' s'} · ${S.rct === 'words' ? 'mots' : 'kana'}</span>${muteBtn()}${daru('idle', 32, allDone())}</div>
   <div class="stage"><div class="deck"><div class="cd b2" id="b2"></div><div class="cd b1" id="b1"></div><div class="cd front" id="cf"></div></div></div>
   <p class="hintline" id="rh"></p>
   <div class="rbar"><span class="t" id="rt">${rClock()}</span><div class="typed" id="ty" aria-live="polite"></div><span class="c" id="rc"></span></div>

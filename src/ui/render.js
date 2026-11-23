@@ -11,6 +11,8 @@ import { cardsV, homeV, quizV, resV, setV } from './views.js';
 import { say } from './voice.js';
 const app = document.getElementById('app');
 function render() {
+  // L'écran affiché était un onglet : on retient sa position de défilement avant de le remplacer.
+  if (ui.lastView.startsWith('home:')) ui.scroll[ui.lastView.split(':')[1]] = window.scrollY;
   app.innerHTML = {
     home: homeV,
     cards: cardsV,
@@ -58,9 +60,9 @@ function render() {
     qz = app.querySelector('.qz');
   if (fb && qz) qz.style.setProperty('--fb-h', `${fb.offsetHeight}px`);
   if (ui.view === 'rush') rPaint();
-  const where = ui.view === 'home' ? `home:${ui.tab}:${ui.train}` : ui.view; // un nouvel onglet s'ouvre en haut
+  const where = ui.view === 'home' ? `home:${ui.tab}:${ui.train}` : ui.view;
   if (where !== ui.lastView) {
-    window.scrollTo(0, 0);
+    window.scrollTo(0, ui.view === 'home' ? ui.scroll[ui.tab] || 0 : 0); // le navigateur borne si l'onglet a raccourci
     ui.lastView = where;
   }
   if (ui.view === 'cards') say(LES[ui.ses.id].items[ui.ses.ci]);

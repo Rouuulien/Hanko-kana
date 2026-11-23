@@ -5,6 +5,7 @@ const ui = {
   view: 'home', // écran courant : home (les onglets), cards, quiz, res, set, rush, rushres, brush, brushres
   tab: 'home', // onglet ouvert quand view === 'home' : home, path, sheet, words, train (l'appli s'ouvre sur Accueil)
   train: 'rush', // mode choisi dans l'onglet Entraîner : rush (Rafale) ou brush (Pinceau)
+  scroll: {}, // position de défilement de chaque onglet, retrouvée au retour (non sauvegardée)
   ses: null, // leçon, quiz, test ou révision en cours
   armed: false,
   armedDel: false, // confirmations en attente : effacer la progression, supprimer le compte

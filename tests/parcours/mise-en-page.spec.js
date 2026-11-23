@@ -74,3 +74,15 @@ for (const scheme of ['light', 'dark'])
     expect(fond).not.toBe(ac);
     expect(fond).not.toBe('rgb(163, 58, 45)'); // ancien bandeau sombre
   });
+
+test('zones tactiles d’au moins 44 px dans les Réglages', async ({ hanko }) => {
+  await hanko.open({ state: REAL });
+  await hanko.page.locator('header [data-act="settings"]').click();
+  const petites = await hanko.page.evaluate(() =>
+    [...document.querySelectorAll('button, [data-act], label.tg')]
+      .filter(e => e.offsetParent && !e.closest('.foot') && !e.matches('a, .link, label.tg input'))
+      .map(e => [e.dataset.act || e.textContent.trim().slice(0, 20), Math.round(e.getBoundingClientRect().height)])
+      .filter(([, h]) => h < 44),
+  );
+  expect(petites).toEqual([]);
+});

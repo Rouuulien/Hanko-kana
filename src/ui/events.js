@@ -70,7 +70,13 @@ app.addEventListener('click', e => {
       if (id === 'rush' || id === 'brush') {
         ui.tab = 'train';
         ui.train = id;
-      } else ui.tab = id;
+      } else {
+        if (id === ui.tab && ui.view === 'home') {
+          ui.scroll[id] = 0; // toucher l'onglet déjà ouvert remonte en haut
+          window.scrollTo(0, 0);
+        }
+        ui.tab = id;
+      }
       render();
       break;
     case 'cnext':

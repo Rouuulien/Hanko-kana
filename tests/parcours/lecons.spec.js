@@ -19,7 +19,7 @@ test('premier lancement → première leçon → résultat → progression conse
   const types = await finirQuiz(hanko);
   expect(types).toEqual(expect.arrayContaining(['k2r', 'r2k', 'type', 'draw']));
   await expect(page.locator('h1')).toHaveText('Leçon terminée');
-  await expect(page.locator('.acts [data-act="home"]')).toHaveText('Retour'); // ramène sur l'onglet d'origine (ici Accueil)
+  await expect(page.locator('.gacts [data-act="home"]')).toHaveText('Retour'); // ramène sur l'onglet d'origine (ici Accueil)
 
   const st = await hanko.stored();
   expect(st.done).toEqual({ 'h-a': true });
@@ -50,7 +50,7 @@ test('révision des kana échus : une erreur renvoie le kana en boîte 1, les au
     if (c === first) expect(learned[c]).toEqual({ box: 1, due: T0 + 7 * HOUR });
     else expect(learned[c]).toEqual({ box: 3, due: T0 + 3 * HOUR + 3 * 864e5 });
   }
-  await page.locator('[data-act="home"]').click();
+  await page.locator('.gacts [data-act="home"]').click();
   await expect(page.locator('.rev-n')).toHaveText('0');
 });
 

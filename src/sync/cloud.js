@@ -5,7 +5,7 @@
    Le module ne connaît pas l'interface : elle lui est branchée par bindUI() (afficher, écran courant, changer d'écran). */
 import { S, fresh, replaceState, readSave, saveLocal } from '../core/state.js';
 import { merge } from '../core/merge.js';
-const ui = { render() {}, view: () => 'home', go() {}, resetTip() {} };
+const ui = { render() {}, view: () => 'home', go() {}, resetTip() {}, home() {} };
 /** Branche l'interface : { render, view: () => écran courant, go: écran => void, resetTip }. */
 function bindUI(o) {
   Object.assign(ui, o);
@@ -302,6 +302,7 @@ async function sbDelete() {
   replaceState(fresh());
   saveLocal();
   ui.resetTip();
+  ui.home(); // « ← Retour » mène ensuite à l'Accueil, comme après « Effacer ma progression »
   cloud.msg = 'Ton compte et ta progression en ligne ont été supprimés.';
   ui.render();
 }
