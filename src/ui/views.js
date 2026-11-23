@@ -321,18 +321,19 @@ function resV() {
 }
 
 function setV() {
-  return (
-    top() +
-    `<section class="band"><div class="wrap narrow set"><button class="back" data-act="home">← Retour</button><h1>Réglages</h1>
-  <label class="tg"><input type="checkbox" data-act="tog" data-k="unlock" ${S.unlock ? 'checked' : ''}><span>Tout débloquer<small>Accède à n’importe quelle leçon, sans suivre l’ordre.</small></span></label>
-  <label class="tg"><input type="checkbox" data-act="tog" data-k="ear" ${S.ear !== false ? 'checked' : ''} ${tts ? '' : 'disabled'}><span>Exercices d’écoute<small>${tts ? 'Utilise la voix japonaise de ton appareil.' : 'Aucune voix japonaise trouvée sur cet appareil.'}</small></span></label>
-  <label class="tg"><input type="checkbox" data-act="tog" data-k="draw" ${S.draw !== false ? 'checked' : ''}><span>Exercices de dessin<small>Ajoute des « dessine ce kana » dans les leçons et les révisions.</small></span></label>
-  <label class="tg"><input type="checkbox" data-act="tog" data-k="snd" ${S.snd !== false ? 'checked' : ''}><span>Sons du jeu<small>Petits sons de bonne réponse, d’erreur, de série et de fin de leçon.</small></span></label>
-  ${accountV()}<h2>Sauvegarde</h2><p style="margin:0;font-weight:500" data-cloud>${cloudText()}</p><p class="mut" style="margin:0">Code de secours : copie-le pour garder une copie manuelle ou transférer ta progression hors de Claude (par exemple vers la version GitHub Pages).</p>
+  const acc = accountV();
+  return `<section class="band"><div class="wrap narrow set"><header class="sethead"><button class="back" data-act="home">← Retour</button><h1>Réglages</h1></header>
+  <div class="sgroup">
+  <label class="tg"><span>Tout débloquer<small>Accède à n’importe quelle leçon, sans suivre l’ordre.</small></span><input type="checkbox" data-act="tog" data-k="unlock" ${S.unlock ? 'checked' : ''}></label>
+  <label class="tg"><span>Exercices d’écoute<small>${tts ? 'Utilise la voix japonaise de ton appareil.' : 'Aucune voix japonaise trouvée sur cet appareil.'}</small></span><input type="checkbox" data-act="tog" data-k="ear" ${S.ear !== false ? 'checked' : ''} ${tts ? '' : 'disabled'}></label>
+  <label class="tg"><span>Exercices de dessin<small>Ajoute des « dessine ce kana » dans les leçons et les révisions.</small></span><input type="checkbox" data-act="tog" data-k="draw" ${S.draw !== false ? 'checked' : ''}></label>
+  <label class="tg"><span>Sons du jeu<small>Petits sons de bonne réponse, d’erreur, de série et de fin de leçon.</small></span><input type="checkbox" data-act="tog" data-k="snd" ${S.snd !== false ? 'checked' : ''}></label>
+  </div>
+  ${acc ? `<section class="scard">${acc}</section>` : ''}
+  <section class="scard"><h2>Sauvegarde</h2><p style="margin:0;font-weight:500" data-cloud>${cloudText()}</p><p class="mut" style="margin:0">Code de secours : copie-le pour garder une copie manuelle ou transférer ta progression hors de Claude (par exemple vers la version GitHub Pages).</p>
   <textarea id="exp" readonly rows="3">${esc(JSON.stringify(S))}</textarea><button class="btn gh" data-act="copy">Copier le code</button>
-  <form id="imp"><textarea id="impt" rows="3" placeholder="Colle ici un code de sauvegarde" aria-label="Code de sauvegarde"></textarea><button class="btn gh">Importer</button><p id="impm" class="mut" style="margin:0"></p></form>
-  <h2>Remise à zéro</h2><button class="btn danger" data-act="reset">${resetLabel()}</button></div></section>`
-  );
+  <form id="imp"><textarea id="impt" rows="3" placeholder="Colle ici un code de sauvegarde" aria-label="Code de sauvegarde"></textarea><button class="btn gh">Importer</button><p id="impm" class="mut" style="margin:0"></p></form></section>
+  <section class="scard"><h2>Remise à zéro</h2><button class="btn danger" data-act="reset">${resetLabel()}</button></section></div></section>`;
 }
 
 export { wordHTML, top, homeV, cardsV, quizV, resV, setV, resetLabel };

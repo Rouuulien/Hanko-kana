@@ -15,6 +15,9 @@ bindUI({
   resetTip: () => {
     ui.homeTip = null;
   },
+  home: () => {
+    ui.tab = 'home';
+  },
 });
 render();
 cloudInit();

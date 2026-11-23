@@ -1,6 +1,6 @@
 // Réglages : options, remise à zéro (seulement après confirmation explicite).
 import { test, expect } from '../helpers/hanko.js';
-import { REAL } from './_commun.js';
+import { REAL, releve } from './_commun.js';
 
 test('couper les sons est enregistré', async ({ hanko }) => {
   const page = (await hanko.open({ state: REAL })).page;
@@ -42,3 +42,26 @@ test('armer puis désarmer « Effacer » ne réaffiche pas la page : un code de 
   await expect(page.locator('[data-act="reset"]')).toHaveText('Effacer ma progression');
   await expect(page.locator('#impt')).toHaveValue('{"learned":{}');
 });
+
+test('Réglages : en-tête simple, options en liste, vrais interrupteurs', async ({ hanko }) => {
+  await hanko.page.setViewportSize({ width: 390, height: 844 });
+  const page = (await hanko.open({ state: REAL })).page;
+  await page.locator('header [data-act="settings"]').click();
+  await expect(page.locator('header.top')).toHaveCount(0);
+  await expect(page.locator('.set [data-act="home"]')).toHaveText('← Retour');
+  const tog = page.locator('.sgroup input[type="checkbox"][data-act="tog"]');
+  await expect(tog).toHaveCount(4);
+  for (const h of await page.locator('.sgroup label.tg').evaluateAll(l => l.map(e => e.getBoundingClientRect().height)))
+    expect(h).toBeGreaterThanOrEqual(44);
+  expect(await tog.first().evaluate(e => getComputedStyle(e).appearance)).toBe('none');
+});
+
+for (const scheme of ['light', 'dark'])
+  test(`interrupteur désactivé lisible (${scheme})`, async ({ hanko }) => {
+    await hanko.page.emulateMedia({ colorScheme: scheme });
+    await hanko.page.setViewportSize({ width: 390, height: 844 });
+    const page = (await hanko.open({ state: REAL })).page;
+    await page.locator('header [data-act="settings"]').click();
+    await expect(page.locator('[data-act="tog"][data-k="ear"]')).toBeDisabled();
+    expect(await releve(page)).toEqual([]);
+  });

@@ -159,8 +159,9 @@ button {
   border: 1px solid var(--ink);
 }
 .btn.danger {
-  background: var(--bad);
-  color: var(--on-bad);
+  background: transparent;
+  color: var(--bad);
+  border: 1px solid var(--bad);
   box-shadow: none;
 }
 .btn:disabled {
@@ -1182,10 +1183,19 @@ button {
 /* settings */
 .set {
   display: grid;
-  gap: 12px;
+  gap: 16px;
+}
+.sethead {
+  display: grid;
+  gap: 4px;
+  padding-top: env(safe-area-inset-top); /* plus d'en-tête d'appli au-dessus : l'encoche est à notre charge */
+}
+.sethead h1 {
+  margin: 0;
 }
 .set h2 {
-  margin-top: 16px;
+  margin: 0;
+  font-size: 18px;
 }
 .back {
   justify-self: start;
@@ -1195,26 +1205,83 @@ button {
   min-height: 44px;
   padding: 0;
 }
+/* options : une carte, une ligne par option, interrupteur à droite */
+.sgroup {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-l);
+  overflow: hidden;
+}
 .tg {
   display: flex;
   gap: 14px;
-  align-items: flex-start;
-  padding: 14px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: var(--card);
+  align-items: center;
+  justify-content: space-between;
+  min-height: 56px;
+  padding: 12px 16px;
   cursor: pointer;
 }
-.tg input {
-  width: 22px;
-  height: 22px;
-  margin-top: 2px;
-  accent-color: var(--ac);
+.tg + .tg {
+  border-top: 1px solid var(--line);
 }
 .tg small {
   display: block;
   color: var(--mut);
-  font-size: 14px;
+  font-size: 13px;
+}
+.tg input {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: none;
+  position: relative;
+  width: 51px;
+  height: 31px;
+  margin: 0;
+  border-radius: 16px;
+  background: var(--line);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.tg input::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
+  transition: transform 0.2s;
+}
+.tg input:checked {
+  background: var(--ok);
+}
+.tg input:checked::after {
+  transform: translateX(20px);
+}
+.tg input:disabled {
+  background: var(--sand);
+  cursor: default;
+}
+.tg input:disabled::after {
+  background: var(--bg);
+  box-shadow: none;
+}
+.tg input:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.scard {
+  display: grid;
+  gap: 12px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-l);
+  padding: 16px;
+}
+.scard textarea {
+  background: var(--bg);
 }
 textarea {
   width: 100%;
@@ -1232,7 +1299,7 @@ textarea {
   gap: 10px;
 }
 #imp .btn,
-.set > .btn {
+.scard > .btn {
   justify-self: start;
 }
 /* tracé */
@@ -1909,6 +1976,12 @@ textarea {
   .typed.err,
   .typed::after {
     animation: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tg input,
+  .tg input::after {
+    transition: none;
   }
 }
 @media (prefers-reduced-motion: reduce) {
