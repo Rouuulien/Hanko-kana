@@ -101,6 +101,22 @@ pile de cartes et zone de dessin sur `--card`, clavier en touches `--card` sur f
 active ou action en vermillon seulement pour l'action principale, chrono en chiffres tabulaires. Le comportement
 (clavier physique, touches dessinées, chrono qui démarre à la première lettre ou au premier trait) est inchangé.
 
+Détail visuel retenu (maquettes validées par Julien le 23/11/2026, rangée « Étape 3 · PR 2 » du canevas) :
+- En-tête des deux jeux : croix fine (Quitter), étiquette 13 px `--mut`, bouton des sons, Daru 32 px ; sans fond.
+- Rafale : carte du kana `--card` (Klee One ~112 px) sur deux cartes `--sand` légèrement tournées ; ligne d'aide
+  13 px `--mut` ; ligne chrono / saisie / compteur (chiffres tabulaires 20 px, saisie en carte 52 px à curseur
+  vermillon, total en 13 px `--mut`) ; clavier dans un panneau `--sand` à coins hauts 24 et zone sûre en bas,
+  touches `--card` 46 px rayon 10 à filet `--line`, touches de fonction (recommencer, passer, effacer une lettre, tout
+  effacer) en icônes `--mut` sur `--bg`.
+- Pinceau : consigne en carte (romaji 40 px, pastille « N traits », Écouter rond à droite) ; zone de dessin `--card`
+  qui suit le thème (fin de la variante `.pad.dark`) ; outils Annuler / Effacer / Valider puis Indice et « Je ne
+  sais pas » ; en bas chrono, score en carte (nombre de justes en `--ok`) et compteur.
+- Résultats des deux jeux : écran plein cadre sans en-tête d'onglets, croix en haut à gauche (retour) ; légende ;
+  grand chiffre Zen Old Mincho 64 px ; sous-titre ; pastille or mat « Nouveau record » seulement en cas de record ;
+  trois chiffres dans une carte ; « À retravailler » en pastilles 64 × 72 ; bulle de Daru ; Rejouer (plein) et
+  Retour (contour) empilés pleine largeur. En sombre, mêmes écrans avec la palette sombre.
+- Les textes restent ceux du code (la ligne d'aide de la maquette n'est qu'un exemple).
+
 ### PR 3 : résultats, Réglages, reports et nettoyage
 
 Résultats de leçon, test, révision : écran plein cadre sans barre d'onglets ; tampon `済`/`再` réduit (~96 px) en
