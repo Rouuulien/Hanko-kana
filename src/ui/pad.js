@@ -5,6 +5,7 @@ import { LES } from '../data/kana.js';
 import { KS } from '../draw/strokes.js';
 import { aidSVG, modelSVG } from '../draw/svg.js';
 import { ui } from './app-state.js';
+import { BULB, ERASE, UNDO } from './icons.js';
 const BASE_AID = { 1: 2, 2: 1, 3: 0 };
 function aidCtx() {
   if (ui.view === 'cards' && ui.ses && ui.ses.tr && !ui.ses.tdone)
@@ -30,13 +31,13 @@ const hintBtn = (act, h, base) => {
   const cur = Math.max(base, h || 0);
   return cur >= 3
     ? ''
-    : `<button class="btn gh sm hintb" data-act="${act}">Indice${cur > base ? ` (${cur - base}/${3 - base})` : ''}</button>`;
+    : `<button class="btn gh sm hintb" data-act="${act}">${BULB}Indice${cur > base ? ` (${cur - base}/${3 - base})` : ''}</button>`;
 };
 /* état de l’interface : voir src/ui/app-state.js */
 const padHTML = (id, guide) =>
   `<div class="pad" id="${id}">${guide && KS ? `<div class="pguide">${modelSVG(guide, { anim: false, nums: false, cls: 'ghost' })}</div>` : ''}<div class="phint"></div><canvas aria-label="Zone de dessin"></canvas><div class="pover"></div></div>`;
 const padTools = (chk, extra) =>
-  `<div class="ptools"><button class="btn gh sm" data-act="pundo">↶ Annuler</button><button class="btn gh sm" data-act="pclear">Effacer</button>${chk ? `<button class="btn ac sm" data-act="${chk}">Valider</button>` : ''}${extra || ''}</div>`;
+  `<div class="ptools"><button class="btn gh sm" data-act="pundo">${UNDO}Annuler</button><button class="btn gh sm" data-act="pclear">${ERASE}Effacer</button>${chk ? `<button class="btn ac sm" data-act="${chk}">Valider</button>` : ''}${extra || ''}</div>`;
 function mountPad(id) {
   const box = document.getElementById(id);
   if (!box) return null;

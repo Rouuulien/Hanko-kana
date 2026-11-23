@@ -1,6 +1,8 @@
 // Quiz et fiche de découverte à la charte : panneau de réponse en bas, carte d'énoncé, bouton Écouter, icônes.
 import { test, expect } from '../helpers/hanko.js';
 import { forcer, ouvrirQuiz as quiz, repondreSansContinuer } from '../helpers/joueur.js';
+import { UNITS } from '../../src/data/kana.js';
+import { REAL, ouvrir } from './_commun.js';
 
 test.use({ viewport: { width: 390, height: 844 } });
 
@@ -88,4 +90,37 @@ test('zones tactiles d’au moins 44 px dans le quiz', async ({ hanko }) => {
   expect(await petites(page)).toEqual([]);
   await repondreSansContinuer(hanko, false);
   expect(await petites(page)).toEqual([]);
+});
+
+test('plus de ↶ ↻ ✎ : des icônes', async ({ hanko }) => {
+  const page = (await hanko.open({ state: REAL })).page;
+  await page.locator('.hero [data-act="lesson"]').click();
+  await expect(page.locator('[data-act="replay"] svg')).toBeVisible();
+  await expect(page.locator('[data-act="ctrace"] svg')).toBeVisible();
+  await page.locator('[data-act="ctrace"]').click();
+  await expect(page.locator('[data-act="pundo"] svg')).toBeVisible();
+  const vieux = () => page.evaluate(() => /[↶↻✎]/.test(document.getElementById('app').innerText));
+  expect(await vieux()).toBe(false);
+  await page.locator('[data-act="go"]').first().click();
+  await forcer(hanko, 'draw');
+  await expect(page.locator('[data-act="qhint"] svg')).toBeVisible();
+  expect(await vieux()).toBe(false);
+});
+
+test('fiche : navigation en bas en 52 px, zones tactiles, combinaisons sur une ligne', async ({ hanko }) => {
+  const combi = UNITS.flatMap(u => u.lessons).find(l => [...l.items[0]].length > 1);
+  const page = (await hanko.open({ state: { ...REAL, unlock: true } })).page;
+  await ouvrir(page, 'path');
+  await page.locator(`[data-act="lesson"][data-id="${combi.id}"]`).click();
+  await expect(page.locator('.card .pk')).toHaveText(combi.items[0]);
+  for (const h of await page.locator('.cnav .btn').evaluateAll(b => b.map(e => e.getBoundingClientRect().height)))
+    expect(h).toBeGreaterThanOrEqual(52);
+  expect(await petites(page)).toEqual([]);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+  const pk = await page
+    .locator('.card .pk')
+    .evaluate(e => [e.scrollWidth, e.clientWidth, e.getBoundingClientRect().height]);
+  expect(pk[0]).toBeLessThanOrEqual(pk[1]);
+  expect(await page.locator('.qcap').textContent()).toContain('découverte');
+  await expect(page.locator('.ask')).toHaveCount(0);
 });

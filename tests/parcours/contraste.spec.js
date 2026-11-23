@@ -93,3 +93,14 @@ for (const scheme of ['light', 'dark'])
     bas.dessin = await releve(page);
     expect(Object.fromEntries(Object.entries(bas).filter(([, v]) => v.length))).toEqual({});
   });
+
+for (const scheme of ['light', 'dark'])
+  test(`fiche lisible (${scheme})`, async ({ hanko }) => {
+    await hanko.page.emulateMedia({ colorScheme: scheme });
+    const page = (await hanko.open({ state: REAL })).page;
+    await page.locator('.hero [data-act="lesson"]').click();
+    const bas = { fiche: await releve(page) };
+    await page.locator('[data-act="ctrace"]').click();
+    bas.trace = await releve(page);
+    expect(Object.fromEntries(Object.entries(bas).filter(([, v]) => v.length))).toEqual({});
+  });

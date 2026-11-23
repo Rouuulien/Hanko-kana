@@ -15,7 +15,19 @@ import { cloud, cloudText } from '../sync/cloud.js';
 import { accountV } from './account.js';
 import { ui } from './app-state.js';
 import { daru, mascot } from './daru.js';
-import { CHECK, CLOSE, GEAR, SPK, TAB_HOME, TAB_PATH, TAB_SHEET, TAB_TRAIN, TAB_WORDS } from './icons.js';
+import {
+  CHECK,
+  CLOSE,
+  GEAR,
+  PENCIL,
+  REPLAY,
+  SPK,
+  TAB_HOME,
+  TAB_PATH,
+  TAB_SHEET,
+  TAB_TRAIN,
+  TAB_WORDS,
+} from './icons.js';
 import { hintBtn, padHTML, padTools } from './pad.js';
 import { muteBtn } from './sounds.js';
 import { tts } from './voice.js';
@@ -166,6 +178,8 @@ function wordsV() {
   <div class="wgrid">${r.map(w => card(w, true)).join('')}${l.map(w => card(w, false)).join('')}</div></div>`;
 }
 
+/** Bouton Quitter de la fiche et du quiz. */
+const quitBtn = () => `<button class="x" data-act="quit" aria-label="Quitter">${CLOSE}</button>`;
 function cardsV() {
   const L = LES[ui.ses.id],
     n = L.items.length,
@@ -190,24 +204,23 @@ function cardsV() {
   const say2 = cw
     ? `On retrouve <b lang="ja">${c}</b> dans ${wordHTML(cw.w)}${cw.now ? '<br>Tu pourras le lire dès la fin de cette leçon.' : ''}`
     : `Pas de mot facile avec <b lang="ja">${c}</b> pour l’instant, mais il reviendra vite.`;
-  return `<div class="qtop"><button class="x" data-act="quit" aria-label="Quitter">×</button><div class="bar"><i style="width:${Math.round(((ui.ses.ci + 1) / n) * 30)}%"></i></div></div>
-  <div class="qz"><p class="ask">${L.u.t} · ${L.t} — découverte</p><div class="card" style="margin-top:14px">
+  return `<div class="qtop">${quitBtn()}<div class="bar"><i style="width:${Math.round(((ui.ses.ci + 1) / n) * 30)}%"></i></div></div>
+  <div class="qz"><p class="qcap">${L.u.t} · ${L.t} — découverte</p><div class="card">
   <div class="pk" lang="ja">${c}</div><div class="ro">${it.r}</div>
   ${tts ? `<button class="say" data-act="say" data-t="${c}">${SPK} Écouter</button>` : ''}
   ${tips.map(t => `<p class="hint">${t}</p>`).join('')}</div>
   ${
     canDraw(c) && KS && KS[c]
-      ? `<div class="trace"><div class="tmodel" id="tm">${modelSVG(c)}</div><div class="tt"><b>Ordre des traits : ${KS[c].d.length}</b><button class="say" data-act="replay">↻ Revoir</button>${ui.ses.tr ? '' : `<button class="say" data-act="ctrace">✎ M’entraîner à tracer</button>`}</div></div>
+      ? `<div class="trace"><div class="tmodel" id="tm">${modelSVG(c)}</div><div class="tt"><b>Ordre des traits : ${KS[c].d.length}</b><button class="say" data-act="replay">${REPLAY}Revoir</button>${ui.ses.tr ? '' : `<button class="say" data-act="ctrace">${PENCIL}M’entraîner à tracer</button>`}</div></div>
   ${ui.ses.tr ? `<div class="tpad">${padHTML('cp', null).replace('class="pad"', `class="pad" data-key="c${ui.ses.ci}"`)}${ui.ses.tmsg ? `<p class="tmsg ${ui.ses.tok ? 'ok' : 'bad'}">${ui.ses.tmsg}</p>` : ''}${padTools(ui.ses.tdone ? '' : 'ccheck', ui.ses.tdone ? `<button class="btn gh sm" data-act="cagain">Recommencer</button>` : '')}</div>` : ''}`
       : ''
   }
   <div class="card-m">${mascot('idle', say2, 60)}</div>
   <div class="dots">${L.items.map((_, i) => `<i class="${i <= ui.ses.ci ? 'on' : ''}"></i>`).join('')}</div>
   <div class="cnav"><button class="btn gh" data-act="prev" ${ui.ses.ci ? '' : 'disabled'}>Précédent</button><button class="btn ac" data-act="${last ? 'go' : 'cnext'}">${last ? 'Passer au quiz' : 'Suivant'}</button></div>
-  ${!last ? `<p style="text-align:center;margin:10px 0 0"><button class="link" data-act="go">Je connais déjà, aller au quiz</button></p>` : ''}</div>`;
+  ${!last ? `<p class="skip"><button class="link" data-act="go">Je connais déjà, aller au quiz</button></p>` : ''}</div>`;
 }
 
-const quitBtn = () => `<button class="x" data-act="quit" aria-label="Quitter">${CLOSE}</button>`;
 function quizV() {
   const Q = cur(),
     it = ITEMS[Q.c],

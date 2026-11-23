@@ -1049,18 +1049,19 @@ button {
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--r-xl);
-  padding: 26px 20px;
+  padding: 24px 20px 20px;
   text-align: center;
   display: grid;
   justify-items: center;
   gap: 6px;
 }
 .card .pk {
-  font-size: clamp(110px, 26vw, 170px);
+  font-size: clamp(88px, 30vw, 140px);
 }
 .card .ro {
-  font: 700 34px var(--f-ui);
+  font: 500 28px var(--f-ui);
   color: var(--ac-ink);
+  margin-bottom: 6px;
 }
 .say {
   display: inline-flex;
@@ -1079,26 +1080,31 @@ button {
 .hint {
   margin: 4px 0 0;
   color: var(--mut);
+  font-size: 14px;
   max-width: 44ch;
 }
-.card-m {
-  margin-top: 16px;
-}
 .card-m .bubble {
-  margin-bottom: 18px;
+  margin-bottom: 8px;
+  font-size: 15px;
+  box-shadow: none;
 }
 .cnav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
-  margin-top: 18px;
+}
+.cnav .btn {
+  min-height: 52px;
+  padding: 0 12px;
+}
+.skip {
+  text-align: center;
+  margin: -10px 0 0;
 }
 .dots {
   display: flex;
   gap: 6px;
   justify-content: center;
-  margin: 14px 0 0;
   flex-wrap: wrap;
 }
 .dots i {
@@ -1108,7 +1114,7 @@ button {
   background: var(--line);
 }
 .dots i.on {
-  background: var(--ac);
+  background: var(--sage);
 }
 .link {
   background: none;
@@ -1293,10 +1299,9 @@ textarea {
   grid-template-columns: 120px minmax(0, 1fr);
   gap: 14px;
   align-items: center;
-  margin-top: 14px;
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 22px;
+  border-radius: var(--r-l);
   padding: 14px;
 }
 .tmodel {
@@ -1383,6 +1388,14 @@ textarea {
   min-height: 44px;
   padding: 0 16px;
   font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.btn.sm svg,
+.say svg {
+  flex: none;
 }
 .tpad {
   margin-top: 12px;
