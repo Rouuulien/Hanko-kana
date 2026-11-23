@@ -39,4 +39,13 @@ function transitionFor(prev, next) {
   return 'none';
 }
 
-export { snapshot, transitionFor };
+/**
+ * Vraie arrivée sur l'onglet Accueil (Koï y entre en nageant) : on n'y était pas juste avant. Un redessin du même écran ne compte pas.
+ * @param {Shot | null} prev @param {Shot} next @returns {boolean}
+ */
+function arrivesHome(prev, next) {
+  const home = /** @param {Shot | null} s */ s => !!s && s.view === 'home' && s.tab === 'home';
+  return home(next) && !home(prev);
+}
+
+export { arrivesHome, snapshot, transitionFor };
