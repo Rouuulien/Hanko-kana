@@ -2,6 +2,7 @@
 // L'état interne (via le hook) sert seulement d'oracle pour connaître la bonne réponse ;
 // le jeu est toujours piloté par l'interface, comme un vrai joueur.
 import { expect } from '@playwright/test';
+import { REAL } from '../parcours/_commun.js';
 
 /** Trace un kana sur la zone de dessin `padSel` à partir de son modèle KanjiVG (coordonnées 109 × 109). */
 export async function dessiner(hanko, padSel, c, { reverse = false } = {}) {
@@ -51,4 +52,44 @@ export async function finirQuiz(hanko, { erreurs = 0 } = {}) {
     types.push(await repondre(hanko, { juste: i >= erreurs }));
   }
   throw new Error('Quiz sans fin');
+}
+
+/** Ouvre la leçon du jour (ligne T) et passe les fiches. */
+export async function ouvrirQuiz(hanko, { voix = false } = {}) {
+  if (voix)
+    await hanko.page.addInitScript(() => {
+      speechSynthesis.getVoices = () => [{ lang: 'ja-JP', name: 'Test' }];
+      speechSynthesis.speak = () => {};
+    });
+  const page = (await hanko.open({ state: REAL })).page; // vraie sauvegarde : leçon du jour = ligne T
+  await page.locator('.hero [data-act="lesson"]').click();
+  await page.locator('[data-act="go"]').first().click();
+  return page;
+}
+/** La question suivante sera de ce type : on le fixe, puis on répond juste à la question courante. */
+export async function forcer(hanko, type) {
+  await hanko.run((H, t) => {
+    H.ses.queue[H.ses.i + 1].type = t;
+  }, type);
+  await repondre(hanko);
+  expect(await hanko.run(H => H.ses.queue[H.ses.i].type)).toBe(type);
+}
+/** Comme repondre(), sans toucher Continuer. */
+export async function repondreSansContinuer(hanko, juste = true) {
+  const page = hanko.page;
+  const Q = await hanko.run(H => {
+    const Q = H.ses.queue[H.ses.i];
+    return { c: Q.c, type: Q.type, o: Q.o, r: H.ITEMS[Q.c].r };
+  });
+  if (Q.type === 'type') {
+    await page.locator('#ti').fill(juste ? Q.r : 'zzz');
+    await page.locator('#ti').press('Enter');
+  } else if (Q.type === 'draw') {
+    await dessiner(hanko, '#qp', Q.c, { reverse: !juste });
+    await page.locator('[data-act="qcheck"]').click();
+  } else {
+    const ok = Q.o.indexOf(Q.c);
+    await page.locator(`.opt[data-i="${juste ? ok : (ok + 1) % Q.o.length}"]`).click();
+  }
+  await expect(page.locator('.fb')).toHaveClass(juste ? /\bok\b/ : /\bbad\b/);
 }

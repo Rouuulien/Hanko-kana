@@ -80,3 +80,10 @@ test('chaque police publiée existe et pèse moins de 400 Ko', () => {
     assert.ok(statSync(p).size < 400 * 1024, `${f} : ${statSync(p).size} octets`);
   }
 });
+
+test('Klee One est préchargée (grands kana dès le premier affichage)', () => {
+  const html = readFileSync(join(ROOT, 'index.html'), 'utf8');
+  assert.ok(
+    html.includes('<link rel="preload" href="fonts/KleeOne-400.woff2" as="font" type="font/woff2" crossorigin>'),
+  );
+});

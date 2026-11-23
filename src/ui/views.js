@@ -15,7 +15,19 @@ import { cloud, cloudText } from '../sync/cloud.js';
 import { accountV } from './account.js';
 import { ui } from './app-state.js';
 import { daru, mascot } from './daru.js';
-import { GEAR, SPK, TAB_HOME, TAB_PATH, TAB_SHEET, TAB_TRAIN, TAB_WORDS } from './icons.js';
+import {
+  CHECK,
+  CLOSE,
+  GEAR,
+  PENCIL,
+  REPLAY,
+  SPK,
+  TAB_HOME,
+  TAB_PATH,
+  TAB_SHEET,
+  TAB_TRAIN,
+  TAB_WORDS,
+} from './icons.js';
 import { hintBtn, padHTML, padTools } from './pad.js';
 import { muteBtn } from './sounds.js';
 import { tts } from './voice.js';
@@ -166,6 +178,8 @@ function wordsV() {
   <div class="wgrid">${r.map(w => card(w, true)).join('')}${l.map(w => card(w, false)).join('')}</div></div>`;
 }
 
+/** Bouton Quitter de la fiche et du quiz. */
+const quitBtn = () => `<button class="x" data-act="quit" aria-label="Quitter">${CLOSE}</button>`;
 function cardsV() {
   const L = LES[ui.ses.id],
     n = L.items.length,
@@ -190,21 +204,21 @@ function cardsV() {
   const say2 = cw
     ? `On retrouve <b lang="ja">${c}</b> dans ${wordHTML(cw.w)}${cw.now ? '<br>Tu pourras le lire dès la fin de cette leçon.' : ''}`
     : `Pas de mot facile avec <b lang="ja">${c}</b> pour l’instant, mais il reviendra vite.`;
-  return `<div class="qtop"><button class="x" data-act="quit" aria-label="Quitter">×</button><div class="bar"><i style="width:${Math.round(((ui.ses.ci + 1) / n) * 30)}%"></i></div></div>
-  <div class="qz"><p class="ask">${L.u.t} · ${L.t} — découverte</p><div class="card" style="margin-top:14px">
+  return `<div class="qtop">${quitBtn()}<div class="bar"><i style="width:${Math.round(((ui.ses.ci + 1) / n) * 30)}%"></i></div></div>
+  <div class="qz"><p class="qcap">${L.u.t} · ${L.t} — découverte</p><div class="card">
   <div class="pk" lang="ja">${c}</div><div class="ro">${it.r}</div>
   ${tts ? `<button class="say" data-act="say" data-t="${c}">${SPK} Écouter</button>` : ''}
   ${tips.map(t => `<p class="hint">${t}</p>`).join('')}</div>
   ${
     canDraw(c) && KS && KS[c]
-      ? `<div class="trace"><div class="tmodel" id="tm">${modelSVG(c)}</div><div class="tt"><b>Ordre des traits : ${KS[c].d.length}</b><button class="say" data-act="replay">↻ Revoir</button>${ui.ses.tr ? '' : `<button class="say" data-act="ctrace">✎ M’entraîner à tracer</button>`}</div></div>
+      ? `<div class="trace"><div class="tmodel" id="tm">${modelSVG(c)}</div><div class="tt"><b>Ordre des traits : ${KS[c].d.length}</b><button class="say" data-act="replay">${REPLAY}Revoir</button>${ui.ses.tr ? '' : `<button class="say" data-act="ctrace">${PENCIL}M’entraîner à tracer</button>`}</div></div>
   ${ui.ses.tr ? `<div class="tpad">${padHTML('cp', null).replace('class="pad"', `class="pad" data-key="c${ui.ses.ci}"`)}${ui.ses.tmsg ? `<p class="tmsg ${ui.ses.tok ? 'ok' : 'bad'}">${ui.ses.tmsg}</p>` : ''}${padTools(ui.ses.tdone ? '' : 'ccheck', ui.ses.tdone ? `<button class="btn gh sm" data-act="cagain">Recommencer</button>` : '')}</div>` : ''}`
       : ''
   }
   <div class="card-m">${mascot('idle', say2, 60)}</div>
   <div class="dots">${L.items.map((_, i) => `<i class="${i <= ui.ses.ci ? 'on' : ''}"></i>`).join('')}</div>
   <div class="cnav"><button class="btn gh" data-act="prev" ${ui.ses.ci ? '' : 'disabled'}>Précédent</button><button class="btn ac" data-act="${last ? 'go' : 'cnext'}">${last ? 'Passer au quiz' : 'Suivant'}</button></div>
-  ${!last ? `<p style="text-align:center;margin:10px 0 0"><button class="link" data-act="go">Je connais déjà, aller au quiz</button></p>` : ''}</div>`;
+  ${!last ? `<p class="skip"><button class="link" data-act="go">Je connais déjà, aller au quiz</button></p>` : ''}</div>`;
 }
 
 function quizV() {
@@ -223,7 +237,7 @@ function quizV() {
   }[Q.type];
   const pr =
     Q.type === 'draw'
-      ? `<div class="bprompt"><span class="pr">${it.r}</span>${tts ? `<button class="say" data-act="say" data-t="${it.c}" aria-label="Écouter">${SPK}</button>` : ''}</div>`
+      ? `<div class="bprompt"><span class="pr">${it.r}</span></div>`
       : Q.type === 'r2k'
         ? `<div class="pr">${it.r}</div>`
         : Q.type === 'ear'
@@ -237,7 +251,7 @@ function quizV() {
         : `<div class="opts">${Q.o
             .map((c, i) => {
               const cls = A ? (c === Q.c ? 'ok' : i === A.i ? 'bad' : '') : '';
-              return `<button class="opt ${Q.type === 'k2r' ? 'ro' : 'ka'} ${cls}" data-act="opt" data-i="${i}" ${A ? 'disabled' : ''}><kbd>${i + 1}</kbd>${Q.type === 'k2r' ? ITEMS[c].r : `<span lang="ja">${c}</span>`}</button>`;
+              return `<button class="opt ${Q.type === 'k2r' ? 'ro' : 'ka'} ${cls}" data-act="opt" data-i="${i}" ${A ? 'disabled' : ''}><kbd>${i + 1}</kbd>${Q.type === 'k2r' ? ITEMS[c].r : `<span lang="ja">${c}</span>`}${cls === 'ok' ? CHECK : ''}</button>`;
             })
             .join('')}</div>`;
   const note =
@@ -248,11 +262,18 @@ function quizV() {
         : A && Q.type === 'ear'
           ? `<span lang="ja">${it.c}</span> = ${it.r}`
           : '';
+  const draw = Q.type === 'draw';
   const fb = A
-    ? `<div class="fb ${A.ok ? 'ok' : 'bad'}">${daru(A.ok ? 'happy' : 'oops', 48, allDone())}<div class="msg"><b>${A.msg}</b>${note ? `<span class="note">${note}</span>` : ''}</div><button class="btn ${A.ok ? 'ac' : ''}" data-act="next" id="nb">Continuer</button></div>`
+    ? `<div class="fb ${A.ok ? 'ok' : 'bad'}${draw ? ' draw' : ''}"><div class="fb-in"><div class="fb-m">${draw ? '' : daru(A.ok ? 'happy' : 'oops', 48, allDone())}<div class="msg"><b>${A.msg}</b>${note ? `<span class="note">${note}</span>` : ''}</div></div><button class="btn ${A.ok ? 'ac' : 'gh'}" data-act="next" id="nb">Continuer</button></div></div>`
     : '';
-  return `<div class="qtop"><button class="x" data-act="quit" aria-label="Quitter">×</button><div class="bar"><i style="width:${pct}%"></i></div>${ui.ses.combo >= 2 ? `<span class="combo">×${ui.ses.combo}</span>` : ''}${muteBtn()}</div>
-  <div class="qz"><p class="ask">${ask}</p><div class="prompt ${Q.type === 'draw' ? 'short' : ''}">${pr}</div>${body}${fb}</div>`;
+  // Écouter : avant la réponse seulement là où ça ne la donne pas (dessin ; l'écoute a son gros bouton), après sur tous les types.
+  const listen =
+    tts && Q.type !== 'ear' && (draw || A)
+      ? `<button class="say rnd" data-act="say" data-t="${it.c}" aria-label="Écouter">${SPK}</button>`
+      : '';
+  const les = ui.ses.kind === 'lesson' ? `<span class="qles">${LES[ui.ses.id].t}</span> · ` : '';
+  return `<div class="qtop">${quitBtn()}<div class="bar"><i style="width:${pct}%"></i></div>${ui.ses.combo >= 2 ? `<span class="combo">×${ui.ses.combo}</span>` : ''}${muteBtn()}</div>
+  <div class="qz${A ? ' ans' : ''}${draw ? ' draw' : ''}"><p class="qcap">${les}<span class="ask">${ask}</span></p><div class="prompt${draw ? ' short' : ''}">${pr}${listen}</div>${body}${fb}</div>`;
 }
 
 function resV() {
