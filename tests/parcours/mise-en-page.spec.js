@@ -86,3 +86,54 @@ test('zones tactiles d’au moins 44 px dans les Réglages', async ({ hanko }) =
   );
   expect(petites).toEqual([]);
 });
+
+// Charte « Sceau » : cadres SVG propres à chaque thème, y compris quand le thème est forcé.
+test('les cadres de l’Accueil suivent le thème, système ou forcé', async ({ hanko }) => {
+  const page = (await hanko.open({ state: REAL })).page;
+  const cadres = () =>
+    page.evaluate(() =>
+      ['.hero', '.rev', '.today-g .bubble', '.rev .btn.gh'].map(
+        s => getComputedStyle(document.querySelector(s)).borderImageSource,
+      ),
+    );
+  await page.emulateMedia({ colorScheme: 'light' });
+  const clair = await cadres();
+  for (const c of clair) expect(c).toContain('data:image/svg+xml');
+  await page.emulateMedia({ colorScheme: 'dark' });
+  const sombre = await cadres();
+  sombre.forEach((c, i) => expect(c).not.toBe(clair[i]));
+  await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
+  expect(await cadres()).toEqual(clair);
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
+  expect(await cadres()).toEqual(sombre);
+});
+
+const rayons = (page, sels) =>
+  page.evaluate(
+    sels => Object.fromEntries(sels.map(s => [s, getComputedStyle(document.querySelector(s)).borderRadius])),
+    sels,
+  );
+
+test('le Tableau garde ses arrondis d’avant la charte « Sceau »', async ({ hanko }) => {
+  const page = (await hanko.open({ state: REAL })).page;
+  await ouvrir(page, 'sheet');
+  expect(await rayons(page, ['.sheet', '.sheet .tabs', '.sheet .tabs button', '.cell'])).toEqual({
+    '.sheet': '24px',
+    '.sheet .tabs': '14px',
+    '.sheet .tabs button': '12px',
+    '.cell': '12px',
+  });
+});
+
+test('l’écran de jeu Rafale garde ses arrondis d’avant la charte « Sceau »', async ({ hanko }) => {
+  const page = (await hanko.open({ state: REAL })).page;
+  await ouvrir(page, 'rush');
+  await page.locator('[data-act="rstart"]').click();
+  expect(await rayons(page, ['.cd.front', '.typed', '.kb', '.kb button'])).toEqual({
+    '.cd.front': '24px',
+    '.typed': '14px',
+    '.kb': '24px 24px 0px 0px',
+    '.kb button': '13px',
+  });
+});
