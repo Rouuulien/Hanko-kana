@@ -11,7 +11,7 @@ import { ui } from '../ui/app-state.js';
 import { daru, mascot } from '../ui/daru.js';
 import { render } from '../ui/render.js';
 import { muteBtn, sfx } from '../ui/sounds.js';
-import { top } from '../ui/views.js';
+import { BACKSPACE, CLEARALL, CLOSE, REPLAY, SKIP } from '../ui/icons.js';
 import { pick, shuffle } from '../util.js';
 const unitK = c => ({ j: c, t: [{ c, r: ITEMS[c].r, al: ITEMS[c].al }] });
 /** Un mot de la Rafale : ses kana à taper un par un (découpage dans src/core/romaji.js). */
@@ -256,14 +256,14 @@ function endRush() {
 const KB = [
   ...'azertyuiop',
   ...'qsdfghjklm',
-  ['restart', '↻', 'Recommencer'],
+  ['restart', REPLAY, 'Recommencer'],
   ...'wxcvbn',
-  ['skip', '→', 'Passer'],
-  ['back', '←', 'Effacer une lettre'],
-  ['clear', '«', 'Tout effacer'],
+  ['skip', SKIP, 'Passer'],
+  ['back', BACKSPACE, 'Effacer une lettre'],
+  ['clear', CLEARALL, 'Tout effacer'],
 ];
 function rushV() {
-  return `<div class="rz"><div class="rz-top"><button class="x" data-act="rquit" aria-label="Quitter">×</button><span class="rz-tag">${ui.rs.fmt === 'deck' ? 'Paquet complet' : 'Contre la montre · ' + ui.rs.dur + ' s'} · ${S.rct === 'words' ? 'mots' : 'kana'}</span>${muteBtn()}${daru('idle', 36, allDone())}</div>
+  return `<div class="rz"><div class="rz-top"><button class="x" data-act="rquit" aria-label="Quitter">${CLOSE}</button><span class="rz-tag">${ui.rs.fmt === 'deck' ? 'Paquet complet' : 'Contre la montre · ' + ui.rs.dur + ' s'} · ${S.rct === 'words' ? 'mots' : 'kana'}</span>${muteBtn()}${daru('idle', 36, allDone())}</div>
   <div class="stage"><div class="deck"><div class="cd b2" id="b2"></div><div class="cd b1" id="b1"></div><div class="cd front" id="cf"></div></div></div>
   <p class="hintline" id="rh"></p>
   <div class="rbar"><span class="t" id="rt">${rClock()}</span><div class="typed" id="ty" aria-live="polite"></div><span class="c" id="rc"></span></div>
@@ -283,15 +283,14 @@ function rushResV() {
           : ui.rs.kpm < 50
             ? 'Très rapide, tu lis presque sans réfléchir.'
             : 'Vitesse de ninja. Daru est impressionné.';
-  return (
-    top() +
-    `<section class="band"><div class="wrap narrow res"><p class="lead">Rafale · ${deck ? 'paquet de ' + ui.rs.q.length + ' cartes' : ui.rs.dur + ' s'} · ${S.rct === 'words' ? 'mots' : 'kana'}</p>
-  <div class="big-n">${deck ? fmtT(ui.rs.ms) : ui.rs.kpm}</div><p class="lead" style="margin-top:-4px">${deck ? 'pour finir le paquet' : 'kana par minute'}</p>
+  const best = ui.rs.record && ui.rs.ok;
+  return `<div class="gres"><div class="gres-top"><button class="x" data-act="home" aria-label="Fermer">${CLOSE}</button></div>
+  <p class="gcap">Rafale · ${deck ? 'paquet de ' + ui.rs.q.length + ' cartes' : ui.rs.dur + ' s'} · ${S.rct === 'words' ? 'mots' : 'kana'}</p>
+  <div class="big-n">${deck ? fmtT(ui.rs.ms) : ui.rs.kpm}</div><p class="gsub">${deck ? 'pour finir le paquet' : 'kana par minute'}</p>${best ? '<p class="grec">Nouveau record</p>' : ''}
   <div class="rfigs"><div class="fig1"><b>${deck ? ui.rs.kpm : ui.rs.ok}</b><span>${deck ? 'kana/min' : 'kana justes'}</span></div><div class="fig1"><b>${ui.rs.acc} %</b><span>précision</span></div><div class="fig1"><b>${ui.rs.err}</b><span>erreurs</span></div></div>
-  ${m.length ? `<h2 style="margin-top:14px">À retravailler</h2><div class="mrow">${m.map(([c, r]) => `<button class="mk" data-act="say" data-t="${c}"><span lang="ja">${c}</span><small>${r}</small></button>`).join('')}</div>` : ''}
-  ${mascot(ui.rs.record && ui.rs.ok ? 'happy' : 'idle', talk, 70)}
-  <div class="acts"><button class="btn ac" data-act="rstart">Rejouer</button><button class="btn gh" data-act="home">Retour</button></div></div></section>`
-  );
+  ${m.length ? `<div class="gmiss"><p>À retravailler</p><div class="mrow">${m.map(([c, r]) => `<button class="mk" data-act="say" data-t="${c}"><span lang="ja">${c}</span><small>${r}</small></button>`).join('')}</div></div>` : ''}
+  ${mascot(best ? 'happy' : 'idle', talk, 56)}
+  <div class="gacts"><button class="btn ac" data-act="rstart">Rejouer</button><button class="btn gh" data-act="home">Retour</button></div></div>`;
 }
 
 export { fmtT, rushSetupV, startRush, stopRush, rPaint, rKey, rushV, rushResV };

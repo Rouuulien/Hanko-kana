@@ -93,3 +93,13 @@ export async function repondreSansContinuer(hanko, juste = true) {
   }
   await expect(page.locator('.fb')).toHaveClass(juste ? /\bok\b/ : /\bbad\b/);
 }
+
+/** Rafale lancée : tape juste chaque lecture jusqu'à l'écran de résultats. */
+export async function finirRafale(hanko) {
+  for (let i = 0; i < 400; i++) {
+    if ((await hanko.run(H => H.view)) !== 'rush') return;
+    const r = await hanko.run(H => H.rs.q[H.rs.u].t[H.rs.k].r);
+    await hanko.page.keyboard.type(r);
+  }
+  throw new Error('Rafale sans fin');
+}
