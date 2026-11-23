@@ -50,14 +50,14 @@ for (const [t, f] of COUPLES)
     }
   });
 
-test('plus aucune trace de l’ancienne charte (hors Daru, inchangé jusqu’au chantier 2)', () => {
+test('plus aucune trace de l’ancienne charte', () => {
   const ROOT = new URL('../../', import.meta.url).pathname;
   const fichiers = ['styles.css', 'index.html', 'confidentialite.html', 'manifest.webmanifest'];
   const walk = d =>
     readdirSync(ROOT + d, { withFileTypes: true }).flatMap(e =>
       e.isDirectory() ? walk(d + '/' + e.name) : e.name.endsWith('.js') ? [d + '/' + e.name] : [],
     );
-  fichiers.push(...walk('src').filter(f => !f.endsWith('/daru.js')));
+  fichiers.push(...walk('src'));
   const ANCIEN = /Zen Maru Gothic|Outfit|#e3402a|#1d1b20|#f2b33d|#fbfaf8/i;
   const restes = fichiers.filter(f => ANCIEN.test(readFileSync(ROOT + f, 'utf8')));
   assert.deepEqual(restes, []);

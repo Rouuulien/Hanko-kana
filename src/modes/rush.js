@@ -1,5 +1,4 @@
 /* ---------- mode Rafale : paquet de cartes à taper au clavier, en paquet complet ou contre la montre ---------- */
-import { allDone } from '../core/progress.js';
 import { canRead } from '../core/reading.js';
 import { typingTokens } from '../core/romaji.js';
 import { S } from '../core/state.js';
@@ -8,7 +7,7 @@ import { WORDS } from '../data/words.js';
 import { addXp } from './quiz.js';
 import { save } from '../sync/cloud.js';
 import { ui } from '../ui/app-state.js';
-import { daru, mascot } from '../ui/daru.js';
+import { koi, mascot } from '../ui/koi.js';
 import { render } from '../ui/render.js';
 import { muteBtn, sfx } from '../ui/sounds.js';
 import { BACKSPACE, CLEARALL, CLOSE, REPLAY, SKIP } from '../ui/icons.js';
@@ -46,7 +45,7 @@ function rushSetupV() {
     : deck
       ? `Ton record : <b>${fmtT(b.ms)}</b> pour ${b.n} cartes, ${b.acc} % de précision`
       : `Ton record : <b>${b.kpm} kana/min</b>, ${b.acc} % de précision`;
-  return `<div class="rset">${mascot('idle', talk, 64)}
+  return `<div class="rset">${mascot('resting', talk, 64)}
   ${grp('Format', 'rfmt', [
     ['deck', 'Paquet complet'],
     ['time', 'Contre la montre'],
@@ -263,7 +262,7 @@ const KB = [
   ['clear', CLEARALL, 'Tout effacer'],
 ];
 function rushV() {
-  return `<div class="rz"><div class="rz-top"><button class="x" data-act="rquit" aria-label="Quitter">${CLOSE}</button><span class="rz-tag">${ui.rs.fmt === 'deck' ? 'Paquet complet' : 'Contre la montre · ' + ui.rs.dur + ' s'} · ${S.rct === 'words' ? 'mots' : 'kana'}</span>${muteBtn()}${daru('idle', 32, allDone())}</div>
+  return `<div class="rz"><div class="rz-top"><button class="x" data-act="rquit" aria-label="Quitter">${CLOSE}</button><span class="rz-tag">${ui.rs.fmt === 'deck' ? 'Paquet complet' : 'Contre la montre · ' + ui.rs.dur + ' s'} · ${S.rct === 'words' ? 'mots' : 'kana'}</span>${muteBtn()}${koi('resting', 44)}</div>
   <div class="stage"><div class="deck"><div class="cd b2" id="b2"></div><div class="cd b1" id="b1"></div><div class="cd front" id="cf"></div></div></div>
   <p class="hintline" id="rh"></p>
   <div class="rbar"><span class="t" id="rt">${rClock()}</span><div class="typed" id="ty" aria-live="polite"></div><span class="c" id="rc"></span></div>
@@ -289,7 +288,7 @@ function rushResV() {
   <div class="big-n">${deck ? fmtT(ui.rs.ms) : ui.rs.kpm}</div><p class="gsub">${deck ? 'pour finir le paquet' : 'kana par minute'}</p>${best ? '<p class="grec">Nouveau record</p>' : ''}
   <div class="rfigs"><div class="fig1"><b>${deck ? ui.rs.kpm : ui.rs.ok}</b><span>${deck ? 'kana/min' : 'kana justes'}</span></div><div class="fig1"><b>${ui.rs.acc} %</b><span>précision</span></div><div class="fig1"><b>${ui.rs.err}</b><span>erreurs</span></div></div>
   ${m.length ? `<div class="gmiss"><p>À retravailler</p><div class="mrow">${m.map(([c, r]) => `<button class="mk" data-act="say" data-t="${c}"><span lang="ja">${c}</span><small>${r}</small></button>`).join('')}</div></div>` : ''}
-  ${mascot(best ? 'happy' : 'idle', talk, 56)}
+  ${mascot(best ? 'happy' : 'resting', talk, 56)}
   <div class="gacts"><button class="btn ac" data-act="rstart">Rejouer</button><button class="btn gh" data-act="home">Retour</button></div></div>`;
 }
 
