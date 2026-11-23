@@ -24,6 +24,7 @@ test('clavier de Rafale : icônes et zones tactiles, tout tient sur iPhone SE', 
   const page = (await hanko.open({ state: REAL })).page;
   await ouvrir(page, 'rush');
   await page.locator('[data-act="rstart"]').click();
+  await expect(page.locator('#app')).not.toHaveClass(/\btr-rise\b/); // mesures une fois l'entrée de l'écran finie
   const fn = page.locator('.kb .fn');
   await expect(fn).toHaveCount(4);
   for (const t of await fn.allTextContents()) expect(t).not.toMatch(/[↻→←«]/);

@@ -6,6 +6,7 @@ const ui = {
   tab: 'home', // onglet ouvert quand view === 'home' : home, path, sheet, words, train (l'appli s'ouvre sur Accueil)
   train: 'rush', // mode choisi dans l'onglet Entraîner : rush (Rafale) ou brush (Pinceau)
   scroll: {}, // position de défilement de chaque onglet, retrouvée au retour (non sauvegardée)
+  shot: null, // dernier écran affiché (src/ui/transition.js), pour choisir l'animation d'entrée du suivant
   ses: null, // leçon, quiz, test ou révision en cours
   armed: false,
   armedDel: false, // confirmations en attente : effacer la progression, supprimer le compte

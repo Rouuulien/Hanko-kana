@@ -2013,6 +2013,30 @@ textarea {
     transition: none;
   }
 }
+/* transitions (étape 4) : seule l'arrivée du nouvel écran est animée, render() reste immédiat */
+@keyframes tr-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes tr-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+#app.tr-fade {
+  animation: tr-fade 0.2s ease-out;
+}
+#app.tr-rise {
+  animation: tr-rise 0.2s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  #app.tr-fade,
+  #app.tr-rise {
+    animation: tr-fade 0.15s ease-out;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .stamp.on,
   .daru.bob,

@@ -8,8 +8,18 @@ import { rPaint, rushResV, rushV } from '../modes/rush.js';
 import { ui } from './app-state.js';
 import { mountPad } from './pad.js';
 import { cardsV, homeV, quizV, resV, setV } from './views.js';
+import { snapshot, transitionFor } from './transition.js';
 import { say } from './voice.js';
 const app = document.getElementById('app');
+/** Pose la classe d'animation d'entrée (CSS) : l'écran est déjà affiché, seule son arrivée est animée. */
+function enter(t) {
+  if (t === 'fade' || t === 'rise') {
+    app.classList.remove('tr-fade', 'tr-rise');
+    void app.offsetWidth; // relance l'animation si la même classe vient d'être posée
+    app.classList.add(`tr-${t}`);
+    app.addEventListener('animationend', e => e.target === app && app.classList.remove(`tr-${t}`), { once: true });
+  }
+}
 function render() {
   // L'écran affiché était un onglet : on retient sa position de défilement avant de le remplacer.
   if (ui.lastView.startsWith('home:')) ui.scroll[ui.lastView.split(':')[1]] = window.scrollY;
@@ -59,6 +69,9 @@ function render() {
   const fb = app.querySelector('.fb'),
     qz = app.querySelector('.qz');
   if (fb && qz) qz.style.setProperty('--fb-h', `${fb.offsetHeight}px`);
+  const shot = snapshot(ui);
+  enter(transitionFor(ui.shot, shot));
+  ui.shot = shot;
   if (ui.view === 'rush') rPaint();
   const where = ui.view === 'home' ? `home:${ui.tab}:${ui.train}` : ui.view;
   if (where !== ui.lastView) {
