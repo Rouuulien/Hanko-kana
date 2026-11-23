@@ -103,3 +103,19 @@ export async function finirRafale(hanko) {
   }
   throw new Error('Rafale sans fin');
 }
+
+/** Pinceau lancé : dessine chaque kana (le premier à plusieurs traits à l'envers si `faux`) jusqu'aux résultats. */
+export async function finirPinceau(hanko, { faux = false } = {}) {
+  const page = hanko.page;
+  let fait = !faux;
+  for (let i = 0; i < 400; i++) {
+    if ((await hanko.run(H => H.view)) !== 'brush') return;
+    const c = await hanko.run(H => H.bs.q[H.bs.u]);
+    const rev = !fait && (await hanko.run((H, c) => H.KS[c].p.length > 1, c));
+    if (rev) fait = true;
+    await dessiner(hanko, '#bp', c, { reverse: rev });
+    await page.locator('[data-act="bcheck"]').click();
+    await page.locator('#bnb').click();
+  }
+  throw new Error('Pinceau sans fin');
+}

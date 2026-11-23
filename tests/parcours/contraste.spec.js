@@ -3,7 +3,7 @@
 // les variables. Seuil WCAG AA : 4,5:1, ou 3:1 pour un grand texte (24 px, ou 18,66 px en gras).
 import { test, expect } from '../helpers/hanko.js';
 import { REAL, ouvrir } from './_commun.js';
-import { finirRafale, forcer, ouvrirQuiz, repondreSansContinuer } from '../helpers/joueur.js';
+import { finirPinceau, finirRafale, forcer, ouvrirQuiz, repondreSansContinuer } from '../helpers/joueur.js';
 
 test.use({ viewport: { width: 390, height: 844 } });
 
@@ -107,6 +107,7 @@ for (const scheme of ['light', 'dark'])
 
 for (const scheme of ['light', 'dark'])
   test(`jeux lisibles (${scheme})`, async ({ hanko }) => {
+    test.setTimeout(120000);
     await hanko.page.emulateMedia({ colorScheme: scheme });
     const page = (await hanko.open({ state: REAL })).page;
     const bas = {};
@@ -118,5 +119,14 @@ for (const scheme of ['light', 'dark'])
     await page.keyboard.press('Backspace');
     await finirRafale(hanko);
     bas.rafaleResultats = await releve(page);
+    await page.locator('.gres [data-act="home"]').first().click();
+    await ouvrir(page, 'brush');
+    await page.locator('[data-act="bstart"]').click();
+    bas.pinceau = await releve(page);
+    await page.locator('[data-act="bskip"]').click();
+    bas.pinceauFaux = await releve(page);
+    await page.locator('#bnb').click();
+    await finirPinceau(hanko);
+    bas.pinceauResultats = await releve(page);
     expect(Object.fromEntries(Object.entries(bas).filter(([, v]) => v.length))).toEqual({});
   });

@@ -55,17 +55,7 @@
   --bad: light-dark(#b3261e, #ff8a80);
   --on-bad: light-dark(#ffffff, #282824);
   --sh: 0 18px 40px -26px rgba(40, 40, 36, 0.35);
-  /* Scène sombre de la Rafale et du Pinceau (toujours sombre) */
-  --st-bg: #1b1a17;
-  --st-card: #24231f;
-  --st-raise: #2e2b24;
-  --st-line: #34322c;
-  --st-ink: #eeeae0;
-  --st-mut: #a39e92;
-  --st-ac: #e0705f;
-  --st-ok: #9bae9a;
-  --st-bad: #ff8a80;
-  --paper: #f7f5ef;
+  /* Sumi fixe : texte sur l'or mat et la sauge pleine, dans les deux thèmes */
   --sumi: #282824;
   /* Polices (fonts/README.md) */
   --f-ui: 'Noto Sans JP', system-ui, sans-serif;
@@ -1353,26 +1343,6 @@ textarea {
   inset: 0;
   pointer-events: none;
 }
-.pad.dark {
-  background-color: var(--paper);
-  color: var(--sumi);
-  border-color: var(--paper);
-  box-shadow:
-    0 26px 50px -22px rgba(0, 0, 0, 0.9),
-    0 0 46px -12px rgba(224, 112, 95, 0.45);
-}
-.pad.dark .model text {
-  fill: #c64b3c;
-}
-.pad.dark .model path {
-  stroke: #282824;
-}
-.pad.dark .model.okm path {
-  stroke: #3f5241;
-}
-.pad.dark .model.badm path {
-  stroke: #c64b3c;
-}
 .ptools {
   display: flex;
   flex-wrap: wrap;
@@ -1427,27 +1397,34 @@ textarea {
   flex-wrap: wrap;
   justify-content: center;
 }
+.bz .bprompt {
+  position: relative;
+  align-self: stretch;
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+  min-height: 68px;
+  padding: 10px 60px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+}
+.bz .bprompt .say.rnd {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
 .bcount {
-  font-size: 14px;
-  color: var(--st-mut);
-  border: 1px solid var(--st-line);
+  font-size: 12px;
+  color: var(--mut);
+  border: 1px solid var(--line);
   border-radius: 999px;
-  padding: 4px 10px;
+  padding: 3px 10px;
 }
 .bro {
-  font: 800 clamp(40px, 10vw, 56px)/1 var(--f-ui);
-  letter-spacing: 0.03em;
-}
-.bz .say {
-  border-color: var(--st-line);
-  color: var(--st-ink);
-}
-.bz .btn.gh {
-  color: var(--st-ink);
-  border-color: var(--st-line);
-}
-.bz .link {
-  color: var(--st-mut);
+  font: 500 40px/1 var(--f-ui);
+  letter-spacing: 0.02em;
 }
 .bfb {
   text-align: center;
@@ -1456,21 +1433,26 @@ textarea {
   max-width: 420px;
 }
 .bfb b {
-  font-size: 18px;
+  font-size: 16px;
+  font-weight: 500;
 }
 .bfb.ok b {
-  color: var(--st-ok);
+  color: var(--ok);
 }
 .bfb.bad b {
-  color: var(--st-bad);
+  color: var(--bad);
 }
 .bfb span {
-  color: var(--st-mut);
-  font-size: 15px;
+  color: var(--mut);
+  font-size: 13px;
 }
 .bscore {
-  font-size: 20px;
+  font-size: 17px;
   letter-spacing: 0;
+}
+.bscore b {
+  color: var(--ok);
+  font-weight: 500;
 }
 .bscore::after {
   display: none;

@@ -62,3 +62,9 @@ test('plus aucune trace de l’ancienne charte (hors Daru, inchangé jusqu’au 
   const restes = fichiers.filter(f => ANCIEN.test(readFileSync(ROOT + f, 'utf8')));
   assert.deepEqual(restes, []);
 });
+
+test('plus de scène sombre : ni variables --st-*, ni zone de dessin .pad.dark', () => {
+  const css = readFileSync(new URL('../../styles.css', import.meta.url), 'utf8');
+  assert.ok(!css.includes('--st-'), 'variables --st-* encore présentes');
+  assert.ok(!css.includes('.pad.dark'), 'règle .pad.dark encore présente');
+});
