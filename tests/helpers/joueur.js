@@ -92,6 +92,8 @@ export async function repondreSansContinuer(hanko, juste = true) {
     await page.locator(`.opt[data-i="${juste ? ok : (ok + 1) % Q.o.length}"]`).click();
   }
   await expect(page.locator('.fb')).toHaveClass(juste ? /\bok\b/ : /\bbad\b/);
+  // le panneau monte du bas (étape 4) : on attend qu'il soit posé avant toute mesure
+  await page.locator('.fb').evaluate(e => Promise.all(e.getAnimations().map(a => a.finished)));
 }
 
 /** Rafale lancée : tape juste chaque lecture jusqu'à l'écran de résultats. */
