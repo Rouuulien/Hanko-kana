@@ -15,7 +15,7 @@ import { cloud, cloudText } from '../sync/cloud.js';
 import { accountV } from './account.js';
 import { ui } from './app-state.js';
 import { daru, mascot } from './daru.js';
-import { COIN, FLAME, GEAR, SPK } from './icons.js';
+import { COIN, FLAME, GEAR, SPK, TAB_HOME, TAB_PATH, TAB_SHEET, TAB_TRAIN, TAB_WORDS } from './icons.js';
 import { hintBtn, padHTML, padTools } from './pad.js';
 import { muteBtn } from './sounds.js';
 import { tts } from './voice.js';
@@ -49,16 +49,39 @@ function tipHome(nx, due) {
 function bigK(items) {
   return `<div class="big-k" lang="ja" style="--n:${items.join('').length}">${items.map(k => `<span>${k}</span>`).join('')}</div>`;
 }
+/** Barre d'onglets en bas de l'écran (onglet courant : `ui.tab`, état d'interface non sauvegardé). */
+const TABS = [
+  ['home', 'Accueil', TAB_HOME],
+  ['path', 'Parcours', TAB_PATH],
+  ['sheet', 'Tableau', TAB_SHEET],
+  ['words', 'Mots', TAB_WORDS],
+  ['train', 'Entraîner', TAB_TRAIN],
+];
+function tabbar() {
+  return `<nav class="tabbar" aria-label="Navigation">${TABS.map(([id, t, ic]) => `<button data-act="page" data-id="${id}"${ui.tab === id ? ' aria-current="page"' : ''}>${ic}<span>${t}</span></button>`).join('')}</nav>`;
+}
+/** Écran des onglets : en-tête, contenu de l'onglet courant, barre d'onglets. */
 function homeV() {
+  const band = h => `<section class="band"><div class="wrap">${h}</div></section>`;
+  const body =
+    ui.tab === 'path'
+      ? pathV()
+      : ui.tab === 'sheet'
+        ? band(sheetV())
+        : ui.tab === 'words'
+          ? band(`<h1 class="tabt">Mots</h1>${wordsV()}`)
+          : ui.tab === 'train'
+            ? trainV()
+            : todayV();
+  return top() + `<div class="tabv">${body}</div>` + tabbar();
+}
+function todayV() {
   const nx = nextLesson(),
     due = dueList().length,
     nl = Object.keys(S.learned).length,
     ms = Object.values(S.learned).filter(L => L.box >= 4).length;
-  const rw = WORDS.filter(w => canRead(w)).length,
-    pg = S.page || 'path';
-  return (
-    top() +
-    `<section class="hero band"><div class="wrap hero-g">
+  const rw = WORDS.filter(w => canRead(w)).length;
+  return `<section class="hero band"><div class="wrap hero-g">
   <div class="today">${mascot('idle', tipHome(nx, due))}<p class="kick">${nx ? 'Prochaine leçon · ' + nx.u.t : 'Parcours terminé'}</p><h1>${nx ? nx.t : 'Tous les kana sont vus !'}</h1>
   ${bigK(nx ? nx.items.slice(0, 5) : ['かな', 'カナ'])}
   ${nx ? `<button class="btn ac" data-act="lesson" data-id="${nx.id}">Commencer la leçon</button>` : ''}</div>
@@ -68,10 +91,20 @@ function homeV() {
   <section class="band" style="padding-bottom:8px"><div class="wrap figs">
   <div class="fig1"><b>${nl} / ${TOTAL}</b><span>kana vus</span></div><div class="fig1"><b>${ms}</b><span>kana maîtrisés</span></div>
   <div class="fig1"><b>${rw} / ${WORDS.length}</b><span>mots lisibles</span></div><div class="fig1"><b>${S.xp}</b><span>XP au total</span></div></div></section>
-  <section class="band" style="padding-top:16px"><div class="wrap"><nav class="seg" aria-label="Sections"><button data-act="page" data-id="path" aria-pressed="${pg === 'path'}">Parcours</button><button data-act="page" data-id="sheet" aria-pressed="${pg === 'sheet'}">Tableau</button><button data-act="page" data-id="words" aria-pressed="${pg === 'words'}">Mots</button><button data-act="page" data-id="rush" aria-pressed="${pg === 'rush'}">Rafale</button><button data-act="page" data-id="brush" aria-pressed="${pg === 'brush'}">Pinceau</button></nav>
-  ${pg === 'sheet' ? sheetV() : pg === 'words' ? wordsV() : pg === 'rush' ? rushSetupV() : pg === 'brush' ? brushSetupV() : UNITS.map(u => unitV(u, nx)).join('')}</div></section>
-  <p class="foot"><span data-cloud>${cloudText()}</span><br><span>Tracés des kana : <a href="https://kanjivg.tagaini.net" style="color:inherit">KanjiVG</a> (CC BY-SA 3.0)</span>${cloud.mode === 'sb' ? ` <button class="link" data-act="settings">${cloud.uid ? 'Réglages' : 'Créer un compte'}</button> · <a href="confidentialite.html" style="color:inherit">Confidentialité</a>` : ''}</p>`
-  );
+  ${foot()}`;
+}
+const foot = () =>
+  `<p class="foot"><span data-cloud>${cloudText()}</span><br><span>Tracés des kana : <a href="https://kanjivg.tagaini.net" style="color:inherit">KanjiVG</a> (CC BY-SA 3.0)</span>${cloud.mode === 'sb' ? ` <button class="link" data-act="settings">${cloud.uid ? 'Réglages' : 'Créer un compte'}</button> · <a href="confidentialite.html" style="color:inherit">Confidentialité</a>` : ''}</p>`;
+/** Onglet Parcours : les unités et leurs leçons. */
+function pathV() {
+  const nx = nextLesson();
+  return `<section class="band"><div class="wrap"><h1 class="tabt">Parcours</h1>${UNITS.map(u => unitV(u, nx)).join('')}</div></section>`;
+}
+/** Onglet Entraîner : Rafale ou Pinceau (choix dans `ui.train`, non sauvegardé). */
+function trainV() {
+  const t = ui.train;
+  return `<section class="band"><div class="wrap"><h1 class="tabt">Entraîner</h1><nav class="seg" aria-label="Modes"><button data-act="page" data-id="rush" aria-pressed="${t === 'rush'}">Rafale</button><button data-act="page" data-id="brush" aria-pressed="${t === 'brush'}">Pinceau</button></nav>
+  ${t === 'brush' ? brushSetupV() : rushSetupV()}</div></section>`;
 }
 
 const XS = [0, 52, 72, 52, 0, -52, -72, -52];

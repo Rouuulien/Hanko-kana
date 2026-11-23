@@ -1,7 +1,7 @@
 // Parcours d'un joueur : première leçon, révisions, test d'unité.
 import { test, expect, T0, HOUR } from '../helpers/hanko.js';
 import { finirQuiz } from '../helpers/joueur.js';
-import { REAL } from './_commun.js';
+import { REAL, ouvrir } from './_commun.js';
 
 test('premier lancement → première leçon → résultat → progression conservée au rechargement', async ({ hanko }) => {
   const errors = [];
@@ -64,7 +64,7 @@ test('test d’unité réussi : tampon obtenu et score enregistré', async ({ ha
     H.saveLocal();
   });
   await page.reload();
-  await page.locator('[data-act="page"][data-id="path"]').click(); // la sauvegarde rouvre l'onglet Tableau
+  await ouvrir(page, 'path');
   await page.locator('[data-act="test"][data-id="h1"]').click();
   await finirQuiz(hanko);
   await expect(page.locator('h1')).toHaveText('Tampon obtenu !');

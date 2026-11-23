@@ -1,11 +1,11 @@
 // Mise en page sur un écran d'iPhone (390 × 844) : rien ne déborde, zones tactiles confortables, charte respectée.
 import { test, expect } from '../helpers/hanko.js';
 import { UNITS } from '../../src/data/kana.js';
-import { REAL } from './_commun.js';
+import { REAL, ouvrir } from './_commun.js';
 
 test.use({ viewport: { width: 390, height: 844 } });
 
-const ONGLETS = ['path', 'sheet', 'words', 'rush', 'brush'];
+const ONGLETS = ['home', 'path', 'sheet', 'words', 'rush', 'brush'];
 /** Les kana du bandeau d'accueil occupent une seule ligne (hauteur inférieure à deux lignes de texte). */
 const uneLigne = page =>
   page.locator('.big-k').evaluate(e => {
@@ -19,7 +19,7 @@ test('aucun écran ne déborde en largeur', async ({ hanko }) => {
   await hanko.open({ state: REAL });
   expect(await largeur(hanko.page)).toBeLessThanOrEqual(390);
   for (const id of ONGLETS) {
-    await hanko.page.locator(`[data-act="page"][data-id="${id}"]`).click();
+    await ouvrir(hanko.page, id);
     expect(await largeur(hanko.page), id).toBeLessThanOrEqual(390);
   }
 });

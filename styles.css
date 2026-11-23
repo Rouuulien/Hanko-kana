@@ -370,6 +370,50 @@ button {
   background: var(--card);
   color: var(--ink);
 }
+/* barre d'onglets (en bas, au-dessus de la barre d'accueil de l'iPhone) */
+.tabv {
+  padding-bottom: calc(72px + env(safe-area-inset-bottom));
+}
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  padding: 6px max(8px, env(safe-area-inset-left)) max(8px, env(safe-area-inset-bottom))
+    max(8px, env(safe-area-inset-right));
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--line);
+}
+.tabbar button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-height: 48px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--mut);
+  font: 400 11px/1.2 var(--f-ui);
+}
+.tabbar button[aria-current='page'] {
+  color: var(--ac-ink);
+  font-weight: 500;
+}
+.tabbar svg {
+  width: 24px;
+  height: 24px;
+}
+.tabt {
+  font: 700 28px/1.2 var(--f-title);
+  margin: 8px 0 16px;
+}
 /* trail */
 .unit {
   margin: 26px auto 0;

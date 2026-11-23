@@ -15,4 +15,4 @@ globalThis.__hanko={
   IV:srs.IV,grade:srs.grade,dueList:srs.dueList,nextDue:srs.nextDue,
   ld:prog.ld,streak:prog.streak,todayXp:prog.todayXp,unlocked:prog.unlocked,testOpen:prog.testOpen,nextLesson:prog.nextLesson,allDone:prog.allDone,
   addXp:quiz.addXp,canRead:reading.canRead,loadKS:strokes.loadKS,get KS(){return strokes.KS},judgeDraw:reco.judgeDraw,dNorm:reco.dNorm,
-  cloud:sync.cloud,get view(){return ui.view},get ses(){return ui.ses},get bs(){return ui.bs},get rs(){return ui.rs}};`;
+  cloud:sync.cloud,get view(){return ui.view},get tab(){return ui.tab},get ses(){return ui.ses},get bs(){return ui.bs},get rs(){return ui.rs}};`;

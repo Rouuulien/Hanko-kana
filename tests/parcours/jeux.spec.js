@@ -1,11 +1,11 @@
 // Modes de jeu : Rafale (clavier) et Pinceau (dessin au doigt).
 import { test, expect, T0 } from '../helpers/hanko.js';
 import { dessiner } from '../helpers/joueur.js';
-import { REAL } from './_commun.js';
+import { REAL, ouvrir } from './_commun.js';
 
 test('Rafale, paquet complet : 15 kana tapés au clavier, nouveau record', async ({ hanko }) => {
   const page = (await hanko.open({ state: REAL })).page;
-  await page.locator('[data-act="page"][data-id="rush"]').click();
+  await ouvrir(page, 'rush');
   await page.locator('[data-act="rstart"]').click();
   await expect(page.locator('#rh')).toHaveText('Le chrono démarre à ta première lettre.');
   for (let i = 0; i < 15; i++) {
@@ -19,7 +19,7 @@ test('Rafale, paquet complet : 15 kana tapés au clavier, nouveau record', async
 
 test('Rafale : une faute est comptée, il faut retaper la bonne lecture', async ({ hanko }) => {
   const page = (await hanko.open({ state: REAL })).page;
-  await page.locator('[data-act="page"][data-id="rush"]').click();
+  await ouvrir(page, 'rush');
   await page.locator('[data-act="rstart"]').click();
   await page.keyboard.type('x');
   await expect(page.locator('#cf')).toHaveClass(/bad/);
@@ -36,7 +36,7 @@ test('Pinceau, réglage « Tous » : tous les kana appris (15), un tracé dans l
 }) => {
   test.setTimeout(120000);
   const page = (await hanko.open({ state: REAL })).page;
-  await page.locator('[data-act="page"][data-id="brush"]').click();
+  await ouvrir(page, 'brush');
   await expect(page.locator('.rset .bubble')).toContainText('15 kana');
   await expect(page.locator('.rbest')).toHaveText('Pas encore de record pour ces réglages.');
   await page.locator('[data-act="bstart"]').click();
@@ -64,7 +64,7 @@ test('Pinceau, réglage « Tous » : tous les kana appris (15), un tracé dans l
 
 test('Pinceau, réglage « 10 » : 10 kana, et l’ancien record « 10 kana » s’affiche toujours', async ({ hanko }) => {
   const page = (await hanko.open({ state: { ...REAL, bn: 10 } })).page;
-  await page.locator('[data-act="page"][data-id="brush"]').click();
+  await ouvrir(page, 'brush');
   await expect(page.locator('.rset .bubble')).toContainText('10 kana');
   await expect(page.locator('.rbest')).toContainText('pour 10 kana, 80 %');
   await page.locator('[data-act="bstart"]').click();
@@ -75,7 +75,7 @@ test('Pinceau : une ancienne sauvegarde sans réglage du nombre de kana lance 10
   const old = { ...REAL };
   delete old.bn;
   const page = (await hanko.open({ state: old })).page;
-  await page.locator('[data-act="page"][data-id="brush"]').click();
+  await ouvrir(page, 'brush');
   await page.locator('[data-act="bstart"]').click();
   expect(await hanko.run(H => H.bs.q.length)).toBe(10);
 });
@@ -94,7 +94,7 @@ test('Rafale, mots avec petit っ : on tape la consonne doublée (さっき → 
     ])
       H.WORDS.push({ j, f, t: H.toks(j), r: H.romaji(j), s: 'h' });
   });
-  await page.locator('[data-act="page"][data-id="rush"]').click();
+  await ouvrir(page, 'rush');
   await page.locator('[data-act="rstart"]').click();
   const deck = await hanko.run(H => H.rs.q.map(u => u.j));
   expect(deck).toEqual(expect.arrayContaining(['さっき', 'いっこ']));

@@ -4,7 +4,7 @@ import { cpSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { test, expect } from '../helpers/hanko.js';
 import { build, PUBLISHED } from '../../scripts/build.mjs';
-import { REAL } from './_commun.js';
+import { REAL, ouvrir } from './_commun.js';
 
 const ROOT = new URL('../../', import.meta.url).pathname;
 test.skip(
@@ -48,8 +48,9 @@ test('après une visite, le jeu fonctionne sans réseau', async ({ hanko, contex
   await context.setOffline(true);
   await page.reload();
   await expect(page.locator('.figs .fig1 b').first()).toHaveText('15 / 208');
-  await page.locator('[data-act="page"][data-id="brush"]').click(); // tracés des kana (data/kana-strokes.json) en cache
+  await ouvrir(page, 'brush'); // tracés des kana (data/kana-strokes.json) en cache
   await expect(page.locator('[data-act="bstart"]')).toBeEnabled();
+  await ouvrir(page, 'home');
   await page.locator('.hero [data-act="lesson"]').click();
   await expect(page.locator('.card .pk')).toHaveText('た');
   await context.setOffline(false);
