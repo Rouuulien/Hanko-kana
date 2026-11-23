@@ -84,7 +84,7 @@ function homeV() {
     ui.tab === 'path'
       ? pathV()
       : ui.tab === 'sheet'
-        ? band(sheetV())
+        ? band(`<h1 class="tabt">Tableau</h1>${sheetV()}`)
         : ui.tab === 'words'
           ? band(`<h1 class="tabt">Mots</h1>${wordsV()}`)
           : ui.tab === 'train'
@@ -105,7 +105,7 @@ function todayV() {
   <h1>${nx ? nx.t : 'Tous les kana sont vus !'}</h1>
   ${bigK(nx ? nx.items.slice(0, 5) : ['かな', 'カナ'])}
   ${nx ? `<button class="btn ac" data-act="lesson" data-id="${nx.id}">Commencer la leçon</button>` : ''}</article>
-  <div class="rev"><div class="rev-t"><b><span class="rev-n">${due}</span> kana à réviser</b><span>${due ? 'Le bon moment pour ta mémoire.' : nextDue()}</span></div>
+  <div class="rev"><span class="rev-n">${due}</span><div class="rev-t"><b>${due ? 'kana à réviser' : 'Révisions à jour'}</b><span>${due ? 'Le bon moment pour ta mémoire.' : nextDue()}</span></div>
   ${due ? `<button class="btn gh" data-act="review">Réviser</button>` : nl ? `<button class="btn gh" data-act="practice">Entraînement libre</button>` : ''}</div>
   <div class="progress"><span class="mut">Ta progression</span><div class="prog"><i style="width:${Math.round((nl / TOTAL) * 100)}%"></i></div>
   <div class="figs">${fig(`${nl} / ${TOTAL}`, 'kana vus')}${fig(ms, 'maîtrisés')}${fig(`${rw} / ${WORDS.length}`, 'mots lisibles')}${fig(S.xp, 'XP')}</div></div>
@@ -162,7 +162,7 @@ function sheetV() {
     if (l.id.endsWith('-wa')) return [it[0], null, null, null, it[1], it[2], null, null, null, null];
     return it;
   });
-  return `<div class="sheet"><h2>Tableau des kana</h2><p class="mut" style="margin:4px 0 0">Plus la case est verte, mieux tu maîtrises le kana. Touche-le pour l’entendre${tts ? '' : ' (voix japonaise indisponible ici)'}.</p>
+  return `<div class="sheet"><p class="mut" style="margin:4px 0 0">Plus la case est verte, mieux tu maîtrises le kana. Touche-le pour l’entendre${tts ? '' : ' (voix japonaise indisponible ici)'}.</p>
   <div class="tabs"><button data-act="tab" data-id="h" aria-pressed="${s === 'h'}">Hiragana</button><button data-act="tab" data-id="k" aria-pressed="${s === 'k'}">Katakana</button></div>
   <div class="g5">${base.map(cell).join('')}</div><p class="sub">Sons voisés</p><div class="g5">${unitItems(us[1]).map(cell).join('')}</div>
   <p class="sub">Combinaisons</p><div class="g3">${unitItems(us[2]).map(cell).join('')}</div>

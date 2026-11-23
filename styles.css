@@ -251,11 +251,12 @@ button {
   border-radius: var(--r-l);
   padding: 16px 20px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 16px;
+  gap: 12px 14px;
 }
 .rev-t {
-  flex: 1;
+  flex: 1 1 150px;
   display: grid;
   gap: 2px;
 }
@@ -263,8 +264,20 @@ button {
   font-size: 15px;
   font-weight: 500;
 }
-.rev-t span:not(.rev-n) {
+.rev-t span {
   font-size: 13px;
+}
+.rev-n {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--card);
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
 }
 .rev .btn {
   flex: none;
@@ -413,8 +426,8 @@ button {
   z-index: 20;
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  padding: 6px max(8px, env(safe-area-inset-left)) max(8px, env(safe-area-inset-bottom))
-    max(8px, env(safe-area-inset-right));
+  padding: 6px max(8px, env(safe-area-inset-right), calc((100% - 560px) / 2)) max(8px, env(safe-area-inset-bottom))
+    max(8px, env(safe-area-inset-left), calc((100% - 560px) / 2));
   background: color-mix(in srgb, var(--bg) 94%, transparent);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
@@ -476,7 +489,7 @@ button {
 .ubar i {
   display: block;
   height: 100%;
-  background: var(--ac);
+  background: var(--sage);
 }
 .trail {
   display: grid;
@@ -504,18 +517,19 @@ button {
   place-items: center;
   font: 600 28px var(--f-kana);
   background: var(--card);
-  color: var(--ac-ink);
-  border: 3px solid var(--ac);
-  box-shadow: 0 5px 0 color-mix(in srgb, var(--ac) 35%, var(--line));
+  color: var(--ink);
+  border: 2px solid var(--line);
+  box-shadow: 0 4px 0 var(--line);
   transition: transform 0.15s;
 }
 .stp:not(:disabled):hover .sk {
   transform: rotate(-6deg) scale(1.05);
 }
 .stp.done .sk {
-  background: var(--ac);
-  color: var(--on-ac);
-  box-shadow: 0 5px 0 color-mix(in srgb, var(--ac) 60%, #000);
+  background: color-mix(in srgb, var(--sage) 35%, var(--card));
+  border-color: var(--sage);
+  color: var(--ok);
+  box-shadow: 0 4px 0 var(--line);
 }
 .stp.lock {
   cursor: default;
@@ -530,6 +544,9 @@ button {
   width: 86px;
   height: 86px;
   font-size: 32px;
+  border: 3px solid var(--ac);
+  background: var(--card);
+  color: var(--ac-ink);
   animation: pulse 2s infinite;
 }
 @keyframes pulse {

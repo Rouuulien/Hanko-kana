@@ -1,5 +1,5 @@
 // Navigation par onglets : barre en bas, un écran par onglet, onglet courant non sauvegardé.
-import { test, expect } from '../helpers/hanko.js';
+import { test, expect, T0, HOUR } from '../helpers/hanko.js';
 import { REAL, ouvrir } from './_commun.js';
 
 test.use({ viewport: { width: 390, height: 844 } });
@@ -125,4 +125,82 @@ test('le retour des Réglages ne promet pas le Parcours quand il ramène ailleur
   await ouvrir(page, 'words');
   await page.locator('header [data-act="settings"]').click();
   await expect(page.locator('.set [data-act="home"]')).toHaveText('← Retour');
+});
+
+test('Révisions à jour quand rien n’est dû, sinon kana à réviser', async ({ hanko }) => {
+  const page = (await hanko.open({ state: { ...REAL, learned: { あ: { box: 2, due: T0 + 864e5 } } } })).page;
+  await expect(page.locator('.rev')).toContainText('Révisions à jour');
+  await expect(page.locator('.rev-n')).toHaveText('0');
+  await hanko.open({ state: REAL, now: T0 + 52 * HOUR });
+  await expect(hanko.page.locator('.rev')).toContainText('kana à réviser');
+});
+
+test('le défilement de chaque onglet est retrouvé', async ({ hanko }) => {
+  const page = (await hanko.open({ state: REAL })).page;
+  const y = () => page.evaluate(() => Math.round(window.scrollY));
+  // Clic direct, sans le défilement automatique de Playwright vers l'élément (il fausserait la position).
+  const toucher = s => page.evaluate(s => document.querySelector(s).click(), s);
+  await ouvrir(page, 'path');
+  await page.evaluate(() => document.fonts.ready); // une police chargée après coup déplacerait la page de quelques pixels
+  await page.evaluate(() => window.scrollTo(0, 600));
+  const y0 = await y();
+  expect(y0).toBeGreaterThan(300);
+  await toucher('.tabbar [data-id="sheet"]');
+  await toucher('.tabbar [data-id="path"]');
+  await expect.poll(y).toBe(y0);
+  await toucher('[data-act="lesson"][data-id="h-ta"]');
+  await toucher('[data-act="quit"]');
+  await expect.poll(y).toBe(y0);
+  await toucher('.tabbar [data-id="path"]'); // toucher l'onglet déjà ouvert remonte en haut
+  await expect.poll(y).toBe(0);
+});
+
+test('un onglet raccourci ne reste pas défilé dans le vide', async ({ hanko }) => {
+  const page = (await hanko.open({ state: REAL })).page;
+  await ouvrir(page, 'words');
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await page.locator('header [data-act="settings"]').click();
+  await page.locator('[data-act="reset"]').click();
+  await page.locator('[data-act="reset"]').click();
+  await ouvrir(page, 'words');
+  const [sy, ih, sh] = await page.evaluate(() => [
+    window.scrollY,
+    window.innerHeight,
+    document.documentElement.scrollHeight,
+  ]);
+  expect(sy + ih).toBeLessThanOrEqual(sh + 1);
+});
+
+test('l’onglet Tableau a son titre', async ({ hanko }) => {
+  const page = (await hanko.open({ state: REAL })).page;
+  await ouvrir(page, 'sheet');
+  await expect(page.locator('.tabt')).toHaveText('Tableau');
+  await expect(page.locator('h2', { hasText: 'Tableau des kana' })).toHaveCount(0);
+});
+
+test('barre d’onglets centrée sur grand écran', async ({ hanko }) => {
+  await hanko.page.setViewportSize({ width: 1440, height: 900 });
+  const page = (await hanko.open({ state: REAL })).page;
+  const ecart = await page.evaluate(() => {
+    const b = [...document.querySelectorAll('.tabbar button')].map(e => e.getBoundingClientRect());
+    return (b.at(-1).left + b.at(-1).right) / 2 - (b[0].left + b[0].right) / 2;
+  });
+  expect(ecart).toBeLessThanOrEqual(560);
+});
+
+test('leçons terminées sans pastille rouge pleine, leçon en cours cerclée de vermillon', async ({ hanko }) => {
+  const page = (await hanko.open({ state: REAL })).page;
+  await ouvrir(page, 'path');
+  const [done, ac, curBord] = await page.evaluate(() => {
+    const probe = document.createElement('i');
+    probe.style.background = 'var(--ac)';
+    document.body.append(probe);
+    return [
+      getComputedStyle(document.querySelector('.stp.done .sk')).backgroundColor,
+      getComputedStyle(probe).backgroundColor,
+      getComputedStyle(document.querySelector('.stp.cur .sk')).borderTopColor,
+    ];
+  });
+  expect(done).not.toBe(ac);
+  expect(curBord).toBe(ac);
 });
