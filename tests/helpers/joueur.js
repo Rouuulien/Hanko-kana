@@ -93,3 +93,29 @@ export async function repondreSansContinuer(hanko, juste = true) {
   }
   await expect(page.locator('.fb')).toHaveClass(juste ? /\bok\b/ : /\bbad\b/);
 }
+
+/** Rafale lancée : tape juste chaque lecture jusqu'à l'écran de résultats. */
+export async function finirRafale(hanko) {
+  for (let i = 0; i < 400; i++) {
+    if ((await hanko.run(H => H.view)) !== 'rush') return;
+    const r = await hanko.run(H => H.rs.q[H.rs.u].t[H.rs.k].r);
+    await hanko.page.keyboard.type(r);
+  }
+  throw new Error('Rafale sans fin');
+}
+
+/** Pinceau lancé : dessine chaque kana (le premier à plusieurs traits à l'envers si `faux`) jusqu'aux résultats. */
+export async function finirPinceau(hanko, { faux = false } = {}) {
+  const page = hanko.page;
+  let fait = !faux;
+  for (let i = 0; i < 400; i++) {
+    if ((await hanko.run(H => H.view)) !== 'brush') return;
+    const c = await hanko.run(H => H.bs.q[H.bs.u]);
+    const rev = !fait && (await hanko.run((H, c) => H.KS[c].p.length > 1, c));
+    if (rev) fait = true;
+    await dessiner(hanko, '#bp', c, { reverse: rev });
+    await page.locator('[data-act="bcheck"]').click();
+    await page.locator('#bnb').click();
+  }
+  throw new Error('Pinceau sans fin');
+}

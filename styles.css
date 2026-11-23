@@ -55,17 +55,7 @@
   --bad: light-dark(#b3261e, #ff8a80);
   --on-bad: light-dark(#ffffff, #282824);
   --sh: 0 18px 40px -26px rgba(40, 40, 36, 0.35);
-  /* Scène sombre de la Rafale et du Pinceau (toujours sombre) */
-  --st-bg: #1b1a17;
-  --st-card: #24231f;
-  --st-raise: #2e2b24;
-  --st-line: #34322c;
-  --st-ink: #eeeae0;
-  --st-mut: #a39e92;
-  --st-ac: #e0705f;
-  --st-ok: #9bae9a;
-  --st-bad: #ff8a80;
-  --paper: #f7f5ef;
+  /* Sumi fixe : texte sur l'or mat et la sauge pleine, dans les deux thèmes */
   --sumi: #282824;
   /* Polices (fonts/README.md) */
   --f-ui: 'Noto Sans JP', system-ui, sans-serif;
@@ -1353,26 +1343,6 @@ textarea {
   inset: 0;
   pointer-events: none;
 }
-.pad.dark {
-  background-color: var(--paper);
-  color: var(--sumi);
-  border-color: var(--paper);
-  box-shadow:
-    0 26px 50px -22px rgba(0, 0, 0, 0.9),
-    0 0 46px -12px rgba(224, 112, 95, 0.45);
-}
-.pad.dark .model text {
-  fill: #c64b3c;
-}
-.pad.dark .model path {
-  stroke: #282824;
-}
-.pad.dark .model.okm path {
-  stroke: #3f5241;
-}
-.pad.dark .model.badm path {
-  stroke: #c64b3c;
-}
 .ptools {
   display: flex;
   flex-wrap: wrap;
@@ -1427,27 +1397,34 @@ textarea {
   flex-wrap: wrap;
   justify-content: center;
 }
+.bz .bprompt {
+  position: relative;
+  align-self: stretch;
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+  min-height: 68px;
+  padding: 10px 60px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+}
+.bz .bprompt .say.rnd {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
 .bcount {
-  font-size: 14px;
-  color: var(--st-mut);
-  border: 1px solid var(--st-line);
+  font-size: 12px;
+  color: var(--mut);
+  border: 1px solid var(--line);
   border-radius: 999px;
-  padding: 4px 10px;
+  padding: 3px 10px;
 }
 .bro {
-  font: 800 clamp(40px, 10vw, 56px)/1 var(--f-ui);
-  letter-spacing: 0.03em;
-}
-.bz .say {
-  border-color: var(--st-line);
-  color: var(--st-ink);
-}
-.bz .btn.gh {
-  color: var(--st-ink);
-  border-color: var(--st-line);
-}
-.bz .link {
-  color: var(--st-mut);
+  font: 500 40px/1 var(--f-ui);
+  letter-spacing: 0.02em;
 }
 .bfb {
   text-align: center;
@@ -1456,21 +1433,26 @@ textarea {
   max-width: 420px;
 }
 .bfb b {
-  font-size: 18px;
+  font-size: 16px;
+  font-weight: 500;
 }
 .bfb.ok b {
-  color: var(--st-ok);
+  color: var(--ok);
 }
 .bfb.bad b {
-  color: var(--st-bad);
+  color: var(--bad);
 }
 .bfb span {
-  color: var(--st-mut);
-  font-size: 15px;
+  color: var(--mut);
+  font-size: 13px;
 }
 .bscore {
-  font-size: 20px;
+  font-size: 17px;
   letter-spacing: 0;
+}
+.bscore b {
+  color: var(--ok);
+  font-weight: 500;
 }
 .bscore::after {
   display: none;
@@ -1609,8 +1591,8 @@ textarea {
   position: fixed;
   inset: 0;
   z-index: 20;
-  background: var(--st-bg);
-  color: var(--st-ink);
+  background: var(--bg);
+  color: var(--ink);
   display: flex;
   flex-direction: column;
   height: 100dvh;
@@ -1619,8 +1601,8 @@ textarea {
 .rz-top {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: calc(10px + env(safe-area-inset-top)) 16px 10px;
+  gap: 8px;
+  padding: calc(10px + env(safe-area-inset-top)) 12px 8px;
   max-width: 640px;
   width: 100%;
   margin: 0 auto;
@@ -1634,15 +1616,10 @@ textarea {
   width: 20px;
   height: 20px;
 }
-.rz-top .x {
-  background: var(--st-card);
-  border-color: var(--st-line);
-  color: var(--st-ink);
-}
 .rz-tag {
   flex: 1;
-  font-size: 14px;
-  color: var(--st-mut);
+  font-size: 13px;
+  color: var(--mut);
 }
 .stage {
   flex: 1;
@@ -1659,24 +1636,22 @@ textarea {
 .cd {
   position: absolute;
   inset: 0;
-  border-radius: 24px;
-  background: var(--paper);
-  color: var(--sumi);
+  border-radius: var(--r-xl);
+  border: 1px solid var(--line);
+  background: var(--sand);
+  color: var(--ink);
 }
 .cd.b1 {
-  transform: rotate(-3deg) translateY(7px);
-  background: #e8dfd0;
+  transform: rotate(3deg) translateY(6px);
 }
 .cd.b2 {
-  transform: rotate(3.5deg) translateY(12px);
-  background: #cfc4b0;
+  transform: rotate(-4deg) translateY(10px);
 }
 .cd.front {
   display: grid;
   place-items: center;
-  box-shadow:
-    0 26px 50px -22px rgba(0, 0, 0, 0.9),
-    0 0 46px -12px rgba(224, 112, 95, 0.45);
+  background: var(--card);
+  box-shadow: 0 18px 40px -26px rgb(40 40 36 / 0.35);
 }
 .cd.front.in {
   animation: cin 0.22s ease-out;
@@ -1689,12 +1664,10 @@ textarea {
 }
 .cd.front.bad {
   animation: shake 0.3s;
-  box-shadow:
-    0 0 0 4px var(--st-ac),
-    0 26px 50px -22px rgba(0, 0, 0, 0.9);
+  border: 1.5px solid var(--bad);
 }
 .ck {
-  font: 600 clamp(72px, min(24vw, 16vh), 124px)/1 var(--f-kana);
+  font: 400 clamp(72px, min(24vw, 16vh), 112px)/1 var(--f-kana);
   padding: 0 14px;
   text-align: center;
 }
@@ -1733,8 +1706,8 @@ textarea {
 .hintline {
   text-align: center;
   min-height: 22px;
-  font-size: 15px;
-  color: var(--st-mut);
+  font-size: 13px;
+  color: var(--mut);
   margin: 0 16px 4px;
 }
 .rbar {
@@ -1749,40 +1722,41 @@ textarea {
 }
 .rbar .t {
   justify-self: end;
-  font: 500 24px var(--f-ui);
+  font: 500 20px var(--f-ui);
   font-variant-numeric: tabular-nums;
 }
 .rbar .c {
-  font: 500 24px var(--f-ui);
+  font: 500 20px var(--f-ui);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 .rbar .c small {
-  font-size: 16px;
-  color: var(--st-mut);
+  font-size: 13px;
+  color: var(--mut);
 }
 .typed {
-  height: 58px;
-  background: #000;
-  border-radius: 8px;
+  height: 52px;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-m);
   display: flex;
   align-items: center;
   justify-content: center;
-  font: 600 26px var(--f-ui);
-  letter-spacing: 0.08em;
-  color: var(--on-ac);
+  font: 500 22px var(--f-ui);
+  letter-spacing: 0.04em;
+  color: var(--ink);
 }
 .typed::after {
   content: '';
   width: 2px;
-  height: 28px;
-  background: var(--st-ac);
+  height: 24px;
+  background: var(--ac);
   margin-left: 3px;
   animation: blink 1s steps(1) infinite;
 }
 .typed.err {
   animation: shake 0.25s;
-  box-shadow: 0 0 0 2px var(--st-ac);
+  border-color: var(--bad);
 }
 @keyframes blink {
   50% {
@@ -1794,34 +1768,129 @@ textarea {
   grid-template-columns: repeat(10, minmax(0, 1fr));
   max-width: 640px;
   width: 100%;
-  margin: 0 auto;
-  padding: 0 8px calc(10px + env(safe-area-inset-bottom));
+  margin: 8px auto 0;
+  padding: 7px 5px max(9px, env(safe-area-inset-bottom));
+  background: var(--sand);
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
 }
 .kb button {
-  height: clamp(44px, 7.4vh, 62px);
-  border: 1px solid var(--st-line);
-  margin: 0 -1px -1px 0;
-  background: var(--st-card);
-  color: var(--st-ink);
-  font: 600 21px var(--f-ui);
+  /* l'espace entre les touches est une bordure transparente : un appui qui y tombe compte quand même */
+  height: clamp(46px, 7vh, 60px);
+  padding: 0;
+  border: 3px solid transparent;
+  border-radius: 13px;
+  background: var(--card) padding-box;
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--ink);
+  font: 500 17px var(--f-ui);
   touch-action: manipulation;
   user-select: none;
   -webkit-user-select: none;
 }
 .kb button.fn {
-  background: var(--st-raise);
-  color: var(--st-ac);
-  font-size: 22px;
+  background: var(--bg) padding-box;
+  color: var(--mut);
+  display: grid;
+  place-items: center;
+}
+.kb button.fn svg {
+  width: 18px;
+  height: 18px;
 }
 .kb button.hit,
 .kb button:active {
-  background: var(--ac);
-  color: var(--on-ac);
+  background: var(--ink) padding-box;
+  color: var(--bg);
 }
 .big-n {
-  font: 700 clamp(60px, 13vw, 92px)/1 var(--f-title);
-  color: var(--ac-ink);
+  font: 700 clamp(52px, 16vw, 64px)/1 var(--f-title);
+  color: var(--ink);
   font-variant-numeric: tabular-nums;
+}
+/* résultats de Rafale et du Pinceau : plein cadre, sans onglets */
+.gres {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: calc(10px + env(safe-area-inset-top)) max(24px, env(safe-area-inset-right))
+    max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+}
+.gres-top {
+  align-self: stretch;
+  margin: 0 -12px;
+}
+.gcap,
+.gsub {
+  margin: 0;
+  font-size: 13px;
+  color: var(--mut);
+  text-align: center;
+}
+.gsub {
+  font-size: 14px;
+  margin-top: -8px;
+}
+.grec {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold-ink);
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+.gres .rfigs {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-l);
+  padding: 16px 8px;
+  gap: 8px;
+}
+.gres .rfigs .fig1 {
+  border: 0;
+  background: none;
+  padding: 0;
+  text-align: center;
+}
+.gres .rfigs .fig1 b {
+  font: 500 20px/1.3 var(--f-ui);
+  font-variant-numeric: tabular-nums;
+}
+.gres .rfigs .fig1 span {
+  font-size: 12px;
+}
+.gmiss {
+  align-self: stretch;
+  display: grid;
+  gap: 10px;
+}
+.gmiss p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--mut);
+}
+.gmiss .mrow {
+  justify-content: flex-start;
+}
+.gres .mascot {
+  align-self: stretch;
+}
+.gres .bubble {
+  font-size: 14px;
+  margin-bottom: 8px;
+  box-shadow: none;
+}
+.gacts {
+  align-self: stretch;
+  margin-top: auto;
+  display: grid;
+  gap: 10px;
 }
 .rfigs {
   display: grid;

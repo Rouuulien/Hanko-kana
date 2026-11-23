@@ -9,11 +9,10 @@ import { addXp } from './quiz.js';
 import { fmtT } from './rush.js';
 import { ui } from '../ui/app-state.js';
 import { daru, mascot } from '../ui/daru.js';
-import { SPK } from '../ui/icons.js';
+import { CLOSE, SPK } from '../ui/icons.js';
 import { BASE_AID, hintBtn, padHTML, padTools, strokesOf } from '../ui/pad.js';
 import { render } from '../ui/render.js';
 import { muteBtn, sfx } from '../ui/sounds.js';
-import { top } from '../ui/views.js';
 import { tts } from '../ui/voice.js';
 import { pick, shuffle } from '../util.js';
 /* état de l’interface : voir src/ui/app-state.js */
@@ -122,10 +121,10 @@ function brushV() {
       : R.ok
         ? `<div class="ptools"><button class="btn ac" data-act="bnext" id="bnb">Suivant</button></div>`
         : `<div class="ptools"><button class="btn gh sm" data-act="bretry">Réessayer</button><button class="btn ac sm" data-act="bnext" id="bnb">Suivant</button>${R.self ? '' : `<button class="link" data-act="bself">J’avais juste</button>`}</div>`;
-  return `<div class="rz bz"><div class="rz-top"><button class="x" data-act="bquit" aria-label="Quitter">×</button><span class="rz-tag">Pinceau · ${LVL[ui.bs.lvl][0]} · ${left} restant${left > 1 ? 's' : ''}</span>${muteBtn()}${daru(R ? (R.ok ? 'happy' : 'oops') : 'idle', 36, allDone())}</div>
-  <div class="bstage"><div class="bprompt"><span class="bro">${it.r}</span>${ui.bs.lvl < 3 || ui.bs.h >= 1 ? `<span class="bcount">${KS[c].d.length} trait${KS[c].d.length > 1 ? 's' : ''}</span>` : ''}${tts ? `<button class="say" data-act="say" data-t="${c}" aria-label="Écouter">${SPK}</button>` : ''}</div>
-  ${padHTML('bp', null).replace('class="pad"', `class="pad dark" data-key="${ui.bs.u}"`)}${fb}${acts}</div>
-  <div class="rbar"><span class="t" id="bt">${bClock()}</span><div class="typed bscore"><span>${ui.bs.ok}</span>&nbsp;juste${ui.bs.ok > 1 ? 's' : ''}</div><span class="c">${ui.bs.u + 1}<small>/${ui.bs.q.length}</small></span></div></div>`;
+  return `<div class="rz bz"><div class="rz-top"><button class="x" data-act="bquit" aria-label="Quitter">${CLOSE}</button><span class="rz-tag">Pinceau · ${LVL[ui.bs.lvl][0]} · ${left} restant${left > 1 ? 's' : ''}</span>${muteBtn()}${daru(R ? (R.ok ? 'happy' : 'oops') : 'idle', 36, allDone())}</div>
+  <div class="bstage"><div class="bprompt"><span class="bro">${it.r}</span>${ui.bs.lvl < 3 || ui.bs.h >= 1 ? `<span class="bcount">${KS[c].d.length} trait${KS[c].d.length > 1 ? 's' : ''}</span>` : ''}${tts ? `<button class="say rnd" data-act="say" data-t="${c}" aria-label="Écouter">${SPK}</button>` : ''}</div>
+  ${padHTML('bp', null).replace('class="pad"', `class="pad" data-key="${ui.bs.u}"`)}${fb}${acts}</div>
+  <div class="rbar"><span class="t" id="bt">${bClock()}</span><div class="typed bscore"><b>${ui.bs.ok}</b>&nbsp;juste${ui.bs.ok > 1 ? 's' : ''}</div><span class="c">${ui.bs.u + 1}<small>/${ui.bs.q.length}</small></span></div></div>`;
 }
 function bCheck() {
   const P = ui.PAD,
@@ -192,14 +191,13 @@ function brushResV() {
           : ui.bs.acc >= 60
             ? 'Belle main, continue comme ça.'
             : 'Courage : chaque tracé grave le kana un peu plus.';
-  return (
-    top() +
-    `<section class="band"><div class="wrap narrow res"><p class="lead">Pinceau · ${ui.bs.q.length} kana</p><div class="big-n">${ui.bs.ok}/${ui.bs.q.length}</div><p class="lead" style="margin-top:-4px">tracés justes du premier coup${ui.bs.hinted.size ? `, dont ${ui.bs.hinted.size} avec indice` : ''} · niveau ${LVL[ui.bs.lvl][0]}</p>
+  const best = ui.bs.record && ui.bs.ok;
+  return `<div class="gres"><div class="gres-top"><button class="x" data-act="home" aria-label="Fermer">${CLOSE}</button></div>
+  <p class="gcap">Pinceau · ${ui.bs.q.length} kana</p><div class="big-n">${ui.bs.ok}/${ui.bs.q.length}</div><p class="gsub">tracés justes du premier coup${ui.bs.hinted.size ? `, dont ${ui.bs.hinted.size} avec indice` : ''} · niveau ${LVL[ui.bs.lvl][0]}</p>${best ? '<p class="grec">Nouveau record</p>' : ''}
   <div class="rfigs"><div class="fig1"><b>${fmtT(ui.bs.ms)}</b><span>temps</span></div><div class="fig1"><b>${ui.bs.acc} %</b><span>précision</span></div><div class="fig1"><b>${ui.bs.err}</b><span>à revoir</span></div></div>
-  ${m.length ? `<h2 style="margin-top:14px">À retravailler</h2><div class="mrow">${m.map(c => `<button class="mk mkm" data-act="say" data-t="${c}"><span class="mm">${modelSVG(c, { anim: false })}</span><small>${ITEMS[c].r}</small></button>`).join('')}</div>` : ''}
-  ${mascot(ui.bs.record && ui.bs.ok ? 'happy' : 'idle', talk, 70)}
-  <div class="acts"><button class="btn ac" data-act="bstart">Rejouer</button><button class="btn gh" data-act="home">Retour</button></div></div></section>`
-  );
+  ${m.length ? `<div class="gmiss"><p>À retravailler</p><div class="mrow">${m.map(c => `<button class="mk mkm" data-act="say" data-t="${c}"><span class="mm">${modelSVG(c, { anim: false })}</span><small>${ITEMS[c].r}</small></button>`).join('')}</div></div>` : ''}
+  ${mascot(best ? 'happy' : 'idle', talk, 56)}
+  <div class="gacts"><button class="btn ac" data-act="bstart">Rejouer</button><button class="btn gh" data-act="home">Retour</button></div></div>`;
 }
 
 export { brushSetupV, startBrush, stopBrush, bClock, brushV, bCheck, bNext, brushResV };
