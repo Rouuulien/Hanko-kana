@@ -82,3 +82,40 @@ test('le bas de l’onglet le plus long reste accessible au-dessus de la barre',
   ]);
   expect(bas).toBeLessThanOrEqual(barre);
 });
+
+test('l’accueil se limite à la leçon, aux révisions et à la progression', async ({ hanko }) => {
+  const page = (await hanko.open({ state: REAL })).page;
+  await expect(page.locator('header .brand')).toContainText('判子');
+  await expect(page.locator('header')).toContainText('jours de suite');
+  await expect(page.locator('header .pill')).toHaveCount(0); // plus de pastilles flamme / XP du jour
+  for (const s of ['.hero', '.rev-n', '.figs', '.prog']) await expect(page.locator(s)).toBeVisible();
+  await expect(page.locator('.hero .kick')).toHaveText(/Leçon du jour/);
+  for (const s of ['.unit', '.sheet', '.words', '[data-act="rstart"]', '.seg'])
+    await expect(page.locator(s)).toHaveCount(0);
+});
+
+test('accueil d’une sauvegarde neuve', async ({ hanko }) => {
+  const page = (await hanko.open()).page;
+  await expect(page.locator('.hero h1')).toHaveText('Voyelles');
+  await expect(page.locator('.rev-n')).toHaveText('0');
+  await expect(page.locator('[data-act="review"], [data-act="practice"]')).toHaveCount(0);
+  await expect(page.locator('header')).not.toContainText('de suite');
+});
+
+test('accueil d’un parcours terminé', async ({ hanko }) => {
+  const page = (await hanko.open({ state: REAL })).page;
+  await hanko.run(H => {
+    for (const u of H.UNITS) {
+      for (const l of u.lessons) {
+        H.S.done[l.id] = true;
+        for (const c of l.items) H.S.learned[c] ||= { box: 2, due: Date.now() + 864e5 };
+      }
+      H.S.tests[u.id] = 100;
+    }
+    H.saveLocal();
+  });
+  await page.reload();
+  await expect(page.locator('.hero h1')).toHaveText('Tous les kana sont vus !');
+  await expect(page.locator('[data-act="lesson"]')).toHaveCount(0);
+  await expect(page.locator('[data-act="practice"]')).toBeVisible();
+});

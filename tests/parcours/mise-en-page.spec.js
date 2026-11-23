@@ -44,15 +44,18 @@ test('les kana de la leçon du jour tiennent sur une ligne', async ({ hanko }) =
   expect(await uneLigne(hanko.page)).toBe(true);
 });
 
-test('zones tactiles d’au moins 44 px sur l’accueil', async ({ hanko }) => {
+test('zones tactiles d’au moins 44 px sur chaque onglet', async ({ hanko }) => {
   await hanko.open({ state: REAL });
-  const petites = await hanko.page.evaluate(() =>
-    [...document.querySelectorAll('button, [data-act]')]
-      .filter(e => e.offsetParent && !e.closest('.foot'))
-      .map(e => [e.dataset.act || e.textContent.trim(), Math.round(e.getBoundingClientRect().height)])
-      .filter(([, h]) => h < 44),
-  );
-  expect(petites).toEqual([]);
+  for (const id of ONGLETS) {
+    await ouvrir(hanko.page, id);
+    const petites = await hanko.page.evaluate(() =>
+      [...document.querySelectorAll('button, [data-act]')]
+        .filter(e => e.offsetParent && !e.closest('.foot'))
+        .map(e => [e.dataset.act || e.textContent.trim(), Math.round(e.getBoundingClientRect().height)])
+        .filter(([, h]) => h < 44),
+    );
+    expect(petites, id).toEqual([]);
+  }
 });
 
 for (const scheme of ['light', 'dark'])
