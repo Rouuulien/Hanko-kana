@@ -1,6 +1,12 @@
 # Chantier 2 · Koï remplace Daru (version d'attente) · conception
 
-Date : 2026-11-23. Statut : à valider par Julien.
+Date : 2026-11-23. Statut : validé par Julien, puis amendé le 2026-11-23.
+
+> **Amendement (2026-11-23).** La koï lointaine (objectif 3, § 7) est **abandonnée** par Julien. Implémentée, elle
+> passait derrière les cartes de l'Accueil et restait presque toujours cachée. En la limitant aux zones vides, elle ne
+> passait jamais : aucun espace libre ne dépasse 35 px de haut (mesuré à 390 × 844, 430 × 932 et 375 × 667). Julien
+> refuse qu'elle passe sur le contenu. Le travail est conservé sur la branche `koi/lointaine`. Koï passe aussi de 56 à
+> **80 px** sur l'Accueil (§ 3).
 
 ## Intention
 

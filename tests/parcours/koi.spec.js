@@ -5,9 +5,11 @@ import { ouvrirQuiz, repondreSansContinuer } from '../helpers/joueur.js';
 
 test.use({ viewport: { width: 390, height: 844 } });
 
-test('l’Accueil montre Koï au repos', async ({ hanko }) => {
+test('l’Accueil montre Koï en 80 px, au repos une fois arrivée', async ({ hanko }) => {
   const page = (await hanko.open({ state: REAL })).page;
-  await expect(page.locator('.today-g .mascot .koi')).toHaveAttribute('data-state', /resting|swimming/);
+  await expect(page.locator('.today-g .mascot .koi')).toHaveAttribute('width', '80');
+  await page.locator('.today-g .koi-w').evaluate(e => Promise.all(e.getAnimations().map(a => a.finished)));
+  await expect(page.locator('.today-g .mascot .koi')).toHaveAttribute('data-state', 'resting');
 });
 
 test('Koï réagit aux réponses : contente puis encourageante', async ({ hanko }) => {

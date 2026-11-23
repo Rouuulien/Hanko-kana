@@ -109,7 +109,7 @@ function todayV() {
   ${due ? `<button class="btn gh" data-act="review">Réviser</button>` : nl ? `<button class="btn gh" data-act="practice">Entraînement libre</button>` : ''}</div>
   <div class="progress"><span class="mut">Ta progression</span><div class="prog"><i style="width:${Math.round((nl / TOTAL) * 100)}%"></i></div>
   <div class="figs">${fig(`${nl} / ${TOTAL}`, 'kana vus')}${fig(ms, 'maîtrisés')}${fig(`${rw} / ${WORDS.length}`, 'mots lisibles')}${fig(S.xp, 'XP')}</div></div>
-  ${mascot(allDone() ? 'celebrating' : 'resting', tipHome(nx, due), 56)}
+  ${mascot(allDone() ? 'celebrating' : 'resting', tipHome(nx, due), 80)}
   </div></section>
   ${foot()}`;
 }
