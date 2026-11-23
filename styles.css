@@ -353,6 +353,21 @@ button {
   flex: none;
   line-height: 0;
 }
+/* Koï arrive en nageant sur l'Accueil (src/ui/render.js) */
+.koi-w.koi-in {
+  animation: koi-in 1.4s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+@keyframes koi-in {
+  from {
+    transform: translateX(min(70vw, 320px));
+  }
+  to {
+    transform: none;
+  }
+}
+.today-g {
+  overflow-x: clip;
+}
 /* Koï : dessin (src/ui/koi.js) et états (data-state), repris de koi/koi-demo.html */
 .koi {
   display: block;
@@ -2363,7 +2378,8 @@ textarea {
 }
 @media (prefers-reduced-motion: reduce) {
   .koi,
-  .koi * {
+  .koi *,
+  .koi-w.koi-in {
     animation: none !important;
   }
   .stamp.on,

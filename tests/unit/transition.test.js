@@ -1,7 +1,7 @@
 // Choix de l'animation d'entrée d'un écran (src/ui/transition.js) : fonction pure, sans DOM.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { transitionFor } from '../../src/ui/transition.js';
+import { arrivesHome, transitionFor } from '../../src/ui/transition.js';
 
 const S = (view, o = {}) => ({ view, tab: 'home', train: 'rush', step: '', ans: false, ...o });
 
@@ -36,4 +36,16 @@ test('même écran : exercice suivant, panneau de réponse, ou rien', () => {
   assert.equal(transitionFor(S('quiz', { step: 'q1', ans: true }), S('quiz', { step: 'q1', ans: true })), 'none');
   assert.equal(transitionFor(S('rush'), S('rush')), 'none');
   assert.equal(transitionFor(S('set'), S('set')), 'none');
+});
+
+test('arrivée sur l’Accueil (Koï entre en nageant) : seulement en venant d’ailleurs', () => {
+  assert.equal(arrivesHome(null, S('home')), true);
+  for (const tab of ['path', 'sheet', 'words', 'train'])
+    assert.equal(arrivesHome(S('home', { tab }), S('home')), true, tab);
+  for (const v of ['quiz', 'res', 'set', 'rushres', 'brushres']) assert.equal(arrivesHome(S(v), S('home')), true, v);
+  assert.equal(arrivesHome(S('home'), S('home')), false, 'redessin');
+  assert.equal(arrivesHome(S('home'), S('home', { tab: 'path' })), false);
+  assert.equal(arrivesHome(null, S('home', { tab: 'path' })), false);
+  assert.equal(arrivesHome(S('home', { tab: 'path' }), S('home', { tab: 'words' })), false);
+  assert.equal(arrivesHome(S('home'), S('cards')), false);
 });
