@@ -66,9 +66,11 @@ app.addEventListener('click', e => {
       save();
       render();
       break;
-    case 'page':
-      S.page = id;
-      save();
+    case 'page': // onglet de la barre, ou mode de l'onglet Entraîner ; état d'interface, non sauvegardé
+      if (id === 'rush' || id === 'brush') {
+        ui.tab = 'train';
+        ui.train = id;
+      } else ui.tab = id;
       render();
       break;
     case 'cnext':
@@ -344,6 +346,7 @@ app.addEventListener('click', e => {
         ui.homeTip = null;
         save();
         ui.view = 'home';
+        ui.tab = 'home';
         render();
       }
       break;

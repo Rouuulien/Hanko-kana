@@ -1,5 +1,4 @@
 /* ---------- affichage de l'écran courant, montage de la zone de dessin, focus, voix ---------- */
-import { S } from '../core/state.js';
 import { LES } from '../data/kana.js';
 import { KS, ksP, loadKS } from '../draw/strokes.js';
 import { modelSVG } from '../draw/svg.js';
@@ -23,7 +22,7 @@ function render() {
     brush: brushV,
     brushres: brushResV,
   }[ui.view]();
-  if (!KS && !ksP && (ui.view === 'cards' || (ui.view === 'home' && S.page === 'brush')))
+  if (!KS && !ksP && (ui.view === 'cards' || (ui.view === 'home' && ui.tab === 'train' && ui.train === 'brush')))
     loadKS()
       .then(() => {
         if (ui.view === 'cards' || ui.view === 'home') render();
@@ -55,9 +54,10 @@ function render() {
     }
   }
   if (ui.view === 'rush') rPaint();
-  if (ui.view !== ui.lastView) {
+  const where = ui.view === 'home' ? `home:${ui.tab}:${ui.train}` : ui.view; // un nouvel onglet s'ouvre en haut
+  if (where !== ui.lastView) {
     window.scrollTo(0, 0);
-    ui.lastView = ui.view;
+    ui.lastView = where;
   }
   if (ui.view === 'cards') say(LES[ui.ses.id].items[ui.ses.ci]);
   if (ui.view === 'quiz') {

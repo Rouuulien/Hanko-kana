@@ -1,11 +1,11 @@
 // Mise en page sur un écran d'iPhone (390 × 844) : rien ne déborde, zones tactiles confortables, charte respectée.
 import { test, expect } from '../helpers/hanko.js';
 import { UNITS } from '../../src/data/kana.js';
-import { REAL } from './_commun.js';
+import { REAL, ouvrir } from './_commun.js';
 
 test.use({ viewport: { width: 390, height: 844 } });
 
-const ONGLETS = ['path', 'sheet', 'words', 'rush', 'brush'];
+const ONGLETS = ['home', 'path', 'sheet', 'words', 'rush', 'brush'];
 /** Les kana du bandeau d'accueil occupent une seule ligne (hauteur inférieure à deux lignes de texte). */
 const uneLigne = page =>
   page.locator('.big-k').evaluate(e => {
@@ -19,7 +19,7 @@ test('aucun écran ne déborde en largeur', async ({ hanko }) => {
   await hanko.open({ state: REAL });
   expect(await largeur(hanko.page)).toBeLessThanOrEqual(390);
   for (const id of ONGLETS) {
-    await hanko.page.locator(`[data-act="page"][data-id="${id}"]`).click();
+    await ouvrir(hanko.page, id);
     expect(await largeur(hanko.page), id).toBeLessThanOrEqual(390);
   }
 });
@@ -44,15 +44,18 @@ test('les kana de la leçon du jour tiennent sur une ligne', async ({ hanko }) =
   expect(await uneLigne(hanko.page)).toBe(true);
 });
 
-test('zones tactiles d’au moins 44 px sur l’accueil', async ({ hanko }) => {
+test('zones tactiles d’au moins 44 px sur chaque onglet', async ({ hanko }) => {
   await hanko.open({ state: REAL });
-  const petites = await hanko.page.evaluate(() =>
-    [...document.querySelectorAll('button, [data-act]')]
-      .filter(e => e.offsetParent && !e.closest('.foot'))
-      .map(e => [e.dataset.act || e.textContent.trim(), Math.round(e.getBoundingClientRect().height)])
-      .filter(([, h]) => h < 44),
-  );
-  expect(petites).toEqual([]);
+  for (const id of ONGLETS) {
+    await ouvrir(hanko.page, id);
+    const petites = await hanko.page.evaluate(() =>
+      [...document.querySelectorAll('button, [data-act]')]
+        .filter(e => e.offsetParent && !e.closest('.foot'))
+        .map(e => [e.dataset.act || e.textContent.trim(), Math.round(e.getBoundingClientRect().height)])
+        .filter(([, h]) => h < 44),
+    );
+    expect(petites, id).toEqual([]);
+  }
 });
 
 for (const scheme of ['light', 'dark'])

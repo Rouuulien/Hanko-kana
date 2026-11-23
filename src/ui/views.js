@@ -1,5 +1,5 @@
 /* ---------- écrans : accueil, parcours, tableau, mots, fiches, quiz, résultats, réglages ---------- */
-import { allDone, nextLesson, streak, testOpen, todayXp, unlocked } from '../core/progress.js';
+import { allDone, nextLesson, streak, testOpen, unlocked } from '../core/progress.js';
 import { canRead, wordsWith } from '../core/reading.js';
 import { dueList, nextDue } from '../core/srs.js';
 import { S } from '../core/state.js';
@@ -15,7 +15,7 @@ import { cloud, cloudText } from '../sync/cloud.js';
 import { accountV } from './account.js';
 import { ui } from './app-state.js';
 import { daru, mascot } from './daru.js';
-import { COIN, FLAME, GEAR, SPK } from './icons.js';
+import { GEAR, SPK, TAB_HOME, TAB_PATH, TAB_SHEET, TAB_TRAIN, TAB_WORDS } from './icons.js';
 import { hintBtn, padHTML, padTools } from './pad.js';
 import { muteBtn } from './sounds.js';
 import { tts } from './voice.js';
@@ -23,9 +23,14 @@ import { K2H, esc, pick } from '../util.js';
 /** Libellé du bouton d'effacement de la progression (deux clics : armer, puis confirmer). */
 const resetLabel = () => (ui.armed ? 'Confirmer : tout effacer' : 'Effacer ma progression');
 const wordHTML = w => `<span class="w" lang="ja">${w.j}</span> · ${w.r} · « ${w.f} »`;
-const top =
-  () => `<header class="top"><div class="brand"><svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="10" fill="var(--ac)"/><text x="20" y="28" text-anchor="middle" font-size="22" fill="#fff" font-family="Zen Old Mincho, serif" font-weight="700">か</text></svg><span>Hanko</span></div>
-<div class="tstats"><span class="pill" title="Jours de suite">${FLAME}${streak()}<span class="hide">&nbsp;j</span></span><span class="pill" title="XP aujourd’hui">${COIN}${todayXp()}<span class="hide">&nbsp;XP</span></span><button class="ic" data-act="settings" aria-label="Réglages">${GEAR}</button></div></header>`;
+/** Série de jours en toutes lettres (rien tant qu'elle est à zéro). */
+const streakText = () => {
+  const n = streak();
+  return n ? `${n} jour${n > 1 ? 's' : ''} de suite` : '';
+};
+const top = () =>
+  `<header class="top"><div class="brand"><span>Hanko</span><span class="brand-j" lang="ja">判子</span></div>
+<div class="tstats"><span class="streak">${streakText()}</span><button class="ic" data-act="settings" aria-label="Réglages">${GEAR}</button></div></header>`;
 
 function tipHome(nx, due) {
   if (ui.homeTip) return ui.homeTip;
@@ -49,29 +54,65 @@ function tipHome(nx, due) {
 function bigK(items) {
   return `<div class="big-k" lang="ja" style="--n:${items.join('').length}">${items.map(k => `<span>${k}</span>`).join('')}</div>`;
 }
+/** Barre d'onglets en bas de l'écran (onglet courant : `ui.tab`, état d'interface non sauvegardé). */
+const TABS = [
+  ['home', 'Accueil', TAB_HOME],
+  ['path', 'Parcours', TAB_PATH],
+  ['sheet', 'Tableau', TAB_SHEET],
+  ['words', 'Mots', TAB_WORDS],
+  ['train', 'Entraîner', TAB_TRAIN],
+];
+function tabbar() {
+  return `<nav class="tabbar" aria-label="Navigation">${TABS.map(([id, t, ic]) => `<button data-act="page" data-id="${id}"${ui.tab === id ? ' aria-current="page"' : ''}>${ic}<span>${t}</span></button>`).join('')}</nav>`;
+}
+/** Écran des onglets : en-tête, contenu de l'onglet courant, barre d'onglets. */
 function homeV() {
+  const band = h => `<section class="band"><div class="wrap">${h}</div></section>`;
+  const body =
+    ui.tab === 'path'
+      ? pathV()
+      : ui.tab === 'sheet'
+        ? band(sheetV())
+        : ui.tab === 'words'
+          ? band(`<h1 class="tabt">Mots</h1>${wordsV()}`)
+          : ui.tab === 'train'
+            ? trainV()
+            : todayV();
+  return top() + `<div class="tabv">${body}</div>` + tabbar();
+}
+/** Onglet Accueil (maquette « Accueil clair ») : leçon du jour, révisions, progression compacte, Daru. */
+function todayV() {
   const nx = nextLesson(),
     due = dueList().length,
     nl = Object.keys(S.learned).length,
     ms = Object.values(S.learned).filter(L => L.box >= 4).length;
-  const rw = WORDS.filter(w => canRead(w)).length,
-    pg = S.page || 'path';
-  return (
-    top() +
-    `<section class="hero band"><div class="wrap hero-g">
-  <div class="today">${mascot('idle', tipHome(nx, due))}<p class="kick">${nx ? 'Prochaine leçon · ' + nx.u.t : 'Parcours terminé'}</p><h1>${nx ? nx.t : 'Tous les kana sont vus !'}</h1>
+  const rw = WORDS.filter(w => canRead(w)).length;
+  const fig = (b, t) => `<div class="fig1"><b>${b}</b><span>${t}</span></div>`;
+  return `<section class="band"><div class="wrap today-g">
+  <article class="hero"><div class="hero-h"><p class="kick">${nx ? 'Leçon du jour' : 'Parcours terminé'}</p>${nx ? `<span class="mut">${nx.u.t}</span>` : ''}</div>
+  <h1>${nx ? nx.t : 'Tous les kana sont vus !'}</h1>
   ${bigK(nx ? nx.items.slice(0, 5) : ['かな', 'カナ'])}
-  ${nx ? `<button class="btn ac" data-act="lesson" data-id="${nx.id}">Commencer la leçon</button>` : ''}</div>
-  <div class="rev"><div class="rev-n">${due}</div><b>${due ? 'kana à réviser maintenant' : 'Rien à réviser pour l’instant'}</b><p class="mut">${due ? 'Une courte session suffit : réviser à temps fixe la mémoire.' : nextDue()}</p>
+  ${nx ? `<button class="btn ac" data-act="lesson" data-id="${nx.id}">Commencer la leçon</button>` : ''}</article>
+  <div class="rev"><div class="rev-t"><b><span class="rev-n">${due}</span> kana à réviser</b><span>${due ? 'Le bon moment pour ta mémoire.' : nextDue()}</span></div>
   ${due ? `<button class="btn gh" data-act="review">Réviser</button>` : nl ? `<button class="btn gh" data-act="practice">Entraînement libre</button>` : ''}</div>
+  <div class="progress"><span class="mut">Ta progression</span><div class="prog"><i style="width:${Math.round((nl / TOTAL) * 100)}%"></i></div>
+  <div class="figs">${fig(`${nl} / ${TOTAL}`, 'kana vus')}${fig(ms, 'maîtrisés')}${fig(`${rw} / ${WORDS.length}`, 'mots lisibles')}${fig(S.xp, 'XP')}</div></div>
+  ${mascot('idle', tipHome(nx, due), 56)}
   </div></section>
-  <section class="band" style="padding-bottom:8px"><div class="wrap figs">
-  <div class="fig1"><b>${nl} / ${TOTAL}</b><span>kana vus</span></div><div class="fig1"><b>${ms}</b><span>kana maîtrisés</span></div>
-  <div class="fig1"><b>${rw} / ${WORDS.length}</b><span>mots lisibles</span></div><div class="fig1"><b>${S.xp}</b><span>XP au total</span></div></div></section>
-  <section class="band" style="padding-top:16px"><div class="wrap"><nav class="seg" aria-label="Sections"><button data-act="page" data-id="path" aria-pressed="${pg === 'path'}">Parcours</button><button data-act="page" data-id="sheet" aria-pressed="${pg === 'sheet'}">Tableau</button><button data-act="page" data-id="words" aria-pressed="${pg === 'words'}">Mots</button><button data-act="page" data-id="rush" aria-pressed="${pg === 'rush'}">Rafale</button><button data-act="page" data-id="brush" aria-pressed="${pg === 'brush'}">Pinceau</button></nav>
-  ${pg === 'sheet' ? sheetV() : pg === 'words' ? wordsV() : pg === 'rush' ? rushSetupV() : pg === 'brush' ? brushSetupV() : UNITS.map(u => unitV(u, nx)).join('')}</div></section>
-  <p class="foot"><span data-cloud>${cloudText()}</span><br><span>Tracés des kana : <a href="https://kanjivg.tagaini.net" style="color:inherit">KanjiVG</a> (CC BY-SA 3.0)</span>${cloud.mode === 'sb' ? ` <button class="link" data-act="settings">${cloud.uid ? 'Réglages' : 'Créer un compte'}</button> · <a href="confidentialite.html" style="color:inherit">Confidentialité</a>` : ''}</p>`
-  );
+  ${foot()}`;
+}
+const foot = () =>
+  `<p class="foot"><span data-cloud>${cloudText()}</span><br><span>Tracés des kana : <a href="https://kanjivg.tagaini.net" style="color:inherit">KanjiVG</a> (CC BY-SA 3.0)</span>${cloud.mode === 'sb' ? ` <button class="link" data-act="settings">${cloud.uid ? 'Réglages' : 'Créer un compte'}</button> · <a href="confidentialite.html" style="color:inherit">Confidentialité</a>` : ''}</p>`;
+/** Onglet Parcours : les unités et leurs leçons. */
+function pathV() {
+  const nx = nextLesson();
+  return `<section class="band"><div class="wrap"><h1 class="tabt">Parcours</h1>${UNITS.map(u => unitV(u, nx)).join('')}</div></section>`;
+}
+/** Onglet Entraîner : Rafale ou Pinceau (choix dans `ui.train`, non sauvegardé). */
+function trainV() {
+  const t = ui.train;
+  return `<section class="band"><div class="wrap"><h1 class="tabt">Entraîner</h1><nav class="seg" aria-label="Modes"><button data-act="page" data-id="rush" aria-pressed="${t === 'rush'}">Rafale</button><button data-act="page" data-id="brush" aria-pressed="${t === 'brush'}">Pinceau</button></nav>
+  ${t === 'brush' ? brushSetupV() : rushSetupV()}</div></section>`;
 }
 
 const XS = [0, 52, 72, 52, 0, -52, -72, -52];
@@ -256,14 +297,14 @@ function resV() {
   <h1>${title}</h1><p class="lead">${sub}</p>
   ${miss.length ? `<h2 style="margin-top:14px">À retravailler</h2><div class="mrow">${miss.map(c => `<button class="mk" data-act="say" data-t="${c}"><span lang="ja">${c}</span><small>${ITEMS[c].r}</small></button>`).join('')}</div>` : ''}
   ${mascot(ui.ses.pass ? 'happy' : 'oops', talk, 70)}
-  <div class="acts">${nl ? `<button class="btn ac" data-act="lesson" data-id="${nl.id}">Leçon suivante</button>` : ''}${k === 'test' && !ui.ses.pass ? `<button class="btn ac" data-act="test" data-id="${ui.ses.id}">Retenter</button>` : ''}<button class="btn gh" data-act="home">Retour au parcours</button></div></div></section>`
+  <div class="acts">${nl ? `<button class="btn ac" data-act="lesson" data-id="${nl.id}">Leçon suivante</button>` : ''}${k === 'test' && !ui.ses.pass ? `<button class="btn ac" data-act="test" data-id="${ui.ses.id}">Retenter</button>` : ''}<button class="btn gh" data-act="home">Retour</button></div></div></section>`
   );
 }
 
 function setV() {
   return (
     top() +
-    `<section class="band"><div class="wrap narrow set"><button class="back" data-act="home">← Parcours</button><h1>Réglages</h1>
+    `<section class="band"><div class="wrap narrow set"><button class="back" data-act="home">← Retour</button><h1>Réglages</h1>
   <label class="tg"><input type="checkbox" data-act="tog" data-k="unlock" ${S.unlock ? 'checked' : ''}><span>Tout débloquer<small>Accède à n’importe quelle leçon, sans suivre l’ordre.</small></span></label>
   <label class="tg"><input type="checkbox" data-act="tog" data-k="ear" ${S.ear !== false ? 'checked' : ''} ${tts ? '' : 'disabled'}><span>Exercices d’écoute<small>${tts ? 'Utilise la voix japonaise de ton appareil.' : 'Aucune voix japonaise trouvée sur cet appareil.'}</small></span></label>
   <label class="tg"><input type="checkbox" data-act="tog" data-k="draw" ${S.draw !== false ? 'checked' : ''}><span>Exercices de dessin<small>Ajoute des « dessine ce kana » dans les leçons et les révisions.</small></span></label>

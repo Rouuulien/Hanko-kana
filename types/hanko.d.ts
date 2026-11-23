@@ -28,6 +28,7 @@ export interface State {
   unlock: boolean;
   ear: boolean;
   tab: string;
+  /** Plus utilisé depuis l'étape 2 des onglets (onglet = état d'interface), gardé pour compatibilité. */
   page: string;
   rsc: string;
   rct: string;

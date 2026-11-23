@@ -18,7 +18,7 @@ const fresh = () => ({
   unlock: false,
   ear: true,
   tab: 'h',
-  page: 'path',
+  page: 'path', // plus utilisé depuis l'étape 2 des onglets (onglet = état d'interface), gardé pour compatibilité
   rsc: 'h',
   rct: 'kana',
   rdu: 60,

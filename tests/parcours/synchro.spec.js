@@ -1,7 +1,7 @@
 // Synchronisation en ligne avec de faux services (aucun appel réseau) : Supabase et compte Claude.
 import { test, expect, T0, HOUR } from '../helpers/hanko.js';
 import { finirQuiz } from '../helpers/joueur.js';
-import { REAL, sortKeys } from './_commun.js';
+import { REAL, sortKeys, ouvrir } from './_commun.js';
 
 const SESSION = { user: { id: 'joueur-1', email: 'joueur@example.test' }, access_token: 'x' };
 const synced = hanko => hanko.page.waitForFunction(() => __hanko.cloud.st === 'ok' && !__hanko.cloud.busy);
@@ -96,8 +96,9 @@ test.describe('compte Claude (version claude.ai)', () => {
     await synced(hanko);
     expect(sortKeys(await hanko.run(H => H.S))).toEqual(sortKeys(REAL));
     await expect(page.locator('.foot [data-cloud]')).toContainText('Sauvegardée automatiquement sur ton compte Claude');
-    await page.locator('[data-act="page"][data-id="words"]').click(); // toute action sauvegarde
-    await expect.poll(async () => JSON.parse((await hanko.fake()).doc.data).page, { timeout: 5000 }).toBe('words');
+    await ouvrir(page, 'sheet'); // changer d'onglet n'enregistre rien (état d'interface) ; choisir les katakana, si
+    await page.locator('[data-act="tab"][data-id="k"]').click();
+    await expect.poll(async () => JSON.parse((await hanko.fake()).doc.data).tab, { timeout: 5000 }).toBe('k');
     const doc = (await hanko.fake()).doc;
     expect(doc).toMatchObject({ v: 1, at: T0 });
   });

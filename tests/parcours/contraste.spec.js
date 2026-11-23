@@ -2,7 +2,7 @@
 // sur un écran d'iPhone : accueil, chaque onglet, réglages. Complète tests/unit/contraste.test.js, qui ne voit que
 // les variables. Seuil WCAG AA : 4,5:1, ou 3:1 pour un grand texte (24 px, ou 18,66 px en gras).
 import { test, expect } from '../helpers/hanko.js';
-import { REAL } from './_commun.js';
+import { REAL, ouvrir } from './_commun.js';
 
 test.use({ viewport: { width: 390, height: 844 } });
 
@@ -65,7 +65,7 @@ for (const scheme of ['light', 'dark'])
     const page = hanko.page;
     const bas = { accueil: await releve(page) };
     for (const id of ['path', 'sheet', 'words', 'rush', 'brush']) {
-      await page.locator(`[data-act="page"][data-id="${id}"]`).click();
+      await ouvrir(page, id);
       bas[id] = await releve(page);
     }
     await page.locator('header [data-act="settings"]').click();
