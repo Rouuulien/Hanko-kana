@@ -3,6 +3,7 @@
 // les variables. Seuil WCAG AA : 4,5:1, ou 3:1 pour un grand texte (24 px, ou 18,66 px en gras).
 import { test, expect } from '../helpers/hanko.js';
 import { REAL, ouvrir } from './_commun.js';
+import { forcer, ouvrirQuiz, repondreSansContinuer } from '../helpers/joueur.js';
 
 test.use({ viewport: { width: 390, height: 844 } });
 
@@ -70,5 +71,25 @@ for (const scheme of ['light', 'dark'])
     }
     await page.locator('header [data-act="settings"]').click();
     bas.reglages = await releve(page);
+    expect(Object.fromEntries(Object.entries(bas).filter(([, v]) => v.length))).toEqual({});
+  });
+
+for (const scheme of ['light', 'dark'])
+  test(`quiz lisible (${scheme})`, async ({ hanko }) => {
+    await hanko.page.emulateMedia({ colorScheme: scheme });
+    const page = await ouvrirQuiz(hanko);
+    const bas = {};
+    await forcer(hanko, 'k2r');
+    bas.question = await releve(page);
+    await repondreSansContinuer(hanko, true);
+    bas.juste = await releve(page);
+    await page.locator('#nb').click();
+    await forcer(hanko, 'k2r');
+    await repondreSansContinuer(hanko, false);
+    bas.faux = await releve(page);
+    await page.locator('#nb').click();
+    await forcer(hanko, 'draw');
+    await repondreSansContinuer(hanko, true);
+    bas.dessin = await releve(page);
     expect(Object.fromEntries(Object.entries(bas).filter(([, v]) => v.length))).toEqual({});
   });
