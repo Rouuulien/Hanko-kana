@@ -311,15 +311,13 @@ function resV() {
         : 'Sans faute, bravo !'
       : 'Pas grave : refais un tour des leçons de l’unité et retente le test.';
   if (allDone() && k === 'lesson' && !nl) talk = 'Tu as vu tous les kana : je peins enfin mon second œil !';
-  return (
-    top() +
-    `<section class="band"><div class="wrap narrow res">
+  return `<div class="gres"><div class="gres-top"><button class="x" data-act="home" aria-label="Fermer">${CLOSE}</button></div>
   <div class="stamp ${ui.ses.pass ? 'on' : 'off'}"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" stroke-width="6"/><circle cx="60" cy="60" r="43" fill="none" stroke="currentColor" stroke-width="2"/><text x="60" y="78" text-anchor="middle" font-size="52" fill="currentColor" font-family="Zen Old Mincho, serif" font-weight="700">${ui.ses.pass ? '済' : '再'}</text></svg></div>
-  <h1>${title}</h1><p class="lead">${sub}</p>
-  ${miss.length ? `<h2 style="margin-top:14px">À retravailler</h2><div class="mrow">${miss.map(c => `<button class="mk" data-act="say" data-t="${c}"><span lang="ja">${c}</span><small>${ITEMS[c].r}</small></button>`).join('')}</div>` : ''}
-  ${mascot(ui.ses.pass ? 'happy' : 'oops', talk, 70)}
-  <div class="acts">${nl ? `<button class="btn ac" data-act="lesson" data-id="${nl.id}">Leçon suivante</button>` : ''}${k === 'test' && !ui.ses.pass ? `<button class="btn ac" data-act="test" data-id="${ui.ses.id}">Retenter</button>` : ''}<button class="btn gh" data-act="home">Retour</button></div></div></section>`
-  );
+  <h1>${title}</h1>${k === 'test' && !ui.ses.pass ? `<p class="gsub">${sub}</p>` : ''}
+  <div class="rfigs"><div class="fig1"><b>${pc} %</b><span>du premier coup</span></div><div class="fig1"><b>×${ui.ses.best}</b><span>meilleure série</span></div><div class="fig1"><b>+${ui.ses.xp}</b><span>XP</span></div></div>
+  ${miss.length ? `<div class="gmiss"><p>À retravailler</p><div class="mrow">${miss.map(c => `<button class="mk" data-act="say" data-t="${c}"><span lang="ja">${c}</span><small>${ITEMS[c].r}</small></button>`).join('')}</div></div>` : ''}
+  ${mascot(ui.ses.pass ? 'happy' : 'oops', talk, 56)}
+  <div class="gacts">${nl ? `<button class="btn ac" data-act="lesson" data-id="${nl.id}">Leçon suivante</button>` : ''}${k === 'test' && !ui.ses.pass ? `<button class="btn ac" data-act="test" data-id="${ui.ses.id}">Retenter</button>` : ''}<button class="btn gh" data-act="home">Retour</button></div></div>`;
 }
 
 function setV() {

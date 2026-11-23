@@ -3,7 +3,7 @@
 // les variables. Seuil WCAG AA : 4,5:1, ou 3:1 pour un grand texte (24 px, ou 18,66 px en gras).
 import { test, expect } from '../helpers/hanko.js';
 import { REAL, ouvrir } from './_commun.js';
-import { finirPinceau, finirRafale, forcer, ouvrirQuiz, repondreSansContinuer } from '../helpers/joueur.js';
+import { finirPinceau, finirQuiz, finirRafale, forcer, ouvrirQuiz, repondreSansContinuer } from '../helpers/joueur.js';
 
 test.use({ viewport: { width: 390, height: 844 } });
 
@@ -129,4 +129,14 @@ for (const scheme of ['light', 'dark'])
     await finirPinceau(hanko);
     bas.pinceauResultats = await releve(page);
     expect(Object.fromEntries(Object.entries(bas).filter(([, v]) => v.length))).toEqual({});
+  });
+
+for (const scheme of ['light', 'dark'])
+  test(`résultats de leçon lisibles (${scheme})`, async ({ hanko }) => {
+    await hanko.page.emulateMedia({ colorScheme: scheme });
+    const page = (await hanko.open()).page;
+    await page.locator('.hero [data-act="lesson"]').click();
+    await page.locator('[data-act="go"]').first().click();
+    await finirQuiz(hanko, { erreurs: 1 });
+    expect(await releve(page)).toEqual([]);
   });

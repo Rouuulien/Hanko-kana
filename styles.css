@@ -1120,8 +1120,8 @@ button {
   gap: 10px;
 }
 .stamp {
-  width: 140px;
-  height: 140px;
+  width: 96px;
+  height: 96px;
   color: var(--ac-ink);
   transform: rotate(-8deg);
 }
@@ -1844,6 +1844,11 @@ textarea {
   border: 1px solid currentColor;
   border-radius: 999px;
   padding: 4px 12px;
+}
+.gres h1 {
+  margin: -4px 0 0;
+  font: 700 28px/1.2 var(--f-title);
+  text-align: center;
 }
 .gres .rfigs {
   background: var(--card);
