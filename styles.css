@@ -64,11 +64,13 @@
   --koi-fin: light-dark(#f7f5ef, #e8dfd0);
   --koi-patch: #c64b3c;
   --koi-face: #282824; /* visage posé sur le corps Sable : Sumi dans les deux thèmes */
-  /* Bassin (src/ui/pond.js) : Koï vue du dessus, couleurs déjà fondues dans le fond, car elle passe sous des textes.
-     Plus forte teinte qui garde --ink, --mut et --ac-ink à 4,5:1 (tests/unit/contraste.test.js). */
-  --pond-body: light-dark(#f1ede3, #2b2a26);
-  --pond-fin: light-dark(#f3f0e7, #2a2926);
-  --pond-patch: light-dark(#f5ece6, #3b231e);
+  /* Bassin (src/ui/pond.js) : Koï vue du dessus, bien visible hors du contenu. Sous la colonne de contenu, un voile
+     couleur de fond (--pond-veil) l'estompe assez pour que --ink, --mut et --ac-ink y tiennent 4,5:1
+     (tests/unit/contraste.test.js) : on y devine seulement ses couleurs. */
+  --pond-body: light-dark(#e8dfd0, #8a857b);
+  --pond-fin: light-dark(#eee7da, #6a665e);
+  --pond-patch: light-dark(#d9806f, #a8483a);
+  --pond-veil: light-dark(#f7f5efed, #1b1a17dc);
   /* Polices (fonts/README.md) */
   --f-ui: 'Noto Sans JP', system-ui, sans-serif;
   --f-title: 'Zen Old Mincho', 'Hiragino Mincho ProN', serif;
@@ -414,6 +416,11 @@ button {
 }
 .pond-off .pond {
   opacity: 0;
+}
+/* Voile sur le contenu des onglets : la carpe passe franchement dans les marges, discrètement sous les textes. */
+.tabv .wrap,
+.tabv .foot {
+  background: var(--pond-veil);
 }
 .pond-k {
   position: absolute;

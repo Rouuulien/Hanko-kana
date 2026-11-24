@@ -57,3 +57,10 @@ Pas de passage à React : l'effet est du CSS et du SVG, il s'intègre dans l'app
 - **Contraste.** Pour qu'un texte posé sur le fond tienne 4,5:1 même quand la carpe passe dessous, ses couleurs sont « pré-fondues » dans le fond (`--pond-body`, `--pond-fin`, `--pond-patch`, vérifiées par `tests/unit/contraste.test.js`). C'est la teinte la plus forte permise par `--mut` et `--ac-ink`. Résultat : Koï se voit en sombre, ombre rouge discrète. En clair, elle est presque invisible. Le contour Sable prévu en clair n'est pas possible sous cette règle.
 - **Cartes opaques.** La carpe disparaît sous la leçon du jour et les révisions, et n'apparaît que dans les espaces libres (progression, marges, pied de page, et surtout les autres onglets).
 - **À trancher par Julien.** Garder la règle stricte, ou accepter pour ce décor un contraste plus faible, comme dans la maquette, au prix de chiffres moins lisibles au passage de la carpe.
+
+## Décision (24/11, après essai sur iPhone)
+
+Julien veut la voir clairement, mais atténuée selon sa position, pour qu'elle ne gêne jamais. Koï prend donc une teinte franche, et un voile couleur de fond (`--pond-veil`, environ 90 %) couvre la colonne de contenu des onglets (`.wrap`, pied de page).
+- Dans les marges et hors du contenu, on la voit franchement.
+- Sous les textes, on devine ses couleurs, et les textes gardent 4,5:1 (test unitaire du contraste sur le voile).
+- Sous les cartes opaques (leçon du jour, révisions, tableau), elle reste cachée.
