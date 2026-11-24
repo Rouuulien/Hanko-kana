@@ -189,7 +189,6 @@ function finish() {
   sfx(pass ? 'done' : 'bad');
   addXp(ui.ses.xp);
   ui.view = 'res';
-  ui.homeTip = null;
   render();
 }
 

@@ -44,24 +44,6 @@ const top = () =>
   `<header class="top"><div class="brand"><span>Hanko</span><span class="brand-j" lang="ja">判子</span></div>
 <div class="tstats"><span class="streak">${streakText()}</span><button class="ic" data-act="settings" aria-label="Réglages">${GEAR}</button></div></header>`;
 
-function tipHome(nx, due) {
-  if (ui.homeTip) return ui.homeTip;
-  const nl = Object.keys(S.learned).length;
-  let t;
-  if (!nl)
-    t = `Salut, moi c’est <b>Koï</b> ! Une vieille légende dit qu’une carpe qui remonte la cascade devient dragon. Remontons-la ensemble : quand tu connaîtras tous les kana, je me transformerai. On commence par les 5 voyelles ?`;
-  else if (allDone())
-    t = `Tu connais tous les kana : la cascade est remontée ! Continue les révisions pour les garder.`;
-  else if (due) t = `<b>${due} kana</b> attendent leur révision. C’est maintenant que ta mémoire en profite le plus.`;
-  else {
-    const r = WORDS.filter(w => canRead(w));
-    t = r.length
-      ? `Avec ce que tu sais déjà, tu peux lire ${wordHTML(pick(r))}`
-      : `Encore un peu et tu pourras lire tes premiers mots japonais. ${nx ? 'Prochaine étape : ' + nx.t + '.' : ''}`;
-  }
-  return (ui.homeTip = t);
-}
-
 /** Grands kana du bandeau d'accueil : un élément par kana, `--n` (nombre de caractères) règle la taille pour tenir sur une ligne. */
 function bigK(items) {
   return `<div class="big-k" lang="ja" style="--n:${items.join('').length}">${items.map(k => `<span>${k}</span>`).join('')}</div>`;
@@ -92,7 +74,7 @@ function homeV() {
             : todayV();
   return top() + `<div class="tabv">${body}</div>` + tabbar();
 }
-/** Onglet Accueil (maquette « Accueil clair ») : leçon du jour, révisions, progression compacte, Koï. */
+/** Onglet Accueil (maquette « Accueil clair ») : leçon du jour, révisions, progression compacte (Koï nage en fond : src/ui/pond.js). */
 function todayV() {
   const nx = nextLesson(),
     due = dueList().length,
@@ -109,7 +91,6 @@ function todayV() {
   ${due ? `<button class="btn gh" data-act="review">Réviser</button>` : nl ? `<button class="btn gh" data-act="practice">Entraînement libre</button>` : ''}</div>
   <div class="progress"><span class="mut">Ta progression</span><div class="prog"><i style="width:${Math.round((nl / TOTAL) * 100)}%"></i></div>
   <div class="figs">${fig(`${nl} / ${TOTAL}`, 'kana vus')}${fig(ms, 'maîtrisés')}${fig(`${rw} / ${WORDS.length}`, 'mots lisibles')}${fig(S.xp, 'XP')}</div></div>
-  ${mascot(allDone() ? 'celebrating' : 'resting', tipHome(nx, due), 80)}
   </div></section>
   ${foot()}`;
 }

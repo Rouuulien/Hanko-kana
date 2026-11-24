@@ -12,9 +12,6 @@ bindUI({
   go: v => {
     ui.view = v;
   },
-  resetTip: () => {
-    ui.homeTip = null;
-  },
   home: () => {
     ui.tab = 'home';
   },

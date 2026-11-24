@@ -54,7 +54,7 @@ beforeEach(() => {
   stock = fauxStockage();
   replaceState(fresh());
   renders = 0;
-  bindUI({ render: () => renders++, view: () => 'home', go() {}, resetTip() {} });
+  bindUI({ render: () => renders++, view: () => 'home', go() {} });
 });
 afterEach(() => mock.timers.reset());
 

@@ -7,31 +7,11 @@ import { cur } from '../modes/quiz.js';
 import { rPaint, rushResV, rushV } from '../modes/rush.js';
 import { ui } from './app-state.js';
 import { mountPad } from './pad.js';
+import { showPond } from './pond.js';
 import { cardsV, homeV, quizV, resV, setV } from './views.js';
-import { arrivesHome, snapshot, transitionFor } from './transition.js';
+import { snapshot, transitionFor } from './transition.js';
 import { say } from './voice.js';
 const app = document.getElementById('app');
-const SWIM_MS = 1400; // durée de l'animation koi-in (styles.css)
-let swimT0 = 0; // début de l'arrivée en cours : un redessin pendant la nage la poursuit au même point
-/** Koï arrive en nageant sur l'Accueil (enveloppant `.koi-w`), puis reprend l'état qu'elle avait à l'affichage. */
-function swimIn(elapsed) {
-  const w = app.querySelector('.today-g .koi-w'),
-    k = w && w.querySelector('.koi');
-  if (!w || !k || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const rest = k.getAttribute('data-state') || 'resting';
-  k.setAttribute('data-state', 'swimming');
-  w.style.animationDelay = `-${elapsed}ms`;
-  w.classList.add('koi-in');
-  const end = e => {
-    if (e.target !== w) return; // les animations internes de la koï remontent aussi jusqu'ici
-    w.classList.remove('koi-in');
-    w.style.animationDelay = '';
-    k.setAttribute('data-state', rest);
-    swimT0 = 0;
-    w.removeEventListener('animationend', end);
-  };
-  w.addEventListener('animationend', end);
-}
 /** Pose la classe d'animation d'entrée (CSS) : l'écran est déjà affiché, seule son arrivée est animée. */
 function enter(t) {
   if (t === 'fade' || t === 'rise') {
@@ -103,12 +83,7 @@ function render() {
   if (fb && qz) qz.style.setProperty('--fb-h', `${fb.offsetHeight}px`);
   const shot = snapshot(ui);
   enter(transitionFor(ui.shot, shot));
-  if (arrivesHome(ui.shot, shot)) {
-    swimT0 = performance.now();
-    swimIn(0);
-  } else if (swimT0 && shot.view === 'home' && shot.tab === 'home' && performance.now() - swimT0 < SWIM_MS)
-    swimIn(performance.now() - swimT0);
-  else swimT0 = 0;
+  showPond(ui.view === 'home'); // Koï nage derrière les onglets, pas en leçon, en jeu ni en réglages
   ui.shot = shot;
   if (ui.view === 'rush') rPaint();
   const where = ui.view === 'home' ? `home:${ui.tab}:${ui.train}` : ui.view;

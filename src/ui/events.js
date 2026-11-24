@@ -349,7 +349,6 @@ app.addEventListener('click', e => {
       } else {
         ui.armed = false;
         replaceState(fresh());
-        ui.homeTip = null;
         save();
         ui.view = 'home';
         ui.tab = 'home';
@@ -369,7 +368,6 @@ app.addEventListener('submit', e => {
       const v = readSave(JSON.parse(document.getElementById('impt').value));
       if (!v) throw 0;
       replaceState(Object.assign(fresh(), v));
-      ui.homeTip = null;
       save();
       render();
       document.getElementById('impm').textContent = 'Progression importée.';

@@ -40,6 +40,8 @@ const COUPLES = [
   ['gold-ink', 'bg'],
   ['ok', 'card'],
   ['bad', 'card'],
+  // Koï du bassin passe sous les textes posés sur le fond
+  ...['pond-body', 'pond-fin', 'pond-patch'].flatMap(f => ['ink', 'mut', 'ac-ink'].map(t => [t, f])),
 ];
 for (const [t, f] of COUPLES)
   test(`contraste ${t} sur ${f} ≥ 4,5 en clair et en sombre`, () => {

@@ -64,6 +64,11 @@
   --koi-fin: light-dark(#f7f5ef, #e8dfd0);
   --koi-patch: #c64b3c;
   --koi-face: #282824; /* visage posé sur le corps Sable : Sumi dans les deux thèmes */
+  /* Bassin (src/ui/pond.js) : Koï vue du dessus, couleurs déjà fondues dans le fond, car elle passe sous des textes.
+     Plus forte teinte qui garde --ink, --mut et --ac-ink à 4,5:1 (tests/unit/contraste.test.js). */
+  --pond-body: light-dark(#f1ede3, #2b2a26);
+  --pond-fin: light-dark(#f3f0e7, #2a2926);
+  --pond-patch: light-dark(#f5ece6, #3b231e);
   /* Polices (fonts/README.md) */
   --f-ui: 'Noto Sans JP', system-ui, sans-serif;
   --f-title: 'Zen Old Mincho', 'Hiragino Mincho ProN', serif;
@@ -376,14 +381,6 @@ button {
 .figs .fig1 span {
   font-size: 11.5px;
 }
-.today-g .mascot {
-  margin-top: 4px;
-}
-.today-g .bubble {
-  font-size: 14px;
-  margin-bottom: 8px;
-  box-shadow: none;
-}
 .brand-j {
   font-size: 13px;
   font-weight: 400;
@@ -405,20 +402,92 @@ button {
   flex: none;
   line-height: 0;
 }
-/* Koï arrive en nageant sur l'Accueil (src/ui/render.js) */
-.koi-w.koi-in {
-  animation: koi-in 1.4s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+/* Bassin : Koï vue du dessus nage derrière les onglets (src/ui/pond.js). z-index -1 : au-dessus du fond de page,
+   sous tout le contenu ; les cartes, l'en-tête et la barre d'onglets, opaques, la cachent en passant. */
+.pond {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
 }
-@keyframes koi-in {
-  from {
-    transform: translateX(min(70vw, 320px));
+.pond-off .pond {
+  opacity: 0;
+}
+.pond-k {
+  position: absolute;
+  top: 0;
+  left: 0;
+  line-height: 0;
+  will-change: transform;
+}
+.koi-top {
+  display: block;
+  overflow: visible;
+  filter: blur(1.5px);
+}
+.koi-top .kt-body {
+  fill: var(--pond-body);
+}
+.koi-top .kt-fin {
+  fill: var(--pond-fin);
+}
+.koi-top .kt-patch {
+  fill: var(--pond-patch);
+}
+.koi-top > *,
+.koi-top g {
+  transform-box: view-box;
+}
+.koi-top .kt-tail {
+  transform-origin: 60px 150px;
+  animation: kt-tail 1.6s ease-in-out infinite;
+}
+.koi-top .kt-l {
+  transform-origin: 40px 66px;
+  animation: kt-pec 2.4s ease-in-out infinite;
+}
+.koi-top .kt-r {
+  transform-origin: 80px 66px;
+  animation: kt-pec 2.4s ease-in-out infinite reverse;
+}
+.pond-k svg {
+  transform-origin: 50% 40%;
+  animation: kt-sway 1.6s ease-in-out infinite;
+}
+@keyframes kt-tail {
+  0%,
+  100% {
+    transform: rotate(-16deg);
   }
-  to {
-    transform: none;
+  50% {
+    transform: rotate(16deg);
   }
 }
-.today-g {
-  overflow-x: clip;
+@keyframes kt-pec {
+  0%,
+  100% {
+    transform: rotate(-8deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+@keyframes kt-sway {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pond-k svg,
+  .koi-top g {
+    animation: none;
+  }
 }
 /* Koï : dessin (src/ui/koi.js) et états (data-state), repris de koi/koi-demo.html */
 .koi {
@@ -2439,8 +2508,7 @@ textarea {
 }
 @media (prefers-reduced-motion: reduce) {
   .koi,
-  .koi *,
-  .koi-w.koi-in {
+  .koi * {
     animation: none !important;
   }
   .stamp.on,
