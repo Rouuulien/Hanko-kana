@@ -146,3 +146,5 @@ du DOM.
 - PR 1 : la carte `.hero` et les cadres B gardent leur `border` de 1 px (transparente) et posent l'image avec une
   largeur propre (`border-image: … / 20px`) qui déborde sur le padding : aucune dimension ne change. Leur fond passe
   entièrement dans le SVG (`background: none`), sinon il déborderait dans les crans des coins.
+- 24/11/2026, après essai sur iPhone : Julien préfère le Parcours d'avant. Toute la PR 2 (#30) est annulée, et l'en-tête
+  d'unité et l'étiquette « Commencer » retrouvent leurs arrondis d'origine (20 et 8 px). La PR 1 (Accueil) reste.

@@ -51,7 +51,6 @@
   --sage-ink: light-dark(#3f5241, #9bae9a);
   --gold: #b69a63;
   --gold-ink: light-dark(#7d6435, #c9ae78);
-  --frame: light-dark(#d6caac, #574f3e); /* filets des cadres « Sceau » (pas de texte) */
   --ok: light-dark(#3f5241, #9bae9a);
   --ok-line: light-dark(#5e7360, #9bae9a); /* bordure d'une bonne réponse */
   --bad: light-dark(#b3261e, #ff8a80);
@@ -833,22 +832,26 @@ button {
   max-width: 560px;
 }
 .uhead {
-  /* cadre B, comme sur l'Accueil */
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 18px 20px;
-  background: none;
-  border: 1px solid transparent;
-  border-image: var(--fr-b) 14 fill / 14px stretch;
+  padding: 16px 18px;
+  border-radius: 20px; /* Parcours d’avant la charte « Sceau » (choix de Julien) */
+  background: var(--card);
+  border: 1px solid var(--line);
+}
+.uhead.full {
+  background: color-mix(in srgb, var(--ac) 10%, var(--card));
+  border-color: color-mix(in srgb, var(--ac) 30%, var(--line));
 }
 .uhead .ub {
   flex: 1;
 }
 .ubar {
-  height: 4px;
-  background: var(--sand);
-  margin-top: 10px;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--line);
+  margin-top: 8px;
   overflow: hidden;
 }
 .ubar i {
@@ -856,61 +859,14 @@ button {
   height: 100%;
   background: var(--sage);
 }
-/* unité réussie : petit sceau carré or mat « 済 » (terminé) */
-.uok {
-  flex: none;
-  width: 28px;
-  height: 28px;
-  display: grid;
-  place-items: center;
-  background: var(--gold);
-  color: var(--sumi);
-  font: 700 15px/1 var(--f-title);
-  border-radius: var(--r-s);
-}
-/* Parcours : une leçon = un sceau, reliées par un trait de pinceau (src/ui/views.js, trailSVG) */
 .trail {
-  position: relative;
   display: grid;
   justify-items: center;
-  gap: 28px; /* .stp (104 px) + 28 px = STEP (132) dans views.js ; laisse la place à « Commencer » */
+  gap: 14px;
   padding: 22px 0 6px;
-}
-.brush-path {
-  position: absolute;
-  top: 22px;
-  left: 50%;
-  margin-left: -160px;
-  overflow: visible;
-  pointer-events: none;
-  fill: none;
-  stroke-linecap: round;
-}
-.brush-path .ink {
-  stroke: var(--ink);
-  stroke-width: 10;
-  opacity: 0.85;
-}
-.brush-path .ink-a,
-.brush-path .ink-b {
-  stroke: var(--ink);
-  stroke-width: 2;
-  stroke-dasharray: 40 9 16 6;
-  opacity: 0.4;
-}
-.brush-path .ink-b {
-  stroke-width: 1.5;
-  stroke-dasharray: 22 12 60 8;
-  opacity: 0.3;
-}
-.brush-path .todo {
-  stroke: color-mix(in srgb, var(--mut) 55%, transparent);
-  stroke-width: 3;
-  stroke-dasharray: 0.1 10;
 }
 .stp {
   width: 132px;
-  height: 104px;
   background: none;
   border: 0;
   padding: 0;
@@ -922,85 +878,75 @@ button {
   position: relative;
 }
 .sk {
-  width: 68px;
-  height: 68px;
-  flex: none;
+  width: 74px;
+  height: 74px;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  position: relative;
   font: 600 28px var(--f-kana);
   background: var(--card);
   color: var(--ink);
-  border: 1.5px solid var(--ink);
+  border: 2px solid var(--line);
+  box-shadow: 0 4px 0 var(--line);
   transition: transform 0.15s;
 }
-/* second cercle intérieur, comme sur un sceau gravé */
-.sk::after {
-  content: '';
-  position: absolute;
-  inset: 5px;
-  border-radius: inherit;
-  border: 1px solid currentColor;
-  opacity: 0.5;
-}
 .stp:not(:disabled):hover .sk {
-  transform: scale(1.05);
+  transform: rotate(-6deg) scale(1.05);
 }
-/* faite : sceau imprimé en vermillon, un peu de travers comme un vrai tampon */
 .stp.done .sk {
-  background: var(--ac);
-  border-color: var(--ac);
-  color: var(--on-ac);
-  transform: rotate(-5deg);
-}
-.stp.done:not(:disabled):hover .sk {
-  transform: rotate(-5deg) scale(1.05);
+  /* en sombre, un mélange plus léger garde le kana à 4,5:1 */
+  background: light-dark(
+    color-mix(in srgb, var(--sage) 35%, var(--card)),
+    color-mix(in srgb, var(--sage) 15%, var(--card))
+  );
+  border-color: var(--sage);
+  color: var(--ok);
+  box-shadow: 0 4px 0 var(--line);
 }
 .stp.lock {
   cursor: default;
 }
 .stp.lock .sk {
-  border: 1.5px dashed var(--mut);
+  border: 3px dashed var(--line);
   color: var(--mut);
-  background: var(--bg);
+  background: transparent;
+  box-shadow: none;
 }
-.stp.lock .sk::after {
-  border-style: dashed;
-}
-/* en cours : cerclée de vermillon, anneau extérieur discret */
 .stp.cur .sk {
-  border: 2px solid var(--ac);
+  width: 86px;
+  height: 86px;
+  font-size: 32px;
+  border: 3px solid var(--ac);
   background: var(--card);
   color: var(--ac-ink);
-  box-shadow:
-    0 0 0 4px var(--bg),
-    0 0 0 5px var(--frame);
+  animation: pulse 2s infinite;
 }
-/* test d'unité : sceau carré, comme un hanko de nom */
+@keyframes pulse {
+  0% {
+    box-shadow:
+      0 5px 0 color-mix(in srgb, var(--ac) 35%, var(--line)),
+      0 0 0 0 color-mix(in srgb, var(--ac) 40%, transparent);
+  }
+  70% {
+    box-shadow:
+      0 5px 0 color-mix(in srgb, var(--ac) 35%, var(--line)),
+      0 0 0 16px transparent;
+  }
+}
 .stp.test .sk {
-  border-radius: var(--r-s);
+  border-radius: 20px;
   border-color: var(--gold);
   color: var(--gold-ink);
-  transform: none;
 }
 .stp.test.done .sk {
   background: var(--gold);
-  border-color: var(--gold);
   color: var(--sumi);
-  transform: rotate(-5deg);
-}
-.stp.test.lock .sk {
-  border-color: var(--mut);
-  color: var(--mut);
 }
 .sl {
   font-size: 14px;
   color: var(--mut);
   text-align: center;
   line-height: 1.2;
-  background: var(--bg);
-  padding: 0 6px;
 }
 .stp.cur .sl {
   color: var(--ink);
@@ -1014,9 +960,8 @@ button {
   font-size: 13px;
   font-weight: 700;
   padding: 4px 10px;
-  border-radius: var(--r-s);
+  border-radius: 8px;
   white-space: nowrap;
-  z-index: 1;
 }
 .go::after {
   content: '';
@@ -2516,6 +2461,9 @@ textarea {
   }
   .prompt {
     min-height: 160px;
+  }
+  .stp {
+    transform: translateX(calc(var(--x) * 0.7));
   }
   .bubble {
     font-size: 15px;

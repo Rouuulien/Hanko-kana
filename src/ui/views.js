@@ -127,33 +127,7 @@ function trainV() {
   ${t === 'brush' ? brushSetupV() : rushSetupV()}</div></section>`;
 }
 
-const XS = [0, 36, 50, 36, 0, -36, -50, -36];
-/** Pas vertical entre deux sceaux du Parcours (hauteur fixe de `.stp` + écart de `.trail`, voir styles.css). */
-const STEP = 132,
-  SEAL_Y = 34;
-/**
- * Chemin au pinceau derrière les sceaux d'une unité : à l'encre jusqu'au premier sceau non fait, en pointillé ensuite.
- * Les positions sont connues sans mesurer le DOM : `.stp` a une hauteur fixe et un décalage `XS`.
- * @param {string[]} states état de chaque sceau, test compris
- */
-function trailSVG(states) {
-  const n = states.length,
-    pts = states.map((_, i) => [160 + XS[i % 8], SEAL_Y + i * STEP]),
-    first = states.findIndex(st => !st.startsWith('done')),
-    end = first < 0 ? n - 1 : first;
-  const d = (a, b, dx = 0) => {
-    let s = `M${pts[a][0] + dx} ${pts[a][1]}`;
-    for (let i = a + 1; i <= b; i++)
-      s += ` C${pts[i - 1][0] + dx} ${pts[i - 1][1] + STEP * 0.55} ${pts[i][0] + dx} ${pts[i][1] - STEP * 0.55} ${pts[i][0] + dx} ${pts[i][1]}`;
-    return s;
-  };
-  const ink =
-    end > 0
-      ? `<path class="ink" d="${d(0, end)}"/><path class="ink-a" d="${d(0, end, 4)}"/><path class="ink-b" d="${d(0, end, -5)}"/>`
-      : '';
-  const rest = first >= 0 && first < n - 1 ? `<path class="todo" d="${d(first, n - 1)}"/>` : '';
-  return `<svg class="brush-path" width="320" height="${(n - 1) * STEP + 2 * SEAL_Y}" aria-hidden="true">${ink}${rest}</svg>`;
-}
+const XS = [0, 52, 72, 52, 0, -52, -72, -52];
 function unitV(u, nx) {
   const d = u.lessons.filter(l => S.done[l.id]).length,
     best = S.tests[u.id],
@@ -162,18 +136,15 @@ function unitV(u, nx) {
   let k = 0;
   const node = (cls, act, id, dis, glyph, label, isCur) =>
     `<button class="stp ${cls}" style="--x:${XS[k++ % 8]}px" data-act="${act}" data-id="${id}" ${dis ? 'disabled' : ''}>${isCur ? '<span class="go">Commencer</span>' : ''}<span class="sk" lang="ja">${glyph}</span><span class="sl">${label}</span></button>`;
-  const states = u.lessons.map(l => (S.done[l.id] ? 'done' : unlocked(l) ? 'open' : 'lock'));
-  states.push(best >= 80 ? 'done' : to ? 'open' : 'lock');
-  const full = best >= 80;
-  return `<div class="unit"><div class="uhead ${full ? 'full' : ''}"><div class="ub"><h3>${u.t}</h3><div class="ubar"><i style="width:${Math.round((d / n) * 100)}%"></i></div></div><span class="mut">${d} / ${n}</span>${full ? '<span class="uok" lang="ja" title="Unité réussie">済</span>' : ''}</div><div class="trail">${trailSVG(states)}
+  return `<div class="unit"><div class="uhead ${best >= 80 ? 'full' : ''}"><div class="ub"><h3>${u.t}</h3><div class="ubar"><i style="width:${Math.round((d / n) * 100)}%"></i></div></div><span class="mut">${d} / ${n}</span></div><div class="trail">
   ${u.lessons
-    .map((l, i) => {
-      const st = states[i],
+    .map(l => {
+      const st = S.done[l.id] ? 'done' : unlocked(l) ? 'open' : 'lock',
         c = nx && nx.id === l.id;
       return node(st + (c ? ' cur' : ''), 'lesson', l.id, st === 'lock', l.items[0], l.t, c);
     })
     .join('')}
-  ${node('test ' + states[n], 'test', u.id, !to, '試', best != null ? 'Test · ' + best + ' %' : 'Test d’unité', false)}</div></div>`;
+  ${node('test ' + (best >= 80 ? 'done' : to ? 'open' : 'lock'), 'test', u.id, !to, '試', best != null ? 'Test · ' + best + ' %' : 'Test d’unité', false)}</div></div>`;
 }
 
 function sheetV() {
