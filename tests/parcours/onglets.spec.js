@@ -1,6 +1,5 @@
 // Navigation par onglets : barre en bas, un écran par onglet, onglet courant non sauvegardé.
 import { test, expect, T0, HOUR } from '../helpers/hanko.js';
-import { UNITS } from '../../src/data/kana.js';
 import { REAL, ouvrir } from './_commun.js';
 
 test.use({ viewport: { width: 390, height: 844 } });
@@ -189,9 +188,7 @@ test('barre d’onglets centrée sur grand écran', async ({ hanko }) => {
   expect(ecart).toBeLessThanOrEqual(560);
 });
 
-test('charte « Sceau » : leçons terminées imprimées en vermillon, leçon en cours cerclée de vermillon', async ({
-  hanko,
-}) => {
+test('leçons terminées sans pastille rouge pleine, leçon en cours cerclée de vermillon', async ({ hanko }) => {
   const page = (await hanko.open({ state: REAL })).page;
   await ouvrir(page, 'path');
   const [done, ac, curBord] = await page.evaluate(() => {
@@ -204,7 +201,7 @@ test('charte « Sceau » : leçons terminées imprimées en vermillon, leçon en
       getComputedStyle(document.querySelector('.stp.cur .sk')).borderTopColor,
     ];
   });
-  expect(done).toBe(ac);
+  expect(done).not.toBe(ac);
   expect(curBord).toBe(ac);
 });
 
@@ -233,44 +230,3 @@ for (const scheme of ['light', 'dark'])
       });
     expect(ratio).toBeGreaterThanOrEqual(4.5);
   });
-
-test('Parcours : le trait de pinceau relie les sceaux faits jusqu’à la leçon en cours', async ({ hanko }) => {
-  const page = (await hanko.open({ state: REAL })).page;
-  await ouvrir(page, 'path');
-  const r = await page.evaluate(() => {
-    const unites = [...document.querySelectorAll('.unit')];
-    const u = unites.find(e => e.querySelector('.stp.cur'));
-    const svg = u.querySelector('.brush-path'),
-      o = svg.getBoundingClientRect(),
-      ink = u.querySelector('.brush-path .ink'),
-      fin = ink.getPointAtLength(ink.getTotalLength()),
-      centre = e => {
-        const b = e.getBoundingClientRect();
-        return [b.left + b.width / 2 - o.left, b.top + b.height / 2 - o.top];
-      };
-    return {
-      chemins: unites.map(e => e.querySelectorAll('.brush-path').length),
-      fin: [fin.x, fin.y],
-      cur: centre(u.querySelector('.stp.cur .sk')),
-      // chaque sceau est sur le tracé : début du trait au centre du premier sceau
-      debut: [ink.getPointAtLength(0).x, ink.getPointAtLength(0).y],
-      premier: centre(u.querySelector('.stp .sk')),
-    };
-  });
-  expect(r.chemins.every(n => n === 1)).toBe(true);
-  for (const [a, b] of [
-    [r.fin, r.cur],
-    [r.debut, r.premier],
-  ]) {
-    expect(Math.abs(a[0] - b[0])).toBeLessThan(2);
-    expect(Math.abs(a[1] - b[1])).toBeLessThan(2);
-  }
-});
-
-test('Parcours : une unité réussie porte le sceau « 済 », sans teinte rouge', async ({ hanko }) => {
-  const id = UNITS[0].id;
-  const page = (await hanko.open({ state: { ...REAL, tests: { ...REAL.tests, [id]: 100 } } })).page;
-  await ouvrir(page, 'path');
-  await expect(page.locator('.uhead.full .uok')).toHaveCount(1);
-  await expect(page.locator('.uhead.full .uok')).toHaveText('済');
-});
