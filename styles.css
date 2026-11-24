@@ -836,7 +836,7 @@ button {
   align-items: center;
   gap: 14px;
   padding: 16px 18px;
-  border-radius: var(--r-l);
+  border-radius: 20px; /* Parcours d’avant la charte « Sceau » (choix de Julien) */
   background: var(--card);
   border: 1px solid var(--line);
 }
@@ -960,7 +960,7 @@ button {
   font-size: 13px;
   font-weight: 700;
   padding: 4px 10px;
-  border-radius: var(--r-s);
+  border-radius: 8px;
   white-space: nowrap;
 }
 .go::after {
