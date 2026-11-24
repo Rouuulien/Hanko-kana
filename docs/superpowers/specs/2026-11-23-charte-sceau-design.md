@@ -146,3 +146,5 @@ du DOM.
 - PR 1 : la carte `.hero` et les cadres B gardent leur `border` de 1 px (transparente) et posent l'image avec une
   largeur propre (`border-image: … / 20px`) qui déborde sur le padding : aucune dimension ne change. Leur fond passe
   entièrement dans le SVG (`background: none`), sinon il déborderait dans les crans des coins.
+- 24/11/2026, après essai sur iPhone : trait de pinceau retiré à la demande de Julien (« ça rend mal »). Les sceaux,
+  l'en-tête d'unité et le sceau « 済 » restent.

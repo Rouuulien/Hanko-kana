@@ -868,45 +868,13 @@ button {
   font: 700 15px/1 var(--f-title);
   border-radius: var(--r-s);
 }
-/* Parcours : une leçon = un sceau, reliées par un trait de pinceau (src/ui/views.js, trailSVG) */
+/* Parcours : une leçon = un sceau */
 .trail {
   position: relative;
   display: grid;
   justify-items: center;
-  gap: 28px; /* .stp (104 px) + 28 px = STEP (132) dans views.js ; laisse la place à « Commencer » */
+  gap: 28px; /* laisse la place à « Commencer » au-dessus de la leçon en cours */
   padding: 22px 0 6px;
-}
-.brush-path {
-  position: absolute;
-  top: 22px;
-  left: 50%;
-  margin-left: -160px;
-  overflow: visible;
-  pointer-events: none;
-  fill: none;
-  stroke-linecap: round;
-}
-.brush-path .ink {
-  stroke: var(--ink);
-  stroke-width: 10;
-  opacity: 0.85;
-}
-.brush-path .ink-a,
-.brush-path .ink-b {
-  stroke: var(--ink);
-  stroke-width: 2;
-  stroke-dasharray: 40 9 16 6;
-  opacity: 0.4;
-}
-.brush-path .ink-b {
-  stroke-width: 1.5;
-  stroke-dasharray: 22 12 60 8;
-  opacity: 0.3;
-}
-.brush-path .todo {
-  stroke: color-mix(in srgb, var(--mut) 55%, transparent);
-  stroke-width: 3;
-  stroke-dasharray: 0.1 10;
 }
 .stp {
   width: 132px;

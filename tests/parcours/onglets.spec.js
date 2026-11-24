@@ -234,39 +234,6 @@ for (const scheme of ['light', 'dark'])
     expect(ratio).toBeGreaterThanOrEqual(4.5);
   });
 
-test('Parcours : le trait de pinceau relie les sceaux faits jusqu’à la leçon en cours', async ({ hanko }) => {
-  const page = (await hanko.open({ state: REAL })).page;
-  await ouvrir(page, 'path');
-  const r = await page.evaluate(() => {
-    const unites = [...document.querySelectorAll('.unit')];
-    const u = unites.find(e => e.querySelector('.stp.cur'));
-    const svg = u.querySelector('.brush-path'),
-      o = svg.getBoundingClientRect(),
-      ink = u.querySelector('.brush-path .ink'),
-      fin = ink.getPointAtLength(ink.getTotalLength()),
-      centre = e => {
-        const b = e.getBoundingClientRect();
-        return [b.left + b.width / 2 - o.left, b.top + b.height / 2 - o.top];
-      };
-    return {
-      chemins: unites.map(e => e.querySelectorAll('.brush-path').length),
-      fin: [fin.x, fin.y],
-      cur: centre(u.querySelector('.stp.cur .sk')),
-      // chaque sceau est sur le tracé : début du trait au centre du premier sceau
-      debut: [ink.getPointAtLength(0).x, ink.getPointAtLength(0).y],
-      premier: centre(u.querySelector('.stp .sk')),
-    };
-  });
-  expect(r.chemins.every(n => n === 1)).toBe(true);
-  for (const [a, b] of [
-    [r.fin, r.cur],
-    [r.debut, r.premier],
-  ]) {
-    expect(Math.abs(a[0] - b[0])).toBeLessThan(2);
-    expect(Math.abs(a[1] - b[1])).toBeLessThan(2);
-  }
-});
-
 test('Parcours : une unité réussie porte le sceau « 済 », sans teinte rouge', async ({ hanko }) => {
   const id = UNITS[0].id;
   const page = (await hanko.open({ state: { ...REAL, tests: { ...REAL.tests, [id]: 100 } } })).page;
