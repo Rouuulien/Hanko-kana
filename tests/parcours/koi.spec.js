@@ -5,11 +5,10 @@ import { ouvrirQuiz, repondreSansContinuer } from '../helpers/joueur.js';
 
 test.use({ viewport: { width: 390, height: 844 } });
 
-test('l’Accueil montre Koï en 80 px, au repos une fois arrivée', async ({ hanko }) => {
+test('l’Accueil n’a plus de Koï de profil ni de bulle : elle nage dans le bassin', async ({ hanko }) => {
   const page = (await hanko.open({ state: REAL })).page;
-  await expect(page.locator('.today-g .mascot .koi')).toHaveAttribute('width', '80');
-  await page.locator('.today-g .koi-w').evaluate(e => Promise.all(e.getAnimations().map(a => a.finished)));
-  await expect(page.locator('.today-g .mascot .koi')).toHaveAttribute('data-state', 'resting');
+  await expect(page.locator('.today-g .koi, .today-g .bubble')).toHaveCount(0);
+  await expect(page.locator('.pond .koi-top')).toHaveCount(1);
 });
 
 test('Koï réagit aux réponses : contente puis encourageante', async ({ hanko }) => {
@@ -25,8 +24,9 @@ for (const scheme of ['light', 'dark'])
   test(`le contour de Koï suit le thème (${scheme})`, async ({ hanko }) => {
     await hanko.page.emulateMedia({ colorScheme: scheme });
     const page = (await hanko.open({ state: REAL })).page;
+    await ouvrir(page, 'words');
     const trait = await page
-      .locator('.today-g .koi .line')
+      .locator('.words .koi .line')
       .first()
       .evaluate(e => getComputedStyle(e).stroke);
     expect(trait).toBe(scheme === 'light' ? 'rgb(40, 40, 36)' : 'rgb(247, 245, 239)');
@@ -44,60 +44,12 @@ test('plus de Daru dans la page', async ({ hanko }) => {
   await expect(page.locator('body')).not.toContainText('Daru');
 });
 
-// Arrivée en nageant (A) : `.koi-w` porte le déplacement, la koï ondule en `swimming`, puis se pose.
-const fini = page => page.locator('.today-g .koi-w').evaluate(e => Promise.all(e.getAnimations().map(a => a.finished)));
-
-test('arrivée sur l’Accueil : Koï entre en nageant puis se pose', async ({ hanko }) => {
-  const page = (await hanko.open({ state: REAL })).page;
-  await expect(page.locator('.today-g .koi-w')).toHaveClass(/\bkoi-in\b/);
-  await expect(page.locator('.today-g .koi')).toHaveAttribute('data-state', 'swimming');
-  await fini(page);
-  await expect(page.locator('.today-g .koi-w')).not.toHaveClass(/\bkoi-in\b/);
-  await expect(page.locator('.today-g .koi')).toHaveAttribute('data-state', 'resting');
-});
-
-test('un redessin de l’Accueil ne relance pas la nage', async ({ hanko }) => {
-  const page = (await hanko.open({ state: REAL })).page;
-  await fini(page);
-  await hanko.run(H => H.render());
-  await expect(page.locator('.today-g .koi-w')).not.toHaveClass(/\bkoi-in\b/);
-  await expect(page.locator('.today-g .koi')).toHaveAttribute('data-state', 'resting');
-});
-
-test('un redessin pendant l’arrivée la poursuit (chargement des tracés, synchro)', async ({ hanko }) => {
-  const page = (await hanko.open({ state: REAL })).page;
-  await expect(page.locator('.today-g .koi-w')).toHaveClass(/\bkoi-in\b/);
-  await hanko.run(H => H.render());
-  await expect(page.locator('.today-g .koi-w')).toHaveClass(/\bkoi-in\b/);
-  await fini(page);
-  await expect(page.locator('.today-g .koi')).toHaveAttribute('data-state', 'resting');
-});
-
-test('retour d’un autre onglet : nouvelle arrivée', async ({ hanko }) => {
-  const page = (await hanko.open({ state: REAL })).page;
-  await fini(page);
-  await ouvrir(page, 'path');
-  await ouvrir(page, 'home');
-  await expect(page.locator('.today-g .koi-w')).toHaveClass(/\bkoi-in\b/);
-});
-
-test('Réduire les animations : Koï est déjà à sa place', async ({ hanko }) => {
-  await hanko.page.emulateMedia({ reducedMotion: 'reduce' });
-  const page = (await hanko.open({ state: REAL })).page;
-  await expect(page.locator('.today-g .koi')).toHaveAttribute('data-state', 'resting');
-  await expect(page.locator('.today-g .koi-w')).not.toHaveClass(/\bkoi-in\b/);
-});
-
-test('pas de défilement horizontal pendant l’arrivée', async ({ hanko }) => {
-  const page = (await hanko.open({ state: REAL })).page;
-  await expect(page.locator('.today-g .koi-w')).toHaveClass(/\bkoi-in\b/);
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-});
 test('thème sombre : œil et ouïe en Sumi sur le corps clair, barbillons clairs sur le fond', async ({ hanko }) => {
   await hanko.page.emulateMedia({ colorScheme: 'dark', reducedMotion: 'reduce' });
   const page = (await hanko.open({ state: REAL })).page;
+  await ouvrir(page, 'words');
   const c = await page.evaluate(() => {
-    const k = document.querySelector('.today-g .koi');
+    const k = document.querySelector('.words .koi');
     return [
       getComputedStyle(k.querySelector('.eye-open')).fill,
       getComputedStyle(k.querySelector('.gill')).stroke,
@@ -107,27 +59,76 @@ test('thème sombre : œil et ouïe en Sumi sur le corps clair, barbillons clair
   expect(c).toEqual(['rgb(40, 40, 36)', 'rgb(40, 40, 36)', 'rgb(247, 245, 239)']);
 });
 
-test('pendant l’arrivée, Koï nage sous la bulle sans masquer son texte', async ({ hanko }) => {
+// Le bassin : Koï vue du dessus nage derrière les onglets (src/ui/pond.js).
+const bassin = page => page.locator('.pond');
+const visible = page =>
+  bassin(page).evaluate(e => getComputedStyle(e).opacity !== '0' && !document.body.classList.contains('pond-off'));
+
+test('Koï nage derrière chaque onglet, et pas en leçon, en jeu ni en réglages', async ({ hanko }) => {
   const page = (await hanko.open({ state: REAL })).page;
-  await expect(page.locator('.today-g .koi-w')).toHaveClass(/\bkoi-in\b/);
-  const dessus = await page.evaluate(() => {
-    const w = document.querySelector('.today-g .koi-w'),
-      b = document.querySelector('.today-g .bubble').getBoundingClientRect();
-    // on fige la nage à l'instant où Koï passe sur la bulle
-    const a = w.getAnimations().find(x => x.animationName === 'koi-in');
-    a.pause();
-    for (let t = 0; t <= 1400; t += 20) {
-      a.currentTime = t;
-      const k = w.getBoundingClientRect(),
-        x = k.left + k.width / 2,
-        y = k.top + k.height / 2;
-      if (x > b.left + 10 && x < b.right - 10 && y > b.top && y < b.bottom) {
-        const e = document.elementFromPoint(x, y);
-        return { t, dansLaBulle: !!e && !!e.closest('.bubble') };
+  for (const id of ['path', 'sheet', 'words', 'train', 'home']) {
+    await ouvrir(page, id);
+    expect(await visible(page), id).toBe(true);
+  }
+  await page.locator('.hero [data-act="lesson"]').click();
+  await expect(page.locator('body')).toHaveClass(/\bpond-off\b/);
+  await page.locator('[data-act="quit"]').click();
+  await expect(page.locator('body')).not.toHaveClass(/\bpond-off\b/);
+  await ouvrir(page, 'rush');
+  await page.locator('[data-act="rstart"]').click();
+  await expect(page.locator('body')).toHaveClass(/\bpond-off\b/);
+  await page.locator('[data-act="rquit"]').click();
+  await page.locator('header [data-act="settings"]').click();
+  await expect(page.locator('body')).toHaveClass(/\bpond-off\b/);
+});
+
+test('le bassin est hors de l’écran redessiné : la nage ne repart pas de zéro', async ({ hanko }) => {
+  const page = (await hanko.open({ state: REAL })).page;
+  await page.evaluate(() => (document.querySelector('.pond').dataset.marque = '1'));
+  await ouvrir(page, 'path');
+  await hanko.run(H => H.render());
+  await ouvrir(page, 'home');
+  await expect(page.locator('.pond')).toHaveCount(1);
+  await expect(page.locator('.pond')).toHaveAttribute('data-marque', '1');
+  expect(await page.evaluate(() => !document.getElementById('app').contains(document.querySelector('.pond')))).toBe(
+    true,
+  );
+});
+
+test('Koï nage : elle bouge et ne capte aucun toucher', async ({ hanko }) => {
+  const page = (await hanko.open({ state: REAL })).page;
+  const pos = () => page.locator('.pond-k').evaluate(e => e.style.transform);
+  const a = await pos();
+  await expect.poll(pos).not.toBe(a);
+  expect(await bassin(page).evaluate(e => getComputedStyle(e).pointerEvents)).toBe('none');
+});
+
+for (const [w, h] of [
+  [390, 844],
+  [1440, 900],
+])
+  test(`Koï reste toujours dans la fenêtre (${w}×${h})`, async ({ hanko }) => {
+    await hanko.page.setViewportSize({ width: w, height: h });
+    await hanko.open({ state: REAL });
+    const dehors = await hanko.page.evaluate(async () => {
+      const { at } = await import('./src/ui/pond.js');
+      const out = [];
+      for (let t = 0; t < 90; t += 0.25) {
+        const { x, y } = at(t, innerWidth, innerHeight);
+        if (x < innerWidth * 0.15 || x > innerWidth * 0.85 || y < innerHeight * 0.13 || y > innerHeight * 0.87)
+          out.push(t);
       }
-    }
-    return { t: -1 };
+      return out;
+    });
+    expect(dehors).toEqual([]);
   });
-  expect(dessus.t).toBeGreaterThanOrEqual(0);
-  expect(dessus.dansLaBulle).toBe(true);
+
+test('Réduire les animations : Koï ne nage pas', async ({ hanko }) => {
+  await hanko.page.emulateMedia({ reducedMotion: 'reduce' });
+  const page = (await hanko.open({ state: REAL })).page;
+  const pos = () => page.locator('.pond-k').evaluate(e => e.style.transform);
+  const a = await pos();
+  expect(a).not.toBe('');
+  await page.waitForTimeout(300);
+  expect(await pos()).toBe(a);
 });

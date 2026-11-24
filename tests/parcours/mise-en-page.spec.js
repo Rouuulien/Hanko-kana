@@ -92,9 +92,7 @@ test('les cadres de l’Accueil suivent le thème, système ou forcé', async ({
   const page = (await hanko.open({ state: REAL })).page;
   const cadres = () =>
     page.evaluate(() =>
-      ['.hero', '.rev', '.today-g .bubble', '.rev .btn.gh'].map(
-        s => getComputedStyle(document.querySelector(s)).borderImageSource,
-      ),
+      ['.hero', '.rev', '.rev .btn.gh'].map(s => getComputedStyle(document.querySelector(s)).borderImageSource),
     );
   await page.emulateMedia({ colorScheme: 'light' });
   const clair = await cadres();

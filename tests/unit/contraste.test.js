@@ -9,7 +9,7 @@ const root = css.slice(css.indexOf(':root {'), css.indexOf('}', css.indexOf(':ro
 /** { nom: [clair, sombre] } pour chaque variable de couleur écrite en hexadécimal. */
 const vars = {};
 for (const [, nom, val] of root.matchAll(/--([\w-]+):\s*([^;]+);/g)) {
-  const ld = val.match(/^light-dark\(\s*(#[0-9a-f]{3,6})\s*,\s*(#[0-9a-f]{3,6})\s*\)$/i);
+  const ld = val.match(/^light-dark\(\s*(#[0-9a-f]{3,8})\s*,\s*(#[0-9a-f]{3,8})\s*\)$/i);
   if (ld) vars[nom] = [ld[1], ld[2]];
   else if (/^#[0-9a-f]{3,6}$/i.test(val.trim())) vars[nom] = [val.trim(), val.trim()];
 }
@@ -48,6 +48,22 @@ for (const [t, f] of COUPLES)
       const r = ratio(vars[t][i], vars[f][i]);
       assert.ok(r >= 4.5, `${theme} : ${vars[t][i]} sur ${vars[f][i]} = ${r.toFixed(2)}`);
     }
+  });
+
+/** Couleur opaque d'un voile #rrggbbaa posé sur une couleur #rrggbb. */
+const sur = (voile, fond) => {
+  const a = parseInt(voile.slice(7, 9), 16) / 255;
+  const c = i => Math.round(parseInt(voile.slice(i, i + 2), 16) * a + parseInt(fond.slice(i, i + 2), 16) * (1 - a));
+  return '#' + [1, 3, 5].map(i => c(i).toString(16).padStart(2, '0')).join('');
+};
+for (const f of ['pond-body', 'pond-fin', 'pond-patch'])
+  test(`textes lisibles quand Koï (${f}) passe sous le voile du contenu`, () => {
+    for (const [i, theme] of ['clair', 'sombre'].entries())
+      for (const t of ['ink', 'mut', 'ac-ink']) {
+        const fond = sur(vars['pond-veil'][i], vars[f][i]),
+          r = ratio(vars[t][i], fond);
+        assert.ok(r >= 4.5, `${theme} : --${t} sur ${fond} = ${r.toFixed(2)}`);
+      }
   });
 
 test('plus aucune trace de l’ancienne charte', () => {

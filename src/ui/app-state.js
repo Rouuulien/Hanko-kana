@@ -11,7 +11,6 @@ const ui = {
   armed: false,
   armedDel: false, // confirmations en attente : effacer la progression, supprimer le compte
   lastView: '',
-  homeTip: null, // dernier écran affiché (remise en haut de page), message de Koï sur l'accueil
   aidAnim: false,
   PAD: null, // aide animée au prochain affichage, zone de dessin montée
   bs: null,
