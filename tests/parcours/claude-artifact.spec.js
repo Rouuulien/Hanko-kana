@@ -61,7 +61,9 @@ test('page autonome : un seul script, aucun module ni service worker, progressio
 
   const page = (await hanko.open({ hook: false, path: '/maj/claude/', claude: { remote: REAL } })).page;
   await expect(page.locator('.figs .fig1 b').first()).toHaveText('15 / 208');
-  await expect(page.locator('.foot [data-cloud]')).toContainText('compte Claude');
+  await page.locator('header [data-act="settings"]').click();
+  await expect(page.locator('.set [data-cloud]')).toContainText('compte Claude');
+  await page.locator('.set [data-act="home"]').click();
 
   // Leçon suivante (ligne T) avec fiches, quiz et dessin : les tracés viennent de data/kana-strokes.json, fichier voisin.
   await page.locator('.hero [data-act="lesson"]').click();

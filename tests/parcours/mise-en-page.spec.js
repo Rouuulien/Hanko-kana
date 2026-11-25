@@ -50,7 +50,7 @@ test('zones tactiles d’au moins 44 px sur chaque onglet', async ({ hanko }) =>
     await ouvrir(hanko.page, id);
     const petites = await hanko.page.evaluate(() =>
       [...document.querySelectorAll('button, [data-act]')]
-        .filter(e => e.offsetParent && !e.closest('.foot'))
+        .filter(e => e.offsetParent)
         .map(e => [e.dataset.act || e.textContent.trim(), Math.round(e.getBoundingClientRect().height)])
         .filter(([, h]) => h < 44),
     );
@@ -80,7 +80,7 @@ test('zones tactiles d’au moins 44 px dans les Réglages', async ({ hanko }) =
   await hanko.page.locator('header [data-act="settings"]').click();
   const petites = await hanko.page.evaluate(() =>
     [...document.querySelectorAll('button, [data-act], label.tg')]
-      .filter(e => e.offsetParent && !e.closest('.foot') && !e.matches('a, .link, label.tg input'))
+      .filter(e => e.offsetParent && !e.matches('a, .link, label.tg input'))
       .map(e => [e.dataset.act || e.textContent.trim().slice(0, 20), Math.round(e.getBoundingClientRect().height)])
       .filter(([, h]) => h < 44),
   );

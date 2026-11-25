@@ -34,7 +34,7 @@ import { tts } from './voice.js';
 import { K2H, esc, pick } from '../util.js';
 /** Libellé du bouton d'effacement de la progression (deux clics : armer, puis confirmer). */
 const resetLabel = () => (ui.armed ? 'Confirmer : tout effacer' : 'Effacer ma progression');
-const wordHTML = w => `<span class="w" lang="ja">${w.j}</span> · ${w.r} · « ${w.f} »`;
+const wordHTML = w => `<span class="w" lang="ja">${w.j}</span> (${w.r}, « ${w.f} »)`;
 /** Série de jours en toutes lettres (rien tant qu'elle est à zéro). */
 const streakText = () => {
   const n = streak();
@@ -83,7 +83,7 @@ function todayV() {
   const rw = WORDS.filter(w => canRead(w)).length;
   const fig = (b, t) => `<div class="fig1"><b>${b}</b><span>${t}</span></div>`;
   return `<section class="band"><div class="wrap today-g">
-  <article class="hero"><div class="hero-h"><p class="kick">${nx ? 'Leçon du jour' : 'Parcours terminé'}</p>${nx ? `<span class="mut">${nx.u.t}</span>` : ''}</div>
+  <article class="hero"><div class="hero-h"><p class="kick">${nx ? 'Leçon du jour' : 'Parcours terminé'}</p></div>
   <h1>${nx ? nx.t : 'Tous les kana sont vus !'}</h1>
   ${bigK(nx ? nx.items.slice(0, 5) : ['かな', 'カナ'])}
   ${nx ? `<button class="btn ac" data-act="lesson" data-id="${nx.id}">Commencer la leçon</button>` : ''}</article>
@@ -91,11 +91,8 @@ function todayV() {
   ${due ? `<button class="btn gh" data-act="review">Réviser</button>` : nl ? `<button class="btn gh" data-act="practice">Entraînement libre</button>` : ''}</div>
   <div class="progress"><span class="mut">Ta progression</span><div class="prog"><i style="width:${Math.round((nl / TOTAL) * 100)}%"></i></div>
   <div class="figs">${fig(`${nl} / ${TOTAL}`, 'kana vus')}${fig(ms, 'maîtrisés')}${fig(`${rw} / ${WORDS.length}`, 'mots lisibles')}${fig(S.xp, 'XP')}</div></div>
-  </div></section>
-  ${foot()}`;
+  </div></section>`;
 }
-const foot = () =>
-  `<p class="foot"><span data-cloud>${cloudText()}</span><br><span>Tracés des kana : <a href="https://kanjivg.tagaini.net" style="color:inherit">KanjiVG</a> (CC BY-SA 3.0)</span>${cloud.mode === 'sb' ? ` <button class="link" data-act="settings">${cloud.uid ? 'Réglages' : 'Créer un compte'}</button> · <a href="confidentialite.html" style="color:inherit">Confidentialité</a>` : ''}</p>`;
 /** Onglet Parcours : les unités et leurs leçons. */
 function pathV() {
   const nx = nextLesson();
@@ -186,7 +183,7 @@ function cardsV() {
     ? `On retrouve <b lang="ja">${c}</b> dans ${wordHTML(cw.w)}${cw.now ? '<br>Tu pourras le lire dès la fin de cette leçon.' : ''}`
     : `Pas de mot facile avec <b lang="ja">${c}</b> pour l’instant, mais il reviendra vite.`;
   return `<div class="qtop">${quitBtn()}<div class="bar"><i style="width:${Math.round(((ui.ses.ci + 1) / n) * 30)}%"></i></div></div>
-  <div class="qz"><p class="qcap">${L.u.t} · ${L.t} — découverte</p><div class="card">
+  <div class="qz"><p class="qcap">${L.t}</p><div class="card">
   <div class="pk" lang="ja">${c}</div><div class="ro">${it.r}</div>
   ${tts ? `<button class="say" data-act="say" data-t="${c}">${SPK} Écouter</button>` : ''}
 </div>
@@ -253,9 +250,8 @@ function quizV() {
     tts && Q.type !== 'ear' && (draw || A)
       ? `<button class="say rnd" data-act="say" data-t="${it.c}" aria-label="Écouter">${SPK}</button>`
       : '';
-  const les = ui.ses.kind === 'lesson' ? `<span class="qles">${LES[ui.ses.id].t}</span> · ` : '';
   return `<div class="qtop">${quitBtn()}<div class="bar"><i style="width:${pct}%"></i></div>${ui.ses.combo >= 2 ? `<span class="combo">×${ui.ses.combo}</span>` : ''}${muteBtn()}</div>
-  <div class="qz${A ? ' ans' : ''}${draw ? ' draw' : ''}"><p class="qcap">${les}<span class="ask">${ask}</span></p><div class="prompt${draw ? ' short' : ''}">${pr}${listen}</div>${body}${fb}</div>`;
+  <div class="qz${A ? ' ans' : ''}${draw ? ' draw' : ''}"><p class="qcap"><span class="ask">${ask}</span></p><div class="prompt${draw ? ' short' : ''}">${pr}${listen}</div>${body}${fb}</div>`;
 }
 
 function resV() {
@@ -315,7 +311,8 @@ function setV() {
   <section class="scard"><h2>Sauvegarde</h2><p style="margin:0;font-weight:500" data-cloud>${cloudText()}</p><p class="mut" style="margin:0">Code de secours : copie-le pour garder une copie manuelle ou transférer ta progression hors de Claude (par exemple vers la version GitHub Pages).</p>
   <textarea id="exp" readonly rows="3">${esc(JSON.stringify(S))}</textarea><button class="btn gh" data-act="copy">Copier le code</button>
   <form id="imp"><textarea id="impt" rows="3" placeholder="Colle ici un code de sauvegarde" aria-label="Code de sauvegarde"></textarea><button class="btn gh">Importer</button><p id="impm" class="mut" style="margin:0"></p></form></section>
-  <section class="scard"><h2>Remise à zéro</h2><button class="btn danger" data-act="reset">${resetLabel()}</button></section></div></section>`;
+  <section class="scard"><h2>Remise à zéro</h2><button class="btn danger" data-act="reset">${resetLabel()}</button></section>
+  <p class="credits mut">Tracés des kana : <a href="https://kanjivg.tagaini.net">KanjiVG</a> (CC BY-SA 3.0)${cloud.mode === 'sb' ? ` · <a href="confidentialite.html">Confidentialité</a>` : ''}</p></div></section>`;
 }
 
 export { wordHTML, top, homeV, cardsV, quizV, resV, setV, resetLabel };
