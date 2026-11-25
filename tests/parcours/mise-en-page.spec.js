@@ -87,6 +87,24 @@ test('zones tactiles d’au moins 44 px dans les Réglages', async ({ hanko }) =
   expect(petites).toEqual([]);
 });
 
+test('champs de connexion lisibles et assez grands (sans zoom de Safari iOS)', async ({ hanko }) => {
+  const page = (await hanko.open({ state: REAL, supabase: {} })).page;
+  await page.locator('header [data-act="settings"]').click();
+  const champs = await page.locator('.rin').evaluateAll(es =>
+    es.map(e => {
+      const cs = getComputedStyle(e);
+      return [
+        e.id,
+        parseFloat(cs.fontSize) >= 16,
+        e.getBoundingClientRect().height >= 44,
+        cs.borderTopColor !== 'rgb(118, 118, 118)',
+      ];
+    }),
+  );
+  expect(champs.length).toBeGreaterThan(0);
+  for (const c of champs) expect(c).toEqual([c[0], true, true, true]);
+});
+
 // Charte « Sceau » : cadres SVG propres à chaque thème, y compris quand le thème est forcé.
 test('les cadres de l’Accueil suivent le thème, système ou forcé', async ({ hanko }) => {
   const page = (await hanko.open({ state: REAL })).page;

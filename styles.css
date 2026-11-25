@@ -1228,6 +1228,24 @@ button {
 .lg .btn {
   justify-self: start;
 }
+/* champs du compte (e-mail, mot de passe, code) : 16 px minimum, sinon Safari iOS zoome à la saisie */
+.rin {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 14px;
+  font: 400 16px/1.4 var(--f-ui);
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--r-m);
+}
+.rin::placeholder {
+  color: var(--mut);
+  opacity: 1;
+}
+.rin:focus {
+  border-color: var(--ac);
+}
 .foot a,
 .foot .link {
   font-size: 13px;
