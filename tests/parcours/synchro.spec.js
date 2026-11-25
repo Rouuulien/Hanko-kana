@@ -12,7 +12,9 @@ test.describe('Supabase', () => {
     await synced(hanko);
     expect(sortKeys(await hanko.run(H => H.S))).toEqual(sortKeys(REAL));
     expect(sortKeys(await hanko.stored())).toEqual(sortKeys(REAL));
-    await expect(page.locator('.foot [data-cloud]')).toContainText('Sauvegardée sur ton compte (joueur@example.test)');
+    await page.locator('header [data-act="settings"]').click();
+    await expect(page.locator('.set [data-cloud]')).toContainText('Sauvegardée sur ton compte (joueur@example.test)');
+    await page.locator('.set [data-act="home"]').click();
   });
 
   test('progression hors ligne plus récente : fusionnée et renvoyée en ligne', async ({ hanko }) => {
@@ -45,7 +47,9 @@ test.describe('Supabase', () => {
 
   test('non connecté : progression locale seulement, invitation à créer un compte', async ({ hanko }) => {
     const page = (await hanko.open({ state: REAL, supabase: { session: null } })).page;
-    await expect(page.locator('.foot [data-cloud]')).toContainText('sur cet appareil uniquement');
+    await page.locator('header [data-act="settings"]').click();
+    await expect(page.locator('.set [data-cloud]')).toContainText('sur cet appareil uniquement');
+    await page.locator('.set [data-act="home"]').click();
     expect((await hanko.fake()).calls).toEqual([]);
   });
 
@@ -98,7 +102,9 @@ test.describe('compte Claude (version claude.ai)', () => {
     const page = (await hanko.open({ claude: { remote: REAL } })).page;
     await synced(hanko);
     expect(sortKeys(await hanko.run(H => H.S))).toEqual(sortKeys(REAL));
-    await expect(page.locator('.foot [data-cloud]')).toContainText('Sauvegardée automatiquement sur ton compte Claude');
+    await page.locator('header [data-act="settings"]').click();
+    await expect(page.locator('.set [data-cloud]')).toContainText('Sauvegardée automatiquement sur ton compte Claude');
+    await page.locator('.set [data-act="home"]').click();
     await ouvrir(page, 'sheet'); // changer d'onglet n'enregistre rien (état d'interface) ; choisir les katakana, si
     await page.locator('[data-act="tab"][data-id="k"]').click();
     await expect.poll(async () => JSON.parse((await hanko.fake()).doc.data).tab, { timeout: 5000 }).toBe('k');

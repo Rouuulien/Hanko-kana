@@ -17,7 +17,7 @@ const petites = page =>
 
 test('consigne et leçon sur une ligne', async ({ hanko }) => {
   const page = await quiz(hanko);
-  await expect(page.locator('.qcap .qles')).toHaveText('Ligne T');
+  await expect(page.locator('.qcap')).not.toContainText('·'); // la question seule, sans méta
   await expect(page.locator('.qcap .ask')).toHaveText(/^(Comment|Quel|Écris|Dessine)/);
 });
 
@@ -121,7 +121,7 @@ test('fiche : navigation en bas en 52 px, zones tactiles, combinaisons sur une l
     .locator('.card .pk')
     .evaluate(e => [e.scrollWidth, e.clientWidth, e.getBoundingClientRect().height]);
   expect(pk[0]).toBeLessThanOrEqual(pk[1]);
-  expect(await page.locator('.qcap').textContent()).toContain('découverte');
+  await expect(page.locator('.qcap')).toHaveText(combi.t); // le nom de la leçon seul
   await expect(page.locator('.ask')).toHaveCount(0);
 });
 

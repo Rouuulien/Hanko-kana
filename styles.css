@@ -275,9 +275,7 @@ button {
 }
 .kick {
   margin: 0;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 13px;
   color: var(--mut);
 }
 .hero h1 {
@@ -342,9 +340,7 @@ button {
   font-size: 13px;
 }
 .progress > .mut {
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 13px;
 }
 .prog {
   height: 4px;
@@ -418,8 +414,7 @@ button {
   opacity: 0;
 }
 /* Voile sur le contenu des onglets : la carpe passe franchement dans les marges, discrètement sous les textes. */
-.tabv .wrap,
-.tabv .foot {
+.tabv .wrap {
   background: var(--pond-veil);
 }
 .pond-k {
@@ -813,7 +808,7 @@ button {
   margin-bottom: 22px;
 }
 .bubble b {
-  color: var(--ac-ink);
+  font-weight: 600;
 }
 .bubble .w {
   font-size: 22px;
@@ -1199,8 +1194,7 @@ button {
   font-weight: 500;
 }
 .wd .r {
-  color: var(--ac-ink);
-  font-weight: 600;
+  font-weight: 500;
 }
 .wd .f {
   color: var(--mut);
@@ -1246,15 +1240,14 @@ button {
 .rin:focus {
   border-color: var(--ac);
 }
-.foot a,
-.foot .link {
+/* crédits, en bas des Réglages */
+.credits {
+  margin: 8px 0 0;
   font-size: 13px;
-}
-.foot {
-  font-size: 13px;
-  color: var(--mut);
   text-align: center;
-  padding: 24px 16px 32px;
+}
+.credits a {
+  color: inherit;
 }
 /* quiz */
 .qtop {
@@ -1539,7 +1532,7 @@ button {
 }
 .card .ro {
   font: 500 28px var(--f-ui);
-  color: var(--ac-ink);
+  color: var(--ink);
   margin-bottom: 6px;
 }
 .say {
