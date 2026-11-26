@@ -70,33 +70,16 @@
   --f-title: 'Zen Old Mincho', 'Hiragino Mincho ProN', serif;
   --f-kana: 'Klee One', 'Hiragino Maru Gothic ProN', sans-serif;
   /* Rayons */
-  --r-s: 2px;
-  --r-m: 3px;
-  --r-l: 4px;
-  --r-xl: 4px;
+  --r-s: 12px;
+  --r-m: 14px;
+  --r-l: 20px;
+  --r-xl: 24px;
 }
 :root[data-theme='light'] {
   color-scheme: light;
 }
-/* Charte « Sceau » : cadres en SVG (fond de carte + filets), un jeu par thème. light-dark() n'accepte pas d'image :
-   le clair est posé sur :root, le sombre suit le système ou le réglage forcé, comme color-scheme. */
-:root {
-  --fr-a: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22%3E%3Cpath fill=%22%23ffffff%22 stroke=%22%23d6caac%22 d=%22M.5 7.5H7.5V.5H40.5V7.5H47.5V40.5H40.5V47.5H7.5V40.5H.5Z%22/%3E%3Cpath fill=%22none%22 stroke=%22%23d6caac%22 d=%22M10.5 3.5H37.5L44.5 10.5V37.5L37.5 44.5H10.5L3.5 37.5V10.5Z%22/%3E%3C/svg%3E');
-  --fr-b: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2240%22%3E%3Cpath fill=%22%23ffffff%22 stroke=%22%23d6caac%22 d=%22M10 .5H30L39.5 10V30L30 39.5H10L.5 30V10Z%22/%3E%3C/svg%3E');
-  --fr-gh: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22%3E%3Cpath fill=%22none%22 stroke=%22%23282824%22 d=%22M7 .5H13L19.5 7V13L13 19.5H7L.5 13V7Z%22/%3E%3C/svg%3E');
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    --fr-a: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22%3E%3Cpath fill=%22%2324231f%22 stroke=%22%23574f3e%22 d=%22M.5 7.5H7.5V.5H40.5V7.5H47.5V40.5H40.5V47.5H7.5V40.5H.5Z%22/%3E%3Cpath fill=%22none%22 stroke=%22%23574f3e%22 d=%22M10.5 3.5H37.5L44.5 10.5V37.5L37.5 44.5H10.5L3.5 37.5V10.5Z%22/%3E%3C/svg%3E');
-    --fr-b: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2240%22%3E%3Cpath fill=%22%2324231f%22 stroke=%22%23574f3e%22 d=%22M10 .5H30L39.5 10V30L30 39.5H10L.5 30V10Z%22/%3E%3C/svg%3E');
-    --fr-gh: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22%3E%3Cpath fill=%22none%22 stroke=%22%23eeeae0%22 d=%22M7 .5H13L19.5 7V13L13 19.5H7L.5 13V7Z%22/%3E%3C/svg%3E');
-  }
-}
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --fr-a: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22%3E%3Cpath fill=%22%2324231f%22 stroke=%22%23574f3e%22 d=%22M.5 7.5H7.5V.5H40.5V7.5H47.5V40.5H40.5V47.5H7.5V40.5H.5Z%22/%3E%3Cpath fill=%22none%22 stroke=%22%23574f3e%22 d=%22M10.5 3.5H37.5L44.5 10.5V37.5L37.5 44.5H10.5L3.5 37.5V10.5Z%22/%3E%3C/svg%3E');
-  --fr-b: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2240%22%3E%3Cpath fill=%22%2324231f%22 stroke=%22%23574f3e%22 d=%22M10 .5H30L39.5 10V30L30 39.5H10L.5 30V10Z%22/%3E%3C/svg%3E');
-  --fr-gh: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22%3E%3Cpath fill=%22none%22 stroke=%22%23eeeae0%22 d=%22M7 .5H13L19.5 7V13L13 19.5H7L.5 13V7Z%22/%3E%3C/svg%3E');
 }
 * {
   box-sizing: border-box;
@@ -173,31 +156,11 @@ button {
 .btn.ac {
   background: var(--ac);
   color: var(--on-ac);
-  border-radius: 0;
-  /* encoches carrées de 4 px aux coins, comme le cadre de la leçon du jour */
-  --n: 4px;
-  clip-path: polygon(
-    0 var(--n),
-    var(--n) var(--n),
-    var(--n) 0,
-    calc(100% - var(--n)) 0,
-    calc(100% - var(--n)) var(--n),
-    100% var(--n),
-    100% calc(100% - var(--n)),
-    calc(100% - var(--n)) calc(100% - var(--n)),
-    calc(100% - var(--n)) 100%,
-    var(--n) 100%,
-    var(--n) calc(100% - var(--n)),
-    0 calc(100% - var(--n))
-  );
 }
 .btn.gh {
   background: transparent;
   color: var(--ink);
   border: 1px solid var(--ink);
-  border-radius: 0;
-  /* filet aux coins coupés, peint par-dessus la bordure */
-  border-image: var(--fr-gh) 7 / 7px stretch;
 }
 .btn.danger {
   background: transparent;
@@ -251,11 +214,10 @@ button {
   gap: 16px;
 }
 .hero {
-  /* cadre A : double filet, contour cranté et filet intérieur aux coins coupés qui se croisent */
-  background: none;
+  background: var(--card);
   color: var(--ink);
-  border: 1px solid transparent;
-  border-image: var(--fr-a) 20 fill / 20px stretch;
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
   padding: 26px 26px 24px;
   display: grid;
   container-type: inline-size;
@@ -286,11 +248,10 @@ button {
   margin: 12px 0 16px;
 }
 .rev {
-  /* cadre B : filet simple aux coins coupés */
-  background: none;
+  background: var(--card);
   color: var(--ink);
-  border: 1px solid transparent;
-  border-image: var(--fr-b) 14 fill / 14px stretch;
+  border: 1px solid var(--line);
+  border-radius: var(--r-l);
   padding: 18px 20px;
   display: flex;
   flex-wrap: wrap;
@@ -314,6 +275,7 @@ button {
   width: 40px;
   height: 40px;
   border: 1px solid var(--ac);
+  border-radius: var(--r-s);
   color: var(--ac-ink);
   display: grid;
   place-items: center;
@@ -576,7 +538,7 @@ button {
   align-items: center;
   gap: 14px;
   padding: 16px 18px;
-  border-radius: 20px; /* Parcours d’avant la charte « Sceau » (choix de Julien) */
+  border-radius: var(--r-l);
   background: var(--card);
   border: 1px solid var(--line);
 }
@@ -712,14 +674,6 @@ button {
   border: 5px solid transparent;
   border-bottom: 0;
   border-top-color: var(--ink);
-}
-/* Arrondis d'avant la charte « Sceau », gardés tels quels dans le Tableau et l'écran de jeu Rafale (choix de Julien) */
-.sheet,
-.rz {
-  --r-s: 12px;
-  --r-m: 14px;
-  --r-l: 20px;
-  --r-xl: 24px;
 }
 /* sheet */
 .sheet {

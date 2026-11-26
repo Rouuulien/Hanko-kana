@@ -148,3 +148,7 @@ du DOM.
   entièrement dans le SVG (`background: none`), sinon il déborderait dans les crans des coins.
 - 24/11/2026, après essai sur iPhone : Julien préfère le Parcours d'avant. Toute la PR 2 (#30) est annulée, et l'en-tête
   d'unité et l'étiquette « Commencer » retrouvent leurs arrondis d'origine (20 et 8 px). La PR 1 (Accueil) reste.
+
+## Fin de la charte « Sceau » (26/11/2026)
+
+Julien uniformise tout en coins arrondis : « ça fait plus propre ». Les cadres SVG (cadre A de la leçon du jour, cadre B des révisions), les boutons à coins coupés et les petits rayons de 2 à 4 px disparaissent. Les rayons du Tableau et du Parcours (12, 14, 20 et 24 px) valent désormais pour toute l'appli. La signature passe par le sceau Koï (en-tête, fin de leçon). Démarquer la leçon du jour : à revoir dans un second temps.
