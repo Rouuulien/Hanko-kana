@@ -20,4 +20,11 @@ function koiTop() {
 </svg>`;
 }
 
-export { koiTop };
+/** Sceau Koï : la carpe vue du dessus, gravée en réserve dans un sceau rond. Signature de l'appli (en-tête, fin de leçon).
+ *  Mêmes tracés que koiTop() ; couleurs : .seal-c (Vermillon) et .seal-k (couleur du fond) dans styles.css.
+ *  @param {number} size côté en px */
+function koiSeal(size) {
+  return `<svg class="seal" viewBox="0 0 256 256" width="${size}" height="${size}" aria-hidden="true"><circle class="seal-c" cx="128" cy="128" r="120"/><g class="seal-k" transform="translate(128 128) rotate(35) scale(0.92) translate(-60 -104)"><path d="M60 148 C50 164 37 178 32 197 C45 191 54 184 60 175 C66 184 75 191 88 197 C83 178 70 164 60 148 Z"/><path d="M39 60 C21 57 9 74 13 94 C24 85 33 79 42 76 Z"/><path d="M81 60 C99 57 111 74 107 94 C96 85 87 79 78 76 Z"/><path d="${TOP_BODY}"/></g></svg>`;
+}
+
+export { koiSeal, koiTop };
