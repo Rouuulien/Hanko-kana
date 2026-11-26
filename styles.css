@@ -1711,6 +1711,17 @@ textarea {
 .aid circle {
   fill: #c64b3c;
 }
+/* flèche du sens du tracé, au départ du trait suivant (même Vermillon que le rond numéroté) */
+.aid .dir {
+  fill: none;
+  stroke: #c64b3c;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.aid .dirh {
+  fill: #c64b3c;
+}
 .aid text {
   font: 700 5.6px var(--f-ui);
   fill: #fff;

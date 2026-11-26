@@ -36,5 +36,21 @@ test('modèles SVG : un tracé par trait, numéros de départ, aides selon le ni
   assert.equal(aidSVG('あ', 0, 0), '');
   assert.match(aidSVG('あ', 1, 0), /<circle[^>]*\/><text[^>]*>1<\/text>/);
   assert.match(aidSVG('あ', 2, 1), /class="nx"/);
+  // flèche du sens du tracé avec le numéro : elle part près du départ du trait et s'en éloigne dans le sens du tracé
+  for (const c of Object.keys(KS)) {
+    const k = KS[c];
+    k.d.forEach((_, n) => {
+      const svg = aidSVG(c, 1, n),
+        pts = svg
+          .match(/class="dir" points="([^"]+)"/)[1]
+          .split(' ')
+          .map(q => q.split(',').map(Number));
+      assert.match(svg, /class="dirh"/);
+      const [x0, y0] = k.p[n],
+        d = q => Math.hypot(q[0] - x0, q[1] - y0);
+      assert.ok(d(pts[0]) >= 4.4 && d(pts[0]) < 9, `${c} trait ${n + 1} : la flèche part hors du rond`);
+      assert.ok(d(pts.at(-1)) > d(pts[0]), `${c} trait ${n + 1} : la flèche s'éloigne du départ`);
+    });
+  }
   assert.equal(modelSVG('きゃ'), '', 'pas de modèle pour une combinaison');
 });
