@@ -105,24 +105,24 @@ test('champs de connexion lisibles et assez grands (sans zoom de Safari iOS)', a
   for (const c of champs) expect(c).toEqual([c[0], true, true, true]);
 });
 
-// Charte « Sceau » : cadres SVG propres à chaque thème, y compris quand le thème est forcé.
-test('les cadres de l’Accueil suivent le thème, système ou forcé', async ({ hanko }) => {
+// Coins arrondis partout (26/11/2026) : plus de cadres SVG ni de coins coupés, leçon du jour comprise.
+test('Accueil, fiche et fin de leçon : coins arrondis, sans cadre ni coins coupés', async ({ hanko }) => {
   const page = (await hanko.open({ state: REAL })).page;
-  const cadres = () =>
-    page.evaluate(() =>
-      ['.hero', '.rev', '.rev .btn.gh'].map(s => getComputedStyle(document.querySelector(s)).borderImageSource),
+  const styles = sels =>
+    page.evaluate(
+      sels =>
+        sels.map(s => {
+          const cs = getComputedStyle(document.querySelector(s));
+          return [s, cs.borderImageSource, cs.clipPath, parseFloat(cs.borderTopLeftRadius) >= 12];
+        }),
+      sels,
     );
-  await page.emulateMedia({ colorScheme: 'light' });
-  const clair = await cadres();
-  for (const c of clair) expect(c).toContain('data:image/svg+xml');
-  await page.emulateMedia({ colorScheme: 'dark' });
-  const sombre = await cadres();
-  sombre.forEach((c, i) => expect(c).not.toBe(clair[i]));
-  await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
-  expect(await cadres()).toEqual(clair);
-  await page.emulateMedia({ colorScheme: 'light' });
-  await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
-  expect(await cadres()).toEqual(sombre);
+  for (const [s, img, clip, rond] of await styles(['.hero', '.hero .btn.ac', '.rev', '.rev .btn.gh']))
+    expect([s, img, clip, rond]).toEqual([s, 'none', 'none', true]);
+  await ouvrir(page, 'path');
+  await page.locator('[data-act="lesson"][data-id="h-ta"]').click();
+  for (const [s, img, clip, rond] of await styles(['.cnav .btn.gh', '.cnav .btn.ac', '.qz .card']))
+    expect([s, img, clip, rond]).toEqual([s, 'none', 'none', true]);
 });
 
 const rayons = (page, sels) =>
@@ -131,7 +131,7 @@ const rayons = (page, sels) =>
     sels,
   );
 
-test('le Tableau garde ses arrondis d’avant la charte « Sceau »', async ({ hanko }) => {
+test('le Tableau garde ses arrondis', async ({ hanko }) => {
   const page = (await hanko.open({ state: REAL })).page;
   await ouvrir(page, 'sheet');
   expect(await rayons(page, ['.sheet', '.sheet .tabs', '.sheet .tabs button', '.cell'])).toEqual({
@@ -142,7 +142,7 @@ test('le Tableau garde ses arrondis d’avant la charte « Sceau »', async ({ h
   });
 });
 
-test('l’écran de jeu Rafale garde ses arrondis d’avant la charte « Sceau »', async ({ hanko }) => {
+test('l’écran de jeu Rafale garde ses arrondis', async ({ hanko }) => {
   const page = (await hanko.open({ state: REAL })).page;
   await ouvrir(page, 'rush');
   await page.locator('[data-act="rstart"]').click();
