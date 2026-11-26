@@ -1,6 +1,6 @@
 # Hanko · contexte pour Claude Code
 
-Jeu web (PWA) pour apprendre les hiragana et katakana, avec Koï, la carpe koï, comme mascotte (version d'attente en SVG, source `koi/`, en attendant le dessin d'un illustrateur).
+Jeu web (PWA) pour apprendre les hiragana et katakana, avec Koï, une carpe koï vue du dessus qui nage en fond derrière les onglets (`src/ui/pond.js`, dessin `koiTop()` dans `src/ui/koi.js`). L'ancienne mascotte de profil qui parlait dans des bulles a été retirée le 26/11/2026 (son dessin d'origine reste dans `koi/`, non publié).
 Projet personnel de Julien, en français, tutoiement. En ligne : https://rouuulien.github.io/Hanko-kana/
 
 ## Architecture
@@ -47,8 +47,8 @@ La progression des joueurs vit dans `localStorage` (clé `hanko-kana-v1`) et, s'
 
 ## Style et contenu
 
-- Interface et textes en français, ton chaleureux, Koï parle à la première personne (au féminin : « Koï est fière »).
-- Koï est une mascotte originale : ne pas utiliser de personnages ou visuels protégés (pas de pingouin Suica, rien de Mochikana).
+- Interface et textes en français, ton chaleureux et sobre. Personne ne parle à la première personne : Koï ne fait que nager, les textes d'aide s'adressent au joueur (« tu »).
+- Koï est un dessin original : ne pas utiliser de personnages ou visuels protégés (pas de pingouin Suica, rien de Mochikana).
 - Direction : appli lifestyle japonaise contemporaine, sobre et minimaliste (pas un Duolingo bis). Conception : `docs/superpowers/specs/`.
 - Couleurs (variables de `:root` dans `styles.css`, clair et sombre en `light-dark()`) : Washi `#f7f5ef` (fond), Sumi `#282824` (texte), Vermillon `#c64b3c` (actions et accents seulement ; `#b5432f` pour du texte), Sauge `#9bae9a` (progression), Sable `#e8dfd0` (surfaces), Or mat `#b69a63` (récompenses). Tout texte tient 4,5:1 (`tests/unit/contraste.test.js`).
 - Polices hébergées dans `fonts/` (sous-ensembles, voir `fonts/README.md`) : Noto Sans JP (interface, japonais courant), Zen Old Mincho (titres, marque), Klee One (grands kana, formes manuscrites). Un caractère nouveau dans le code : `npm run fonts` (le test `polices` le signale).

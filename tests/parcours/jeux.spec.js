@@ -37,7 +37,7 @@ test('Pinceau, réglage « Tous » : tous les kana appris (15), un tracé dans l
   test.setTimeout(120000);
   const page = (await hanko.open({ state: REAL })).page;
   await ouvrir(page, 'brush');
-  await expect(page.locator('.rset .bubble')).toContainText('15 kana');
+  await expect(page.locator('.rset .lead')).toContainText('15 kana');
   await expect(page.locator('.rbest')).toHaveText('Pas encore de record pour ces réglages.');
   await page.locator('[data-act="bstart"]').click();
   expect(await hanko.run(H => H.bs.q.length)).toBe(15);
@@ -65,7 +65,7 @@ test('Pinceau, réglage « Tous » : tous les kana appris (15), un tracé dans l
 test('Pinceau, réglage « 10 » : 10 kana, et l’ancien record « 10 kana » s’affiche toujours', async ({ hanko }) => {
   const page = (await hanko.open({ state: { ...REAL, bn: 10 } })).page;
   await ouvrir(page, 'brush');
-  await expect(page.locator('.rset .bubble')).toContainText('10 kana');
+  await expect(page.locator('.rset .lead')).toContainText('10 kana');
   await expect(page.locator('.rbest')).toContainText('pour 10 kana, 80 %');
   await page.locator('[data-act="bstart"]').click();
   expect(await hanko.run(H => H.bs.q.length)).toBe(10);

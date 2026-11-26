@@ -7,7 +7,6 @@ import { WORDS } from '../data/words.js';
 import { addXp } from './quiz.js';
 import { save } from '../sync/cloud.js';
 import { ui } from '../ui/app-state.js';
-import { koi, mascot } from '../ui/koi.js';
 import { render } from '../ui/render.js';
 import { muteBtn, sfx } from '../ui/sounds.js';
 import { BACKSPACE, CLEARALL, CLOSE, REPLAY, SKIP } from '../ui/icons.js';
@@ -36,7 +35,7 @@ function rushSetupV() {
     `<div class="og"><span>${lab}</span><div class="chips">${opts.map(([v, t]) => `<button data-act="rset" data-k="${k}" data-v="${v}" aria-pressed="${String(S[k] || 'deck') === String(v)}">${t}</button>`).join('')}</div></div>`;
   const ok = pool.length >= 5;
   const talk = !ok
-    ? `Il me faut au moins 5 ${S.rct === 'words' ? 'mots lisibles' : 'kana appris'} dans cette sélection. Fais encore une leçon et reviens !`
+    ? `Il faut au moins 5 ${S.rct === 'words' ? 'mots lisibles' : 'kana appris'} dans cette sélection. Fais encore une leçon et reviens !`
     : deck
       ? `Ton paquet de <b>${pool.length} ${kind}</b> défile une fois. Tape la lecture, sans valider : le chrono s’arrête à la dernière carte.`
       : `Les ${kind} défilent sans fin pendant ${S.rdu} s. Tape-en le plus possible !`;
@@ -45,7 +44,7 @@ function rushSetupV() {
     : deck
       ? `Ton record : <b>${fmtT(b.ms)}</b> pour ${b.n} cartes, ${b.acc} % de précision`
       : `Ton record : <b>${b.kpm} kana/min</b>, ${b.acc} % de précision`;
-  return `<div class="rset">${mascot('resting', talk, 64)}
+  return `<div class="rset"><p class="lead">${talk}</p>
   ${grp('Format', 'rfmt', [
     ['deck', 'Paquet complet'],
     ['time', 'Contre la montre'],
@@ -262,7 +261,7 @@ const KB = [
   ['clear', CLEARALL, 'Tout effacer'],
 ];
 function rushV() {
-  return `<div class="rz"><div class="rz-top"><button class="x" data-act="rquit" aria-label="Quitter">${CLOSE}</button><span class="rz-tag">${ui.rs.fmt === 'deck' ? 'Paquet complet' : 'Contre la montre · ' + ui.rs.dur + ' s'} · ${S.rct === 'words' ? 'mots' : 'kana'}</span>${muteBtn()}${koi('resting', 44)}</div>
+  return `<div class="rz"><div class="rz-top"><button class="x" data-act="rquit" aria-label="Quitter">${CLOSE}</button><span class="rz-tag">${ui.rs.fmt === 'deck' ? 'Paquet complet' : 'Contre la montre · ' + ui.rs.dur + ' s'} · ${S.rct === 'words' ? 'mots' : 'kana'}</span>${muteBtn()}</div>
   <div class="stage"><div class="deck"><div class="cd b2" id="b2"></div><div class="cd b1" id="b1"></div><div class="cd front" id="cf"></div></div></div>
   <p class="hintline" id="rh"></p>
   <div class="rbar"><span class="t" id="rt">${rClock()}</span><div class="typed" id="ty" aria-live="polite"></div><span class="c" id="rc"></span></div>
@@ -281,14 +280,14 @@ function rushResV() {
           ? 'Ça commence à filer, continue !'
           : ui.rs.kpm < 50
             ? 'Très rapide, tu lis presque sans réfléchir.'
-            : 'Vitesse de ninja. Koï est impressionnée.';
+            : 'Vitesse de ninja !';
   const best = ui.rs.record && ui.rs.ok;
   return `<div class="gres"><div class="gres-top"><button class="x" data-act="home" aria-label="Fermer">${CLOSE}</button></div>
   <p class="gcap">Rafale · ${deck ? 'paquet de ' + ui.rs.q.length + ' cartes' : ui.rs.dur + ' s'} · ${S.rct === 'words' ? 'mots' : 'kana'}</p>
   <div class="big-n">${deck ? fmtT(ui.rs.ms) : ui.rs.kpm}</div><p class="gsub">${deck ? 'pour finir le paquet' : 'kana par minute'}</p>${best ? '<p class="grec">Nouveau record</p>' : ''}
   <div class="rfigs"><div class="fig1"><b>${deck ? ui.rs.kpm : ui.rs.ok}</b><span>${deck ? 'kana/min' : 'kana justes'}</span></div><div class="fig1"><b>${ui.rs.acc} %</b><span>précision</span></div><div class="fig1"><b>${ui.rs.err}</b><span>erreurs</span></div></div>
   ${m.length ? `<div class="gmiss"><p>À retravailler</p><div class="mrow">${m.map(([c, r]) => `<button class="mk" data-act="say" data-t="${c}"><span lang="ja">${c}</span><small>${r}</small></button>`).join('')}</div></div>` : ''}
-  ${mascot(best ? 'happy' : 'resting', talk, 56)}
+  <p class="lead">${talk}</p>
   <div class="gacts"><button class="btn ac" data-act="rstart">Rejouer</button><button class="btn gh" data-act="home">Retour</button></div></div>`;
 }
 

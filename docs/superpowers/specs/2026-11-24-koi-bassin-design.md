@@ -64,3 +64,7 @@ Julien veut la voir clairement, mais atténuée selon sa position, pour qu'elle 
 - Dans les marges et hors du contenu, on la voit franchement.
 - Sous les textes, on devine ses couleurs, et les textes gardent 4,5:1 (test unitaire du contraste sur le voile).
 - Sous les cartes opaques (leçon du jour, révisions, tableau), elle reste cachée.
+
+## Suite (26/11) : la Koï du bassin devient la seule
+
+Julien retire la Koï de profil partout (bulles de Mots, d'Entraîner et de la fiche, retour du quiz, en-têtes et résultats de Rafale et de Pinceau, résultats de leçon). Ses textes deviennent de simples paragraphes (`.lead`), sans « je ». La carpe du bassin est la seule incarnation de Koï. Prochaine étape : un sceau rond où Koï vue du dessus est gravée en réserve, signature de l'appli (en-tête, fin de leçon).

@@ -1,62 +1,47 @@
-// Koï, la mascotte (chantier 2) : dessin, réactions, thème, nage.
+// Koï : seule la carpe vue du dessus reste, elle nage dans le bassin. La Koï de profil (mascotte à bulles) est retirée.
 import { test, expect } from '../helpers/hanko.js';
 import { REAL, ouvrir } from './_commun.js';
 import { ouvrirQuiz, repondreSansContinuer } from '../helpers/joueur.js';
 
 test.use({ viewport: { width: 390, height: 844 } });
 
-test('l’Accueil n’a plus de Koï de profil ni de bulle : elle nage dans le bassin', async ({ hanko }) => {
+const profil = page => page.locator('.koi, .mascot, .bubble');
+
+test('l’Accueil n’a pas de Koï de profil : elle nage dans le bassin', async ({ hanko }) => {
   const page = (await hanko.open({ state: REAL })).page;
-  await expect(page.locator('.today-g .koi, .today-g .bubble')).toHaveCount(0);
+  await expect(profil(page)).toHaveCount(0);
   await expect(page.locator('.pond .koi-top')).toHaveCount(1);
 });
 
-test('Koï réagit aux réponses : contente puis encourageante', async ({ hanko }) => {
-  const page = await ouvrirQuiz(hanko);
-  await repondreSansContinuer(hanko, true);
-  await expect(page.locator('.fb .koi')).toHaveAttribute('data-state', 'happy');
-  await page.locator('#nb').click();
-  await repondreSansContinuer(hanko, false);
-  await expect(page.locator('.fb .koi')).toHaveAttribute('data-state', 'encouraging');
-});
-
-for (const scheme of ['light', 'dark'])
-  test(`le contour de Koï suit le thème (${scheme})`, async ({ hanko }) => {
-    await hanko.page.emulateMedia({ colorScheme: scheme });
-    const page = (await hanko.open({ state: REAL })).page;
-    await ouvrir(page, 'words');
-    const trait = await page
-      .locator('.words .koi .line')
-      .first()
-      .evaluate(e => getComputedStyle(e).stroke);
-    expect(trait).toBe(scheme === 'light' ? 'rgb(40, 40, 36)' : 'rgb(247, 245, 239)');
-  });
-
-test('Koï lisible dans l’en-tête de Rafale (44 px)', async ({ hanko }) => {
+test('plus de Koï de profil ni de bulle : Mots, Rafale, Pinceau, fiche, retour du quiz', async ({ hanko }) => {
   const page = (await hanko.open({ state: REAL })).page;
+  await ouvrir(page, 'words');
+  await expect(page.locator('.words .lead')).toContainText('mots');
+  await expect(profil(page)).toHaveCount(0);
   await ouvrir(page, 'rush');
+  await expect(page.locator('.rset .lead')).toBeVisible();
+  await expect(profil(page)).toHaveCount(0);
   await page.locator('[data-act="rstart"]').click();
-  await expect(page.locator('.rz-top .koi')).toHaveAttribute('width', '44');
+  await expect(page.locator('.rz-top')).toBeVisible();
+  await expect(profil(page)).toHaveCount(0);
+  await page.locator('[data-act="rquit"]').click();
+  await page.locator('[data-act="page"][data-id="brush"]').click();
+  await expect(page.locator('.rset .lead')).toBeVisible();
+  await expect(profil(page)).toHaveCount(0);
+  await ouvrir(page, 'path');
+  await page.locator('[data-act="lesson"][data-id="h-ta"]').click();
+  await expect(page.locator('.lead.card-m')).toBeVisible();
+  await expect(profil(page)).toHaveCount(0);
+
+  const quiz = await ouvrirQuiz(hanko);
+  await repondreSansContinuer(hanko, true);
+  await expect(quiz.locator('.fb .msg')).toBeVisible();
+  await expect(profil(quiz)).toHaveCount(0);
 });
 
 test('plus de Daru dans la page', async ({ hanko }) => {
   const page = (await hanko.open({ state: REAL })).page;
   await expect(page.locator('body')).not.toContainText('Daru');
-});
-
-test('thème sombre : œil et ouïe en Sumi sur le corps clair, barbillons clairs sur le fond', async ({ hanko }) => {
-  await hanko.page.emulateMedia({ colorScheme: 'dark', reducedMotion: 'reduce' });
-  const page = (await hanko.open({ state: REAL })).page;
-  await ouvrir(page, 'words');
-  const c = await page.evaluate(() => {
-    const k = document.querySelector('.words .koi');
-    return [
-      getComputedStyle(k.querySelector('.eye-open')).fill,
-      getComputedStyle(k.querySelector('.gill')).stroke,
-      getComputedStyle(k.querySelector('.barbel')).stroke,
-    ];
-  });
-  expect(c).toEqual(['rgb(40, 40, 36)', 'rgb(40, 40, 36)', 'rgb(247, 245, 239)']);
 });
 
 // Le bassin : Koï vue du dessus nage derrière les onglets (src/ui/pond.js).
