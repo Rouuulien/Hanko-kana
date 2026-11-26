@@ -11,6 +11,7 @@ test('leçon terminée : plein cadre, trois chiffres, Retour', async ({ hanko })
   await page.locator('[data-act="go"]').first().click();
   await finirQuiz(hanko);
   await expect(page.locator('h1')).toHaveText('Leçon terminée');
+  await expect(page.locator('.stamp.on .seal')).toBeVisible(); // leçon réussie : le sceau Koï
   await expect(page.locator('.tabbar')).toHaveCount(0);
   await expect(page.locator('header.top')).toHaveCount(0);
   await expect(page.locator('.gres .rfigs .fig1')).toHaveCount(3);
@@ -34,6 +35,7 @@ test('test d’unité échoué : tampon discret, Retenter seule action rouge', a
   await finirQuiz(hanko, { erreurs: 10 });
   await expect(page.locator('h1')).toHaveText('Encore un effort');
   await expect(page.locator('.stamp')).toHaveClass(/\boff\b/);
+  await expect(page.locator('.stamp .seal')).toHaveCount(0); // test raté : le tampon 再, pas le sceau
   const rouges = page.locator('.gres .btn.ac');
   await expect(rouges).toHaveCount(1);
   await expect(rouges).toHaveAttribute('data-act', 'test');

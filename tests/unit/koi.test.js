@@ -10,8 +10,18 @@ const walk = d =>
     e.isDirectory() ? walk(d + '/' + e.name) : e.name.endsWith('.js') ? [d + '/' + e.name] : [],
   );
 
-test('koi.js n’exporte plus que la Koï du bassin', () => {
-  assert.deepEqual(Object.keys(K), ['koiTop']);
+test('koi.js n’exporte que la Koï du bassin et le sceau Koï', () => {
+  assert.deepEqual(Object.keys(K).sort(), ['koiSeal', 'koiTop']);
+  const seal = K.koiSeal(28);
+  for (const a of [
+    'class="seal"',
+    'width="28"',
+    'height="28"',
+    'aria-hidden="true"',
+    'class="seal-c"',
+    'class="seal-k"',
+  ])
+    assert.ok(seal.includes(a), a);
   const s = K.koiTop();
   for (const a of ['class="koi-top"', 'aria-hidden="true"', 'kt-tail', 'kt-body']) assert.ok(s.includes(a), a);
 });

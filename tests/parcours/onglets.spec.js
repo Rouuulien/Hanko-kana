@@ -85,7 +85,8 @@ test('le bas de l’onglet le plus long reste accessible au-dessus de la barre',
 
 test('l’accueil se limite à la leçon, aux révisions et à la progression', async ({ hanko }) => {
   const page = (await hanko.open({ state: REAL })).page;
-  await expect(page.locator('header .brand')).toContainText('判子');
+  await expect(page.locator('header .brand .seal')).toBeVisible(); // sceau Koï avant « Hanko »
+  await expect(page.locator('header .brand')).toHaveText('Hanko');
   await expect(page.locator('header')).toContainText('jours de suite');
   await expect(page.locator('header .pill')).toHaveCount(0); // plus de pastilles flamme / XP du jour
   for (const s of ['.hero', '.rev-n', '.figs', '.prog']) await expect(page.locator(s)).toBeVisible();

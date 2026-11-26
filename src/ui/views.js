@@ -28,6 +28,7 @@ import {
   TAB_WORDS,
 } from './icons.js';
 import { hintBtn, padHTML, padTools } from './pad.js';
+import { koiSeal } from './koi.js';
 import { muteBtn } from './sounds.js';
 import { tts } from './voice.js';
 import { K2H, esc, pick } from '../util.js';
@@ -40,7 +41,7 @@ const streakText = () => {
   return n ? `${n} jour${n > 1 ? 's' : ''} de suite` : '';
 };
 const top = () =>
-  `<header class="top"><div class="brand"><span>Hanko</span><span class="brand-j" lang="ja">判子</span></div>
+  `<header class="top"><div class="brand">${koiSeal(28)}<span>Hanko</span></div>
 <div class="tstats"><span class="streak">${streakText()}</span><button class="ic" data-act="settings" aria-label="Réglages">${GEAR}</button></div></header>`;
 
 /** Grands kana du bandeau d'accueil : un élément par kana, `--n` (nombre de caractères) règle la taille pour tenir sur une ligne. */
@@ -289,7 +290,7 @@ function resV() {
       : 'Pas grave : refais un tour des leçons de l’unité et retente le test.';
   if (allDone() && k === 'lesson' && !nl) talk = 'Tu as vu tous les kana. La cascade est remontée !';
   return `<div class="gres"><div class="gres-top"><button class="x" data-act="home" aria-label="Fermer">${CLOSE}</button></div>
-  <div class="stamp ${ui.ses.pass ? 'on' : 'off'}"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" stroke-width="6"/><circle cx="60" cy="60" r="43" fill="none" stroke="currentColor" stroke-width="2"/><text x="60" y="78" text-anchor="middle" font-size="52" fill="currentColor" font-family="Zen Old Mincho, serif" font-weight="700">${ui.ses.pass ? '済' : '再'}</text></svg></div>
+  <div class="stamp ${ui.ses.pass ? 'on' : 'off'}">${ui.ses.pass ? koiSeal(96) : `<svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" stroke-width="6"/><circle cx="60" cy="60" r="43" fill="none" stroke="currentColor" stroke-width="2"/><text x="60" y="78" text-anchor="middle" font-size="52" fill="currentColor" font-family="Zen Old Mincho, serif" font-weight="700">再</text></svg>`}</div>
   <h1>${title}</h1>${k === 'test' && !ui.ses.pass ? `<p class="gsub">${sub}</p>` : ''}
   <div class="rfigs"><div class="fig1"><b>${pc} %</b><span>du premier coup</span></div><div class="fig1"><b>×${ui.ses.best}</b><span>meilleure série</span></div><div class="fig1"><b>+${ui.ses.xp}</b><span>XP</span></div></div>
   ${miss.length ? `<div class="gmiss"><p>À retravailler</p><div class="mrow">${miss.map(c => `<button class="mk" data-act="say" data-t="${c}"><span lang="ja">${c}</span><small>${ITEMS[c].r}</small></button>`).join('')}</div></div>` : ''}

@@ -224,8 +224,8 @@ button {
 }
 .brand {
   display: flex;
-  align-items: baseline;
-  gap: 8px;
+  align-items: center;
+  gap: 10px;
   font: 700 26px var(--f-title);
   letter-spacing: 0.02em;
 }
@@ -372,11 +372,6 @@ button {
 }
 .figs .fig1 span {
   font-size: 11.5px;
-}
-.brand-j {
-  font-size: 13px;
-  font-weight: 400;
-  color: var(--mut);
 }
 .streak {
   font-size: 13px;
@@ -1276,6 +1271,17 @@ button {
   height: 96px;
   color: var(--ac-ink);
   transform: rotate(-8deg);
+}
+/* Sceau Koï (src/ui/koi.js) : la carpe est gravée en réserve, elle prend la couleur du fond. */
+.seal {
+  display: block;
+  flex: none;
+}
+.seal-c {
+  fill: var(--ac);
+}
+.seal-k {
+  fill: var(--bg);
 }
 .stamp.off {
   color: var(--mut);
